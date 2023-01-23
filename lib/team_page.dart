@@ -13,11 +13,24 @@ class TeamPage extends StatefulWidget {
 }
 
 class _TeamPageState extends State<TeamPage> {
-  List<NewPlayer> _players = [
-    NewPlayer(Player(0, 'FEDE', Gender.f)),
-    NewPlayer(Player(1, 'ROBY', Gender.m)),
-    NewPlayer(Player(2, 'NADIA', Gender.f)),
+  List<Player> _players = [
+    Player(0, 'FEDE', Gender.f),
+    Player(1, 'ROBY', Gender.m),
+    Player(2, 'NADIA', Gender.f),
   ];
+
+  Iterable<NewPlayer> _buildNewPlayers() {
+    var newPlayers = <NewPlayer>[];
+    for (var player in _players) {
+      newPlayers.add(NewPlayer(key: ValueKey(player.id), player, onRemove: () {
+        debugPrint("Removing player ${player.name} (${player.id})");
+        setState(() {
+          _players.remove(player);
+        });
+      }));
+    }
+    return newPlayers;
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -27,7 +40,11 @@ class _TeamPageState extends State<TeamPage> {
       ),
       body: ListView(
         padding: const EdgeInsets.all(30),
-        children: _players,
+        children: [
+          Text("Clicca sui nomi per modificarli:"),
+          ..._buildNewPlayers(),
+          ElevatedButton(onPressed: null, child: Text("Aggiungi partecipante"))
+        ],
       ),
       floatingActionButton: CustomFloatingActionButton(
         onPressed: Navigation.replaceAll(context, () => const PickPage()).go,
@@ -40,7 +57,8 @@ class _TeamPageState extends State<TeamPage> {
 
 class NewPlayer extends StatefulWidget {
   final Player initialPlayerData;
-  const NewPlayer(this.initialPlayerData, {super.key});
+  final VoidCallback onRemove;
+  const NewPlayer(this.initialPlayerData, {super.key, required this.onRemove});
 
   @override
   State<NewPlayer> createState() => _NewPlayerState();
@@ -74,8 +92,12 @@ class _NewPlayerState extends State<NewPlayer> {
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
             Text(player.icon, style: Theme.of(context).textTheme.headlineSmall),
-            Text(player.name.toUpperCase(), style: textStyle),
-            Text(player.genderSymbol, style: textStyle),
+            Text("${player.name.toUpperCase()} ${player.genderSymbol}",
+                style: textStyle),
+            IconButton(
+              icon: Icon(Icons.remove_circle, color: textColor),
+              onPressed: widget.onRemove,
+            ),
           ],
         ),
       ),
