@@ -12,6 +12,10 @@ class Player {
 
   Player(this.id, this.name, this.gender);
 
+  Player.fromJson(this.id, dynamic json)
+      : name = json['name'],
+        gender = json['gender'] == Gender.m.name ? Gender.m : Gender.f;
+
   static const _icons = [
     '🎹',
     '🎸',
@@ -55,4 +59,11 @@ class Player {
 
   @override
   String toString() => "$id:$name";
+
+  dynamic toJson() {
+    return {
+      'name': name,
+      'gender': gender.name,
+    };
+  }
 }

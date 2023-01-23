@@ -1,11 +1,18 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 import 'common/custom_fab.dart';
 import 'common/gap.dart';
 import 'common/navigation.dart';
 import 'common/player.dart';
 import 'pick_page.dart';
+
+const maxPlayers = 7;
+const duplicatesWarning =
+    "Alcuni nomi sono uguali tra loro, per favore cambiali.";
 
 class TeamPage extends StatefulWidget {
   const TeamPage({super.key});
@@ -15,43 +22,93 @@ class TeamPage extends StatefulWidget {
 }
 
 class _TeamPageState extends State<TeamPage> {
-  List<Player> _players = [
-    Player(0, 'FEDE', Gender.f),
-    Player(1, 'ROBY', Gender.m),
-    Player(2, 'NADIA', Gender.f),
-  ];
+  final List<Player> _players = [];
+
+  @override
+  initState() {
+    SharedPreferences.getInstance().then((prefs) {
+      var players = prefs.getStringList('players');
+      if (players != null) {
+        for (var i = 0; i < players.length; i++) {
+          var player = Player.fromJson(i, jsonDecode(players[i]));
+          setState(() {
+            _players.add(player);
+          });
+        }
+      }
+    });
+    super.initState();
+  }
 
   Iterable<NewPlayer> _buildNewPlayers() {
     var newPlayers = <NewPlayer>[];
     for (var player in _players) {
       debugPrint("Building player $player");
-      newPlayers.add(NewPlayer(player, onEdit: () async {
-        debugPrint("Editing player $player");
-        var editedPlayer = await showDialog<Player>(
-            context: context, builder: (context) => PlayerDialog(player));
-        debugPrint("Edited player $editedPlayer");
-        if (editedPlayer != null) {
-          setState(() {
-            _players[_players.indexOf(player)] = editedPlayer;
-          });
-        }
+      newPlayers.add(NewPlayer(player, onEdit: () {
+        _editPlayer(player);
       }, onRemove: () {
-        debugPrint("Removing player $player");
-        setState(() {
-          _players.remove(player);
-        });
-        for (var i = 0; i < _players.length; i++) {
-          setState(() {
-            _players[i].id = i;
-          });
-        }
+        _removePlayer(player);
       }));
     }
     return newPlayers;
   }
 
+  void _editPlayer(Player player) async {
+    debugPrint("Editing player $player");
+    var editedPlayer = await showDialog<Player>(
+        context: context, builder: (context) => PlayerDialog(player));
+    debugPrint("Edited player $editedPlayer");
+    if (editedPlayer != null) {
+      setState(() {
+        _players[_players.indexOf(player)] = editedPlayer;
+      });
+    }
+  }
+
+  void _addNewPlayer() {
+    debugPrint("Adding new player");
+    Player newPlayer;
+    if (_players.length % 2 == 0) {
+      newPlayer = Player(_players.length, 'NUOVO', Gender.m);
+    } else {
+      newPlayer = Player(_players.length, 'NUOVA', Gender.f);
+    }
+    setState(() {
+      _players.add(newPlayer);
+    });
+    _editPlayer(newPlayer);
+  }
+
+  void _removePlayer(Player player) {
+    debugPrint("Removing player $player");
+    setState(() {
+      _players.remove(player);
+    });
+    for (var i = 0; i < _players.length; i++) {
+      setState(() {
+        _players[i].id = i;
+      });
+    }
+  }
+
+  void _showDuplicatesAlert() {
+    showDialog(
+        context: context,
+        builder: (context) => AlertDialog(
+              title: const Text("Nomi duplicati"),
+              content: const Text(duplicatesWarning),
+              actions: [
+                TextButton(
+                    onPressed: () => Navigator.of(context).pop(),
+                    child: const Text("OK"))
+              ],
+            ));
+  }
+
   @override
   Widget build(BuildContext context) {
+    bool hasDuplicates = _hasDuplicates(_players);
+
     return Scaffold(
       appBar: AppBar(
         title: const Text('Registra i partecipanti'),
@@ -59,18 +116,40 @@ class _TeamPageState extends State<TeamPage> {
       body: ListView(
         padding: const EdgeInsets.all(30),
         children: [
-          Text("Clicca sui nomi per modificarli:"),
+          if (_players.isNotEmpty)
+            const Text("Clicca sui nomi per modificarli:"),
           ..._buildNewPlayers(),
-          ElevatedButton(onPressed: null, child: Text("Aggiungi partecipante"))
+          if (_players.length < maxPlayers)
+            ElevatedButton(
+                onPressed: _addNewPlayer, child: Text("Aggiungi partecipante")),
+          if (hasDuplicates)
+            const Text(duplicatesWarning, style: TextStyle(color: Colors.red)),
         ],
       ),
-      floatingActionButton: CustomFloatingActionButton(
-        onPressed: Navigation.replaceAll(context, () => const PickPage()).go,
-        tooltip: 'Pronti',
-        icon: Icons.check_circle_rounded,
-      ),
+      floatingActionButton: _players.length < 2
+          ? null
+          : CustomFloatingActionButton(
+              onPressed:
+                  hasDuplicates ? _showDuplicatesAlert : _proceedToPickPage,
+              tooltip: 'Pronti',
+              icon: Icons.check_circle_rounded,
+            ),
     );
   }
+
+  Future<void> _proceedToPickPage() async {
+    var prefs = await SharedPreferences.getInstance();
+    var players = _players.map((player) => jsonEncode(player.toJson()));
+    await prefs.setStringList('players', players.toList());
+    if (mounted) {
+      Navigation.replaceAll(context, () => const PickPage()).go();
+    }
+  }
+}
+
+bool _hasDuplicates(List<Player> players) {
+  var names = players.map((player) => player.name);
+  return names.toSet().length != names.length;
 }
 
 class PlayerDialog extends StatefulWidget {
@@ -154,6 +233,7 @@ class UpperCaseTextFormatter extends TextInputFormatter {
 
   UpperCaseTextFormatter(this.maxLength);
 
+  @override
   TextEditingValue formatEditUpdate(
       TextEditingValue oldValue, TextEditingValue newValue) {
     if (newValue.text.length > maxLength) {
@@ -173,6 +253,7 @@ class NewPlayer extends StatelessWidget {
   const NewPlayer(this.player,
       {super.key, required this.onEdit, required this.onRemove});
 
+  @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
     final buttonStyle = ButtonStyle(
