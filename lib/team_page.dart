@@ -1,16 +1,14 @@
-import 'dart:convert';
-
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 
+import 'common/config.dart';
 import 'common/custom_fab.dart';
 import 'common/gap.dart';
 import 'common/navigation.dart';
 import 'common/player.dart';
+import 'common/team_aware.dart';
 import 'pick_page.dart';
 
-const maxPlayers = 7;
 const duplicatesWarning =
     "Alcuni nomi sono uguali tra loro, per favore cambiali.";
 
@@ -21,30 +19,21 @@ class TeamPage extends StatefulWidget {
   State<TeamPage> createState() => _TeamPageState();
 }
 
-class _TeamPageState extends State<TeamPage> {
-  final List<Player> _players = [];
-
+class _TeamPageState extends State<TeamPage> with TeamAware {
   @override
   initState() {
-    SharedPreferences.getInstance().then((prefs) {
-      var players = prefs.getStringList('players');
-      if (players != null) {
-        for (var i = 0; i < players.length; i++) {
-          var player = Player.fromJson(i, jsonDecode(players[i]));
-          setState(() {
-            _players.add(player);
-          });
-        }
-      }
-    });
     super.initState();
+    Future.delayed(Duration.zero, () async {
+      await retrieveTeam();
+      setState(() {});
+    });
   }
 
-  Iterable<NewPlayer> _buildNewPlayers() {
-    var newPlayers = <NewPlayer>[];
-    for (var player in _players) {
-      debugPrint("Building player $player");
-      newPlayers.add(NewPlayer(player, onEdit: () {
+  Iterable<PlayerButton> _buildNewPlayers() {
+    var newPlayers = <PlayerButton>[];
+    for (var player in players) {
+      debugPrint("Player $player");
+      newPlayers.add(PlayerButton(player, onEdit: () {
         _editPlayer(player);
       }, onRemove: () {
         _removePlayer(player);
@@ -60,7 +49,7 @@ class _TeamPageState extends State<TeamPage> {
     debugPrint("Edited player $editedPlayer");
     if (editedPlayer != null) {
       setState(() {
-        _players[_players.indexOf(player)] = editedPlayer;
+        players[players.indexOf(player)] = editedPlayer;
       });
     }
   }
@@ -68,13 +57,13 @@ class _TeamPageState extends State<TeamPage> {
   void _addNewPlayer() {
     debugPrint("Adding new player");
     Player newPlayer;
-    if (_players.length % 2 == 0) {
-      newPlayer = Player(_players.length, 'NUOVO', Gender.m);
+    if (players.length % 2 == 0) {
+      newPlayer = Player(players.length, 'NUOVO', Gender.m);
     } else {
-      newPlayer = Player(_players.length, 'NUOVA', Gender.f);
+      newPlayer = Player(players.length, 'NUOVA', Gender.f);
     }
     setState(() {
-      _players.add(newPlayer);
+      players.add(newPlayer);
     });
     _editPlayer(newPlayer);
   }
@@ -82,11 +71,11 @@ class _TeamPageState extends State<TeamPage> {
   void _removePlayer(Player player) {
     debugPrint("Removing player $player");
     setState(() {
-      _players.remove(player);
+      players.remove(player);
     });
-    for (var i = 0; i < _players.length; i++) {
+    for (var i = 0; i < players.length; i++) {
       setState(() {
-        _players[i].id = i;
+        players[i].id = i;
       });
     }
   }
@@ -107,7 +96,7 @@ class _TeamPageState extends State<TeamPage> {
 
   @override
   Widget build(BuildContext context) {
-    bool hasDuplicates = _hasDuplicates(_players);
+    bool hasDuplicates = _hasDuplicates(players);
 
     return Scaffold(
       appBar: AppBar(
@@ -116,17 +105,18 @@ class _TeamPageState extends State<TeamPage> {
       body: ListView(
         padding: const EdgeInsets.all(30),
         children: [
-          if (_players.isNotEmpty)
+          if (players.isNotEmpty)
             const Text("Clicca sui nomi per modificarli:"),
           ..._buildNewPlayers(),
-          if (_players.length < maxPlayers)
+          if (players.length < maxPlayers)
             ElevatedButton(
-                onPressed: _addNewPlayer, child: Text("Aggiungi partecipante")),
+                onPressed: _addNewPlayer,
+                child: const Text("Aggiungi partecipante")),
           if (hasDuplicates)
             const Text(duplicatesWarning, style: TextStyle(color: Colors.red)),
         ],
       ),
-      floatingActionButton: _players.length < 2
+      floatingActionButton: players.length < 2
           ? null
           : CustomFloatingActionButton(
               onPressed:
@@ -138,9 +128,7 @@ class _TeamPageState extends State<TeamPage> {
   }
 
   Future<void> _proceedToPickPage() async {
-    var prefs = await SharedPreferences.getInstance();
-    var players = _players.map((player) => jsonEncode(player.toJson()));
-    await prefs.setStringList('players', players.toList());
+    await storeTeam();
     if (mounted) {
       Navigation.replaceAll(context, () => const PickPage()).go();
     }
@@ -255,44 +243,5 @@ class UpperCaseTextFormatter extends TextInputFormatter {
         text: newValue.text.toUpperCase(),
         selection: newValue.selection,
         composing: newValue.composing);
-  }
-}
-
-class NewPlayer extends StatelessWidget {
-  final Player player;
-  final VoidCallback onRemove;
-  final VoidCallback onEdit;
-  const NewPlayer(this.player,
-      {super.key, required this.onEdit, required this.onRemove});
-
-  @override
-  Widget build(BuildContext context) {
-    final theme = Theme.of(context);
-    final buttonStyle = ButtonStyle(
-        backgroundColor: MaterialStateProperty.all(player.background));
-    final textColor = player.foreground;
-    final textStyle = theme.textTheme.headlineLarge
-        ?.copyWith(color: textColor, fontWeight: FontWeight.bold);
-
-    return Padding(
-      padding: const EdgeInsets.all(5.0),
-      child: ElevatedButton(
-        onPressed: onEdit,
-        style: buttonStyle,
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          crossAxisAlignment: CrossAxisAlignment.center,
-          children: [
-            Text(player.icon, style: Theme.of(context).textTheme.headlineSmall),
-            Text("${player.name.toUpperCase()} ${player.genderSymbol}",
-                style: textStyle),
-            IconButton(
-              icon: Icon(Icons.remove_circle, color: textColor),
-              onPressed: onRemove,
-            ),
-          ],
-        ),
-      ),
-    );
   }
 }

@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 
+import 'gap.dart';
+
 enum Gender {
   m,
   f,
@@ -66,4 +68,95 @@ class Player {
       'gender': gender.name,
     };
   }
+
+  String t(String masculine, String feminine) {
+    switch (gender) {
+      case Gender.m:
+        return masculine;
+      case Gender.f:
+        return feminine;
+    }
+  }
+}
+
+class NoPlayer extends Player {
+  NoPlayer() : super(0, '', Gender.m);
+
+  get icon => '';
+  get background => Colors.transparent;
+  get foreground => Colors.transparent;
+  get genderSymbol => '';
+}
+
+class PlayerButton extends StatelessWidget {
+  final Player player;
+  final VoidCallback onRemove;
+  final VoidCallback onEdit;
+  const PlayerButton(this.player,
+      {super.key, required this.onEdit, required this.onRemove});
+
+  @override
+  Widget build(BuildContext context) {
+    final theme = Theme.of(context);
+    final buttonStyle = ButtonStyle(
+        backgroundColor: MaterialStateProperty.all(player.background));
+    final textColor = player.foreground;
+    final textStyle = theme.textTheme.headlineLarge
+        ?.copyWith(color: textColor, fontWeight: FontWeight.bold);
+
+    return Padding(
+      padding: const EdgeInsets.all(5.0),
+      child: ElevatedButton(
+        onPressed: onEdit,
+        style: buttonStyle,
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          crossAxisAlignment: CrossAxisAlignment.center,
+          children: [
+            Text(player.icon, style: Theme.of(context).textTheme.headlineSmall),
+            Text("${player.name.toUpperCase()} ${player.genderSymbol}",
+                style: textStyle),
+            IconButton(
+              icon: Icon(Icons.remove_circle, color: textColor),
+              onPressed: onRemove,
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+}
+
+class PlayerTag extends StatelessWidget {
+  final Player player;
+  const PlayerTag(this.player, {super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    final theme = Theme.of(context);
+    final buttonStyle = ButtonStyle(
+        backgroundColor: MaterialStateProperty.all(player.background));
+    final textColor = player.foreground;
+    final textStyle = theme.textTheme.headlineLarge
+        ?.copyWith(color: textColor, fontWeight: FontWeight.bold);
+
+    return Padding(
+      padding: const EdgeInsets.all(5.0),
+      child: ElevatedButton(
+        onPressed: null,
+        style: buttonStyle,
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.center,
+          crossAxisAlignment: CrossAxisAlignment.center,
+          children: [
+            Text(player.icon, style: Theme.of(context).textTheme.headlineSmall),
+            const Gap(),
+            Text(player.name.toUpperCase(), style: textStyle),
+          ],
+        ),
+      ),
+    );
+  }
+
+  static PlayerTag noPlayerTag = PlayerTag(Player(-1, '', Gender.m));
 }
