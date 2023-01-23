@@ -165,21 +165,30 @@ class PlayerDialogState extends State<PlayerDialog> {
   late Player _player;
   late final TextEditingController _nameController;
   late Gender _gender;
+  late bool _readyToConfirm;
 
   @override
   void initState() {
     _player = widget.player;
     _nameController = TextEditingController(text: _player.name);
     _gender = _player.gender;
+    _checkReadyToConfirm(_player.name);
     super.initState();
+  }
+
+  void _checkReadyToConfirm(String name) {
+    debugPrint("Checking if ready to confirm");
+    setState(() {
+      _readyToConfirm = name.isNotEmpty;
+    });
   }
 
   @override
   Widget build(BuildContext context) {
     return AlertDialog(
       title: const Text('Modifica partecipante'),
-      content: Column(
-        mainAxisSize: MainAxisSize.min,
+      content: ListView(
+        shrinkWrap: true,
         children: [
           // Edit name
           TextField(
@@ -188,6 +197,7 @@ class PlayerDialogState extends State<PlayerDialog> {
             inputFormatters: [UpperCaseTextFormatter(5)],
             textCapitalization: TextCapitalization.characters,
             style: Theme.of(context).textTheme.headlineLarge,
+            onChanged: _checkReadyToConfirm,
           ),
           const Gap(),
           // Edit gender
@@ -220,8 +230,10 @@ class PlayerDialogState extends State<PlayerDialog> {
             onPressed: () => Navigator.of(context).pop(null),
             child: const Text('Annulla')),
         TextButton(
-            onPressed: () => Navigator.of(context)
-                .pop(Player(_player.id, _nameController.text, _gender)),
+            onPressed: _readyToConfirm
+                ? () => Navigator.of(context)
+                    .pop(Player(_player.id, _nameController.text, _gender))
+                : null,
             child: const Text('Conferma')),
       ],
     );
