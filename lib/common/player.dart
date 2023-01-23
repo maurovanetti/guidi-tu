@@ -52,4 +52,7 @@ class Player {
   ];
   Color get background => _backgroundColors[id % _backgroundColors.length];
   Color get foreground => _foregroundColors[id % _foregroundColors.length];
+
+  @override
+  String toString() => "$id:$name";
 }
