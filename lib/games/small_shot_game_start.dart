@@ -1,9 +1,12 @@
-import 'package:flutter/src/widgets/framework.dart';
+import 'package:flutter/material.dart';
 
 import 'turn_interstitial.dart';
 
 class SmallShotGameStart extends TurnInterstitial {
   const SmallShotGameStart({super.key});
+
+  @override
+  String get gameName => "Cadere in basso";
 
   @override
   String get instructions => """

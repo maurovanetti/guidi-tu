@@ -10,6 +10,7 @@ import '../common/turn_aware.dart';
 abstract class TurnInterstitial extends StatefulWidget {
   const TurnInterstitial({super.key});
 
+  String get gameName;
   String get instructions;
   Widget get gamePlay;
 
@@ -35,6 +36,9 @@ class TurnInterstitialState extends State<TurnInterstitial>
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      appBar: AppBar(
+        title: Text(widget.gameName),
+      ),
       body: Center(
         child: ListView(
           shrinkWrap: true,

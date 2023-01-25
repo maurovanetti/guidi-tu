@@ -1,9 +1,12 @@
-import 'package:flutter/src/widgets/framework.dart';
+import 'package:flutter/material.dart';
 
 import 'turn_interstitial.dart';
 
 class LargeShotGameStart extends TurnInterstitial {
   const LargeShotGameStart({super.key});
+
+  @override
+  String get gameName => "Spararla grossa";
 
   @override
   String get instructions => """
@@ -15,5 +18,5 @@ Ma attenzione: se scegli il numero più alto, paghi!
   """;
 
   @override
-  Widget get gamePlay => LargeShotGameStart();
+  Widget get gamePlay => const LargeShotGameStart();
 }

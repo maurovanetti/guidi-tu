@@ -1,9 +1,12 @@
-import 'package:flutter/src/widgets/framework.dart';
+import 'package:flutter/material.dart';
 
 import 'turn_interstitial.dart';
 
 class MorraGameStart extends TurnInterstitial {
   const MorraGameStart({super.key});
+
+  @override
+  String get gameName => "Morra";
 
   @override
   String get instructions => """
