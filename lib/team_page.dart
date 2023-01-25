@@ -175,43 +175,44 @@ class PlayerDialogState extends State<PlayerDialog> {
   Widget build(BuildContext context) {
     return AlertDialog(
       title: const Text('Modifica partecipante'),
-      content: ListView(
-        shrinkWrap: true,
-        children: [
-          // Edit name
-          TextField(
-            controller: _nameController,
-            decoration: const InputDecoration(counterText: 'max 5 lettere'),
-            inputFormatters: [UpperCaseTextFormatter(5)],
-            textCapitalization: TextCapitalization.characters,
-            style: Theme.of(context).textTheme.headlineLarge,
-            onChanged: _checkReadyToConfirm,
-          ),
-          const Gap(),
-          // Edit gender
-          ListTile(
-            title: const Text('Chiamala «giocatrice»'),
-            leading: Radio<Gender>(
-                value: Gender.f,
-                groupValue: _gender,
-                onChanged: (value) {
-                  setState(() {
-                    _gender = value!;
-                  });
-                }),
-          ),
-          ListTile(
-            title: const Text('Chiamalo «giocatore»'),
-            leading: Radio<Gender>(
-                value: Gender.m,
-                groupValue: _gender,
-                onChanged: (value) {
-                  setState(() {
-                    _gender = value!;
-                  });
-                }),
-          )
-        ],
+      content: SingleChildScrollView(
+        child: Column(
+          children: [
+            // Edit name
+            TextField(
+              controller: _nameController,
+              decoration: const InputDecoration(counterText: 'max 5 lettere'),
+              inputFormatters: [UpperCaseTextFormatter(5)],
+              textCapitalization: TextCapitalization.characters,
+              style: Theme.of(context).textTheme.headlineLarge,
+              onChanged: _checkReadyToConfirm,
+            ),
+            const Gap(),
+            // Edit gender
+            ListTile(
+              title: const Text('Chiamala «giocatrice»'),
+              leading: Radio<Gender>(
+                  value: Gender.f,
+                  groupValue: _gender,
+                  onChanged: (value) {
+                    setState(() {
+                      _gender = value!;
+                    });
+                  }),
+            ),
+            ListTile(
+              title: const Text('Chiamalo «giocatore»'),
+              leading: Radio<Gender>(
+                  value: Gender.m,
+                  groupValue: _gender,
+                  onChanged: (value) {
+                    setState(() {
+                      _gender = value!;
+                    });
+                  }),
+            )
+          ],
+        ),
       ),
       actions: [
         TextButton(

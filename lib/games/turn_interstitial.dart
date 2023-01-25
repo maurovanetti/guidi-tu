@@ -1,17 +1,17 @@
 import 'package:flutter/material.dart';
 
-import '../common/custom_button.dart';
-import '../common/gap.dart';
-import '../common/navigation.dart';
-import '../common/player.dart';
-import '../common/team_aware.dart';
-import '../common/turn_aware.dart';
+import '/common/custom_button.dart';
+import '/common/game_features.dart';
+import '/common/gap.dart';
+import '/common/navigation.dart';
+import '/common/player.dart';
+import '/common/team_aware.dart';
+import '/common/turn_aware.dart';
 
-abstract class TurnInterstitial extends StatefulWidget {
-  const TurnInterstitial({super.key});
+class TurnInterstitial extends StatefulWidget {
+  final GameFeatures gameFeatures;
 
-  String get instructions;
-  Widget get gamePlay;
+  const TurnInterstitial({super.key, required this.gameFeatures});
 
   @override
   TurnInterstitialState createState() => TurnInterstitialState();
@@ -35,6 +35,9 @@ class TurnInterstitialState extends State<TurnInterstitial>
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      appBar: AppBar(
+        title: Text(widget.gameFeatures.name),
+      ),
       body: Center(
         child: ListView(
           shrinkWrap: true,
@@ -48,7 +51,7 @@ class TurnInterstitialState extends State<TurnInterstitial>
               padding: const EdgeInsets.all(50),
               child: Column(
                 children: [
-                  Text(widget.instructions,
+                  Text(widget.gameFeatures.explanation,
                       textAlign: TextAlign.center,
                       style: Theme.of(context).textTheme.titleLarge),
                   const Text(
@@ -61,8 +64,8 @@ class TurnInterstitialState extends State<TurnInterstitial>
             if (player is! NoPlayer)
               CustomButton(
                 text: player.t("Sono pronto", "Sono pronta"),
-                onPressed:
-                    Navigation.replaceLast(context, () => widget.gamePlay).go,
+                onPressed: Navigation.replaceLast(
+                    context, () => widget.gameFeatures.playWidget).go,
               ),
           ],
         ),

@@ -18,7 +18,7 @@ class CustomFloatingActionButton extends StatelessWidget {
         side: BorderSide(
           color: Theme.of(context).buttonTheme.colorScheme!.onPrimary,
           width: 5,
-          strokeAlign: StrokeAlign.center,
+          strokeAlign: BorderSide.strokeAlignCenter,
         ),
       ),
       onPressed: onPressed,

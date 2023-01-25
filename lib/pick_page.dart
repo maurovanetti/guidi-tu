@@ -1,13 +1,11 @@
 import 'package:flutter/material.dart';
 
-import 'common/config.dart';
-import 'common/custom_fab.dart';
-import 'common/navigation.dart';
-import 'common/team_aware.dart';
-import 'common/turn_aware.dart';
-import 'games/large_shot_game_start.dart';
-import 'games/morra_game_start.dart';
-import 'games/small_shot_game_start.dart';
+import '/common/game_features.dart';
+import '/common/custom_fab.dart';
+import '/common/navigation.dart';
+import '/common/team_aware.dart';
+import '/common/turn_aware.dart';
+import '/games/turn_interstitial.dart';
 
 class PickPage extends StatefulWidget {
   const PickPage({super.key});
@@ -22,6 +20,7 @@ class _PickPageState extends State<PickPage> with TeamAware, TurnAware {
   List<GameCard> _gameCards = [];
 
   GameCard get _selectedGame => _gameCards[_selectedGameIndex ?? 0];
+
   set _selectedGame(GameCard value) {
     _gameCards[_selectedGameIndex ?? 0] = value;
   }
@@ -32,38 +31,21 @@ class _PickPageState extends State<PickPage> with TeamAware, TurnAware {
     Future.delayed(Duration.zero, () async {
       await resetTurn();
       _playerCount = players.length;
-      var gameCards = [
-        GameCard(
-          name: "Spararla grossa",
-          gameStart: const LargeShotGameStart(),
-          description: "Guida chi sceglie il numero più basso.\n"
-              "Paga chi sceglie il numero più alto.",
-          icon: Icons.arrow_circle_up_rounded,
+      var suggestedCards = [];
+      var otherCards = [];
+      for (var gameFeatures in allGameFeatures) {
+        var gameCard = GameCard(
+          name: gameFeatures.name,
+          gameStart: TurnInterstitial(gameFeatures: gameFeatures),
+          description: gameFeatures.description,
+          icon: gameFeatures.icon,
           onTap: select,
-          suggested: _suggestedFor(2, maxPlayers),
-        ),
-        GameCard(
-          name: "Cadere in basso",
-          gameStart: const SmallShotGameStart(),
-          description: "Guida chi sceglie il numero più alto.\n"
-              "Paga chi sceglie il numero più basso.",
-          icon: Icons.arrow_circle_down_rounded,
-          onTap: select,
-          suggested: _suggestedFor(2, maxPlayers),
-        ),
-        GameCard(
-          name: "Morra",
-          gameStart: const MorraGameStart(),
-          description: "Guida chi si avvicina di meno alla somma.\n"
-              "Paga chi si avvicina di più.",
-          icon: Icons.back_hand_rounded,
-          onTap: select,
-          suggested: _suggestedFor(2, maxPlayers),
-        ),
-      ];
-      var suggestedCards = gameCards.where((card) => card.suggested).toList();
+          suggested:
+              _suggestedFor(gameFeatures.minPlayers, gameFeatures.maxPlayers),
+        );
+        (gameCard.suggested ? suggestedCards : otherCards).add(gameCard);
+      }
       suggestedCards.shuffle();
-      var otherCards = _gameCards.where((card) => !card.suggested);
       _gameCards = [...suggestedCards, ...otherCards];
       select(_gameCards.first);
     });
