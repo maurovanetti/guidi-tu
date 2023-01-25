@@ -1,3 +1,5 @@
+import 'dart:math';
+
 import 'package:flutter/material.dart';
 
 import '/common/game_features.dart';
@@ -45,7 +47,7 @@ class _PickPageState extends State<PickPage> with TeamAware, TurnAware {
         );
         (gameCard.suggested ? suggestedCards : otherCards).add(gameCard);
       }
-      suggestedCards.shuffle();
+      suggestedCards.shuffle(Random(DateTime.now().second));
       _gameCards = [...suggestedCards, ...otherCards];
       select(_gameCards.first);
     });
