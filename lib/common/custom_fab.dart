@@ -14,7 +14,8 @@ class CustomFloatingActionButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return FloatingActionButton(
-      shape: CircleBorder(
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.circular(15),
         side: BorderSide(
           color: Theme.of(context).buttonTheme.colorScheme!.onPrimary,
           width: 5,

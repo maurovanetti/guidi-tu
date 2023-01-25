@@ -27,6 +27,7 @@ class Player {
     '🥁',
     '🎺',
   ];
+
   String get icon => _icons[id % _icons.length];
 
   String get genderSymbol {
@@ -56,7 +57,9 @@ class Player {
     Colors.grey.shade100,
     Colors.deepOrangeAccent.shade100,
   ];
+
   Color get background => _backgroundColors[id % _backgroundColors.length];
+
   Color get foreground => _foregroundColors[id % _foregroundColors.length];
 
   @override
@@ -82,81 +85,87 @@ class Player {
 class NoPlayer extends Player {
   NoPlayer() : super(0, '', Gender.m);
 
+  @override
   get icon => '';
+
+  @override
   get background => Colors.transparent;
+
+  @override
   get foreground => Colors.transparent;
+
+  @override
   get genderSymbol => '';
 }
 
 class PlayerButton extends StatelessWidget {
   final Player player;
-  final VoidCallback onRemove;
-  final VoidCallback onEdit;
+  final VoidCallback? onRemove;
+  final VoidCallback? onEdit;
+
   const PlayerButton(this.player,
       {super.key, required this.onEdit, required this.onRemove});
 
+  get textColor => player.foreground;
+
+  TextStyle? textStyle(BuildContext context) => Theme.of(context)
+      .textTheme
+      .headlineLarge
+      ?.copyWith(color: textColor, fontWeight: FontWeight.bold);
+
+  get buttonStyle => ElevatedButton.styleFrom(
+      backgroundColor: player.background,
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.circular(10),
+      ));
+
+  Widget buildIcon(BuildContext context) {
+    return Text(player.icon, style: Theme.of(context).textTheme.headlineSmall);
+  }
+
+  Row buildContent(BuildContext context) {
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+      crossAxisAlignment: CrossAxisAlignment.center,
+      children: [
+        buildIcon(context),
+        Text("${player.name.toUpperCase()} ${player.genderSymbol}",
+            style: textStyle(context)),
+        IconButton(
+          icon: Icon(Icons.remove_circle, color: textColor),
+          onPressed: onRemove,
+        ),
+      ],
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
-    final theme = Theme.of(context);
-    final buttonStyle = ButtonStyle(
-        backgroundColor: MaterialStateProperty.all(player.background));
-    final textColor = player.foreground;
-    final textStyle = theme.textTheme.headlineLarge
-        ?.copyWith(color: textColor, fontWeight: FontWeight.bold);
-
     return Padding(
       padding: const EdgeInsets.all(5.0),
       child: ElevatedButton(
         onPressed: onEdit,
         style: buttonStyle,
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          crossAxisAlignment: CrossAxisAlignment.center,
-          children: [
-            Text(player.icon, style: Theme.of(context).textTheme.headlineSmall),
-            Text("${player.name.toUpperCase()} ${player.genderSymbol}",
-                style: textStyle),
-            IconButton(
-              icon: Icon(Icons.remove_circle, color: textColor),
-              onPressed: onRemove,
-            ),
-          ],
-        ),
+        child: buildContent(context),
       ),
     );
   }
 }
 
-class PlayerTag extends StatelessWidget {
-  final Player player;
-  const PlayerTag(this.player, {super.key});
+class PlayerTag extends PlayerButton {
+  PlayerTag(Player player, {super.key})
+      : super(player, onEdit: () {}, onRemove: () {});
 
   @override
-  Widget build(BuildContext context) {
-    final theme = Theme.of(context);
-    final buttonStyle = ButtonStyle(
-        backgroundColor: MaterialStateProperty.all(player.background));
-    final textColor = player.foreground;
-    final textStyle = theme.textTheme.headlineLarge
-        ?.copyWith(color: textColor, fontWeight: FontWeight.bold);
-
-    return Padding(
-      padding: const EdgeInsets.all(5.0),
-      child: ElevatedButton(
-        onPressed: null,
-        style: buttonStyle,
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.center,
-          crossAxisAlignment: CrossAxisAlignment.center,
-          children: [
-            Text(player.icon, style: Theme.of(context).textTheme.headlineSmall),
-            const Gap(),
-            Text(player.name.toUpperCase(), style: textStyle),
-          ],
-        ),
-      ),
+  buildContent(BuildContext context) {
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.center,
+      crossAxisAlignment: CrossAxisAlignment.center,
+      children: [
+        buildIcon(context),
+        const Gap(),
+        Text(player.name.toUpperCase(), style: textStyle(context)),
+      ],
     );
   }
-
-  static PlayerTag noPlayerTag = PlayerTag(Player(-1, '', Gender.m));
 }

@@ -18,6 +18,7 @@ class App extends StatelessWidget {
         colorSchemeSeed: Colors.purpleAccent,
         brightness: Brightness.dark,
         fontFamily: 'Signika',
+        useMaterial3: true,
       ),
       home: const HomePage(title: 'Guidi Tu'),
     );

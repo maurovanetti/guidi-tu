@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:guidi_tu/common/custom_button.dart';
 
 import 'common/config.dart';
 import 'common/custom_fab.dart';
@@ -11,6 +12,8 @@ import 'pick_page.dart';
 
 const duplicatesWarning =
     "Alcuni nomi sono uguali tra loro, per favore cambiali.";
+
+const addPlayersWarning = "Aggiungi almeno 2 partecipanti per favore.";
 
 class TeamPage extends StatefulWidget {
   const TeamPage({super.key});
@@ -109,11 +112,14 @@ class _TeamPageState extends State<TeamPage> with TeamAware {
             const Text("Clicca sui nomi per modificarli:"),
           ..._buildNewPlayers(),
           if (players.length < maxPlayers)
-            ElevatedButton(
+            CustomButton(
+                important: false,
                 onPressed: _addNewPlayer,
-                child: const Text("Aggiungi partecipante")),
+                text: "Aggiungi partecipante"),
           if (hasDuplicates)
             const Text(duplicatesWarning, style: TextStyle(color: Colors.red)),
+          if (players.length < 2)
+            const Text(addPlayersWarning, style: TextStyle(color: Colors.red)),
         ],
       ),
       floatingActionButton: players.length < 2
@@ -218,7 +224,7 @@ class PlayerDialogState extends State<PlayerDialog> {
         TextButton(
             onPressed: () => Navigator.of(context).pop(null),
             child: const Text('Annulla')),
-        TextButton(
+        OutlinedButton(
             onPressed: _readyToConfirm
                 ? () => Navigator.of(context)
                     .pop(Player(_player.id, _nameController.text, _gender))

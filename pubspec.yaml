@@ -21,6 +21,7 @@ version: 0.0.1+1
 
 environment:
   sdk: '>=2.18.6 <3.0.0'
+  flutter: ^3.7.0
 
 # Dependencies specify other packages that your package needs in order to work.
 # To automatically upgrade your package dependencies to the latest versions
@@ -41,6 +42,6 @@ dev_dependencies:
 flutter:
   uses-material-design: true
   fonts:
-     - family: Signika
-       fonts:
-         - asset: assets/fonts/Signika-VariableFont_wght.ttf
+    - family: Signika
+      fonts:
+        - asset: assets/fonts/Signika-VariableFont_wght.ttf
