@@ -1,13 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:guidi_tu/common/custom_button.dart';
 
-import 'common/config.dart';
-import 'common/custom_fab.dart';
-import 'common/gap.dart';
-import 'common/navigation.dart';
-import 'common/player.dart';
-import 'common/team_aware.dart';
+import '/common/bubble.dart';
+import '/common/config.dart';
+import '/common/custom_fab.dart';
+import '/common/gap.dart';
+import '/common/navigation.dart';
+import '/common/player.dart';
+import '/common/team_aware.dart';
+import '/common/custom_button.dart';
 import 'pick_page.dart';
 
 const duplicatesWarning =
@@ -105,22 +106,26 @@ class _TeamPageState extends State<TeamPage> with TeamAware {
       appBar: AppBar(
         title: const Text('Registra i partecipanti'),
       ),
-      body: ListView(
-        padding: const EdgeInsets.all(30),
-        children: [
-          if (players.isNotEmpty)
-            const Text("Clicca sui nomi per modificarli:"),
-          ..._buildNewPlayers(),
-          if (players.length < maxPlayers)
-            CustomButton(
-                important: false,
-                onPressed: _addNewPlayer,
-                text: "Aggiungi partecipante"),
-          if (hasDuplicates)
-            const Text(duplicatesWarning, style: TextStyle(color: Colors.red)),
-          if (players.length < 2)
-            const Text(addPlayersWarning, style: TextStyle(color: Colors.red)),
-        ],
+      body: WithSquares(
+        child: ListView(
+          padding: const EdgeInsets.all(30),
+          children: [
+            if (players.isNotEmpty)
+              const Text("Clicca sui nomi per modificarli:"),
+            ..._buildNewPlayers(),
+            if (players.length < maxPlayers)
+              CustomButton(
+                  important: false,
+                  onPressed: _addNewPlayer,
+                  text: "Aggiungi partecipante"),
+            if (hasDuplicates)
+              const Text(duplicatesWarning,
+                  style: TextStyle(color: Colors.red)),
+            if (players.length < 2)
+              const Text(addPlayersWarning,
+                  style: TextStyle(color: Colors.red)),
+          ],
+        ),
       ),
       floatingActionButton: players.length < 2
           ? null
