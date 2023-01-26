@@ -54,7 +54,7 @@ class CustomButtonState extends State<CustomButton>
 
   TextStyle? funnyTextStyle(BuildContext context, double x) {
     var boringStyle = textStyle(context);
-    return boringStyle?.copyWith(fontSize: x * 2 + boringStyle.fontSize!);
+    return boringStyle?.copyWith(fontSize: x + boringStyle.fontSize!);
   }
 
   Widget _buildLabel(BuildContext context) {
