@@ -19,26 +19,40 @@ abstract class TurnPlay extends StatefulWidget {
 }
 
 class TurnPlayState extends State<TurnPlay> with TeamAware, TurnAware {
+  void _completeTurn() async {
+    var hasEveryonePlayed = !await nextTurn();
+    if (mounted) {
+      if (hasEveryonePlayed) {
+        Navigation.replaceLast(
+            context, () => widget.gameFeatures.placementWidget).go();
+      } else {
+        Navigation.replaceLast(context,
+            () => TurnInterstitial(gameFeatures: widget.gameFeatures)).go();
+      }
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
         title: Text(widget.gameFeatures.name),
       ),
-      body: ListView(
-        shrinkWrap: true,
-        children: [
-          PlayerTag(TurnAware.currentPlayer),
-          const Text("CONTATEMPO"),
-          const Gap(),
-          const Text("AREA DI GIOCO"),
-          const Gap(),
-          CustomButton(
-            text: "Ho finito!",
-            onPressed: Navigation.replaceLast(context,
-                () => TurnInterstitial(gameFeatures: widget.gameFeatures)).go,
-          ),
-        ],
+      body: Center(
+        child: ListView(
+          shrinkWrap: true,
+          children: [
+            PlayerTag(TurnAware.currentPlayer),
+            const Text("CONTATEMPO"),
+            const Gap(),
+            const Text("AREA DI GIOCO"),
+            const Gap(),
+            CustomButton(
+              text: "Ho finito!",
+              onPressed: _completeTurn,
+            ),
+          ],
+        ),
       ),
     );
   }

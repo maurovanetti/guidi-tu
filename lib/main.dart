@@ -22,7 +22,7 @@ class App extends StatelessWidget {
         fontFamily: 'Signika',
         useMaterial3: true,
       ),
-      home: const HomePage(title: 'Guidi Tu'),
+      home: const HomePage(),
       navigatorObservers: [routeObserver],
     );
   }

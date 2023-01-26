@@ -69,8 +69,11 @@ class _PickPageState extends State<PickPage> with TeamAware, TurnAware {
     return _playerCount >= min && _playerCount <= max;
   }
 
-  Widget _startGame() {
-    return _selectedGame.gameStart;
+  Future<void> _startGame() async {
+    await nextTurn();
+    if (mounted) {
+      Navigation.replaceLast(context, () => _selectedGame.gameStart).go();
+    }
   }
 
   @override
@@ -86,9 +89,9 @@ class _PickPageState extends State<PickPage> with TeamAware, TurnAware {
         ),
       ),
       floatingActionButton: CustomFloatingActionButton(
-        onPressed: Navigation.replaceLast(context, _startGame).go,
         tooltip: 'Inizio',
         icon: Icons.play_arrow_rounded,
+        onPressed: _startGame,
       ),
     );
   }

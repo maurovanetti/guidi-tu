@@ -7,9 +7,7 @@ import 'common/navigation.dart';
 import 'tutorial_page.dart';
 
 class HomePage extends StatefulWidget {
-  const HomePage({super.key, required this.title});
-
-  final String title;
+  const HomePage({super.key});
 
   @override
   State<HomePage> createState() => _HomePageState();
@@ -25,7 +23,7 @@ class _HomePageState extends State<HomePage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text(widget.title),
+        title: const Text("Guidi Tu"),
       ),
       body: WithBubbles(
         child: Center(
@@ -33,19 +31,33 @@ class _HomePageState extends State<HomePage> {
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
               Text('Chi guida stasera?',
-                  style: Theme.of(context).textTheme.headlineMedium),
+                  style: Theme
+                      .of(context)
+                      .textTheme
+                      .headlineMedium),
               Text('(Non è ancora stato deciso)',
-                  style: Theme.of(context).textTheme.headlineSmall),
+                  style: Theme
+                      .of(context)
+                      .textTheme
+                      .headlineSmall),
               const Gap(),
               Text('Chi paga stasera?',
-                  style: Theme.of(context).textTheme.headlineMedium),
+                  style: Theme
+                      .of(context)
+                      .textTheme
+                      .headlineMedium),
               Text('(Non è ancora stato deciso)',
-                  style: Theme.of(context).textTheme.headlineSmall),
+                  style: Theme
+                      .of(context)
+                      .textTheme
+                      .headlineSmall),
               const Gap(),
               CustomButton(
                 text: 'Gioca di nuovo',
                 onPressed:
-                    Navigation.push(context, () => const TutorialPage()).go,
+                Navigation
+                    .push(context, () => const TutorialPage())
+                    .go,
               ),
               CustomButton(
                 text: 'Informazioni',

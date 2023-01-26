@@ -20,37 +20,26 @@ class TurnInterstitial extends StatefulWidget {
 
 class TurnInterstitialState extends State<TurnInterstitial>
     with TeamAware, TurnAware {
-  Player player = NoPlayer();
+  late Player player;
 
   @override
   void initState() {
+    player = TurnAware.currentPlayer;
     super.initState();
-    Future.delayed(Duration.zero, () async {
-      await nextTurn();
-      setState(() {
-        player = TurnAware.currentPlayer;
-      });
-    });
   }
 
   void _showSecretPlayAlert() {
     showDialog(
         context: context,
-        builder: (context) =>
-            AlertDialog(
+        builder: (context) => AlertDialog(
               title: const Text("Gioca di nascosto"),
               content: const Text("Non mostrare la tua mossa agli altri."),
-              actions: [
-                TextButton(
-                    onPressed: _play,
-                    child: const Text("OK"))
-              ],
+              actions: [TextButton(onPressed: _play, child: const Text("OK"))],
             ));
   }
 
   void _play() {
-    Navigation.replaceLast(
-        context, () => widget.gameFeatures.playWidget).go();
+    Navigation.replaceAll(context, () => widget.gameFeatures.playWidget).go();
   }
 
   @override
@@ -68,10 +57,7 @@ class TurnInterstitialState extends State<TurnInterstitial>
             children: [
               Text("Tocca a",
                   textAlign: TextAlign.center,
-                  style: Theme
-                      .of(context)
-                      .textTheme
-                      .headlineLarge),
+                  style: Theme.of(context).textTheme.headlineLarge),
               PlayerTag(player),
               const Gap(),
               Padding(
@@ -80,17 +66,11 @@ class TurnInterstitialState extends State<TurnInterstitial>
                   children: [
                     Text(widget.gameFeatures.description,
                         textAlign: TextAlign.center,
-                        style: Theme
-                            .of(context)
-                            .textTheme
-                            .headlineLarge),
+                        style: Theme.of(context).textTheme.headlineLarge),
                     const Gap(),
                     Text(widget.gameFeatures.explanation,
                         textAlign: TextAlign.center,
-                        style: Theme
-                            .of(context)
-                            .textTheme
-                            .titleLarge),
+                        style: Theme.of(context).textTheme.titleLarge),
                     const Gap(),
                     const Text(
                         textAlign: TextAlign.center,

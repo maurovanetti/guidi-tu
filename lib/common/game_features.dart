@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import '/games/large_shot.dart';
 import '/games/morra.dart';
 import '/games/small_shot.dart';
-import '/games/awards.dart';
+import '/games/placement_screen.dart';
 import '/games/turn_play.dart';
 import 'config.dart' as config;
 
@@ -17,8 +17,8 @@ class GameFeatures {
   final int maxPlayers;
   final int minSuggestedPlayers;
   final int maxSuggestedPlayers;
-  final TurnPlay playWidget; // TODO required and not null
-  final Awards? awardsWidget; // TODO required and not null
+  final TurnPlay playWidget;
+  final PlacementScreen placementWidget;
 
   const GameFeatures({
     required this.name,
@@ -31,7 +31,7 @@ class GameFeatures {
     required this.minSuggestedPlayers,
     int? maxSuggestedPlayers,
     required this.playWidget,
-    this.awardsWidget,
+    required this.placementWidget,
   })  : maxPlayers = maxPlayers ?? config.maxPlayers,
         maxSuggestedPlayers = maxSuggestedPlayers ?? config.maxPlayers;
 }
@@ -48,7 +48,7 @@ Ma attenzione: chi sceglie il numero più alto, paga.""",
   minPlayers: 2,
   minSuggestedPlayers: 2,
   playWidget: LargeShot(),
-  // awardsWidget: const LargeShotAwards(),
+  placementWidget: PlacementScreen(),
 );
 
 const smallShot = GameFeatures(
@@ -63,7 +63,7 @@ Ma attenzione: chi sceglie il numero più basso, paga.""",
   minPlayers: 2,
   minSuggestedPlayers: 2,
   playWidget: SmallShot(),
-  // awardsWidget: const SmallShotAwards(),
+  placementWidget: PlacementScreen(),
 );
 
 const morra = GameFeatures(
@@ -80,7 +80,7 @@ Ma attenzione: chi si avvicina di più, paga.""",
   minPlayers: 2,
   minSuggestedPlayers: 2,
   playWidget: Morra(),
-  // awardsWidget: const MorraAwards(),
+  placementWidget: PlacementScreen(),
 );
 
 const allGameFeatures = [
