@@ -33,6 +33,26 @@ class TurnInterstitialState extends State<TurnInterstitial>
     });
   }
 
+  void _showSecretPlayAlert() {
+    showDialog(
+        context: context,
+        builder: (context) =>
+            AlertDialog(
+              title: const Text("Gioca di nascosto"),
+              content: const Text("Non mostrare la tua mossa agli altri."),
+              actions: [
+                TextButton(
+                    onPressed: _play,
+                    child: const Text("OK"))
+              ],
+            ));
+  }
+
+  void _play() {
+    Navigation.replaceLast(
+        context, () => widget.gameFeatures.playWidget).go();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -48,16 +68,30 @@ class TurnInterstitialState extends State<TurnInterstitial>
             children: [
               Text("Tocca a",
                   textAlign: TextAlign.center,
-                  style: Theme.of(context).textTheme.headlineLarge),
+                  style: Theme
+                      .of(context)
+                      .textTheme
+                      .headlineLarge),
               PlayerTag(player),
               const Gap(),
               Padding(
-                padding: const EdgeInsets.all(50),
+                padding: const EdgeInsets.all(20),
                 child: Column(
                   children: [
+                    Text(widget.gameFeatures.description,
+                        textAlign: TextAlign.center,
+                        style: Theme
+                            .of(context)
+                            .textTheme
+                            .headlineLarge),
+                    const Gap(),
                     Text(widget.gameFeatures.explanation,
                         textAlign: TextAlign.center,
-                        style: Theme.of(context).textTheme.titleLarge),
+                        style: Theme
+                            .of(context)
+                            .textTheme
+                            .titleLarge),
+                    const Gap(),
                     const Text(
                         textAlign: TextAlign.center,
                         'A pari merito, conta la velocità.'),
@@ -68,8 +102,9 @@ class TurnInterstitialState extends State<TurnInterstitial>
               if (player is! NoPlayer)
                 CustomButton(
                   text: player.t("Sono pronto", "Sono pronta"),
-                  onPressed: Navigation.replaceLast(
-                      context, () => widget.gameFeatures.playWidget).go,
+                  onPressed: widget.gameFeatures.secretPlay
+                      ? _showSecretPlayAlert
+                      : _play,
                 ),
             ],
           ),

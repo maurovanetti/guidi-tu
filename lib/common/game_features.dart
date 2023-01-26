@@ -11,6 +11,7 @@ class GameFeatures {
   final String name;
   final String description;
   final String explanation;
+  final bool secretPlay;
   final IconData icon;
   final int minPlayers;
   final int maxPlayers;
@@ -24,6 +25,7 @@ class GameFeatures {
     required this.description,
     required this.explanation,
     required this.icon,
+    this.secretPlay = false,
     required this.minPlayers,
     int? maxPlayers,
     required this.minSuggestedPlayers,
@@ -36,9 +38,12 @@ class GameFeatures {
 
 const largeShot = GameFeatures(
   name: "Spararla grossa",
-  description: "Scegli il numero più alto.",
-  explanation: "Guida chi sceglie il numero più basso.\n"
-      "Paga chi sceglie il numero più alto.",
+  description: "Scegli un numero alto.",
+  explanation: """
+Guidi tu se scegli il numero più basso.
+
+Ma attenzione: chi sceglie il numero più alto, paga.""",
+  secretPlay: true,
   icon: Icons.arrow_circle_up_rounded,
   minPlayers: 2,
   minSuggestedPlayers: 2,
@@ -48,9 +53,12 @@ const largeShot = GameFeatures(
 
 const smallShot = GameFeatures(
   name: "Cadere in basso",
-  description: "Scegli il numero più basso.",
-  explanation: "Guida chi sceglie il numero più alto.\n"
-      "Paga chi sceglie il numero più basso.",
+  description: "Scegli un numero basso.",
+  explanation: """
+Guidi tu se scegli il numero più alto.
+
+Ma attenzione: chi sceglie il numero più basso, paga.""",
+  secretPlay: true,
   icon: Icons.arrow_circle_down_rounded,
   minPlayers: 2,
   minSuggestedPlayers: 2,
@@ -61,8 +69,13 @@ const smallShot = GameFeatures(
 const morra = GameFeatures(
   name: "Morra",
   description: "Indovina la somma delle mani.",
-  explanation: "Guida chi si avvicina di meno alla somma.\n"
-      "Paga chi si avvicina di più.",
+  explanation: """
+Scegli quante dita mostrare e prevedi quante dita saranno mostrate da tutti.
+  
+Guidi tu se ti avvicini di meno alla somma giusta.
+
+Ma attenzione: chi si avvicina di più, paga.""",
+  secretPlay: true,
   icon: Icons.back_hand_rounded,
   minPlayers: 2,
   minSuggestedPlayers: 2,
