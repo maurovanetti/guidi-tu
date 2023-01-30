@@ -19,6 +19,18 @@ abstract class TurnPlay extends StatefulWidget {
 
   @override
   TurnPlayState createState() => TurnPlayState();
+
+  Widget buildGameArea() {
+    return Container(
+      color: Colors.blue,
+      child: Center(
+        child: Text(
+          gameFeatures.name,
+          style: const TextStyle(fontSize: 48),
+        ),
+      ),
+    );
+  }
 }
 
 class TurnPlayState extends State<TurnPlay>
@@ -71,14 +83,17 @@ class TurnPlayState extends State<TurnPlay>
           shrinkWrap: true,
           children: [
             PlayerTag(TurnAware.currentPlayer),
-            Clock(_elapsed),
             const Gap(),
-            const Text("AREA DI GIOCO"),
+            AspectRatio(
+              aspectRatio: 1.0, // It's a square
+              child: widget.buildGameArea(),
+            ),
             const Gap(),
             CustomButton(
               text: "Ho finito!",
               onPressed: _completeTurn,
             ),
+            Clock(_elapsed),
           ],
         ),
       ),
@@ -94,8 +109,8 @@ class Clock extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Center(
-      child: Text("${duration.inSeconds} secondi",
-          style: Theme.of(context).textTheme.headlineMedium),
+      child: Text('Tempo trascorso: ${duration.inSeconds}\"',
+          style: Theme.of(context).textTheme.headlineSmall),
     );
   }
 }
