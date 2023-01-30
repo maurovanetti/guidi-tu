@@ -37,9 +37,6 @@ class CustomButtonState extends State<CustomButton>
     _animation = CurvedAnimation(parent: _controller, curve: Curves.linear);
     _controller.addListener(() => setState(() {}));
     _controller.repeat();
-    for (var i = 0; i < widget.text.characters.length; i++) {
-      _phases.add(Random().nextDouble() * 2 * pi);
-    }
     super.initState();
   }
 
@@ -71,13 +68,18 @@ class CustomButtonState extends State<CustomButton>
       if (i == 0) {
         x = 1; // Prevents vertical oscillation
       } else {
+        // This makes _phases robust enough to prevent exceptions when the text
+        // changes while the animation is running.
+        while (_phases.length <= i) {
+          _phases.add(Random().nextDouble() * 2 * pi);
+        }
         x = sin(_phases[i] + 2 * pi * _animation.value);
       }
       inlineSpans.add(TextSpan(text: char, style: funnyTextStyle(context, x)));
     }
     return FittedBox(
-        fit: BoxFit.scaleDown,
-        child: RichText(text: TextSpan(children: inlineSpans)),
+      fit: BoxFit.scaleDown,
+      child: RichText(text: TextSpan(children: inlineSpans)),
     );
   }
 
