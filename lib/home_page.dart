@@ -68,7 +68,9 @@ class _HomePageState extends State<HomePage> with ScoreAware {
               _buildDriverOrPayer(_driverAndPayer?.payer),
               const Gap(),
               CustomButton(
-                text: 'Gioca di nuovo',
+                text: _driverAndPayer?.driver == null
+                    ? 'Gioca'
+                    : 'Gioca di nuovo',
                 onPressed:
                     Navigation.push(context, () => const TutorialPage()).go,
               ),

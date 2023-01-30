@@ -2,6 +2,8 @@ import 'dart:math';
 
 import 'package:flutter/material.dart';
 
+import 'fitted_text.dart';
+
 class CustomButton extends StatefulWidget {
   final VoidCallback? onPressed;
   final String text;
@@ -59,7 +61,8 @@ class CustomButtonState extends State<CustomButton>
 
   Widget _buildLabel(BuildContext context) {
     if (!widget.funny) {
-      return Text(widget.text, style: textStyle(context));
+      // Keeps it in one line
+      return FittedText(widget.text, style: textStyle(context)!);
     }
     var inlineSpans = <InlineSpan>[];
     for (var i = 0; i < widget.text.characters.length; i++) {
@@ -72,7 +75,10 @@ class CustomButtonState extends State<CustomButton>
       }
       inlineSpans.add(TextSpan(text: char, style: funnyTextStyle(context, x)));
     }
-    return RichText(text: TextSpan(children: inlineSpans));
+    return FittedBox(
+        fit: BoxFit.scaleDown,
+        child: RichText(text: TextSpan(children: inlineSpans)),
+    );
   }
 
   @override
