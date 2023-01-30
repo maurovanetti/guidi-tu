@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:guidi_tu/common/score_aware.dart';
 
+import 'fitted_text.dart';
 import 'gap.dart';
 
 enum Gender {
@@ -108,10 +110,11 @@ class PlayerButton extends StatelessWidget {
 
   get textColor => player.foreground;
 
-  TextStyle? textStyle(BuildContext context) => Theme.of(context)
-      .textTheme
-      .headlineLarge
-      ?.copyWith(color: textColor, fontWeight: FontWeight.bold);
+  TextStyle textStyle(BuildContext context) =>
+      Theme.of(context).textTheme.headlineLarge!.copyWith(
+            color: textColor,
+            fontWeight: FontWeight.bold,
+          );
 
   get buttonStyle => ElevatedButton.styleFrom(
       backgroundColor: player.background,
@@ -157,7 +160,7 @@ class PlayerTag extends PlayerButton {
       : super(player, onEdit: () {}, onRemove: () {});
 
   @override
-  buildContent(BuildContext context) {
+  Row buildContent(BuildContext context) {
     return Row(
       mainAxisAlignment: MainAxisAlignment.center,
       crossAxisAlignment: CrossAxisAlignment.center,
@@ -165,6 +168,44 @@ class PlayerTag extends PlayerButton {
         buildIcon(context),
         const Gap(),
         Text(player.name.toUpperCase(), style: textStyle(context)),
+      ],
+    );
+  }
+}
+
+class PlayerPlacement extends PlayerButton {
+  final Award award;
+
+  PlayerPlacement(this.award, {super.key})
+      : super(award.player, onEdit: () {}, onRemove: () {});
+
+  @override
+  Row buildContent(BuildContext context) {
+    var style = textStyle(context);
+    var horizontalGap = const Spacer(flex: 1);
+    return Row(
+      crossAxisAlignment: CrossAxisAlignment.center,
+      children: [
+        Expanded(
+          flex: 2,
+          child: buildIcon(context),
+        ),
+        horizontalGap,
+        Expanded(
+          flex: 8,
+          child: FittedText(player.name.toUpperCase(), style: style),
+        ),
+        horizontalGap,
+        Expanded(
+          flex: 4,
+          child: FittedText(award.score.formattedPoints, style: style),
+        ),
+        horizontalGap,
+        Expanded(
+          flex: 4,
+          child: FittedText(award.score.formattedTime,
+              style: style.copyWith(fontSize: style.fontSize! * 0.7)),
+        ),
       ],
     );
   }

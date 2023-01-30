@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 
-import '../common/bubble.dart';
 import '/common/custom_button.dart';
 import '/common/game_features.dart';
 import '/common/gap.dart';
@@ -8,6 +7,8 @@ import '/common/navigation.dart';
 import '/common/player.dart';
 import '/common/team_aware.dart';
 import '/common/turn_aware.dart';
+import '../common/bubble.dart';
+import '../home_page.dart';
 
 class TurnInterstitial extends StatefulWidget {
   final GameFeatures gameFeatures;
@@ -47,6 +48,30 @@ class TurnInterstitialState extends State<TurnInterstitial>
     return Scaffold(
       appBar: AppBar(
         title: Text(widget.gameFeatures.name),
+        actions: [
+          IconButton(
+            icon: const Icon(Icons.cancel_rounded),
+            onPressed: () => showDialog(
+                context: context,
+                builder: (context) => AlertDialog(
+                      title: const Text("Interruzione del gioco"),
+                      content:
+                          const Text("Vuoi davvero interrompere il gioco?\n"
+                              "Farai una figura da guastafeste!"),
+                      actions: [
+                        TextButton(
+                          onPressed: () => Navigator.of(context).pop(),
+                          child: const Text("Continua a giocare"),
+                        ),
+                        TextButton(
+                          onPressed: Navigation.replaceAll(
+                              context, () => const HomePage()).go,
+                          child: const Text("Ferma tutto"),
+                        )
+                      ],
+                    )),
+          )
+        ],
       ),
       body: WithBubbles(
         n: 5,

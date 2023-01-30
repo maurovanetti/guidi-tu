@@ -2,12 +2,13 @@ import 'dart:math';
 
 import 'package:flutter/material.dart';
 
-import '/common/game_features.dart';
 import '/common/custom_fab.dart';
+import '/common/game_features.dart';
 import '/common/navigation.dart';
 import '/common/team_aware.dart';
 import '/common/turn_aware.dart';
 import '/games/turn_interstitial.dart';
+import 'common/score_aware.dart';
 
 class PickPage extends StatefulWidget {
   const PickPage({super.key});
@@ -16,7 +17,8 @@ class PickPage extends StatefulWidget {
   State<PickPage> createState() => _PickPageState();
 }
 
-class _PickPageState extends State<PickPage> with TeamAware, TurnAware {
+class _PickPageState extends State<PickPage>
+    with TeamAware, TurnAware, ScoreAware {
   int? _selectedGameIndex;
   late final int _playerCount;
   List<GameCard> _gameCards = [];
@@ -32,6 +34,7 @@ class _PickPageState extends State<PickPage> with TeamAware, TurnAware {
     super.initState();
     Future.delayed(Duration.zero, () async {
       await resetTurn();
+      ScoreAware.resetScores();
       _playerCount = players.length;
       var suggestedCards = [];
       var otherCards = [];
@@ -72,7 +75,7 @@ class _PickPageState extends State<PickPage> with TeamAware, TurnAware {
   Future<void> _startGame() async {
     await nextTurn();
     if (mounted) {
-      Navigation.replaceLast(context, () => _selectedGame.gameStart).go();
+      Navigation.replaceAll(context, () => _selectedGame.gameStart).go();
     }
   }
 

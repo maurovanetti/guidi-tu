@@ -1,8 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:guidi_tu/common/bubble.dart';
 
-import '../common/team_aware.dart';
 import '/common/custom_fab.dart';
 import '/common/navigation.dart';
+import '/common/player.dart';
+import '/common/score_aware.dart';
+import '/common/team_aware.dart';
 import '/home_page.dart';
 
 class PlacementScreen extends StatefulWidget {
@@ -12,29 +15,81 @@ class PlacementScreen extends StatefulWidget {
   PlacementScreenState createState() => PlacementScreenState();
 }
 
-class PlacementScreenState extends State<PlacementScreen> with TeamAware {
-
+class PlacementScreenState extends State<PlacementScreen>
+    with TeamAware, ScoreAware {
   Future<void> _endGame() async {
-    Navigation.replaceAll(context, () => const HomePage()).go();
+    await ScoreAware.storeAwards();
+    if (mounted) {
+      Navigation.replaceAll(context, () => const HomePage()).go();
+    }
   }
+
+  List<Widget> _buildPlacements() => ScoreAware.awards
+      .map((award) => PlacementCard(award))
+      .toList(growable: false);
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: AppBar(
-          title: const Text("Risultato"),
+          title: const Text("Classifica"),
         ),
-        body: ListView(
-          shrinkWrap: true,
-          children: const [
-            Text("Roba da fare"),
-          ],
+        body: WithBubbles(
+          behind: true,
+          child: ListView(
+            padding: const EdgeInsets.all(10.0),
+            children: _buildPlacements(),
+          ),
         ),
         floatingActionButton: CustomFloatingActionButton(
-          tooltip: "Inizio",
+          tooltip: "Fine",
           icon: Icons.stop_rounded,
           onPressed: _endGame,
-        )
+        ));
+  }
+}
+
+class PlacementCard extends StatelessWidget {
+  final Award award;
+
+  const PlacementCard(this.award, {super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    debugPrint("Building PlacementCard for $award…");
+    TextStyle style = Theme.of(context).textTheme.bodyLarge!;
+    String role = "";
+    var grammar = award.player.t;
+    if (award.mustPay) {
+      role = grammar(
+          "Generoso Benefattore Designato", "Generosa Benefattrice Designata");
+      style = style.copyWith(fontWeight: FontWeight.bold);
+    } else if (award.canDrink) {
+      role = grammar("Bevitore Autorizzato", "Bevitrice Autorizzata");
+    } else {
+      role =
+          grammar("Guidatore Sobrio Designato", "Guidatrice Sobria Designata");
+      style = style.copyWith(fontWeight: FontWeight.bold);
+    }
+    debugPrint("Role: $role");
+    return Card(
+      child: ListTile(
+        title: PlayerPlacement(award),
+        subtitle: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            Text(role, style: style),
+            Row(
+              children: [
+                if (award.canDrink) const Icon(Icons.local_bar_rounded),
+                if (!award.canDrink) const Icon(Icons.no_drinks_rounded),
+                if (award.mustPay) const Icon(Icons.attach_money_rounded),
+                if (award.mustDrive) const Icon(Icons.drive_eta_rounded),
+              ],
+            ),
+          ],
+        ),
+      ),
     );
   }
 }
