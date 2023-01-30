@@ -127,13 +127,22 @@ class PlayerButton extends StatelessWidget {
   }
 
   Row buildContent(BuildContext context) {
+    var style = textStyle(context);
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       crossAxisAlignment: CrossAxisAlignment.center,
       children: [
         buildIcon(context),
-        Text("${player.name.toUpperCase()} ${player.genderSymbol}",
-            style: textStyle(context)),
+        Row(
+          children: [
+            Text(player.name.toUpperCase(), style: style),
+            const SizedBox(width: 10),
+            Text(
+              player.genderSymbol,
+              style: style.copyWith(fontSize: style.fontSize! * 0.8),
+            ),
+          ],
+        ),
         IconButton(
           icon: Icon(Icons.remove_circle, color: textColor),
           onPressed: onRemove,
