@@ -2,8 +2,8 @@ import 'package:flutter/material.dart';
 
 import '/games/large_shot.dart';
 import '/games/morra.dart';
-import '/games/small_shot.dart';
 import '/games/placement_screen.dart';
+import '/games/small_shot.dart';
 import '/games/turn_play.dart';
 import 'config.dart' as config;
 
@@ -19,6 +19,7 @@ class GameFeatures {
   final int maxSuggestedPlayers;
   final TurnPlay playWidget;
   final PlacementScreen placementWidget;
+  final bool lessIsMore;
 
   const GameFeatures({
     required this.name,
@@ -32,6 +33,7 @@ class GameFeatures {
     int? maxSuggestedPlayers,
     required this.playWidget,
     required this.placementWidget,
+    this.lessIsMore = false,
   })  : maxPlayers = maxPlayers ?? config.maxPlayers,
         maxSuggestedPlayers = maxSuggestedPlayers ?? config.maxPlayers;
 }
@@ -64,6 +66,7 @@ Ma attenzione: chi sceglie il numero più basso, paga.""",
   minSuggestedPlayers: 2,
   playWidget: SmallShot(),
   placementWidget: PlacementScreen(),
+  lessIsMore: true,
 );
 
 const morra = GameFeatures(
@@ -81,6 +84,7 @@ Ma attenzione: chi si avvicina di più, paga.""",
   minSuggestedPlayers: 2,
   playWidget: Morra(),
   placementWidget: PlacementScreen(),
+  lessIsMore: true, // meaning the difference between the sum and the guess
 );
 
 const allGameFeatures = [

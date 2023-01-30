@@ -19,18 +19,6 @@ abstract class TurnPlay extends StatefulWidget {
 
   @override
   TurnPlayState createState() => TurnPlayState();
-
-  Widget buildGameArea() {
-    return Container(
-      color: Colors.blue,
-      child: Center(
-        child: Text(
-          gameFeatures.name,
-          style: const TextStyle(fontSize: 48),
-        ),
-      ),
-    );
-  }
 }
 
 class TurnPlayState extends State<TurnPlay>
@@ -54,7 +42,11 @@ class TurnPlayState extends State<TurnPlay>
 
   Future<void> _scoreTurn() async {
     _timer?.cancel();
-    var score = Score(points: 0, time: _elapsed.inMicroseconds * 0.000001);
+    debugPrint("${TurnAware.currentPlayer.name} scored $points points");
+    var score = Score(
+        points: points,
+        time: _elapsed.inMicroseconds * 0.000001,
+        lessIsMore: widget.gameFeatures.lessIsMore);
     ScoreAware.recordScore(TurnAware.currentPlayer, score);
   }
 
@@ -72,6 +64,22 @@ class TurnPlayState extends State<TurnPlay>
     }
   }
 
+  // Override this to customize the point calculation
+  int get points => 0;
+
+  // Override this to build the game area
+  Widget buildGameArea() {
+    return Container(
+      color: Colors.blue,
+      child: Center(
+        child: Text(
+          widget.gameFeatures.name,
+          style: const TextStyle(fontSize: 48),
+        ),
+      ),
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -84,10 +92,12 @@ class TurnPlayState extends State<TurnPlay>
           children: [
             PlayerTag(TurnAware.currentPlayer),
             const Gap(),
-            AspectRatio(
-              aspectRatio: 1.0, // It's a square
-              child: widget.buildGameArea(),
-            ),
+            Padding(
+                padding: const EdgeInsets.all(10.0),
+                child: AspectRatio(
+                  aspectRatio: 1.0, // It's a square
+                  child: buildGameArea(),
+                )),
             const Gap(),
             CustomButton(
               text: "Ho finito!",

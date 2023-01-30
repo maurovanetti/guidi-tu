@@ -75,18 +75,24 @@ mixin ScoreAware {
 class Score extends Comparable<Score> {
   final int points;
   final double time;
+  final bool lessIsMore;
 
-  String get formattedPoints => "$points pt.";
+  String get formattedPoints => points.toString();
   String get formattedTime => '${secondsFormat.format(time)}"';
 
-  Score({required this.points, required this.time});
+  Score({required this.points, required this.time, this.lessIsMore = false});
 
   @override
   compareTo(Score other) {
     if (points != other.points) {
-      return points.compareTo(other.points); // More points is better
+      int diffPoints = points.compareTo(other.points);
+      if (lessIsMore != other.lessIsMore) {
+        // This is just theoretical
+        diffPoints = -diffPoints;
+      }
+      return lessIsMore ? diffPoints : -diffPoints;
     }
-    return time.compareTo(other.time); // Less time is better
+    return time.compareTo(other.time); // Less time is always better
   }
 }
 
