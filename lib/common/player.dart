@@ -14,9 +14,16 @@ class Player {
 
   Player(this.id, this.name, this.gender);
 
-  Player.fromJson(this.id, dynamic json)
+  Player.fromJson(this.id, Map<String, dynamic> json)
       : name = json['name'],
         gender = json['gender'] == Gender.m.name ? Gender.m : Gender.f;
+
+  Map<String, dynamic> toJson() {
+    return {
+      'name': name,
+      'gender': gender.name,
+    };
+  }
 
   static const _icons = [
     '🎹',
@@ -64,13 +71,6 @@ class Player {
 
   @override
   String toString() => "$id:$name";
-
-  dynamic toJson() {
-    return {
-      'name': name,
-      'gender': gender.name,
-    };
-  }
 
   String t(String masculine, String feminine) {
     switch (gender) {

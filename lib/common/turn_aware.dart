@@ -1,6 +1,6 @@
 import 'package:flutter/foundation.dart';
-import 'package:guidi_tu/common/player.dart';
 
+import 'player.dart';
 import 'team_aware.dart';
 
 mixin TurnAware on TeamAware {
