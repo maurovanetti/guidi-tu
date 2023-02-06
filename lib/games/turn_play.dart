@@ -119,7 +119,7 @@ class Clock extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Center(
-      child: Text('Tempo trascorso: ${duration.inSeconds}\"',
+      child: Text('Tempo trascorso: ${duration.inSeconds}"',
           style: Theme.of(context).textTheme.headlineSmall),
     );
   }
