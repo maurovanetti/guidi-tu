@@ -1,26 +1,25 @@
 import 'package:flutter/material.dart';
 
+import '/common/bubble.dart';
 import '/common/custom_button.dart';
-import '/common/game_features.dart';
+import '/common/game_aware.dart';
 import '/common/gap.dart';
 import '/common/navigation.dart';
 import '/common/player.dart';
 import '/common/team_aware.dart';
 import '/common/turn_aware.dart';
-import '../common/bubble.dart';
-import '../home_page.dart';
+import '/home_page.dart';
+import '../common/gender.dart';
 
-class TurnInterstitial extends StatefulWidget {
-  final GameFeatures gameFeatures;
-
-  const TurnInterstitial({super.key, required this.gameFeatures});
+class TurnInterstitial extends GameSpecificStatefulWidget {
+  const TurnInterstitial({super.key, required super.gameFeatures});
 
   @override
   TurnInterstitialState createState() => TurnInterstitialState();
 }
 
 class TurnInterstitialState extends State<TurnInterstitial>
-    with TeamAware, TurnAware {
+    with Gendered, TeamAware, TurnAware {
   late Player player;
 
   @override
@@ -40,7 +39,7 @@ class TurnInterstitialState extends State<TurnInterstitial>
   }
 
   void _play() {
-    Navigation.replaceAll(context, () => widget.gameFeatures.playWidget).go();
+    Navigation.replaceAll(context, widget.gameFeatures.playWidget).go();
   }
 
   @override

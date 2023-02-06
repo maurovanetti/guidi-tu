@@ -1,29 +1,26 @@
 import 'package:flutter/material.dart';
-import 'package:guidi_tu/common/score_aware.dart';
 
 import 'fitted_text.dart';
 import 'gap.dart';
+import 'gender.dart';
+import 'score_aware.dart';
 
-enum Gender {
-  m,
-  f,
-}
-
-class Player {
+class Player with Gendered {
   int id;
   String name;
-  Gender gender;
 
-  Player(this.id, this.name, this.gender);
+  Player(this.id, this.name, gender) {
+    this.gender = gender;
+  }
 
-  Player.fromJson(this.id, Map<String, dynamic> json)
-      : name = json['name'],
-        gender = json['gender'] == Gender.m.name ? Gender.m : Gender.f;
+  Player.fromJson(this.id, Map<String, dynamic> json) : name = json['name'] {
+    gender = json['gender'] == male.letter ? male : female;
+  }
 
   Map<String, dynamic> toJson() {
     return {
       'name': name,
-      'gender': gender.name,
+      'gender': gender.letter,
     };
   }
 
@@ -38,15 +35,6 @@ class Player {
   ];
 
   String get icon => _icons[id % _icons.length];
-
-  String get genderSymbol {
-    switch (gender) {
-      case Gender.f:
-        return "♀";
-      case Gender.m:
-        return "♂";
-    }
-  }
 
   static final _foregroundColors = [
     Colors.purple.shade900,
@@ -73,19 +61,10 @@ class Player {
 
   @override
   String toString() => "$id:$name";
-
-  String t(String masculine, String feminine) {
-    switch (gender) {
-      case Gender.m:
-        return masculine;
-      case Gender.f:
-        return feminine;
-    }
-  }
 }
 
 class NoPlayer extends Player {
-  NoPlayer() : super(0, '', Gender.m);
+  NoPlayer() : super(0, '', neuter);
 
   @override
   get icon => '';
@@ -95,9 +74,6 @@ class NoPlayer extends Player {
 
   @override
   get foreground => Colors.transparent;
-
-  @override
-  get genderSymbol => '';
 }
 
 class PlayerButton extends StatelessWidget {
@@ -138,7 +114,7 @@ class PlayerButton extends StatelessWidget {
             Text(player.name.toUpperCase(), style: style),
             const SizedBox(width: 10),
             Text(
-              player.genderSymbol,
+              player.gender.symbol,
               style: style.copyWith(fontSize: style.fontSize! * 0.8),
             ),
           ],

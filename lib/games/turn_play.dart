@@ -1,9 +1,10 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart';
+import 'package:guidi_tu/common/gender.dart';
 
 import '/common/custom_button.dart';
-import '/common/game_features.dart';
+import '/common/game_aware.dart';
 import '/common/gap.dart';
 import '/common/navigation.dart';
 import '/common/player.dart';
@@ -11,18 +12,17 @@ import '/common/score_aware.dart';
 import '/common/team_aware.dart';
 import '/common/turn_aware.dart';
 import '/games/turn_interstitial.dart';
+import 'completion_screen.dart';
 
-abstract class TurnPlay extends StatefulWidget {
-  GameFeatures get gameFeatures;
-
-  const TurnPlay({super.key});
+class TurnPlay extends GameSpecificStatefulWidget {
+  const TurnPlay({super.key, required super.gameFeatures});
 
   @override
   TurnPlayState createState() => TurnPlayState();
 }
 
 class TurnPlayState extends State<TurnPlay>
-    with TeamAware, TurnAware, ScoreAware {
+    with Gendered, TeamAware, TurnAware, ScoreAware {
   late DateTime _startTime;
   Timer? _timer;
   Duration get _elapsed => DateTime.now().difference(_startTime);
@@ -56,7 +56,10 @@ class TurnPlayState extends State<TurnPlay>
     if (mounted) {
       if (hasEveryonePlayed) {
         Navigation.replaceLast(
-            context, () => widget.gameFeatures.placementWidget).go();
+            context,
+            () => CompletionScreen(
+                  gameFeatures: widget.gameFeatures,
+                )).go();
       } else {
         Navigation.replaceLast(context,
             () => TurnInterstitial(gameFeatures: widget.gameFeatures)).go();

@@ -3,10 +3,7 @@ import '/games/shot.dart';
 import '/games/turn_play.dart';
 
 class LargeShot extends TurnPlay {
-  @override
-  GameFeatures get gameFeatures => largeShot;
-
-  const LargeShot({super.key});
+  LargeShot({super.key}) : super(gameFeatures: largeShot);
 
   @override
   createState() => ShotState();

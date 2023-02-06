@@ -1,12 +1,13 @@
 import 'package:flutter/material.dart';
-import 'package:guidi_tu/common/bubble.dart';
 
+import '/common/bubble.dart';
 import '/common/custom_fab.dart';
 import '/common/navigation.dart';
 import '/common/player.dart';
 import '/common/score_aware.dart';
 import '/common/team_aware.dart';
 import '/home_page.dart';
+import '../common/gender.dart';
 
 class PlacementScreen extends StatefulWidget {
   const PlacementScreen({super.key});
@@ -16,7 +17,7 @@ class PlacementScreen extends StatefulWidget {
 }
 
 class PlacementScreenState extends State<PlacementScreen>
-    with TeamAware, ScoreAware {
+    with Gendered, TeamAware, ScoreAware {
   Future<void> _endGame() async {
     await ScoreAware.storeAwards();
     if (mounted) {

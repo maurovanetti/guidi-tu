@@ -4,11 +4,12 @@ import 'package:flutter/material.dart';
 
 import '/common/custom_fab.dart';
 import '/common/game_features.dart';
+import '/common/gender.dart';
 import '/common/navigation.dart';
+import '/common/score_aware.dart';
 import '/common/team_aware.dart';
 import '/common/turn_aware.dart';
 import '/games/turn_interstitial.dart';
-import 'common/score_aware.dart';
 
 class PickPage extends StatefulWidget {
   const PickPage({super.key});
@@ -18,7 +19,7 @@ class PickPage extends StatefulWidget {
 }
 
 class _PickPageState extends State<PickPage>
-    with TeamAware, TurnAware, ScoreAware {
+    with Gendered, TeamAware, TurnAware, ScoreAware {
   int? _selectedGameIndex;
   late final int _playerCount;
   List<GameCard> _gameCards = [];

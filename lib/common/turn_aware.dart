@@ -14,7 +14,6 @@ mixin TurnAware on TeamAware {
       return false;
     }
     int currentTurn = missingTurns.removeAt(0);
-    await retrieveTeam();
     currentPlayer = players[currentTurn];
     debugPrint("It's ${currentPlayer.name}'s turn");
     return true;

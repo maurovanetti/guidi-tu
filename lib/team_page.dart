@@ -6,6 +6,7 @@ import '/common/config.dart';
 import '/common/custom_button.dart';
 import '/common/custom_fab.dart';
 import '/common/gap.dart';
+import '/common/gender.dart';
 import '/common/navigation.dart';
 import '/common/player.dart';
 import '/common/team_aware.dart';
@@ -23,7 +24,7 @@ class TeamPage extends StatefulWidget {
   State<TeamPage> createState() => _TeamPageState();
 }
 
-class _TeamPageState extends State<TeamPage> with TeamAware {
+class _TeamPageState extends State<TeamPage> with Gendered, TeamAware {
   bool _loading = true;
 
   @override
@@ -66,9 +67,9 @@ class _TeamPageState extends State<TeamPage> with TeamAware {
     debugPrint("Adding new player");
     Player newPlayer;
     if (players.length % 2 == 0) {
-      newPlayer = Player(players.length, 'NUOVO', Gender.m);
+      newPlayer = Player(players.length, 'NUOVO', male);
     } else {
-      newPlayer = Player(players.length, 'NUOVA', Gender.f);
+      newPlayer = Player(players.length, 'NUOVA', female);
     }
     setState(() {
       players.add(newPlayer);
@@ -209,7 +210,7 @@ class PlayerDialogState extends State<PlayerDialog> {
             ListTile(
               title: const Text('Chiamala «giocatrice»'),
               leading: Radio<Gender>(
-                  value: Gender.f,
+                  value: female,
                   groupValue: _gender,
                   onChanged: (value) {
                     setState(() {
@@ -220,7 +221,7 @@ class PlayerDialogState extends State<PlayerDialog> {
             ListTile(
               title: const Text('Chiamalo «giocatore»'),
               leading: Radio<Gender>(
-                  value: Gender.m,
+                  value: male,
                   groupValue: _gender,
                   onChanged: (value) {
                     setState(() {

@@ -17,11 +17,11 @@ class GameFeatures {
   final int maxPlayers;
   final int minSuggestedPlayers;
   final int maxSuggestedPlayers;
-  final TurnPlay playWidget;
-  final PlacementScreen placementWidget;
+  final TurnPlay Function() playWidget;
+  late final PlacementScreen placementWidget;
   final bool lessIsMore;
 
-  const GameFeatures({
+  GameFeatures({
     required this.name,
     required this.description,
     required this.explanation,
@@ -32,13 +32,18 @@ class GameFeatures {
     required this.minSuggestedPlayers,
     int? maxSuggestedPlayers,
     required this.playWidget,
-    required this.placementWidget,
+    PlacementScreen? placementWidget,
     this.lessIsMore = false,
   })  : maxPlayers = maxPlayers ?? config.maxPlayers,
-        maxSuggestedPlayers = maxSuggestedPlayers ?? config.maxPlayers;
+        maxSuggestedPlayers = maxSuggestedPlayers ?? config.maxPlayers {
+    assert(minPlayers <= minSuggestedPlayers);
+    assert(minSuggestedPlayers <= this.maxSuggestedPlayers);
+    assert(this.maxSuggestedPlayers <= config.maxPlayers);
+    this.placementWidget = placementWidget ?? const PlacementScreen();
+  }
 }
 
-const largeShot = GameFeatures(
+final largeShot = GameFeatures(
   name: "Spararla grossa",
   description: "Scegli un numero alto.",
   explanation: """
@@ -49,11 +54,10 @@ Ma attenzione: chi sceglie il numero più alto, paga.""",
   icon: Icons.arrow_circle_up_rounded,
   minPlayers: 2,
   minSuggestedPlayers: 2,
-  playWidget: LargeShot(),
-  placementWidget: PlacementScreen(),
+  playWidget: () => LargeShot(),
 );
 
-const smallShot = GameFeatures(
+final smallShot = GameFeatures(
   name: "Cadere in basso",
   description: "Scegli un numero basso.",
   explanation: """
@@ -64,12 +68,11 @@ Ma attenzione: chi sceglie il numero più basso, paga.""",
   icon: Icons.arrow_circle_down_rounded,
   minPlayers: 2,
   minSuggestedPlayers: 2,
-  playWidget: SmallShot(),
-  placementWidget: PlacementScreen(),
+  playWidget: () => SmallShot(),
   lessIsMore: true,
 );
 
-const morra = GameFeatures(
+final morra = GameFeatures(
   name: "Morra",
   description: "Indovina la somma delle mani.",
   explanation: """
@@ -82,13 +85,8 @@ Ma attenzione: chi si avvicina di più, paga.""",
   icon: Icons.back_hand_rounded,
   minPlayers: 2,
   minSuggestedPlayers: 2,
-  playWidget: Morra(),
-  placementWidget: PlacementScreen(),
+  playWidget: () => Morra(),
   lessIsMore: true, // meaning the difference between the sum and the guess
 );
 
-const allGameFeatures = [
-  largeShot,
-  smallShot,
-  morra,
-];
+final List<GameFeatures> allGameFeatures = [largeShot, smallShot, morra];
