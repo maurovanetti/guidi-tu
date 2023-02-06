@@ -3,67 +3,79 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 
 import '/common/fitted_text.dart';
+import '/common/snackbar.dart';
 import '/games/turn_play.dart';
 
-class ShotState extends TurnPlayState {
+class ShotState extends TurnPlayState with QuickMessage {
   Timer? _longPressTimer;
 
   int n = 0;
-  _changeN(int delta) => setState(() => n += delta);
+  changeN(int delta) => setState(() => n += delta);
 
   @override
   int get points => n;
 
-  void _longPressStart(int delta) {
+  void longPressStart(int delta) {
     _longPressTimer =
         Timer.periodic(const Duration(milliseconds: 100), (timer) {
-      _changeN(delta);
+      changeN(delta);
     });
   }
 
-  _longPressEnd() {
+  void longPressEnd() {
     _longPressTimer?.cancel();
   }
 
+  ArrowButton buildUpArrowButton() => ArrowButton(
+        icon: Icons.keyboard_arrow_up_rounded,
+        delta: 1,
+        color: Theme.of(context).colorScheme.primary,
+        changeN: changeN,
+        quickChangeNStart: longPressStart,
+        quickChangeNEnd: longPressEnd,
+      );
+
+  ArrowButton buildDownArrowButton() => ArrowButton(
+        icon: Icons.keyboard_arrow_down_rounded,
+        delta: -1,
+        color: Theme.of(context).colorScheme.primary,
+        changeN: changeN,
+        quickChangeNStart: longPressStart,
+        quickChangeNEnd: longPressEnd,
+      );
+
+  ElevatedButton buildNumberDisplay() => ElevatedButton(
+        style: ElevatedButton.styleFrom(
+          shape: ContinuousRectangleBorder(
+            side: BorderSide(
+                color: Theme.of(context).colorScheme.primary, width: 5),
+          ),
+        ),
+        onLongPress: () {
+          setState(() => n = 0);
+        },
+        onPressed: () {
+          showQuickMessage("Tieni premuto per azzerare", context: context);
+        },
+        child: FittedText(n.toString(),
+            style: Theme.of(context).textTheme.displayLarge!.copyWith(
+                  fontWeight: FontWeight.bold,
+                )),
+      );
+
+  List<Widget> buildNumberControls() => [
+        buildUpArrowButton(),
+        buildNumberDisplay(),
+        buildDownArrowButton(),
+      ];
+
   @override
   buildGameArea() {
-    var primaryColor = Theme.of(context).colorScheme.primary;
     return Center(
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         crossAxisAlignment: CrossAxisAlignment.stretch,
-        children: [
-          ArrowButton(
-            icon: Icons.keyboard_arrow_up_rounded,
-            delta: 1,
-            color: primaryColor,
-            changeN: _changeN,
-            quickChangeNStart: _longPressStart,
-            quickChangeNEnd: _longPressEnd,
-          ),
-          ElevatedButton(
-            style: ElevatedButton.styleFrom(
-              shape: ContinuousRectangleBorder(
-                side: BorderSide(color: primaryColor, width: 5),
-              ),
-            ),
-            onPressed: () {
-              setState(() => n = 0);
-            },
-            child: FittedText(n.toString(),
-                style: Theme.of(context).textTheme.displayLarge!.copyWith(
-                      fontWeight: FontWeight.bold,
-                    )),
-          ),
-          ArrowButton(
-            icon: Icons.keyboard_arrow_down_rounded,
-            delta: -1,
-            color: primaryColor,
-            changeN: _changeN,
-            quickChangeNStart: _longPressStart,
-            quickChangeNEnd: _longPressEnd,
-          ),
-        ],
+        children: buildNumberControls(),
       ),
     );
   }
@@ -76,22 +88,26 @@ class ArrowButton extends StatelessWidget {
   final void Function(int) changeN;
   final void Function(int) quickChangeNStart;
   final void Function() quickChangeNEnd;
+  final bool enabled;
 
-  const ArrowButton(
-      {super.key,
-      required this.icon,
-      required this.delta,
-      required this.color,
-      required this.changeN,
-      required this.quickChangeNStart,
-      required this.quickChangeNEnd});
+  const ArrowButton({
+    super.key,
+    required this.icon,
+    required this.delta,
+    required this.color,
+    required this.changeN,
+    required this.quickChangeNStart,
+    required this.quickChangeNEnd,
+    this.enabled = true,
+  });
 
   @override
   build(context) {
     return GestureDetector(
       child: IconButton(
-        icon: Icon(icon, color: color, size: 100),
-        onPressed: () => changeN(delta),
+        icon: Icon(icon,
+            color: enabled ? color : color.withOpacity(0.1), size: 100),
+        onPressed: enabled ? () => changeN(delta) : null,
       ),
       onLongPress: () => quickChangeNStart(delta),
       onLongPressUp: () => quickChangeNEnd(),
