@@ -2,12 +2,12 @@ import 'package:flutter/material.dart';
 
 import '/common/bubble.dart';
 import '/common/custom_fab.dart';
+import '/common/gender.dart';
 import '/common/navigation.dart';
 import '/common/player.dart';
 import '/common/score_aware.dart';
 import '/common/team_aware.dart';
 import '/home_page.dart';
-import '../common/gender.dart';
 
 class PlacementScreen extends StatefulWidget {
   const PlacementScreen({super.key});

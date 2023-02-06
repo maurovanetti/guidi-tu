@@ -1,11 +1,11 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart';
-import 'package:guidi_tu/common/gender.dart';
 
 import '/common/custom_button.dart';
 import '/common/game_aware.dart';
 import '/common/gap.dart';
+import '/common/gender.dart';
 import '/common/navigation.dart';
 import '/common/player.dart';
 import '/common/score_aware.dart';
@@ -21,7 +21,7 @@ class TurnPlay extends GameSpecificStatefulWidget {
   TurnPlayState createState() => TurnPlayState();
 }
 
-class TurnPlayState extends State<TurnPlay>
+class TurnPlayState extends GameSpecificState<TurnPlay>
     with Gendered, TeamAware, TurnAware, ScoreAware {
   late DateTime _startTime;
   Timer? _timer;
@@ -71,17 +71,7 @@ class TurnPlayState extends State<TurnPlay>
   int get points => 0;
 
   // Override this to build the game area
-  Widget buildGameArea() {
-    return Container(
-      color: Colors.blue,
-      child: Center(
-        child: Text(
-          widget.gameFeatures.name,
-          style: const TextStyle(fontSize: 48),
-        ),
-      ),
-    );
-  }
+  Widget buildGameArea() => buildPlaceHolder();
 
   @override
   Widget build(BuildContext context) {

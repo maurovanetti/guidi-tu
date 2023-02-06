@@ -26,3 +26,18 @@ abstract class GameSpecificStatefulWidget extends StatefulWidget {
 
   const GameSpecificStatefulWidget({super.key, required this.gameFeatures});
 }
+
+abstract class GameSpecificState<T extends GameSpecificStatefulWidget>
+    extends State<T> {
+  Widget buildPlaceHolder() {
+    return Container(
+      color: Colors.blue,
+      child: Center(
+        child: Text(
+          widget.gameFeatures.name,
+          style: const TextStyle(fontSize: 48),
+        ),
+      ),
+    );
+  }
+}

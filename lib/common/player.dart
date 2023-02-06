@@ -168,6 +168,7 @@ class PlayerPlacement extends PlayerButton {
   Row buildContent(BuildContext context) {
     var style = textStyle(context);
     var horizontalGap = const Spacer(flex: 1);
+    var displayPoints = award.score.pointsMatter;
     return Row(
       crossAxisAlignment: CrossAxisAlignment.center,
       children: [
@@ -180,16 +181,20 @@ class PlayerPlacement extends PlayerButton {
           flex: 8,
           child: FittedText(player.name.toUpperCase(), style: style),
         ),
+        if (displayPoints) horizontalGap,
+        if (displayPoints)
+          Expanded(
+            flex: 4,
+            child: FittedText(award.score.formattedPoints, style: style),
+          ),
         horizontalGap,
         Expanded(
           flex: 4,
-          child: FittedText(award.score.formattedPoints, style: style),
-        ),
-        horizontalGap,
-        Expanded(
-          flex: 4,
-          child: FittedText(award.score.formattedTime,
-              style: style.copyWith(fontSize: style.fontSize! * 0.7)),
+          child: FittedText(
+            award.score.formattedTime,
+            style: style.copyWith(
+                fontSize: style.fontSize! * (displayPoints ? 0.7 : 1.0)),
+          ),
         ),
       ],
     );
