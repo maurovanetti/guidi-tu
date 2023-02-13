@@ -121,6 +121,7 @@ class ArrowButton extends StatelessWidget {
   }
 }
 
+// Folk dream interpretation for lottery prediction, revised
 const List<String> smorfiaNapoletana = [
   "il neonato",
   "l'Italia",
@@ -184,6 +185,44 @@ const List<String> smorfiaNapoletana = [
   "i peli",
   "il lamento",
   "il cacciatore",
+  "la preda",
+  "la sposa",
+  "il frac",
+  "il pianto",
+  "le due single",
+  "nella chitarra",
+  "la zuppa",
+  "sottosopra",
+  "il palazzo",
+  "l'omaccio",
+  "la meraviglia",
+  "l'ospedale",
+  "la grotta",
+  "Pulcinella",
+  "la fontana",
+  "le gambe",
+  "la bella",
+  "il ladro",
+  "la bocca",
+  "i fiori",
+  "la tavola",
+  "il maltempo",
+  "la chiesa",
+  "le anime",
+  "la bottega",
+  "i pidocchi",
+  "i caciocavalli",
+  "la vecchia",
+  "la paura",
+  "non c'è",
+  "l'uranio",
+  "la app",
+  "il plutonio",
+  "la finestra",
+  "sottosopra",
+  "la smorfia",
+  "il collegio",
+  "il bilico",
 ];
 
 class ShotOutcomeState extends OutcomeScreenState<ShotMove> {
@@ -220,13 +259,17 @@ class ShotOutcomeState extends OutcomeScreenState<ShotMove> {
         story = player.t(" si è dato da fare", " si è data da fare");
       }
       if (move.time < 1) {
-        story += player.t(" rapidissimo", " rapidissima");
+        story += " per un istante";
+      } else if (move.time < 2) {
+        story += " con rapidità";
       } else if (move.time > 5) {
         story += " con calma";
       } else if (move.time > 10) {
         story += " con molta calma";
       } else if (move.time > 20) {
-        story += " in tempi gelologici";
+        story += " in tempi geologici";
+      } else if (move.time > 20) {
+        story += " in tempi astronomici";
       }
       _playerStories[playerIndex] = story;
       _playerNicknames[playerIndex] =
@@ -242,7 +285,8 @@ class ShotOutcomeState extends OutcomeScreenState<ShotMove> {
       widgets.add(
         PlayerPerformance(
           player,
-          primaryText: _playerNicknames[playerIndex],
+          primaryText: getMove(player).n.toString(),
+          secondaryText: _playerNicknames[playerIndex],
         ),
       );
       widgets.add(
@@ -256,7 +300,18 @@ class ShotOutcomeState extends OutcomeScreenState<ShotMove> {
     }
 
     return ListView(
-      children: widgets,
+      padding: const EdgeInsets.symmetric(horizontal: 20),
+      children: widgets +
+          [
+            const Gap(),
+            Text(
+              "E ora vediamo la classifica!",
+              textAlign: TextAlign.center,
+              style: Theme.of(context).textTheme.headlineMedium?.copyWith(
+                    fontStyle: FontStyle.italic,
+                  ),
+            ),
+          ],
     );
   }
 }
