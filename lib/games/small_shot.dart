@@ -13,5 +13,5 @@ class SmallShot extends TurnPlay {
 class SmallShotOutcome extends OutcomeScreen {
   SmallShotOutcome({super.key}) : super(gameFeatures: largeShot);
 
-// Implement its GameSpecificState
+  ShotOutcomeState createState() => ShotOutcomeState();
 }

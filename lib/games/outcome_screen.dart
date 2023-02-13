@@ -9,21 +9,18 @@ import '/common/team_aware.dart';
 import '/common/turn_aware.dart';
 import 'placement_screen.dart';
 
-// TODO Make abstract when all games are ready
-class OutcomeScreen extends GameSpecificStatefulWidget {
+abstract class OutcomeScreen extends GameSpecificStatefulWidget {
   const OutcomeScreen({super.key, required super.gameFeatures});
 
   @override
-  OutcomeScreenState createState() => OutcomeScreenState();
+  OutcomeScreenState createState();
 }
 
-// TODO Make abstract when all games are ready
-class OutcomeScreenState<T extends Move>
+abstract class OutcomeScreenState<T extends Move>
     extends GameSpecificState<OutcomeScreen>
     with Gendered, TeamAware, ScoreAware, TurnAware<T> {
   void _revealPlacement() {
-    for (var playerIndex in TurnAware.turns) {
-      var player = players[playerIndex];
+    for (var player in players) {
       var score = Score(
         points: getPoints(player),
         time: getTime(player),

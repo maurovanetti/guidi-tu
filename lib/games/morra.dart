@@ -136,7 +136,8 @@ class MorraOutcomeState extends OutcomeScreenState<MorraMove> {
   @override
   initState() {
     super.initState();
-    for (Player player in players) {
+    for (var playerIndex in TurnAware.turns) {
+      var player = players[playerIndex];
       _fingers.add(getMove(player).fingers);
       _playerPerformances.add(
         PlayerPerformance(

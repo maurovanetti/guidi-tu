@@ -1,11 +1,15 @@
 import 'dart:async';
+import 'dart:math';
 
 import 'package:flutter/material.dart';
+import 'package:guidi_tu/common/player.dart';
 import 'package:guidi_tu/common/turn_aware.dart';
 
 import '/common/fitted_text.dart';
 import '/common/snackbar.dart';
 import '/games/turn_play.dart';
+import '../common/gap.dart';
+import 'outcome_screen.dart';
 
 class ShotState<T extends ShotMove> extends TurnPlayState<ShotMove>
     with QuickMessage {
@@ -113,6 +117,146 @@ class ArrowButton extends StatelessWidget {
       ),
       onLongPress: () => quickChangeNStart(delta),
       onLongPressUp: () => quickChangeNEnd(),
+    );
+  }
+}
+
+const List<String> smorfiaNapoletana = [
+  "il neonato",
+  "l'Italia",
+  "la bambina",
+  "la gatta",
+  "il maialino",
+  "la mano",
+  "guarda giù",
+  "il vaso",
+  "la vergine",
+  "i figli",
+  "i fagioli",
+  "i topini",
+  "il soldato",
+  "il santo",
+  "l'etilometro",
+  "il ragazzo",
+  "il sedere",
+  "la sfortuna",
+  "il sangue",
+  "la risata",
+  "la festa",
+  "senza vestiti",
+  "il matto",
+  "il tonto",
+  "le guardie",
+  "Natale",
+  "la santa",
+  "il pitale",
+  "i seni",
+  "il papà",
+  "il tenente",
+  "il padrone",
+  "il capitone",
+  "gli anni",
+  "la testa",
+  "l'uccellino",
+  "le nacchere",
+  "il monaco",
+  "le botte",
+  "il nodo",
+  "la noia",
+  "il coltello",
+  "il caffè",
+  "il gossip",
+  "la prigione",
+  "l'acqua minerale",
+  "i soldi",
+  "lo scheletro",
+  "che parla",
+  "la carne",
+  "il pane",
+  "il giardino",
+  "la mamma",
+  "il vecchio",
+  "il cappello",
+  "la musica",
+  "la caduta",
+  "il gobbo",
+  "il rider",
+  "i peli",
+  "il lamento",
+  "il cacciatore",
+];
+
+class ShotOutcomeState extends OutcomeScreenState<ShotMove> {
+  late final List<String> _playerNicknames;
+  late final List<String> _playerStories;
+
+  @override
+  initState() {
+    super.initState();
+    _playerNicknames = List.filled(players.length, '');
+    _playerStories = List.filled(players.length, '');
+    for (var playerIndex in TurnAware.turns) {
+      var player = players[playerIndex];
+      String story = '';
+      switch (Random().nextInt(3)) {
+        case 0:
+          story = " ha fatto del suo meglio";
+          break;
+        case 1:
+          story = " ha giocato pulito";
+          break;
+        case 2:
+          story = " ha fatto la sua mossa";
+          break;
+      }
+      var move = getMove(player);
+      if (move.n == 0) {
+        story = player.t(" è stato immobile", " è stata immobile");
+      } else if (move.n > 100) {
+        story = " ha assaltato il cielo";
+      } else if (move.n < -100) {
+        story = player.t(" è disceso negli inferi", " è discesa negli inferi");
+      } else if (move.n.abs() > 20) {
+        story = player.t(" si è dato da fare", " si è data da fare");
+      }
+      if (move.time < 1) {
+        story += player.t(" rapidissimo", " rapidissima");
+      } else if (move.time > 5) {
+        story += " con calma";
+      } else if (move.time > 10) {
+        story += " con molta calma";
+      } else if (move.time > 20) {
+        story += " in tempi gelologici";
+      }
+      _playerStories[playerIndex] = story;
+      _playerNicknames[playerIndex] =
+          smorfiaNapoletana[move.n.abs() % smorfiaNapoletana.length];
+    }
+  }
+
+  @override
+  buildOutcome() {
+    var widgets = <Widget>[];
+    for (var playerIndex in TurnAware.turns) {
+      var player = players[playerIndex];
+      widgets.add(
+        PlayerPerformance(
+          player,
+          primaryText: _playerNicknames[playerIndex],
+        ),
+      );
+      widgets.add(
+        Text(
+          _playerStories[playerIndex],
+          textAlign: TextAlign.center,
+          style: Theme.of(context).textTheme.headlineMedium,
+        ),
+      );
+      widgets.add(const Gap());
+    }
+
+    return ListView(
+      children: widgets,
     );
   }
 }
