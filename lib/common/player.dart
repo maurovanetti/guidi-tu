@@ -158,18 +158,20 @@ class PlayerTag extends PlayerButton {
   }
 }
 
-class PlayerPlacement extends PlayerButton {
-  final Award award;
+class PlayerPerformance extends PlayerButton {
+  final String primaryText;
+  final String secondaryText;
 
-  PlayerPlacement(this.award, {super.key})
-      : super(award.player, onEdit: () {}, onRemove: () {});
+  PlayerPerformance(Player player,
+      {required this.primaryText, this.secondaryText = '', super.key})
+      : super(player, onEdit: () {}, onRemove: () {});
 
   @override
   Row buildContent(BuildContext context) {
     var style = textStyle(context);
     var horizontalGap = const Spacer(flex: 1);
-    var displayPoints = award.score.pointsMatter;
     return Row(
+      mainAxisAlignment: MainAxisAlignment.spaceBetween,
       crossAxisAlignment: CrossAxisAlignment.center,
       children: [
         Expanded(
@@ -181,22 +183,31 @@ class PlayerPlacement extends PlayerButton {
           flex: 8,
           child: FittedText(player.name.toUpperCase(), style: style),
         ),
-        if (displayPoints) horizontalGap,
-        if (displayPoints)
-          Expanded(
-            flex: 4,
-            child: FittedText(award.score.formattedPoints, style: style),
-          ),
         horizontalGap,
         Expanded(
           flex: 4,
-          child: FittedText(
-            award.score.formattedTime,
-            style: style.copyWith(
-                fontSize: style.fontSize! * (displayPoints ? 0.7 : 1.0)),
-          ),
+          child: FittedText(primaryText, style: style),
         ),
+        if (secondaryText.isNotEmpty) horizontalGap,
+        if (secondaryText.isNotEmpty)
+          Expanded(
+            flex: 4,
+            child: FittedText(
+              secondaryText,
+              style: style.copyWith(fontSize: style.fontSize! * 0.7),
+            ),
+          ),
       ],
     );
   }
+}
+
+class PlayerPlacement extends PlayerPerformance {
+  PlayerPlacement(Award award, {super.key})
+      : super(award.player,
+            primaryText: award.score.pointsMatter
+                ? award.score.formattedPoints
+                : award.score.formattedTime,
+            secondaryText:
+                award.score.pointsMatter ? award.score.formattedTime : '');
 }

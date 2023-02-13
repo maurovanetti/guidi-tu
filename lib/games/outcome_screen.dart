@@ -6,8 +6,10 @@ import '/common/gender.dart';
 import '/common/navigation.dart';
 import '/common/score_aware.dart';
 import '/common/team_aware.dart';
+import '/common/turn_aware.dart';
 import 'placement_screen.dart';
 
+// TODO Make abstract when all games are ready
 class OutcomeScreen extends GameSpecificStatefulWidget {
   const OutcomeScreen({super.key, required super.gameFeatures});
 
@@ -15,16 +17,32 @@ class OutcomeScreen extends GameSpecificStatefulWidget {
   OutcomeScreenState createState() => OutcomeScreenState();
 }
 
-class OutcomeScreenState extends GameSpecificState<OutcomeScreen>
-    with Gendered, TeamAware, ScoreAware {
-  Future<void> _revealPlacement() async {
+// TODO Make abstract when all games are ready
+class OutcomeScreenState<T extends Move>
+    extends GameSpecificState<OutcomeScreen>
+    with Gendered, TeamAware, ScoreAware, TurnAware<T> {
+  void _revealPlacement() {
+    for (var playerIndex in TurnAware.turns) {
+      var player = players[playerIndex];
+      var score = Score(
+        points: getPoints(player),
+        time: getTime(player),
+        lessIsMore: widget.gameFeatures.lessIsMore,
+        longerIsBetter: widget.gameFeatures.longerIsBetter,
+        pointsMatter: widget.gameFeatures.pointsMatter,
+        formatPoints: widget.gameFeatures.formatPoints,
+      );
+      ScoreAware.recordScore(player, score);
+      debugPrint("${player.name} scored ${ScoreAware.scores[player]} "
+          "at ${widget.gameFeatures.name}");
+    }
     if (mounted) {
       Navigation.replaceAll(context, () => const PlacementScreen()).go();
     }
   }
 
   // Override this to tailor the outcome screen
-  Widget _buildOutcome() => buildPlaceHolder();
+  Widget buildOutcome() => buildPlaceHolder();
 
   @override
   Widget build(BuildContext context) {
@@ -32,7 +50,7 @@ class OutcomeScreenState extends GameSpecificState<OutcomeScreen>
       appBar: AppBar(
         title: const Text("Risultati"),
       ),
-      body: _buildOutcome(),
+      body: buildOutcome(),
       floatingActionButton: CustomFloatingActionButton(
         tooltip: "Classifica",
         icon: Icons.skip_next_rounded,

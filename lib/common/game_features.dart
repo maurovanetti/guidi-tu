@@ -2,9 +2,9 @@ import 'package:flutter/material.dart';
 
 import '/games/large_shot.dart';
 import '/games/morra.dart';
+import '/games/outcome_screen.dart';
 import '/games/small_shot.dart';
 import '/games/turn_play.dart';
-import '/games/outcome_screen.dart';
 import 'config.dart' as config;
 
 class GameFeatures {
@@ -20,6 +20,11 @@ class GameFeatures {
   final TurnPlay Function() playWidget;
   final OutcomeScreen Function() outcomeWidget;
   final bool lessIsMore;
+  final bool longerIsBetter;
+  final bool pointsMatter;
+  final String Function(int) formatPoints;
+
+  static String dontFormat(i) => i.toString();
 
   GameFeatures({
     required this.name,
@@ -34,6 +39,9 @@ class GameFeatures {
     required this.playWidget,
     required this.outcomeWidget,
     this.lessIsMore = false,
+    this.longerIsBetter = false,
+    this.pointsMatter = true,
+    this.formatPoints = dontFormat,
   })  : maxPlayers = maxPlayers ?? config.maxPlayers,
         maxSuggestedPlayers = maxSuggestedPlayers ?? config.maxPlayers {
     assert(minPlayers <= minSuggestedPlayers);
@@ -89,6 +97,7 @@ Ma attenzione: chi si avvicina di più, paga.""",
   playWidget: () => Morra(),
   outcomeWidget: () => MorraOutcome(),
   lessIsMore: true, // meaning the difference between the sum and the guess
+  formatPoints: (p) => '±$p',
 );
 
 final List<GameFeatures> allGameFeatures = [largeShot, smallShot, morra];

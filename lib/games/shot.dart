@@ -1,19 +1,18 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart';
+import 'package:guidi_tu/common/turn_aware.dart';
 
 import '/common/fitted_text.dart';
 import '/common/snackbar.dart';
 import '/games/turn_play.dart';
 
-class ShotState extends TurnPlayState with QuickMessage {
+class ShotState<T extends ShotMove> extends TurnPlayState<ShotMove>
+    with QuickMessage {
   Timer? _longPressTimer;
 
   int n = 0;
   changeN(int delta) => setState(() => n += delta);
-
-  @override
-  int get points => n;
 
   void longPressStart(int delta) {
     _longPressTimer =
@@ -70,6 +69,9 @@ class ShotState extends TurnPlayState with QuickMessage {
       ];
 
   @override
+  ShotMove get lastMove => ShotMove(time: elapsedSeconds, n: n);
+
+  @override
   buildGameArea() {
     return Center(
       child: Column(
@@ -113,4 +115,13 @@ class ArrowButton extends StatelessWidget {
       onLongPressUp: () => quickChangeNEnd(),
     );
   }
+}
+
+class ShotMove extends Move {
+  final int n;
+
+  ShotMove({required this.n, required super.time});
+
+  @override
+  int getPointsWith(Iterable<Move> allMoves) => n;
 }

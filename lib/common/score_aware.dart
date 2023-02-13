@@ -34,7 +34,7 @@ mixin ScoreAware {
     for (var otherScore in scores.values) {
       if (score.compareTo(otherScore) == 0) {
         // This is to prevent the very unlikely case of exactly identical scores
-        score = Score(points: score.points, time: score.time + 0.01);
+        score.time += 0.01;
       }
     }
     scores[player] = score;
@@ -75,11 +75,12 @@ mixin ScoreAware {
 class Score extends Comparable<Score> {
   final int points;
   final bool pointsMatter;
-  final double time;
+  double time;
   final bool lessIsMore;
   final bool longerIsBetter;
+  final String Function(int) formatPoints;
 
-  String get formattedPoints => points.toString();
+  String get formattedPoints => formatPoints(points);
   String get formattedTime => '${secondsFormat.format(time)}"';
 
   Score({
@@ -88,6 +89,7 @@ class Score extends Comparable<Score> {
     required this.time,
     this.lessIsMore = false,
     this.longerIsBetter = false,
+    required this.formatPoints,
   });
 
   @override
@@ -105,8 +107,11 @@ class Score extends Comparable<Score> {
       // This is just theoretical
       diffTime = -diffTime;
     }
-    return longerIsBetter ? diffTime : -diffTime;
+    return longerIsBetter ? -diffTime : diffTime;
   }
+
+  @override
+  toString() => "(points: $points, time: $time)";
 }
 
 class Award {

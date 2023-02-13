@@ -8,24 +8,24 @@ import '/common/gap.dart';
 import '/common/gender.dart';
 import '/common/navigation.dart';
 import '/common/player.dart';
-import '/common/score_aware.dart';
 import '/common/team_aware.dart';
 import '/common/turn_aware.dart';
 import '/games/turn_interstitial.dart';
 import 'completion_screen.dart';
 
-class TurnPlay extends GameSpecificStatefulWidget {
+abstract class TurnPlay extends GameSpecificStatefulWidget {
   const TurnPlay({super.key, required super.gameFeatures});
 
   @override
-  TurnPlayState createState() => TurnPlayState();
+  TurnPlayState createState();
 }
 
-class TurnPlayState extends GameSpecificState<TurnPlay>
-    with Gendered, TeamAware, TurnAware, ScoreAware {
+abstract class TurnPlayState<T extends Move> extends GameSpecificState<TurnPlay>
+    with Gendered, TeamAware, TurnAware {
   late DateTime _startTime;
   Timer? _timer;
-  Duration get _elapsed => DateTime.now().difference(_startTime);
+  Duration get elapsed => DateTime.now().difference(_startTime);
+  double get elapsedSeconds => elapsed.inMicroseconds * 1e-6;
 
   @override
   void initState() {
@@ -40,18 +40,15 @@ class TurnPlayState extends GameSpecificState<TurnPlay>
     super.dispose();
   }
 
-  Future<void> _scoreTurn() async {
+  Future<void> _recordTurn() async {
     _timer?.cancel();
-    debugPrint("${TurnAware.currentPlayer.name} scored $points points");
-    var score = Score(
-        points: points,
-        time: _elapsed.inMicroseconds * 0.000001,
-        lessIsMore: widget.gameFeatures.lessIsMore);
-    ScoreAware.recordScore(TurnAware.currentPlayer, score);
+    recordMove(lastMove);
   }
 
+  T get lastMove;
+
   void _completeTurn() async {
-    await _scoreTurn();
+    await _recordTurn();
     var hasEveryonePlayed = !await nextTurn();
     if (mounted) {
       if (hasEveryonePlayed) {
@@ -66,9 +63,6 @@ class TurnPlayState extends GameSpecificState<TurnPlay>
       }
     }
   }
-
-  // Override this to customize the point calculation
-  int get points => 0;
 
   // Override this to build the game area
   Widget buildGameArea() => buildPlaceHolder();
@@ -96,12 +90,19 @@ class TurnPlayState extends GameSpecificState<TurnPlay>
               text: "Ho finito!",
               onPressed: _completeTurn,
             ),
-            Clock(_elapsed),
+            Clock(elapsed),
           ],
         ),
       ),
     );
   }
+}
+
+class NoMove extends Move {
+  NoMove({required super.time});
+
+  @override
+  int getPointsWith(Iterable<Move> allMoves) => 0;
 }
 
 class Clock extends StatelessWidget {
