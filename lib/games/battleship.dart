@@ -1,8 +1,10 @@
+import 'package:flame/game.dart';
 import 'package:flutter/material.dart';
 
 import '/common/game_features.dart';
 import '/games/turn_play.dart';
 import '../common/turn_aware.dart';
+import 'flame/battleship_module.dart';
 import 'outcome_screen.dart';
 
 class Battleship extends TurnPlay {
@@ -17,7 +19,7 @@ class BattleshipState extends TurnPlayState<BattleshipMove> {
   BattleshipMove get lastMove => BattleshipMove(time: elapsedSeconds);
 
   @override
-  buildGameArea() => super.buildGameArea(); // TODO
+  buildGameArea() => GameWidget(game: BattleshipModule());
 }
 
 class BattleshipOutcome extends OutcomeScreen {

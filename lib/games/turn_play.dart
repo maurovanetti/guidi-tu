@@ -24,7 +24,6 @@ abstract class TurnPlay extends GameSpecificStatefulWidget {
 abstract class TurnPlayState<T extends Move> extends GameSpecificState<TurnPlay>
     with Gendered, TeamAware, TurnAware {
   late DateTime _startTime;
-  Timer? _timer;
   Duration get elapsed => DateTime.now().difference(_startTime);
   double get elapsedSeconds => elapsed.inMicroseconds * 1e-6;
 
@@ -32,17 +31,9 @@ abstract class TurnPlayState<T extends Move> extends GameSpecificState<TurnPlay>
   void initState() {
     super.initState();
     _startTime = DateTime.now();
-    _timer = Timer.periodic(const Duration(seconds: 1), (_) => setState(() {}));
-  }
-
-  @override
-  void dispose() {
-    _timer?.cancel();
-    super.dispose();
   }
 
   Future<void> _recordTurn() async {
-    _timer?.cancel();
     recordMove(lastMove);
   }
 
@@ -83,6 +74,7 @@ abstract class TurnPlayState<T extends Move> extends GameSpecificState<TurnPlay>
             Padding(
                 padding: const EdgeInsets.all(10.0),
                 child: AspectRatio(
+                  key: const Key("game-area"),
                   aspectRatio: 1.0, // It's a square
                   child: buildGameArea(),
                 )),
@@ -92,7 +84,7 @@ abstract class TurnPlayState<T extends Move> extends GameSpecificState<TurnPlay>
               text: "Ho finito!",
               onPressed: _completeTurn,
             ),
-            Clock(elapsed),
+            Clock(_startTime),
           ],
         ),
       ),
@@ -107,15 +99,51 @@ class NoMove extends Move {
   int getPointsWith(Iterable<Move> allMoves) => 0;
 }
 
-class Clock extends StatelessWidget {
-  final Duration duration;
+class Clock extends StatefulWidget {
+  final DateTime startTime;
 
-  const Clock(this.duration, {super.key});
+  const Clock(this.startTime, {super.key});
+
+  @override
+  createState() => ClockState();
+}
+
+class ClockState extends State<Clock> {
+  late Timer _timer;
+
+  Duration _duration = Duration.zero;
+
+  @override
+  initState() {
+    super.initState();
+    _untilNextSecond();
+  }
+
+  void _untilNextSecond() {
+    int targetMicro = widget.startTime.microsecondsSinceEpoch;
+    int currentMicro = DateTime.now().microsecondsSinceEpoch;
+    int diffMicro = (targetMicro - currentMicro) % 1000000;
+    _timer = Timer(Duration(microseconds: diffMicro), () {
+      setState(() {
+        _duration = DateTime.now().difference(widget.startTime);
+      });
+      // To check the error in microseconds, uncomment this line:
+      debugPrint((_duration.inMicroseconds * 1e-6).toString());
+      // It's always below 0.1 seconds in emulator tests
+      _untilNextSecond();
+    });
+  }
+
+  @override
+  void dispose() {
+    _timer.cancel();
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
     return Center(
-      child: Text('Tempo trascorso: ${duration.inSeconds}"',
+      child: Text('Tempo trascorso: ${_duration.inSeconds}"',
           style: Theme.of(context).textTheme.headlineSmall),
     );
   }
