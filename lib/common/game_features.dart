@@ -5,6 +5,7 @@ import '/games/morra.dart';
 import '/games/outcome_screen.dart';
 import '/games/small_shot.dart';
 import '/games/turn_play.dart';
+import '../games/battleship.dart';
 import 'config.dart' as config;
 
 class GameFeatures {
@@ -60,7 +61,7 @@ Ma attenzione: chi sceglie il numero più alto, paga.""",
   secretPlay: true,
   icon: Icons.arrow_circle_up_rounded,
   minPlayers: 2,
-  minSuggestedPlayers: 2,
+  minSuggestedPlayers: 3,
   playWidget: () => LargeShot(),
   outcomeWidget: () => LargeShotOutcome(),
 );
@@ -75,7 +76,7 @@ Ma attenzione: chi sceglie il numero più basso, paga.""",
   secretPlay: true,
   icon: Icons.arrow_circle_down_rounded,
   minPlayers: 2,
-  minSuggestedPlayers: 2,
+  minSuggestedPlayers: 3,
   playWidget: () => SmallShot(),
   outcomeWidget: () => SmallShotOutcome(),
   lessIsMore: true,
@@ -100,4 +101,29 @@ Ma attenzione: chi si avvicina di più, paga.""",
   formatPoints: (p) => '±$p',
 );
 
-final List<GameFeatures> allGameFeatures = [largeShot, smallShot, morra];
+final battleship = GameFeatures(
+  name: "Battaglia navale",
+  description: "Salva le tue paperelle.",
+  explanation: """
+Scegli dove collocare le tue paperelle e i tuoi proiettili di sughero.
+
+Fai 5 punti per ogni tua paperella salvata, 1 per ogni paperella altrui che affondi. 
+  
+Guidi tu se fai meno punti.
+
+Ma attenzione: chi fa più punti, paga.""",
+  secretPlay: true,
+  icon: Icons.sailing_rounded,
+  minPlayers: 2,
+  minSuggestedPlayers: 2,
+  playWidget: () => Battleship(),
+  outcomeWidget: () => BattleshipOutcome(),
+  formatPoints: (p) => '$p pt.',
+);
+
+final List<GameFeatures> allGameFeatures = [
+  largeShot,
+  smallShot,
+  morra,
+  battleship,
+];
