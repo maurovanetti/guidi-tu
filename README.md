@@ -4,7 +4,7 @@ This free app is currently being developed in Italian.
 
 A multilingual version is planned for Q3-Q4 2023, after the full release on the Italian market in Q2-Q3 2023.
 
-[![Codemagic build status](https://api.codemagic.io/apps/63e0b4f7446236fa9778921d/63e0b4f7446236fa9778921c/status_badge.svg)](https://codemagic.io/apps/63e0b4f7446236fa9778921d/63e0b4f7446236fa9778921c/latest_build)
+[![Codemagic build status](https://api.codemagic.io/apps/63e0b4f7446236fa9778921d/63eac575c998a6453a95cb15/status_badge.svg)](https://codemagic.io/apps/63e0b4f7446236fa9778921d/63eac575c998a6453a95cb15/latest_build)
 
 Guidi Tu, un videogioco per selezionare chi guida stasera e chi invece beve.
 
