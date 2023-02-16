@@ -10,6 +10,7 @@ import '/common/team_aware.dart';
 import '/common/turn_aware.dart';
 import '/home_page.dart';
 import '../common/gender.dart';
+import '../common/widget_keys.dart';
 
 class TurnInterstitial extends GameSpecificStatefulWidget {
   const TurnInterstitial({super.key, required super.gameFeatures});
@@ -105,6 +106,7 @@ class TurnInterstitialState extends State<TurnInterstitial>
               const Gap(),
               if (player is! NoPlayer)
                 CustomButton(
+                  key: toTurnPlayWidgetKey,
                   text: player.t("Sono pronto", "Sono pronta"),
                   onPressed: widget.gameFeatures.secretPlay
                       ? _showSecretPlayAlert

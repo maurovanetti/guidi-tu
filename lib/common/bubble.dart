@@ -5,6 +5,8 @@ import 'package:flutter/material.dart';
 import '../main.dart';
 
 class WithBubbles extends StatelessWidget {
+  static bool enabled = true; // disabled in tests
+
   final Widget child;
   final int n;
   final bool behind;
@@ -16,6 +18,8 @@ class WithBubbles extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    if (!enabled) return child;
+
     return Stack(
       children: [
         if (!behind) child,

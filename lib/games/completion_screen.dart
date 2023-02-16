@@ -7,6 +7,7 @@ import '/common/gap.dart';
 import '/common/gender.dart';
 import '/common/navigation.dart';
 import '/common/team_aware.dart';
+import '../common/widget_keys.dart';
 
 class CompletionScreen extends GameSpecificStatefulWidget {
   const CompletionScreen({super.key, required super.gameFeatures});
@@ -40,6 +41,7 @@ class CompletionScreenState extends GameSpecificState<CompletionScreen>
                   style: Theme.of(context).textTheme.headlineLarge),
               const Gap(),
               CustomButton(
+                key: toOutcomeWidgetKey,
                 text: "Vediamoli!",
                 onPressed: _displayOutcome,
               ),

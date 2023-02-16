@@ -1,6 +1,7 @@
 import 'dart:math';
 
 import 'package:flutter/material.dart';
+import 'package:guidi_tu/common/widget_keys.dart';
 
 import '/common/custom_fab.dart';
 import '/common/game_features.dart';
@@ -93,6 +94,7 @@ class _PickPageState extends State<PickPage>
         ),
       ),
       floatingActionButton: CustomFloatingActionButton(
+        key: toTurnInterstitialWidgetKey,
         tooltip: 'Inizio',
         icon: Icons.play_arrow_rounded,
         onPressed: _startGame,

@@ -11,6 +11,7 @@ import '/common/player.dart';
 import '/common/team_aware.dart';
 import '/common/turn_aware.dart';
 import '/games/turn_interstitial.dart';
+import '../common/widget_keys.dart';
 import 'completion_screen.dart';
 
 abstract class TurnPlay extends GameSpecificStatefulWidget {
@@ -87,6 +88,7 @@ abstract class TurnPlayState<T extends Move> extends GameSpecificState<TurnPlay>
                 )),
             const Gap(),
             CustomButton(
+              key: toNextTurnWidgetKey,
               text: "Ho finito!",
               onPressed: _completeTurn,
             ),

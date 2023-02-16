@@ -8,6 +8,7 @@ import '/common/player.dart';
 import '/common/score_aware.dart';
 import '/common/team_aware.dart';
 import '/home_page.dart';
+import '../common/widget_keys.dart';
 
 class PlacementScreen extends StatefulWidget {
   const PlacementScreen({super.key});
@@ -43,6 +44,7 @@ class PlacementScreenState extends State<PlacementScreen>
           ),
         ),
         floatingActionButton: CustomFloatingActionButton(
+          key: toHomeWidgetKey,
           tooltip: "Fine",
           icon: Icons.stop_rounded,
           onPressed: _endGame,

@@ -10,6 +10,7 @@ import '/common/gender.dart';
 import '/common/navigation.dart';
 import '/common/player.dart';
 import '/common/team_aware.dart';
+import 'common/widget_keys.dart';
 import 'pick_page.dart';
 
 const duplicatesWarning =
@@ -106,7 +107,6 @@ class _TeamPageState extends State<TeamPage> with Gendered, TeamAware {
   @override
   Widget build(BuildContext context) {
     bool hasDuplicates = _hasDuplicates(players);
-
     return Scaffold(
       appBar: AppBar(
         title: const Text('Registra i partecipanti'),
@@ -137,6 +137,7 @@ class _TeamPageState extends State<TeamPage> with Gendered, TeamAware {
       floatingActionButton: players.length < 2
           ? null
           : CustomFloatingActionButton(
+              key: toPickWidgetKey,
               onPressed:
                   hasDuplicates ? _showDuplicatesAlert : _proceedToPickPage,
               tooltip: 'Pronti',

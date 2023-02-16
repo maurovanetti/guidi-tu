@@ -5,6 +5,7 @@ import 'common/custom_button.dart';
 import 'common/gap.dart';
 import 'common/navigation.dart';
 import 'common/score_aware.dart';
+import 'common/widget_keys.dart';
 import 'tutorial_page.dart';
 
 class HomePage extends StatefulWidget {
@@ -33,19 +34,27 @@ class _HomePageState extends State<HomePage> with ScoreAware {
     });
   }
 
-  Widget _buildDriverOrPayer(String? name) {
+  Widget _buildDriverOrPayer(String? name, {Key? key}) {
     var style = Theme.of(context).textTheme.headlineLarge!;
     if (_loading) {
       return SizedBox(
+        key: key,
         height: style.fontSize! * style.height!,
         child: const LinearProgressIndicator(),
       );
     }
     if (name == null) {
-      return Text('Scopriamolo!',
-          style: style.copyWith(fontStyle: FontStyle.italic));
+      return Text(
+        'Scopriamolo!',
+        key: key,
+        style: style.copyWith(fontStyle: FontStyle.italic),
+      );
     }
-    return Text(name, style: style.copyWith(fontWeight: FontWeight.bold));
+    return Text(
+      name,
+      key: key,
+      style: style.copyWith(fontWeight: FontWeight.bold),
+    );
   }
 
   @override
@@ -61,13 +70,15 @@ class _HomePageState extends State<HomePage> with ScoreAware {
             children: [
               Text('Chi guida stasera?',
                   style: Theme.of(context).textTheme.headlineMedium),
-              _buildDriverOrPayer(_driverAndPayer?.driver),
+              _buildDriverOrPayer(_driverAndPayer?.driver,
+                  key: driverWidgetKey),
               const Gap(),
               Text('Chi paga stasera?',
                   style: Theme.of(context).textTheme.headlineMedium),
-              _buildDriverOrPayer(_driverAndPayer?.payer),
+              _buildDriverOrPayer(_driverAndPayer?.payer, key: payerWidgetKey),
               const Gap(),
               CustomButton(
+                key: toTutorialWidgetKey,
                 text: _driverAndPayer?.driver == null
                     ? 'Gioca'
                     : 'Gioca di nuovo',

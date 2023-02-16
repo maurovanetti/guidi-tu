@@ -7,6 +7,7 @@ import '/common/navigation.dart';
 import '/common/score_aware.dart';
 import '/common/team_aware.dart';
 import '/common/turn_aware.dart';
+import '../common/widget_keys.dart';
 import 'placement_screen.dart';
 
 abstract class OutcomeScreen extends GameSpecificStatefulWidget {
@@ -49,6 +50,7 @@ abstract class OutcomeScreenState<T extends Move>
       ),
       body: buildOutcome(),
       floatingActionButton: CustomFloatingActionButton(
+        key: toPlacementWidgetKey,
         tooltip: "Classifica",
         icon: Icons.skip_next_rounded,
         onPressed: _revealPlacement,
