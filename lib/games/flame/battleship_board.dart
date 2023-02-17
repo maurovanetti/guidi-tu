@@ -42,9 +42,15 @@ class BattleshipBoard extends PositionComponent {
     ..style = PaintingStyle.stroke
     ..strokeWidth = 2.0;
 
-  Iterable<Vector2> get cellCenters sync* {
-    for (int row = 0; row < gridRows; row++) {
-      for (int column = 0; column < gridColumns; column++) {
+  Iterable<Vector2> cellCenters(
+      {int leftmostColumnsSkipped = 0,
+      int topRowsSkipped = 0,
+      int rightmostColumnsSkipped = 0,
+      int bottomRowsSkipped = 0}) sync* {
+    for (int row = topRowsSkipped; row < gridRows - bottomRowsSkipped; row++) {
+      for (int column = leftmostColumnsSkipped;
+          column < gridColumns - rightmostColumnsSkipped;
+          column++) {
         var cellCenter = topLeftPosition +
             Vector2(
               cellWidth * (column + 0.5),

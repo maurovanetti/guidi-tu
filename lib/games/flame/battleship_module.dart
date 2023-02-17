@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'dart:math';
 
 import 'package:flame/game.dart';
 import 'package:flutter/material.dart';
@@ -22,31 +23,44 @@ class BattleshipModule extends FlameGame with HasDraggables {
       gridColumns: gridColumns,
       gridRows: gridRows,
     );
-    var shipInitialPosition = Vector2(
-      padding + board.cellWidth / 2,
-      size.y - padding - board.cellHeight / 2,
-    );
     var smallShip = BattleshipShip(
-      shipInitialPosition,
+      Vector2(
+        size.x - padding - board.cellWidth / 2,
+        size.y - padding - board.cellHeight / 2,
+      ),
       cellSize: board.cellSize,
-      cellLength: 1,
-      vertical: false,
+      cellSpan: 1,
+      isVertical: Random().nextBool(),
+    );
+    var mediumShip = BattleshipShip(
+      Vector2(
+        size.x - padding - board.cellWidth / 2,
+        padding + board.cellHeight / 2,
+      ),
+      cellSize: board.cellSize,
+      cellSpan: 2,
+      isVertical: true,
     );
     var largeShip = BattleshipShip(
-      shipInitialPosition + Vector2(board.cellWidth * 2, 0),
+      Vector2(
+        padding + board.cellWidth / 2,
+        size.y - padding - board.cellHeight / 2,
+      ),
       cellSize: board.cellSize,
-      cellLength: 2,
-      vertical: true,
+      cellSpan: 3,
+      isVertical: false,
     );
-    for (var ship in [smallShip, largeShip]) {
+    await add(board);
+    for (var ship in [smallShip, mediumShip, largeShip]) {
       ship.snapRule = SnapRule(
-        spots: board.cellCenters, // Snaps to the center of each cell
+        spots: board.cellCenters(
+          rightmostColumnsSkipped: ship.isVertical ? 0 : ship.cellSpan - 1,
+          bottomRowsSkipped: ship.isVertical ? ship.cellSpan - 1 : 0,
+        ), // Snaps to the center of each cell
         fallbackSpot: ship.position.clone(),
         maxSnapDistance: board.cellSize.length / 2,
       );
+      await add(ship);
     }
-    await add(board);
-    await add(smallShip);
-    await add(largeShip);
   }
 }
