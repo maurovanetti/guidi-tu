@@ -68,6 +68,9 @@ abstract class TurnPlayState<T extends Move> extends GameSpecificState<TurnPlay>
       body: Center(
         child: ListView(
           shrinkWrap: true,
+          physics: widget.gameFeatures.usesRigidGameArea
+              ? const NeverScrollableScrollPhysics()
+              : null,
           children: [
             PlayerTag(TurnAware.currentPlayer),
             const Gap(),
@@ -128,7 +131,7 @@ class ClockState extends State<Clock> {
         _duration = DateTime.now().difference(widget.startTime);
       });
       // To check the error in microseconds, uncomment this line:
-      debugPrint((_duration.inMicroseconds * 1e-6).toString());
+      // debugPrint((_duration.inMicroseconds * 1e-6).toString());
       // It's always below 0.1 seconds in emulator tests
       _untilNextSecond();
     });

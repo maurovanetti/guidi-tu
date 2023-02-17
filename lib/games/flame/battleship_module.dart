@@ -5,13 +5,12 @@ import 'package:flutter/material.dart';
 
 import 'battleship_ship.dart';
 
-class BattleshipModule extends FlameGame {
+class BattleshipModule extends FlameGame with HasDraggables {
   @override
   Color backgroundColor() => Colors.blue.shade900;
 
   @override
   Future<void> onLoad() async {
-    debugPrint('BattleshipModule.onLoad()');
-    await add(BattleshipShip());
+    await add(BattleshipShip(size / 2));
   }
 }

@@ -1,15 +1,15 @@
 import 'package:flame/components.dart';
-import 'package:flame/experimental.dart';
 
 import 'battleship_module.dart';
+import 'custom_sprite_component.dart';
 
-class BattleshipShip extends SpriteComponent
-    with HasGameReference<BattleshipModule> {
-  BattleshipShip() : super(size: Vector2.all(128.0));
-
-  @override
-  Future<void> onLoad() async {
-    sprite = await game.loadSprite('battleship/short_ship.png');
-    position = game.size / 3;
+class BattleshipShip extends DraggableCustomSpriteComponent<BattleshipModule> {
+  BattleshipShip(Vector2 position)
+      : super(
+          'battleship/short_ship.png',
+          position,
+        ) {
+    snapRule = SnapRule(
+        spots: [position, position / 2]); // Snaps back to its initial position
   }
 }

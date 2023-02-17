@@ -24,6 +24,7 @@ class GameFeatures {
   final bool longerIsBetter;
   final bool pointsMatter;
   final String Function(int) formatPoints;
+  final bool usesRigidGameArea;
 
   static String dontFormat(i) => i.toString();
 
@@ -43,6 +44,7 @@ class GameFeatures {
     this.longerIsBetter = false,
     this.pointsMatter = true,
     this.formatPoints = dontFormat,
+    this.usesRigidGameArea = false,
   })  : maxPlayers = maxPlayers ?? config.maxPlayers,
         maxSuggestedPlayers = maxSuggestedPlayers ?? config.maxPlayers {
     assert(minPlayers <= minSuggestedPlayers);
@@ -119,6 +121,7 @@ Ma attenzione: chi fa più punti, paga.""",
   playWidget: () => Battleship(),
   outcomeWidget: () => BattleshipOutcome(),
   formatPoints: (p) => '$p pt.',
+  usesRigidGameArea: true,
 );
 
 final List<GameFeatures> allGameFeatures = [
