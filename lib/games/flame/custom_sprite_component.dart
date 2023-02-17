@@ -8,17 +8,23 @@ import 'package:flutter/material.dart' hide Draggable;
 class CustomSpriteComponent<T extends Game> extends SpriteComponent
     with HasGameReference<T> {
   // The light direction affects the shadow and is the same for all sprites
-  static Vector2 _lightDirection = Vector2(-1.0, 2.0).normalized();
-  static get lightDirection => _lightDirection;
-  static set lightDirection(value) => _lightDirection = value.normalized();
+  static Vector2 _lightDirection = Vector2(2.0, 2.0).normalized();
+  static Vector2 get lightDirection => _lightDirection;
+  static set lightDirection(Vector2 value) =>
+      _lightDirection = value.normalized();
 
   // Using BasicPalette.black or .white here makes no difference, it's the
   // colorFilter that does the magic
   static final Paint shadowPaint = BasicPalette.black.withAlpha(50).paint()
     ..colorFilter = const ColorFilter.mode(Colors.black, BlendMode.srcATop);
 
+  // Defining a default size for all sprites in a game can make sense for
+  // tile-based games
+  static Vector2 defaultSpriteSize = Vector2.all(128.0);
+
   final String assetPath;
   bool hasShadow;
+
   double _elevation = 0; // The actual default is 10.0, see constructor below
   double get elevation => _elevation;
   set elevation(value) {
@@ -26,37 +32,61 @@ class CustomSpriteComponent<T extends Game> extends SpriteComponent
     // position of the sprite in the opposite direction of the light
     position -= lightDirection * (value - elevation);
     _elevation = value;
+    _shadowOffset = null; // Invalidates the cached value
   }
 
-  get groundLevelPosition => position + lightDirection * elevation;
+  Vector2? _cachedLightDirection;
+  Vector2? _shadowOffset; // Works like a cache
+  Vector2 get shadowOffset {
+    if (_shadowOffset == null || _cachedLightDirection != lightDirection) {
+      _cachedLightDirection = lightDirection;
+      Vector2 v = _lightDirection.clone();
+      // Compensate for the sprite's rotation
+      v.rotate(-angle);
+      _shadowOffset = v * elevation;
+    }
+    return _shadowOffset!;
+  }
 
-  CustomSpriteComponent(this.assetPath, Vector2 position,
-      {this.hasShadow = true, double? elevation})
-      : super(
-          size: Vector2.all(128.0),
-          anchor: Anchor.center,
+  @override
+  set angle(double a) {
+    _shadowOffset = null; // Invalidates the cached value
+    super.angle = a;
+  }
+
+  Vector2 get groundLevelPosition => position + shadowOffset;
+
+  CustomSpriteComponent(
+    this.assetPath,
+    Vector2 position, {
+    this.hasShadow = true,
+    double? elevation,
+    Vector2? size,
+    Anchor? anchor,
+  }) : super(
+          size: size ?? defaultSpriteSize,
+          anchor: anchor ?? Anchor.center,
           position: position,
         ) {
     // If there's no shadow, the default elevation is 0 to prevent the sprite
     // from being rendered in a different initial position than expected
-    elevation ??= hasShadow ? 0.0 : 10.0;
-    this.elevation = elevation;
+    this._elevation = elevation ?? (hasShadow ? 0.0 : 5.0);
   }
 
   @override
   void render(Canvas canvas) {
+    // Reminder: this uses local coordinates!
     // Shadow sprite
     if (hasShadow) {
       sprite?.render(
         canvas,
-        position: lightDirection * elevation,
+        position: shadowOffset,
         size: size,
         overridePaint: shadowPaint,
       );
     }
     // Main sprite
     super.render(canvas);
-    // Draw something on top of the sprite
   }
 
   @override
@@ -72,8 +102,18 @@ class DraggableCustomSpriteComponent<T extends Game>
   late SnapRule? snapRule;
 
   DraggableCustomSpriteComponent(String assetPath, Vector2 position,
-      {bool hasShadow = true, double elevation = 10.0})
-      : super(assetPath, position, hasShadow: hasShadow, elevation: elevation);
+      {bool hasShadow = true,
+      double elevation = 10.0,
+      Vector2? size,
+      Anchor? anchor})
+      : super(
+          assetPath,
+          position,
+          hasShadow: hasShadow,
+          elevation: elevation,
+          size: size,
+          anchor: anchor,
+        );
 
   @override
   bool onDragStart(DragStartInfo info) {
