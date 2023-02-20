@@ -18,4 +18,13 @@ class BattleshipShip extends BattleshipItem {
           position,
           flipped: Random().nextBool(),
         );
+
+  @override
+  Map<String, dynamic> toJson() {
+    return {
+      'type': 'ship',
+      'cellSpan': cellSpan,
+      'isVertical': isVertical,
+    };
+  }
 }

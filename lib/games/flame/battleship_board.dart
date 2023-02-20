@@ -7,13 +7,22 @@ import 'battleship_item.dart';
 class BattleshipBoard extends PositionComponent {
   int gridColumns;
   int gridRows;
+  int itemsCount = 0;
 
   late final double cellWidth;
   late final double cellHeight;
 
   late List<List<BattleshipBoardCell>> _cells;
 
+  // This is the same information as _cells, but in a different format more
+  // suitable for registering the player's moves.
+  final Map<BattleshipItem, BattleshipBoardCell> _placedItems = {};
+
+  bool get isFull => _placedItems.length == itemsCount;
+
   Vector2 get cellSize => Vector2(cellWidth, cellHeight);
+
+  List<void Function()> _listeners = [];
 
   final List<Offset> _leftNotches = [];
   final List<Offset> _rightNotches = [];
@@ -72,18 +81,7 @@ class BattleshipBoard extends PositionComponent {
     }
   }
 
-  @override
-  void render(Canvas canvas) {
-    for (int i = 0; i < _leftNotches.length; i++) {
-      canvas.drawLine(_leftNotches[i], _rightNotches[i], paint);
-    }
-    for (int i = 0; i < _topNotches.length; i++) {
-      canvas.drawLine(_topNotches[i], _bottomNotches[i], paint);
-    }
-    super.render(canvas);
-  }
-
-  BattleshipBoardCell cellAt(int row, int i) => _cells[row][i];
+  BattleshipBoardCell cellAt(int row, int column) => _cells[row][column];
 
   BattleshipBoardCell cellOn(Vector2 centerPosition) {
     var row = (centerPosition.y - topLeftPosition.y) ~/ cellHeight;
@@ -101,20 +99,67 @@ class BattleshipBoard extends PositionComponent {
           cellAt(cell.row, cell.column + i).owner = item;
         }
       }
+      _placedItems[item] = cell;
+      _notifyListeners();
       return true;
     }
     return false;
   }
 
-  void removeItem(BattleshipItem ship) {
+  void removeItem(BattleshipItem item) {
     for (int row = 0; row < gridRows; row++) {
       for (int column = 0; column < gridColumns; column++) {
         var cell = cellAt(row, column);
-        if (cell.owner == ship) {
+        if (cell.owner == item) {
           cell.owner = null;
         }
       }
     }
+    _placedItems.remove(item);
+    _notifyListeners();
+  }
+
+  Map<String, dynamic> toJson() {
+    List<Map<String, dynamic>> itemsAsList = [];
+    for (var entry in _placedItems.entries) {
+      var item = entry.key;
+      var cell = entry.value;
+      itemsAsList.add({
+        'row': cell.row,
+        'column': cell.column,
+        'item': item.toJson(),
+      });
+    }
+    return {
+      'gridColumns': gridColumns,
+      'gridRows': gridRows,
+      'items': itemsAsList,
+    };
+  }
+
+  @override
+  void render(Canvas canvas) {
+    for (int i = 0; i < _leftNotches.length; i++) {
+      canvas.drawLine(_leftNotches[i], _rightNotches[i], paint);
+    }
+    for (int i = 0; i < _topNotches.length; i++) {
+      canvas.drawLine(_topNotches[i], _bottomNotches[i], paint);
+    }
+    super.render(canvas);
+  }
+
+  void addListener(void Function() notify) {
+    _listeners.add(notify);
+  }
+
+  void _notifyListeners() {
+    for (var listener in _listeners) {
+      listener();
+    }
+  }
+
+  void clearListeners() {
+    _listeners.clear();
   }
 }
 

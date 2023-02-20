@@ -48,7 +48,9 @@ class CustomButtonState extends State<CustomButton>
 
   TextStyle? textStyle(BuildContext context) =>
       Theme.of(context).textTheme.headlineMedium?.copyWith(
-          color: Theme.of(context).colorScheme.onPrimary,
+          color: widget.onPressed == null
+              ? Theme.of(context).colorScheme.background
+              : Theme.of(context).colorScheme.onPrimary,
           fontWeight: widget.important ? FontWeight.bold : FontWeight.normal);
 
   TextStyle? funnyTextStyle(BuildContext context, double x) {
@@ -85,11 +87,16 @@ class CustomButtonState extends State<CustomButton>
 
   @override
   Widget build(BuildContext context) {
-    final strongBorderColor =
-        Theme.of(context).buttonTheme.colorScheme!.onPrimary;
-    final weakBorderColor = Color.lerp(strongBorderColor,
-        Theme.of(context).buttonTheme.colorScheme!.primary, 0.5)!;
-
+    final primaryColor = Theme.of(context).buttonTheme.colorScheme!.primary;
+    final onPrimaryColor = Theme.of(context).buttonTheme.colorScheme!.onPrimary;
+    late final Color borderColor;
+    if (widget.onPressed == null) {
+      borderColor = Colors.transparent;
+    } else if (widget.important) {
+      borderColor = onPrimaryColor;
+    } else {
+      borderColor = Color.lerp(primaryColor, onPrimaryColor, 0.5)!;
+    }
     return Padding(
       padding: const EdgeInsets.all(10),
       child: ElevatedButton(
@@ -99,7 +106,7 @@ class CustomButtonState extends State<CustomButton>
           padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
           shape: RoundedRectangleBorder(
             side: BorderSide(
-              color: widget.important ? strongBorderColor : weakBorderColor,
+              color: borderColor,
               strokeAlign: BorderSide.strokeAlignCenter,
               width: widget.important ? 5 : 3,
             ),

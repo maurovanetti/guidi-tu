@@ -9,6 +9,10 @@ import 'battleship_board.dart';
 import 'battleship_ship.dart';
 
 class BattleshipModule extends FlameGame with HasDraggables {
+  final void Function(bool) setReady;
+
+  BattleshipModule({required this.setReady});
+
   @override
   Color backgroundColor() => Colors.blue.shade900;
 
@@ -72,5 +76,8 @@ class BattleshipModule extends FlameGame with HasDraggables {
       );
       await add(bomb);
     }
+    board.addListener(() {
+      setReady(board.isFull);
+    });
   }
 }

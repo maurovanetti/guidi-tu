@@ -6,7 +6,8 @@ import 'battleship_board.dart';
 import 'battleship_module.dart';
 import 'custom_sprite_component.dart';
 
-class BattleshipItem extends DraggableCustomSpriteComponent<BattleshipModule> {
+abstract class BattleshipItem
+    extends DraggableCustomSpriteComponent<BattleshipModule> {
   final int cellSpan;
   final bool isVertical;
 
@@ -50,5 +51,8 @@ class BattleshipItem extends DraggableCustomSpriteComponent<BattleshipModule> {
       board.removeItem(this);
       return true;
     };
+    board.itemsCount++;
   }
+
+  Map<String, dynamic> toJson();
 }

@@ -15,11 +15,22 @@ class Battleship extends TurnPlay {
 }
 
 class BattleshipState extends TurnPlayState<BattleshipMove> {
+  late BattleshipModule _gameModule;
+
+  @override
+  bool get isReadyAtStart => false;
+
   @override
   BattleshipMove get lastMove => BattleshipMove(time: elapsedSeconds);
 
   @override
-  buildGameArea() => GameWidget(game: BattleshipModule());
+  buildGameArea() => GameWidget(game: _gameModule);
+
+  @override
+  void initState() {
+    _gameModule = BattleshipModule(setReady: setReady);
+    super.initState();
+  }
 }
 
 class BattleshipOutcome extends OutcomeScreen {

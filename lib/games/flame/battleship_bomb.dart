@@ -10,4 +10,11 @@ class BattleshipBomb extends BattleshipItem {
           'battleship/bomb.png',
           position,
         );
+
+  @override
+  Map<String, dynamic> toJson() {
+    return {
+      'type': 'bomb',
+    };
+  }
 }
