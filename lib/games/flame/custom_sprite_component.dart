@@ -9,7 +9,9 @@ class CustomSpriteComponent<T extends Game> extends SpriteComponent
     with HasGameReference<T> {
   // The light direction affects the shadow and is the same for all sprites
   static Vector2 _lightDirection = Vector2(-1.0, 2.0).normalized();
+
   static Vector2 get lightDirection => _lightDirection;
+
   static set lightDirection(Vector2 value) =>
       _lightDirection = value.normalized();
 
@@ -27,6 +29,7 @@ class CustomSpriteComponent<T extends Game> extends SpriteComponent
 
   double _elevation = 0; // The actual default is 10.0, see constructor below
   double get elevation => _elevation;
+
   set elevation(value) {
     // The shadow position must remain the same, so we need to update the
     // position of the sprite in the opposite direction of the light
@@ -125,6 +128,8 @@ class DraggableCustomSpriteComponent<T extends Game>
       elevation +=
           extraElevationWhileDragged; // The position is updated in super
       _deltaPositionWhileDragged = info.eventPosition.game - position;
+      priority =
+          elevation.toInt(); // Makes sure the component is rendered on top
     } else {
       debugPrint('Dragging is forbidden because component is snap-locked');
     }
@@ -143,6 +148,7 @@ class DraggableCustomSpriteComponent<T extends Game>
   void _onDragStop() {
     // _deltaPositionWhileDragged becomes irrelevant
     elevation -= extraElevationWhileDragged; // The position is updated in super
+    priority = elevation.toInt(); // Restores the original priority
 
     bool regularSnapFound = false; // as opposed to fallback snap
     // Snaps to the closest spot

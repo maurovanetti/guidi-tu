@@ -4,9 +4,9 @@ import 'dart:math';
 import 'package:flame/game.dart';
 import 'package:flutter/material.dart';
 
+import 'battleship_bomb.dart';
 import 'battleship_board.dart';
 import 'battleship_ship.dart';
-import 'custom_sprite_component.dart';
 
 class BattleshipModule extends FlameGame with HasDraggables {
   @override
@@ -23,6 +23,7 @@ class BattleshipModule extends FlameGame with HasDraggables {
       gridColumns: gridColumns,
       gridRows: gridRows,
     );
+    await add(board);
     var smallShip = BattleshipShip(
       Vector2(
         size.x - padding - board.cellWidth / 2,
@@ -50,17 +51,26 @@ class BattleshipModule extends FlameGame with HasDraggables {
       isVertical: false,
       board: board,
     );
-    await add(board);
     for (var ship in [smallShip, mediumShip, largeShip]) {
-      ship.snapRule = SnapRule(
-        spots: board.cellCenters(
-          rightmostColumnsSkipped: ship.isVertical ? 0 : ship.cellSpan - 1,
-          bottomRowsSkipped: ship.isVertical ? ship.cellSpan - 1 : 0,
-        ), // Snaps to the center of each cell
-        fallbackSpot: ship.position.clone(),
-        maxSnapDistance: board.cellSize.length / 2,
-      );
       await add(ship);
+    }
+    var rightwardOneCell = Vector2(1, 0) * board.cellWidth;
+    var downwardOneCell = Vector2(0, 1) * board.cellHeight;
+    var rightOfLargeShip = largeShip.position + rightwardOneCell * 3;
+    var belowMediumShip = mediumShip.position + downwardOneCell * 2;
+    var bombPositions = [
+      belowMediumShip + downwardOneCell,
+      rightOfLargeShip,
+      belowMediumShip,
+      rightOfLargeShip + rightwardOneCell,
+      belowMediumShip + downwardOneCell * 2,
+    ];
+    for (int i = 0; i < 5; i++) {
+      var bomb = BattleshipBomb(
+        bombPositions[i],
+        board: board,
+      );
+      await add(bomb);
     }
   }
 }

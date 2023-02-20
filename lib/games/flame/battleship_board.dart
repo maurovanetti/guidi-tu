@@ -2,7 +2,7 @@ import 'package:flame/components.dart';
 import 'package:flame/extensions.dart';
 import 'package:flutter/material.dart';
 
-import 'battleship_ship.dart';
+import 'battleship_item.dart';
 
 class BattleshipBoard extends PositionComponent {
   int gridColumns;
@@ -91,14 +91,14 @@ class BattleshipBoard extends PositionComponent {
     return cellAt(row, column);
   }
 
-  bool placeShip(BattleshipShip ship) {
-    var cell = cellOn(ship.position);
-    if (cell.isAvailableFor(ship)) {
-      for (int i = 0; i < ship.cellSpan; i++) {
-        if (ship.isVertical) {
-          cellAt(cell.row + i, cell.column).owner = ship;
+  bool placeItem(BattleshipItem item) {
+    var cell = cellOn(item.position);
+    if (cell.isAvailableFor(item)) {
+      for (int i = 0; i < item.cellSpan; i++) {
+        if (item.isVertical) {
+          cellAt(cell.row + i, cell.column).owner = item;
         } else {
-          cellAt(cell.row, cell.column + i).owner = ship;
+          cellAt(cell.row, cell.column + i).owner = item;
         }
       }
       return true;
@@ -106,7 +106,7 @@ class BattleshipBoard extends PositionComponent {
     return false;
   }
 
-  void removeShip(BattleshipShip ship) {
+  void removeItem(BattleshipItem ship) {
     for (int row = 0; row < gridRows; row++) {
       for (int column = 0; column < gridColumns; column++) {
         var cell = cellAt(row, column);
@@ -122,7 +122,7 @@ class BattleshipBoardCell {
   final BattleshipBoard board;
   final int row;
   final int column;
-  BattleshipShip? owner;
+  BattleshipItem? owner;
 
   BattleshipBoardCell(this.board, this.row, this.column);
 
@@ -133,24 +133,24 @@ class BattleshipBoardCell {
         board.cellHeight * (row + 0.5),
       );
 
-  bool isAvailableFor(BattleshipShip ship) {
+  bool isAvailableFor(BattleshipItem item) {
     if (owner != null) {
       return false;
     }
-    if (ship.isVertical) {
-      if (row + ship.cellSpan > board.gridRows) {
+    if (item.isVertical) {
+      if (row + item.cellSpan > board.gridRows) {
         return false;
       }
-      for (int i = 0; i < ship.cellSpan; i++) {
+      for (int i = 0; i < item.cellSpan; i++) {
         if (board.cellAt(row + i, column).owner != null) {
           return false;
         }
       }
     } else {
-      if (column + ship.cellSpan > board.gridColumns) {
+      if (column + item.cellSpan > board.gridColumns) {
         return false;
       }
-      for (int i = 0; i < ship.cellSpan; i++) {
+      for (int i = 0; i < item.cellSpan; i++) {
         if (board.cellAt(row, column + i).owner != null) {
           return false;
         }
