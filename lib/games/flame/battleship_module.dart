@@ -28,27 +28,27 @@ class BattleshipModule extends FlameGame with HasDraggables {
         size.x - padding - board.cellWidth / 2,
         size.y - padding - board.cellHeight / 2,
       ),
-      cellSize: board.cellSize,
       cellSpan: 1,
       isVertical: Random().nextBool(),
+      board: board,
     );
     var mediumShip = BattleshipShip(
       Vector2(
         size.x - padding - board.cellWidth / 2,
         padding + board.cellHeight / 2,
       ),
-      cellSize: board.cellSize,
       cellSpan: 2,
       isVertical: true,
+      board: board,
     );
     var largeShip = BattleshipShip(
       Vector2(
         padding + board.cellWidth / 2,
         size.y - padding - board.cellHeight / 2,
       ),
-      cellSize: board.cellSize,
       cellSpan: 3,
       isVertical: false,
+      board: board,
     );
     await add(board);
     for (var ship in [smallShip, mediumShip, largeShip]) {

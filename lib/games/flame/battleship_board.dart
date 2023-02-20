@@ -2,12 +2,16 @@ import 'package:flame/components.dart';
 import 'package:flame/extensions.dart';
 import 'package:flutter/material.dart';
 
+import 'battleship_ship.dart';
+
 class BattleshipBoard extends PositionComponent {
   int gridColumns;
   int gridRows;
 
   late final double cellWidth;
   late final double cellHeight;
+
+  late List<List<BattleshipBoardCell>> _cells;
 
   Vector2 get cellSize => Vector2(cellWidth, cellHeight);
 
@@ -35,6 +39,13 @@ class BattleshipBoard extends PositionComponent {
       _topNotches.add(Offset(x, 0));
       _bottomNotches.add(Offset(x, rect.height));
     }
+    _cells = List.generate(
+      gridRows,
+      (row) => List.generate(
+        gridColumns,
+        (column) => BattleshipBoardCell(this, row, column),
+      ),
+    );
   }
 
   Paint get paint => Paint()
@@ -70,5 +81,81 @@ class BattleshipBoard extends PositionComponent {
       canvas.drawLine(_topNotches[i], _bottomNotches[i], paint);
     }
     super.render(canvas);
+  }
+
+  BattleshipBoardCell cellAt(int row, int i) => _cells[row][i];
+
+  BattleshipBoardCell cellOn(Vector2 centerPosition) {
+    var row = (centerPosition.y - topLeftPosition.y) ~/ cellHeight;
+    var column = (centerPosition.x - topLeftPosition.x) ~/ cellWidth;
+    return cellAt(row, column);
+  }
+
+  bool placeShip(BattleshipShip ship) {
+    var cell = cellOn(ship.position);
+    if (cell.isAvailableFor(ship)) {
+      for (int i = 0; i < ship.cellSpan; i++) {
+        if (ship.isVertical) {
+          cellAt(cell.row + i, cell.column).owner = ship;
+        } else {
+          cellAt(cell.row, cell.column + i).owner = ship;
+        }
+      }
+      return true;
+    }
+    return false;
+  }
+
+  void removeShip(BattleshipShip ship) {
+    for (int row = 0; row < gridRows; row++) {
+      for (int column = 0; column < gridColumns; column++) {
+        var cell = cellAt(row, column);
+        if (cell.owner == ship) {
+          cell.owner = null;
+        }
+      }
+    }
+  }
+}
+
+class BattleshipBoardCell {
+  final BattleshipBoard board;
+  final int row;
+  final int column;
+  BattleshipShip? owner;
+
+  BattleshipBoardCell(this.board, this.row, this.column);
+
+  Vector2 get center =>
+      board.topLeftPosition +
+      Vector2(
+        board.cellWidth * (column + 0.5),
+        board.cellHeight * (row + 0.5),
+      );
+
+  bool isAvailableFor(BattleshipShip ship) {
+    if (owner != null) {
+      return false;
+    }
+    if (ship.isVertical) {
+      if (row + ship.cellSpan > board.gridRows) {
+        return false;
+      }
+      for (int i = 0; i < ship.cellSpan; i++) {
+        if (board.cellAt(row + i, column).owner != null) {
+          return false;
+        }
+      }
+    } else {
+      if (column + ship.cellSpan > board.gridColumns) {
+        return false;
+      }
+      for (int i = 0; i < ship.cellSpan; i++) {
+        if (board.cellAt(row, column + i).owner != null) {
+          return false;
+        }
+      }
+    }
+    return true;
   }
 }

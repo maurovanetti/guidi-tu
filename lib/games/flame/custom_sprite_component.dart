@@ -8,7 +8,7 @@ import 'package:flutter/material.dart' hide Draggable;
 class CustomSpriteComponent<T extends Game> extends SpriteComponent
     with HasGameReference<T> {
   // The light direction affects the shadow and is the same for all sprites
-  static Vector2 _lightDirection = Vector2(2.0, 2.0).normalized();
+  static Vector2 _lightDirection = Vector2(-1.0, 2.0).normalized();
   static Vector2 get lightDirection => _lightDirection;
   static set lightDirection(Vector2 value) =>
       _lightDirection = value.normalized();
@@ -101,6 +101,10 @@ class DraggableCustomSpriteComponent<T extends Game>
   Vector2 _deltaPositionWhileDragged = Vector2.zero();
   late SnapRule? snapRule;
 
+  bool Function()? onSnap; // If false, the snap is forbidden
+  void Function()? onFallbackSnap;
+  bool Function()? onUnsnap; // If false, the snap is locked
+
   DraggableCustomSpriteComponent(String assetPath, Vector2 position,
       {bool hasShadow = true,
       double elevation = 10.0,
@@ -117,8 +121,13 @@ class DraggableCustomSpriteComponent<T extends Game>
 
   @override
   bool onDragStart(DragStartInfo info) {
-    elevation += extraElevationWhileDragged; // The position is updated in super
-    _deltaPositionWhileDragged = info.eventPosition.game - position;
+    if (onUnsnap?.call() ?? true) {
+      elevation +=
+          extraElevationWhileDragged; // The position is updated in super
+      _deltaPositionWhileDragged = info.eventPosition.game - position;
+    } else {
+      debugPrint('Dragging is forbidden because component is snap-locked');
+    }
     return false;
   }
 
@@ -135,6 +144,7 @@ class DraggableCustomSpriteComponent<T extends Game>
     // _deltaPositionWhileDragged becomes irrelevant
     elevation -= extraElevationWhileDragged; // The position is updated in super
 
+    bool regularSnapFound = false; // as opposed to fallback snap
     // Snaps to the closest spot
     if (snapRule != null) {
       final minSpotDistance = snapRule!.spots
@@ -142,8 +152,11 @@ class DraggableCustomSpriteComponent<T extends Game>
           .reduce((a, b) => a.length < b.length ? a : b);
       if (minSpotDistance.length < snapRule!.maxSnapDistance) {
         position += minSpotDistance;
-      } else {
+        regularSnapFound = (onSnap?.call() ?? true);
+      }
+      if (!regularSnapFound) {
         position = snapRule!.fallbackSpot;
+        onFallbackSnap?.call();
       }
     }
   }
