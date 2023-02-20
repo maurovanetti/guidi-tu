@@ -16,13 +16,13 @@ class BattleshipBoard extends PositionComponent {
 
   // This is the same information as _cells, but in a different format more
   // suitable for registering the player's moves.
-  final Map<BattleshipItem, BattleshipBoardCell> _placedItems = {};
+  final Map<BattleshipItem, BattleshipBoardCell> placedItems = {};
 
-  bool get isFull => _placedItems.length == itemsCount;
+  bool get isFull => placedItems.length == itemsCount;
 
   Vector2 get cellSize => Vector2(cellWidth, cellHeight);
 
-  List<void Function()> _listeners = [];
+  final List<void Function()> _listeners = [];
 
   final List<Offset> _leftNotches = [];
   final List<Offset> _rightNotches = [];
@@ -99,7 +99,7 @@ class BattleshipBoard extends PositionComponent {
           cellAt(cell.row, cell.column + i).owner = item;
         }
       }
-      _placedItems[item] = cell;
+      placedItems[item] = cell;
       _notifyListeners();
       return true;
     }
@@ -115,13 +115,13 @@ class BattleshipBoard extends PositionComponent {
         }
       }
     }
-    _placedItems.remove(item);
+    placedItems.remove(item);
     _notifyListeners();
   }
 
   Map<String, dynamic> toJson() {
     List<Map<String, dynamic>> itemsAsList = [];
-    for (var entry in _placedItems.entries) {
+    for (var entry in placedItems.entries) {
       var item = entry.key;
       var cell = entry.value;
       itemsAsList.add({

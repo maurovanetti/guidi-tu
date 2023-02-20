@@ -9,6 +9,8 @@ import 'battleship_board.dart';
 import 'battleship_ship.dart';
 
 class BattleshipModule extends FlameGame with HasDraggables {
+  late final BattleshipBoard board;
+
   final void Function(bool) setReady;
 
   BattleshipModule({required this.setReady});
@@ -22,7 +24,7 @@ class BattleshipModule extends FlameGame with HasDraggables {
     int gridRows = 5;
     double padding = size.x * 0.02;
     Rect grid = Rect.fromLTWH(padding, padding, size.x * 0.75, size.y * 0.75);
-    var board = BattleshipBoard(
+    board = BattleshipBoard(
       rect: grid,
       gridColumns: gridColumns,
       gridRows: gridRows,

@@ -4,6 +4,8 @@ import 'package:flutter/material.dart';
 import '/common/game_features.dart';
 import '/games/turn_play.dart';
 import '../common/turn_aware.dart';
+import 'flame/battleship_board.dart';
+import 'flame/battleship_item.dart';
 import 'flame/battleship_module.dart';
 import 'outcome_screen.dart';
 
@@ -21,7 +23,9 @@ class BattleshipState extends TurnPlayState<BattleshipMove> {
   bool get isReadyAtStart => false;
 
   @override
-  BattleshipMove get lastMove => BattleshipMove(time: elapsedSeconds);
+  BattleshipMove get lastMove =>
+      BattleshipMove(
+          time: elapsedSeconds, placedItems: _gameModule.board.placedItems);
 
   @override
   buildGameArea() => GameWidget(game: _gameModule);
@@ -55,7 +59,9 @@ class BattleshipOutcomeState extends OutcomeScreenState<BattleshipMove> {
 }
 
 class BattleshipMove extends Move {
-  BattleshipMove({required super.time});
+  final Map<BattleshipItem, BattleshipBoardCell> placedItems;
+
+  BattleshipMove({required super.time, required this.placedItems});
 
   @override
   int getPointsWith(Iterable<Move> allMoves) {
