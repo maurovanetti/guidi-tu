@@ -34,11 +34,10 @@ class BattleshipShip extends DraggableCustomSpriteComponent<BattleshipModule> {
     }
     snapRule =
         SnapRule(spots: [position]); // Snaps back to its initial position
-    onSnap = () {
-      board.placeShip(this);
-    };
+    onSnap = () => board.placeShip(this);
     onUnsnap = () {
       board.removeShip(this);
+      return true;
     };
   }
 }
