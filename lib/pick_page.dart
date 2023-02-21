@@ -144,6 +144,7 @@ class GameCard extends StatelessWidget {
         ? Theme.of(context).buttonTheme.colorScheme?.primaryContainer
         : null;
     Widget card = Card(
+      key: pickGameWidgetKey(name),
       color: background,
       child: Column(
         mainAxisSize: MainAxisSize.min,

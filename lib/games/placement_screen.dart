@@ -81,7 +81,10 @@ class PlacementCard extends StatelessWidget {
         subtitle: Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
-            Text(role, style: style),
+            // This Text can be quite long and putting it into an Expanded
+            // widget wraps it if necessary
+            Expanded(child: Text(role, style: style)),
+            // No need to expand the icons Row as long as it is so small
             Row(
               children: [
                 if (award.canDrink) const Icon(Icons.local_bar_rounded),

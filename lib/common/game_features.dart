@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:guidi_tu/common/widget_keys.dart';
 
 import '/games/large_shot.dart';
 import '/games/morra.dart';
@@ -64,7 +65,7 @@ Ma attenzione: chi sceglie il numero più alto, paga.""",
   icon: Icons.arrow_circle_up_rounded,
   minPlayers: 2,
   minSuggestedPlayers: 3,
-  playWidget: () => LargeShot(),
+  playWidget: () => LargeShot(key: largeShotWidgetKey),
   outcomeWidget: () => LargeShotOutcome(),
 );
 
@@ -79,7 +80,7 @@ Ma attenzione: chi sceglie il numero più basso, paga.""",
   icon: Icons.arrow_circle_down_rounded,
   minPlayers: 2,
   minSuggestedPlayers: 3,
-  playWidget: () => SmallShot(),
+  playWidget: () => SmallShot(key: smallShotWidgetKey),
   outcomeWidget: () => SmallShotOutcome(),
   lessIsMore: true,
 );
@@ -97,7 +98,7 @@ Ma attenzione: chi si avvicina di più, paga.""",
   icon: Icons.back_hand_rounded,
   minPlayers: 2,
   minSuggestedPlayers: 2,
-  playWidget: () => Morra(),
+  playWidget: () => Morra(key: morraWidgetKey),
   outcomeWidget: () => MorraOutcome(),
   lessIsMore: true, // meaning the difference between the sum and the guess
   formatPoints: (p) => '±$p',
@@ -118,7 +119,7 @@ Ma attenzione: chi fa più punti, paga.""",
   icon: Icons.sailing_rounded,
   minPlayers: 2,
   minSuggestedPlayers: 2,
-  playWidget: () => Battleship(),
+  playWidget: () => Battleship(key: battleshipWidgetKey),
   outcomeWidget: () => BattleshipOutcome(),
   formatPoints: (p) => '$p pt.',
   usesRigidGameArea: true,

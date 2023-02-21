@@ -61,13 +61,12 @@ abstract class TurnPlayState<T extends Move> extends GameSpecificState<TurnPlay>
       if (hasEveryonePlayed) {
         Navigation.replaceLast(
             context,
-                () =>
-                CompletionScreen(
+            () => CompletionScreen(
                   gameFeatures: widget.gameFeatures,
                 )).go();
       } else {
         Navigation.replaceLast(context,
-                () => TurnInterstitial(gameFeatures: widget.gameFeatures)).go();
+            () => TurnInterstitial(gameFeatures: widget.gameFeatures)).go();
       }
     }
   }
@@ -91,19 +90,20 @@ abstract class TurnPlayState<T extends Move> extends GameSpecificState<TurnPlay>
             PlayerTag(TurnAware.currentPlayer),
             const Gap(),
             Padding(
-                padding: const EdgeInsets.all(10.0),
-                child: AspectRatio(
-                  key: const Key("game-area"),
-                  aspectRatio: 1.0, // It's a square
-                  child: buildGameArea(),
-                )),
+              padding: const EdgeInsets.all(10.0),
+              child: AspectRatio(
+                key: gameAreaWidgetKey,
+                aspectRatio: 1.0, // It's a square
+                child: buildGameArea(),
+              ),
+            ),
             const Gap(),
             CustomButton(
               key: toNextTurnWidgetKey,
               text: "Ho finito!",
               onPressed: _ready ? _completeTurn : null,
             ),
-            Clock(_startTime),
+            Clock(_startTime, key: clockWidgetKey),
           ],
         ),
       ),
@@ -140,9 +140,7 @@ class ClockState extends State<Clock> {
 
   void _untilNextSecond() {
     int targetMicro = widget.startTime.microsecondsSinceEpoch;
-    int currentMicro = DateTime
-        .now()
-        .microsecondsSinceEpoch;
+    int currentMicro = DateTime.now().microsecondsSinceEpoch;
     int diffMicro = (targetMicro - currentMicro) % 1000000;
     _timer = Timer(Duration(microseconds: diffMicro), () {
       setState(() {
@@ -165,10 +163,7 @@ class ClockState extends State<Clock> {
   Widget build(BuildContext context) {
     return Center(
       child: Text('Tempo trascorso: ${_duration.inSeconds}"',
-          style: Theme
-              .of(context)
-              .textTheme
-              .headlineSmall),
+          style: Theme.of(context).textTheme.headlineSmall),
     );
   }
 }

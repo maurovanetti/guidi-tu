@@ -4,6 +4,7 @@ import 'fitted_text.dart';
 import 'gap.dart';
 import 'gender.dart';
 import 'score_aware.dart';
+import 'widget_keys.dart';
 
 class Player with Gendered {
   int id;
@@ -130,6 +131,7 @@ class PlayerButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Padding(
+      key: playerButtonWidgetKey(player),
       padding: const EdgeInsets.all(5.0),
       child: ElevatedButton(
         onPressed: onEdit,

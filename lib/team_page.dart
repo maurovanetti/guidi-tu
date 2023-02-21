@@ -122,6 +122,7 @@ class _TeamPageState extends State<TeamPage> with Gendered, TeamAware {
                   ..._buildNewPlayers(),
                   if (players.length < maxPlayers)
                     CustomButton(
+                        key: addPlayerWidgetKey,
                         important: false,
                         onPressed: _addNewPlayer,
                         text: "Aggiungi partecipante"),
@@ -193,12 +194,14 @@ class PlayerDialogState extends State<PlayerDialog> {
   @override
   Widget build(BuildContext context) {
     return AlertDialog(
+      key: editPlayerWidgetKey,
       title: const Text('Modifica partecipante'),
       content: SingleChildScrollView(
         child: Column(
           children: [
             // Edit name
             TextField(
+              key: editPlayerNameWidgetKey,
               controller: _nameController,
               decoration: const InputDecoration(counterText: 'max 5 lettere'),
               inputFormatters: [UpperCaseTextFormatter(5)],
@@ -209,6 +212,7 @@ class PlayerDialogState extends State<PlayerDialog> {
             const Gap(),
             // Edit gender
             ListTile(
+              key: setFemininePlayerWidgetKey,
               title: const Text('Chiamala «giocatrice»'),
               leading: Radio<Gender>(
                   value: female,
@@ -220,6 +224,7 @@ class PlayerDialogState extends State<PlayerDialog> {
                   }),
             ),
             ListTile(
+              key: setMasculinePlayerWidgetKey,
               title: const Text('Chiamalo «giocatore»'),
               leading: Radio<Gender>(
                   value: male,
@@ -235,9 +240,11 @@ class PlayerDialogState extends State<PlayerDialog> {
       ),
       actions: [
         TextButton(
+            key: cancelEditPlayerWidgetKey,
             onPressed: () => Navigator.of(context).pop(null),
             child: const Text('Annulla')),
         OutlinedButton(
+            key: submitEditPlayerWidgetKey,
             onPressed: _readyToConfirm
                 ? () => Navigator.of(context)
                     .pop(Player(_player.id, _nameController.text, _gender))

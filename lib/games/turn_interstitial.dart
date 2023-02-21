@@ -4,13 +4,13 @@ import '/common/bubble.dart';
 import '/common/custom_button.dart';
 import '/common/game_aware.dart';
 import '/common/gap.dart';
+import '/common/gender.dart';
 import '/common/navigation.dart';
 import '/common/player.dart';
 import '/common/team_aware.dart';
 import '/common/turn_aware.dart';
+import '/common/widget_keys.dart';
 import '/home_page.dart';
-import '../common/gender.dart';
-import '../common/widget_keys.dart';
 
 class TurnInterstitial extends GameSpecificStatefulWidget {
   const TurnInterstitial({super.key, required super.gameFeatures});
@@ -33,9 +33,16 @@ class TurnInterstitialState extends State<TurnInterstitial>
     showDialog(
         context: context,
         builder: (context) => AlertDialog(
+              key: hiddenPlayAlertWidgetKey,
               title: const Text("Gioca di nascosto"),
               content: const Text("Non mostrare la tua mossa agli altri."),
-              actions: [TextButton(onPressed: _play, child: const Text("OK"))],
+              actions: [
+                TextButton(
+                  key: acknowledgeHiddenPlayWidgetKey,
+                  onPressed: _play,
+                  child: const Text("OK"),
+                )
+              ],
             ));
   }
 
