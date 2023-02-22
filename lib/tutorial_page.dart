@@ -20,10 +20,10 @@ class _TutorialPageState extends TrackedState<TutorialPage> {
       appBar: AppBar(
         title: const Text('Come funziona?'),
       ),
-      body: Center(
+      body: const Center(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
-          children: const [
+          children: [
             Text("Spiegazione"),
           ],
         ),
