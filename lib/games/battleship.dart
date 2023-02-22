@@ -56,12 +56,14 @@ class BattleshipOutcomeState extends OutcomeScreenState<BattleshipMove> {
   initState() {
     super.initState();
     for (var playerIndex in TurnAware.turns) {
+      // ignore: unused_local_variable
       var player = players[playerIndex];
       // TODO
     }
   }
 
   @override
+  // ignore: unnecessary_overrides
   Widget buildOutcome() => super.buildOutcome(); // TODO
 }
 
