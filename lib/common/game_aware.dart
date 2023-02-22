@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 import 'game_features.dart';
+import 'tracked_state.dart';
 
 mixin GameAware {
   GameFeatures get gameFeatures;
@@ -13,7 +14,7 @@ abstract class GameSpecificStatefulWidget extends StatefulWidget {
 }
 
 abstract class GameSpecificState<T extends GameSpecificStatefulWidget>
-    extends State<T> {
+    extends TrackedState<T> {
   Widget buildPlaceHolder() {
     return Container(
       color: Colors.blue,

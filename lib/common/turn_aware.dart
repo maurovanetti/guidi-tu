@@ -51,3 +51,14 @@ abstract class Move {
   // Override according to the specific game rules
   int getPointsWith(Iterable<Move> allMoves);
 }
+
+abstract class MoveWithAttribution extends Move {
+  final Player player;
+
+  MoveWithAttribution({required this.player, required double time})
+      : super(time: time);
+
+  Iterable<T> otherMoves<T extends MoveWithAttribution>(
+          Iterable<Move> allMoves) =>
+      allMoves.cast<T>().where((move) => move.player != player);
+}

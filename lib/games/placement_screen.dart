@@ -7,8 +7,9 @@ import '/common/navigation.dart';
 import '/common/player.dart';
 import '/common/score_aware.dart';
 import '/common/team_aware.dart';
+import '/common/tracked_state.dart';
+import '/common/widget_keys.dart';
 import '/home_page.dart';
-import '../common/widget_keys.dart';
 
 class PlacementScreen extends StatefulWidget {
   const PlacementScreen({super.key});
@@ -17,7 +18,7 @@ class PlacementScreen extends StatefulWidget {
   PlacementScreenState createState() => PlacementScreenState();
 }
 
-class PlacementScreenState extends State<PlacementScreen>
+class PlacementScreenState extends TrackedState<PlacementScreen>
     with Gendered, TeamAware, ScoreAware {
   Future<void> _endGame() async {
     await ScoreAware.storeAwards();

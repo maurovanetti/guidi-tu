@@ -5,6 +5,7 @@ import 'common/custom_button.dart';
 import 'common/gap.dart';
 import 'common/navigation.dart';
 import 'common/score_aware.dart';
+import 'common/tracked_state.dart';
 import 'common/widget_keys.dart';
 import 'tutorial_page.dart';
 
@@ -15,7 +16,7 @@ class HomePage extends StatefulWidget {
   State<HomePage> createState() => _HomePageState();
 }
 
-class _HomePageState extends State<HomePage> with ScoreAware {
+class _HomePageState extends TrackedState<HomePage> with ScoreAware {
   bool _loading = true;
 
   DriverAndPayer? _driverAndPayer;

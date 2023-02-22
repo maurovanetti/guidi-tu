@@ -8,6 +8,7 @@ import '/common/gender.dart';
 import '/common/navigation.dart';
 import '/common/player.dart';
 import '/common/team_aware.dart';
+import '/common/tracked_state.dart';
 import '/common/turn_aware.dart';
 import '/common/widget_keys.dart';
 import '/home_page.dart';
@@ -19,7 +20,7 @@ class TurnInterstitial extends GameSpecificStatefulWidget {
   TurnInterstitialState createState() => TurnInterstitialState();
 }
 
-class TurnInterstitialState extends State<TurnInterstitial>
+class TurnInterstitialState extends TrackedState<TurnInterstitial>
     with Gendered, TeamAware, TurnAware {
   late Player player;
 

@@ -26,15 +26,12 @@ class Navigation {
     final route = MaterialPageRoute(builder: (_) => target());
     switch (mode) {
       case NavigationPushMode.push:
-        debugPrint("Navigation action (push)");
         Navigator.push(context, route);
         break;
       case NavigationPushMode.replaceLast:
-        debugPrint("Navigation action (replace last)");
         Navigator.pushReplacement(context, route);
         break;
       case NavigationPushMode.replaceAll:
-        debugPrint("Navigation action (replace all)");
         Navigator.pushAndRemoveUntil(context, route, (anyRoute) => false);
         break;
     }

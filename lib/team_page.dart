@@ -10,7 +10,8 @@ import '/common/gender.dart';
 import '/common/navigation.dart';
 import '/common/player.dart';
 import '/common/team_aware.dart';
-import 'common/widget_keys.dart';
+import '/common/tracked_state.dart';
+import '/common/widget_keys.dart';
 import 'pick_page.dart';
 
 const duplicatesWarning =
@@ -25,7 +26,7 @@ class TeamPage extends StatefulWidget {
   State<TeamPage> createState() => _TeamPageState();
 }
 
-class _TeamPageState extends State<TeamPage> with Gendered, TeamAware {
+class _TeamPageState extends TrackedState<TeamPage> with Gendered, TeamAware {
   bool _loading = true;
 
   @override

@@ -1,11 +1,9 @@
 import 'dart:math';
 
 import 'package:flame/components.dart';
-import 'package:guidi_tu/games/flame/battleship_item.dart';
 
 import 'battleship_board.dart';
-import 'battleship_module.dart';
-import 'custom_sprite_component.dart';
+import 'battleship_item.dart';
 
 class BattleshipShip extends BattleshipItem {
   BattleshipShip(
@@ -26,5 +24,20 @@ class BattleshipShip extends BattleshipItem {
       'cellSpan': cellSpan,
       'isVertical': isVertical,
     };
+  }
+
+  bool isHit({
+    required BattleshipBoardCell shipCell,
+    required BattleshipBoardCell bombCell,
+  }) {
+    if (isVertical) {
+      return bombCell.column == shipCell.column &&
+          bombCell.row >= shipCell.row &&
+          bombCell.row < shipCell.row + cellSpan;
+    } else {
+      return bombCell.row == shipCell.row &&
+          bombCell.column >= shipCell.column &&
+          bombCell.column < shipCell.column + cellSpan;
+    }
   }
 }

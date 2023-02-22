@@ -1,7 +1,6 @@
 import 'dart:math';
 
 import 'package:flutter/material.dart';
-import 'package:guidi_tu/common/widget_keys.dart';
 
 import '/common/custom_fab.dart';
 import '/common/game_features.dart';
@@ -9,7 +8,9 @@ import '/common/gender.dart';
 import '/common/navigation.dart';
 import '/common/score_aware.dart';
 import '/common/team_aware.dart';
+import '/common/tracked_state.dart';
 import '/common/turn_aware.dart';
+import '/common/widget_keys.dart';
 import '/games/turn_interstitial.dart';
 
 class PickPage extends StatefulWidget {
@@ -19,7 +20,7 @@ class PickPage extends StatefulWidget {
   State<PickPage> createState() => _PickPageState();
 }
 
-class _PickPageState extends State<PickPage>
+class _PickPageState extends TrackedState<PickPage>
     with Gendered, TeamAware, TurnAware, ScoreAware {
   int? _selectedGameIndex;
   late final int _playerCount;
@@ -47,8 +48,7 @@ class _PickPageState extends State<PickPage>
           description: gameFeatures.description,
           icon: gameFeatures.icon,
           onTap: select,
-          suggested:
-              _suggestedFor(gameFeatures.minPlayers, gameFeatures.maxPlayers),
+          suggested: _isSuggested(gameFeatures),
         );
         (gameCard.suggested ? suggestedCards : otherCards).add(gameCard);
       }
@@ -70,9 +70,9 @@ class _PickPageState extends State<PickPage>
     });
   }
 
-  bool _suggestedFor(int min, int max) {
-    return _playerCount >= min && _playerCount <= max;
-  }
+  bool _isSuggested(GameFeatures gameFeatures) =>
+      _playerCount >= gameFeatures.minSuggestedPlayers &&
+      _playerCount <= gameFeatures.maxSuggestedPlayers;
 
   Future<void> _startGame() async {
     await nextTurn();

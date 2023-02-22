@@ -24,9 +24,9 @@ mixin ScoreAware {
       }
       _cachedAwards.first.mustPay = true;
       _cachedAwards.last.mustDrive = true;
+      debugPrint(
+          "Awards: ${_cachedAwards.map((a) => a.player.name).join(", ")}");
     }
-    debugPrint("Awards: ${_cachedAwards.map((a) => a.player.name).join(", ")}");
-    debugPrint("Must Pay: ${_cachedAwards.first.mustPay}");
     return _cachedAwards;
   }
 
