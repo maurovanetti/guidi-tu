@@ -4,41 +4,48 @@ import 'player.dart';
 import 'team_aware.dart';
 
 mixin TurnAware<T extends Move> on TeamAware {
-  static List<int> turns = [];
-  static int currentTurn = -1;
-  static Player currentPlayer = NoPlayer();
-  static Map<Player, Move> moves = {};
+  static List<int> _turns = [];
+  static List<int> get turns => _turns;
+
+  static int _currentTurn = -1;
+
+  static Player _currentPlayer = NoPlayer();
+  static Player get currentPlayer => _currentPlayer;
+
+  static final Map<Player, Move> _moves = {};
 
   Future<bool> nextTurn() async {
-    currentTurn++;
-    if (currentTurn >= turns.length) {
-      currentPlayer = NoPlayer();
+    _currentTurn++;
+    if (_currentTurn >= turns.length) {
+      _currentPlayer = NoPlayer();
       debugPrint("All players have played");
+
       return false;
     }
-    currentPlayer = players[currentTurn];
+    _currentPlayer = players[_currentTurn];
     debugPrint("It's ${currentPlayer.name}'s turn");
+
     return true;
   }
 
   Future<void> resetTurn() async {
-    moves.clear();
+    _moves.clear();
     await retrieveTeam();
-    turns = List<int>.generate(players.length, (i) => i);
-    turns.shuffle();
-    currentTurn = -1;
-    currentPlayer = NoPlayer();
+    _turns = List<int>.generate(players.length, (i) => i);
+    _turns.shuffle();
+    _currentTurn = -1;
+    _currentPlayer = NoPlayer();
   }
 
   void recordMove(T move) {
-    moves[currentPlayer] = move;
+    _moves[_currentPlayer] = move;
   }
 
   T getMove(Player player) {
-    return moves[player] as T;
+    return _moves[player] as T;
   }
 
-  int getPoints(Player player) => getMove(player).getPointsWith(moves.values);
+  int getPoints(Player player) => getMove(player).getPointsWith(_moves.values);
 
   double getTime(Player player) => getMove(player).time;
 }

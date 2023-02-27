@@ -20,6 +20,8 @@ abstract class OutcomeScreen extends GameSpecificStatefulWidget {
 abstract class OutcomeScreenState<T extends Move>
     extends GameSpecificState<OutcomeScreen>
     with Gendered, TeamAware, ScoreAware, TurnAware<T> {
+  late final Widget outcomeWidget;
+
   void _revealPlacement() {
     for (var player in players) {
       var score = Score(
@@ -39,8 +41,26 @@ abstract class OutcomeScreenState<T extends Move>
     }
   }
 
+  @override
+  void didChangeDependencies() {
+    initOutcome();
+    super.didChangeDependencies();
+  }
+
   // Override this to tailor the outcome screen
-  Widget buildOutcome() => buildPlaceHolder();
+  void initOutcome() {
+    debugPrint("Please implement initOutcome() in $runtimeType");
+    // Just a placeholder
+    outcomeWidget = Container(
+      color: Colors.blue,
+      child: Center(
+        child: Text(
+          widget.gameFeatures.name,
+          style: const TextStyle(fontSize: 48),
+        ),
+      ),
+    );
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -48,7 +68,7 @@ abstract class OutcomeScreenState<T extends Move>
       appBar: AppBar(
         title: const Text("Risultati"),
       ),
-      body: buildOutcome(),
+      body: outcomeWidget,
       floatingActionButton: CustomFloatingActionButton(
         key: toPlacementWidgetKey,
         tooltip: "Classifica",

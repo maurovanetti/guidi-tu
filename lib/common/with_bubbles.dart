@@ -1,11 +1,13 @@
+import 'dart:async';
 import 'dart:math';
 
 import 'package:flutter/material.dart';
 
-import '../main.dart';
+import '/main.dart';
 
 class WithBubbles extends StatelessWidget {
-  static bool enabled = true; // disabled in tests
+  static bool _enabled = true; // Disabled in tests.
+  set enabled(bool value) => _enabled = value;
 
   final Widget child;
   final int n;
@@ -13,12 +15,16 @@ class WithBubbles extends StatelessWidget {
 
   get square => false;
 
-  const WithBubbles(
-      {super.key, required this.child, this.n = 10, this.behind = false});
+  const WithBubbles({
+    super.key,
+    required this.child,
+    this.n = 10,
+    this.behind = false,
+  });
 
   @override
   Widget build(BuildContext context) {
-    if (!enabled) return child;
+    if (!_enabled) return child;
 
     return Stack(
       children: [
@@ -34,8 +40,12 @@ class WithSquares extends WithBubbles {
   @override
   get square => true;
 
-  const WithSquares(
-      {super.key, required super.child, super.n = 10, super.behind = true});
+  const WithSquares({
+    super.key,
+    required super.child,
+    super.n = 10,
+    super.behind = true,
+  });
 }
 
 class Bubble extends StatefulWidget {
@@ -52,6 +62,8 @@ class Bubble extends StatefulWidget {
 
 class BubbleState extends State<Bubble>
     with TickerProviderStateMixin, RouteAware {
+  static const maxAlpha = 50;
+
   late final AnimationController _floatingController = AnimationController(
     value: widget.phase,
     duration: const Duration(seconds: 10),
@@ -66,17 +78,22 @@ class BubbleState extends State<Bubble>
 
   @override
   void initState() {
-    _floatingController.repeat();
+    unawaited(_floatingController.repeat());
     _fadeIn();
     _fadingController.addListener(() {
       setState(() {
-        _alpha = (50 * _fadingController.value).toInt();
+        _alpha = (_fadingController.value * maxAlpha).toInt();
       });
     });
     WidgetsBinding.instance.addPostFrameCallback((_) {
       routeObserver.subscribe(this, ModalRoute.of(context)!);
     });
     super.initState();
+  }
+
+  void _fadeIn() {
+    _fadingController.reset();
+    unawaited(_fadingController.forward());
   }
 
   @override
@@ -99,11 +116,6 @@ class BubbleState extends State<Bubble>
     super.didPush();
   }
 
-  void _fadeIn() {
-    _fadingController.reset();
-    _fadingController.forward();
-  }
-
   @override
   Widget build(BuildContext context) {
     var screen = MediaQuery.of(context).size;
@@ -113,13 +125,16 @@ class BubbleState extends State<Bubble>
     return PositionedTransition(
       rect: RelativeRectTween(
         begin: RelativeRect.fromSize(
-            Rect.fromCircle(
-                center: Offset(randomX, screen.height + radius),
-                radius: radius),
-            screen),
+          Rect.fromCircle(
+            center: Offset(randomX, screen.height + radius),
+            radius: radius,
+          ),
+          screen,
+        ),
         end: RelativeRect.fromSize(
-            Rect.fromCircle(center: Offset(randomX, -radius), radius: radius),
-            screen),
+          Rect.fromCircle(center: Offset(randomX, -radius), radius: radius),
+          screen,
+        ),
       ).animate(_floatingController),
       child: IgnorePointer(
         child: Container(

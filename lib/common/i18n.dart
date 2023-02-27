@@ -1,5 +1,6 @@
 import 'package:intl/intl.dart';
 
-var locale = 'it_IT';
-
-var secondsFormat = NumberFormat('0.00', locale);
+class I18n {
+  static const locale = 'it_IT';
+  static final secondsFormat = NumberFormat('0.00', locale);
+}

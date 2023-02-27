@@ -1,14 +1,18 @@
+// This version of the app is in Italian only.
+// ignore_for_file: avoid-non-ascii-symbols
+
 import 'package:flutter/material.dart';
 
-import '/common/bubble.dart';
 import '/common/custom_fab.dart';
 import '/common/gender.dart';
 import '/common/navigation.dart';
 import '/common/player.dart';
 import '/common/score_aware.dart';
+import '/common/style_guide.dart';
 import '/common/team_aware.dart';
 import '/common/tracked_state.dart';
 import '/common/widget_keys.dart';
+import '/common/with_bubbles.dart';
 import '/home_page.dart';
 
 class PlacementScreen extends StatefulWidget {
@@ -20,6 +24,16 @@ class PlacementScreen extends StatefulWidget {
 
 class PlacementScreenState extends TrackedState<PlacementScreen>
     with Gendered, TeamAware, ScoreAware {
+  late final List<Widget> _placementCards;
+
+  @override
+  initState() {
+    super.initState();
+    _placementCards = ScoreAware.awards
+        .map((award) => PlacementCard(award))
+        .toList(growable: false);
+  }
+
   Future<void> _endGame() async {
     await ScoreAware.storeAwards();
     if (mounted) {
@@ -27,29 +41,28 @@ class PlacementScreenState extends TrackedState<PlacementScreen>
     }
   }
 
-  List<Widget> _buildPlacements() => ScoreAware.awards
-      .map((award) => PlacementCard(award))
-      .toList(growable: false);
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        appBar: AppBar(
-          title: const Text("Classifica"),
+      appBar: AppBar(
+        title: const Text("Classifica"),
+      ),
+      body: WithBubbles(
+        behind: true,
+        child: ListView(
+          padding: StyleGuide.regularPadding,
+          children: _placementCards,
         ),
-        body: WithBubbles(
-          behind: true,
-          child: ListView(
-            padding: const EdgeInsets.all(10.0),
-            children: _buildPlacements(),
-          ),
-        ),
-        floatingActionButton: CustomFloatingActionButton(
-          key: toHomeWidgetKey,
-          tooltip: "Fine",
-          icon: Icons.stop_rounded,
-          onPressed: _endGame,
-        ));
+      ),
+      floatingActionButton: CustomFloatingActionButton(
+        key: toHomeWidgetKey,
+        tooltip: "Fine",
+        icon: Icons.stop_rounded,
+        // On press, a short async computation is required
+        // ignore: avoid-passing-async-when-sync-expected
+        onPressed: _endGame,
+      ),
+    );
   }
 }
 
@@ -66,13 +79,17 @@ class PlacementCard extends StatelessWidget {
     var grammar = award.player.t;
     if (award.mustPay) {
       role = grammar(
-          "Generoso Benefattore Designato", "Generosa Benefattrice Designata");
+        "Generoso Benefattore Designato",
+        "Generosa Benefattrice Designata",
+      );
       style = style.copyWith(fontWeight: FontWeight.bold);
     } else if (award.canDrink) {
       role = grammar("Bevitore Autorizzato", "Bevitrice Autorizzata");
     } else {
-      role =
-          grammar("Guidatore Sobrio Designato", "Guidatrice Sobria Designata");
+      role = grammar(
+        "Guidatore Sobrio Designato",
+        "Guidatrice Sobria Designata",
+      );
       style = style.copyWith(fontWeight: FontWeight.bold);
     }
     debugPrint("Role: $role");

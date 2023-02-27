@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:guidi_tu/common/style_guide.dart';
 
 import 'fitted_text.dart';
 import 'gap.dart';
@@ -10,21 +11,8 @@ class Player with Gendered {
   int id;
   String name;
 
-  Player(this.id, this.name, gender) {
-    this.gender = gender;
-  }
-
-  Player.fromJson(this.id, Map<String, dynamic> json) : name = json['name'] {
-    gender = json['gender'] == male.letter ? male : female;
-  }
-
-  Map<String, dynamic> toJson() {
-    return {
-      'name': name,
-      'gender': gender.letter,
-    };
-  }
-
+  // TODO Replace with proper icons
+  // ignore_for_file: avoid-non-ascii-symbols
   static const _icons = [
     '🎹',
     '🎸',
@@ -34,8 +22,6 @@ class Player with Gendered {
     '🥁',
     '🎺',
   ];
-
-  String get icon => _icons[id % _icons.length];
 
   static final _foregroundColors = [
     Colors.purple.shade900,
@@ -60,13 +46,28 @@ class Player with Gendered {
 
   Color get foreground => _foregroundColors[id % _foregroundColors.length];
 
+  String get icon => _icons[id % _icons.length];
+
+  Player(this.id, this.name, gender) {
+    this.gender = gender;
+  }
+
+  Player.fromJson(this.id, Map<String, dynamic> json) : name = json['name'] {
+    gender = json['gender'] == male.letter ? male : female;
+  }
+
+  Map<String, dynamic> toJson() {
+    return {
+      'name': name,
+      'gender': gender.letter,
+    };
+  }
+
   @override
   String toString() => "$id:$name";
 }
 
 class NoPlayer extends Player {
-  NoPlayer() : super(0, '', neuter);
-
   @override
   get icon => '';
 
@@ -75,15 +76,23 @@ class NoPlayer extends Player {
 
   @override
   get foreground => Colors.transparent;
+
+  NoPlayer() : super(0, '', neuter);
 }
 
 class PlayerButton extends StatelessWidget {
+  static const _genderSymbolScale = 0.8;
+
   final Player player;
   final VoidCallback? onRemove;
   final VoidCallback? onEdit;
 
-  const PlayerButton(this.player,
-      {super.key, required this.onEdit, required this.onRemove});
+  const PlayerButton(
+    this.player, {
+    super.key,
+    required this.onEdit,
+    required this.onRemove,
+  });
 
   get textColor => player.foreground;
 
@@ -93,52 +102,81 @@ class PlayerButton extends StatelessWidget {
             fontWeight: FontWeight.bold,
           );
 
-  get buttonStyle => ElevatedButton.styleFrom(
-      backgroundColor: player.background,
-      shape: RoundedRectangleBorder(
-        borderRadius: BorderRadius.circular(10),
-      ));
-
-  Widget buildIcon(BuildContext context) {
-    return Text(player.icon, style: Theme.of(context).textTheme.headlineSmall);
-  }
-
-  Row buildContent(BuildContext context) {
+  @override
+  Widget build(BuildContext context) {
     var style = textStyle(context);
-    return Row(
-      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-      crossAxisAlignment: CrossAxisAlignment.center,
-      children: [
-        buildIcon(context),
-        Row(
-          children: [
-            Text(player.name.toUpperCase(), style: style),
-            const SizedBox(width: 10),
-            Text(
-              player.gender.symbol,
-              style: style.copyWith(fontSize: style.fontSize! * 0.8),
-            ),
-          ],
-        ),
-        IconButton(
-          icon: Icon(Icons.remove_circle, color: textColor),
-          onPressed: onRemove,
-        ),
-      ],
+    return PlayerButtonStructure(
+      player,
+      onEdit: onEdit,
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        crossAxisAlignment: CrossAxisAlignment.center,
+        children: [
+          _PlayerIcon(player),
+          Row(
+            children: [
+              Text(player.name.toUpperCase(), style: style),
+              const SizedBox(width: 10),
+              Text(
+                player.gender.symbol,
+                style: style.copyWith(
+                  fontSize: style.fontSize! * _genderSymbolScale,
+                ),
+              ),
+            ],
+          ),
+          IconButton(
+            icon: Icon(Icons.remove_circle, color: textColor),
+            onPressed: onRemove,
+          ),
+        ],
+      ),
     );
   }
+}
+
+class PlayerButtonStructure extends StatelessWidget {
+  final Player player;
+  final Widget child;
+  final VoidCallback? onEdit;
+
+  const PlayerButtonStructure(
+    this.player, {
+    required this.child,
+    this.onEdit,
+    super.key,
+  });
+
+  get buttonStyle => ElevatedButton.styleFrom(
+        backgroundColor: player.background,
+        shape: const RoundedRectangleBorder(
+          borderRadius:
+              BorderRadius.all(Radius.circular(StyleGuide.borderRadius)),
+        ),
+      );
 
   @override
   Widget build(BuildContext context) {
     return Padding(
       key: playerButtonWidgetKey(player),
-      padding: const EdgeInsets.all(5.0),
+      padding: StyleGuide.narrowPadding,
       child: ElevatedButton(
         onPressed: onEdit,
         style: buttonStyle,
-        child: buildContent(context),
+        child: child,
       ),
     );
+  }
+}
+
+class _PlayerIcon extends StatelessWidget {
+  final Player player;
+
+  const _PlayerIcon(this.player);
+
+  @override
+  Widget build(BuildContext context) {
+    return Text(player.icon, style: Theme.of(context).textTheme.headlineSmall);
   }
 }
 
@@ -147,69 +185,86 @@ class PlayerTag extends PlayerButton {
       : super(player, onEdit: () {}, onRemove: () {});
 
   @override
-  Row buildContent(BuildContext context) {
-    return Row(
-      mainAxisAlignment: MainAxisAlignment.center,
-      crossAxisAlignment: CrossAxisAlignment.center,
-      children: [
-        buildIcon(context),
-        const Gap(),
-        Text(player.name.toUpperCase(), style: textStyle(context)),
-      ],
+  Widget build(BuildContext context) {
+    return PlayerButtonStructure(
+      player,
+      onEdit: onEdit,
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.center,
+        crossAxisAlignment: CrossAxisAlignment.center,
+        children: [
+          _PlayerIcon(player),
+          const Gap(),
+          Text(player.name.toUpperCase(), style: textStyle(context)),
+        ],
+      ),
     );
   }
 }
 
 class PlayerPerformance extends PlayerButton {
+  static const _secondaryTextScale = 0.7;
+
   final String primaryText;
   final String secondaryText;
 
-  PlayerPerformance(Player player,
-      {required this.primaryText, this.secondaryText = '', super.key})
-      : super(player, onEdit: () {}, onRemove: () {});
+  PlayerPerformance(
+    Player player, {
+    required this.primaryText,
+    this.secondaryText = '',
+    super.key,
+  }) : super(player, onEdit: () {}, onRemove: () {});
 
   @override
-  Row buildContent(BuildContext context) {
+  Widget build(BuildContext context) {
     var style = textStyle(context);
     var horizontalGap = const Spacer(flex: 1);
-    return Row(
-      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-      crossAxisAlignment: CrossAxisAlignment.center,
-      children: [
-        Expanded(
-          flex: 2,
-          child: buildIcon(context),
-        ),
-        horizontalGap,
-        Expanded(
-          flex: 8,
-          child: FittedText(player.name.toUpperCase(), style: style),
-        ),
-        horizontalGap,
-        Expanded(
-          flex: 4,
-          child: FittedText(primaryText, style: style),
-        ),
-        if (secondaryText.isNotEmpty) horizontalGap,
-        if (secondaryText.isNotEmpty)
+    return PlayerButtonStructure(
+      player,
+      onEdit: onEdit,
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        crossAxisAlignment: CrossAxisAlignment.center,
+        children: [
+          Expanded(
+            flex: 2,
+            child: _PlayerIcon(player),
+          ),
+          horizontalGap,
+          Expanded(
+            flex: 8,
+            child: FittedText(player.name.toUpperCase(), style: style),
+          ),
+          horizontalGap,
           Expanded(
             flex: 4,
-            child: FittedText(
-              secondaryText,
-              style: style.copyWith(fontSize: style.fontSize! * 0.7),
-            ),
+            child: FittedText(primaryText, style: style),
           ),
-      ],
+          if (secondaryText.isNotEmpty) horizontalGap,
+          if (secondaryText.isNotEmpty)
+            Expanded(
+              flex: 4,
+              child: FittedText(
+                secondaryText,
+                style: style.copyWith(
+                  fontSize: style.fontSize! * _secondaryTextScale,
+                ),
+              ),
+            ),
+        ],
+      ),
     );
   }
 }
 
 class PlayerPlacement extends PlayerPerformance {
   PlayerPlacement(Award award, {super.key})
-      : super(award.player,
-            primaryText: award.score.pointsMatter
-                ? award.score.formattedPoints
-                : award.score.formattedTime,
-            secondaryText:
-                award.score.pointsMatter ? award.score.formattedTime : '');
+      : super(
+          award.player,
+          primaryText: award.score.pointsMatter
+              ? award.score.formattedPoints
+              : award.score.formattedTime,
+          secondaryText:
+              award.score.pointsMatter ? award.score.formattedTime : '',
+        );
 }

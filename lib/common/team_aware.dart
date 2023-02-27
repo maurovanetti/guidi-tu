@@ -41,6 +41,6 @@ mixin TeamAware on Gendered {
   Future<void> storeTeam() async {
     var prefs = await SharedPreferences.getInstance();
     var team = players.map((player) => jsonEncode(player.toJson()));
-    await prefs.setStringList(playersKey, team.toList());
+    assert(await prefs.setStringList(playersKey, team.toList()));
   }
 }

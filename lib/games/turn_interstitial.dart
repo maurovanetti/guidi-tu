@@ -1,16 +1,17 @@
 import 'package:flutter/material.dart';
 
-import '/common/bubble.dart';
 import '/common/custom_button.dart';
 import '/common/game_aware.dart';
 import '/common/gap.dart';
 import '/common/gender.dart';
 import '/common/navigation.dart';
 import '/common/player.dart';
+import '/common/style_guide.dart';
 import '/common/team_aware.dart';
 import '/common/tracked_state.dart';
 import '/common/turn_aware.dart';
 import '/common/widget_keys.dart';
+import '/common/with_bubbles.dart';
 import '/home_page.dart';
 
 class TurnInterstitial extends GameSpecificStatefulWidget {
@@ -31,20 +32,21 @@ class TurnInterstitialState extends TrackedState<TurnInterstitial>
   }
 
   void _showSecretPlayAlert() {
-    showDialog(
-        context: context,
-        builder: (context) => AlertDialog(
-              key: hiddenPlayAlertWidgetKey,
-              title: const Text("Gioca di nascosto"),
-              content: const Text("Non mostrare la tua mossa agli altri."),
-              actions: [
-                TextButton(
-                  key: acknowledgeHiddenPlayWidgetKey,
-                  onPressed: _play,
-                  child: const Text("OK"),
-                )
-              ],
-            ));
+    showDialog<void>(
+      context: context,
+      builder: (context) => AlertDialog(
+        key: hiddenPlayAlertWidgetKey,
+        title: const Text("Gioca di nascosto"),
+        content: const Text("Non mostrare la tua mossa agli altri."),
+        actions: [
+          TextButton(
+            key: acknowledgeHiddenPlayWidgetKey,
+            onPressed: _play,
+            child: const Text("OK"),
+          ),
+        ],
+      ),
+    );
   }
 
   void _play() {
@@ -53,6 +55,8 @@ class TurnInterstitialState extends TrackedState<TurnInterstitial>
 
   @override
   Widget build(BuildContext context) {
+    var textTheme = Theme.of(context).textTheme;
+
     return Scaffold(
       appBar: AppBar(
         title: Text(widget.gameFeatures.name),
@@ -88,22 +92,28 @@ class TurnInterstitialState extends TrackedState<TurnInterstitial>
           child: ListView(
             shrinkWrap: true,
             children: [
-              Text("Tocca a",
-                  textAlign: TextAlign.center,
-                  style: Theme.of(context).textTheme.headlineLarge),
+              Text(
+                "Tocca a",
+                textAlign: TextAlign.center,
+                style: textTheme.headlineLarge,
+              ),
               PlayerTag(player),
               const Gap(),
               Padding(
-                padding: const EdgeInsets.all(20),
+                padding: StyleGuide.widePadding,
                 child: Column(
                   children: [
-                    Text(widget.gameFeatures.description,
-                        textAlign: TextAlign.center,
-                        style: Theme.of(context).textTheme.headlineLarge),
+                    Text(
+                      widget.gameFeatures.description,
+                      textAlign: TextAlign.center,
+                      style: textTheme.headlineLarge,
+                    ),
                     const Gap(),
-                    Text(widget.gameFeatures.explanation,
-                        textAlign: TextAlign.center,
-                        style: Theme.of(context).textTheme.titleLarge),
+                    Text(
+                      widget.gameFeatures.explanation,
+                      textAlign: TextAlign.center,
+                      style: textTheme.titleLarge,
+                    ),
                     const Gap(),
                     const Text(
                         textAlign: TextAlign.center,

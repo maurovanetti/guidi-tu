@@ -4,13 +4,13 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'i18n.dart';
 import 'player.dart';
 
-const String payerKey = 'payer';
-const String driverKey = 'driver';
-const String awardsTimeKey = 'awardsTime';
-const Duration awardsExpirationTime = Duration(hours: 20);
-
 mixin ScoreAware {
-  static Map<Player, Score> scores = {};
+  static const String payerKey = 'payer';
+  static const String driverKey = 'driver';
+  static const String awardsTimeKey = 'awardsTime';
+  static const Duration awardsExpirationTime = Duration(hours: 20);
+
+  static final Map<Player, Score> scores = {};
   static final List<Award> _cachedAwards = [];
   static List<Award> get awards {
     if (_cachedAwards.isEmpty) {
@@ -31,10 +31,11 @@ mixin ScoreAware {
   }
 
   static void recordScore(Player player, Score score) {
+    const tieBreakerDeltaTime = 0.01;
     for (var otherScore in scores.values) {
       if (score.compareTo(otherScore) == 0) {
         // This is to prevent the very unlikely case of exactly identical scores
-        score.time += 0.01;
+        score.time += tieBreakerDeltaTime;
       }
     }
     scores[player] = score;
@@ -42,7 +43,7 @@ mixin ScoreAware {
   }
 
   static void resetScores() {
-    scores = {};
+    scores.clear();
     _cachedAwards.clear(); // Invalidates cache
   }
 
@@ -50,9 +51,10 @@ mixin ScoreAware {
     var prefs = await SharedPreferences.getInstance();
     var payer = awards.first.player;
     var driver = awards.last.player;
-    await prefs.setString(payerKey, payer.name);
-    await prefs.setString(driverKey, driver.name);
-    await prefs.setInt(awardsTimeKey, DateTime.now().millisecondsSinceEpoch);
+    var now = DateTime.now();
+    assert(await prefs.setString(payerKey, payer.name));
+    assert(await prefs.setString(driverKey, driver.name));
+    assert(await prefs.setInt(awardsTimeKey, now.millisecondsSinceEpoch));
     debugPrint("Stored awards: $payer must pay, $driver must drive");
   }
 
@@ -81,7 +83,7 @@ class Score extends Comparable<Score> {
   final String Function(int) formatPoints;
 
   String get formattedPoints => formatPoints(points);
-  String get formattedTime => '${secondsFormat.format(time)}"';
+  String get formattedTime => '${I18n.secondsFormat.format(time)}"';
 
   Score({
     required this.points,

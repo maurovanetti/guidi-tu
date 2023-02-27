@@ -17,6 +17,8 @@ class Morra extends TurnPlay {
 }
 
 class MorraState extends ShotState<MorraMove> {
+  static const handImageHeight = 150.0;
+
   int _fingers = 0;
 
   @override
@@ -39,6 +41,8 @@ class MorraState extends ShotState<MorraMove> {
 
   @override
   buildGameArea() {
+    var primaryColor = Theme.of(context).colorScheme.primary;
+
     return ListView(
       children: [
         Row(
@@ -53,17 +57,17 @@ class MorraState extends ShotState<MorraMove> {
                   ArrowButton(
                     icon: Icons.keyboard_arrow_up_rounded,
                     delta: 1,
-                    color: Theme.of(context).colorScheme.primary,
+                    color: primaryColor,
                     changeN: _changeFingers,
                     quickChangeNStart: (_) {},
                     quickChangeNEnd: () {},
                     enabled: _fingers < 5,
                   ),
-                  HandImage(_fingers, height: 150),
+                  HandImage(_fingers, height: handImageHeight),
                   ArrowButton(
                     icon: Icons.keyboard_arrow_down_rounded,
                     delta: -1,
-                    color: Theme.of(context).colorScheme.primary,
+                    color: primaryColor,
                     changeN: _changeFingers,
                     quickChangeNStart: (_) {},
                     quickChangeNEnd: () {},
@@ -77,7 +81,7 @@ class MorraState extends ShotState<MorraMove> {
               flex: 1,
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
-                children: buildNumberControls(),
+                children: numberControls,
               ),
             ),
           ],
@@ -135,7 +139,6 @@ class MorraOutcomeState extends OutcomeScreenState<MorraMove> {
 
   @override
   initState() {
-    super.initState();
     for (var playerIndex in TurnAware.turns) {
       var player = players[playerIndex];
       _fingers.add(getMove(player).fingers);
@@ -146,39 +149,42 @@ class MorraOutcomeState extends OutcomeScreenState<MorraMove> {
         ),
       );
     }
+    super.initState();
   }
 
   @override
-  Widget buildOutcome() => ListView(
-        children: [
-          GridView.count(
-            crossAxisCount: 4,
-            shrinkWrap: true,
-            children: _fingers
-                .map((fingers) => HandImage(fingers, padding: _handsPadding))
-                .toList(),
+  void initOutcome() {
+    outcomeWidget = ListView(
+      children: [
+        GridView.count(
+          crossAxisCount: 4,
+          shrinkWrap: true,
+          children: _fingers
+              .map((fingers) => HandImage(fingers, padding: _handsPadding))
+              .toList(),
+        ),
+        Text.rich(
+          textAlign: TextAlign.center,
+          TextSpan(
+            children: [
+              TextSpan(
+                text: "Totale dita: ",
+                style: Theme.of(context).textTheme.headlineLarge,
+              ),
+              TextSpan(
+                text: _fingers.sum.toString(),
+                style: Theme.of(context).textTheme.headlineLarge?.copyWith(
+                      fontWeight: FontWeight.bold,
+                    ),
+              ),
+            ],
           ),
-          Text.rich(
-            textAlign: TextAlign.center,
-            TextSpan(
-              children: [
-                TextSpan(
-                  text: "Totale dita: ",
-                  style: Theme.of(context).textTheme.headlineLarge,
-                ),
-                TextSpan(
-                  text: _fingers.sum.toString(),
-                  style: Theme.of(context).textTheme.headlineLarge?.copyWith(
-                        fontWeight: FontWeight.bold,
-                      ),
-                ),
-              ],
-            ),
-          ),
-          const Gap(),
-          ..._playerPerformances,
-        ],
-      );
+        ),
+        const Gap(),
+        ..._playerPerformances,
+      ],
+    );
+  }
 }
 
 class MorraMove extends ShotMove {

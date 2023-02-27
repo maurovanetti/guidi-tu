@@ -27,3 +27,30 @@ linter:
 
 # Additional information about this file can be found at
 # https://dart.dev/guides/language/analysis-options
+
+# Dart Code Metrics
+# https://dcm.dev/docs/individuals/analyzer-plugin/
+analyzer:
+  plugins:
+    - dart_code_metrics
+# https://dcm.dev/docs/individuals/configuration/presets/
+dart_code_metrics:
+  extends:
+    - package:dart_code_metrics_presets/all.yaml
+  rules:
+    - arguments-ordering: false
+    - avoid-non-null-assertion: false
+    - avoid-late-keyword: false
+    - format-comment: false
+    - newline-before-return: false
+    - no-empty-block: false
+    - no-equal-arguments:
+        ignored-parameters:
+          - height
+          - width
+    - no-magic-number:
+        allowed: [-1, 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10]
+    - prefer-correct-identifier-length: false
+    - prefer-extracting-callbacks: false
+    - prefer-match-file-name: false
+    - prefer-single-widget-per-file: false

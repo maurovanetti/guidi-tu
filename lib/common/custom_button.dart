@@ -1,8 +1,10 @@
+import 'dart:async';
 import 'dart:math';
 
 import 'package:flutter/material.dart';
 
 import 'fitted_text.dart';
+import 'style_guide.dart';
 
 class CustomButton extends StatefulWidget {
   final VoidCallback? onPressed;
@@ -24,9 +26,15 @@ class CustomButton extends StatefulWidget {
 
 class CustomButtonState extends State<CustomButton>
     with SingleTickerProviderStateMixin {
+  static const _borderColorBlendFactor = 0.5; // primaryColor to onPrimaryColor
+
   late final AnimationController _controller;
-  late final Animation<double> _animation;
-  final _phases = <double>[];
+  late Animation<double> _animation;
+
+  late final Color primaryColor;
+  late final Color onPrimaryColor;
+  late final Color borderColor;
+  late final TextStyle? textStyle;
 
   @override
   void initState() {
@@ -36,8 +44,29 @@ class CustomButtonState extends State<CustomButton>
     );
     _animation = CurvedAnimation(parent: _controller, curve: Curves.linear);
     _controller.addListener(() => setState(() {}));
-    _controller.repeat();
+    unawaited(_controller.repeat());
     super.initState();
+  }
+
+  @override
+  void didChangeDependencies() {
+    var theme = Theme.of(context);
+    var colorScheme = theme.buttonTheme.colorScheme!;
+    primaryColor = colorScheme.primary;
+    onPrimaryColor = colorScheme.onPrimary;
+    if (widget.onPressed == null) {
+      borderColor = Colors.transparent;
+    } else if (widget.important) {
+      borderColor = onPrimaryColor;
+    } else {
+      borderColor =
+          Color.lerp(primaryColor, onPrimaryColor, _borderColorBlendFactor)!;
+    }
+    textStyle = theme.textTheme.headlineMedium?.copyWith(
+      color: widget.onPressed == null ? colorScheme.background : onPrimaryColor,
+      fontWeight: widget.important ? FontWeight.bold : FontWeight.normal,
+    );
+    super.didChangeDependencies();
   }
 
   @override
@@ -46,75 +75,81 @@ class CustomButtonState extends State<CustomButton>
     super.dispose();
   }
 
-  TextStyle? textStyle(BuildContext context) =>
-      Theme.of(context).textTheme.headlineMedium?.copyWith(
-          color: widget.onPressed == null
-              ? Theme.of(context).colorScheme.background
-              : Theme.of(context).colorScheme.onPrimary,
-          fontWeight: widget.important ? FontWeight.bold : FontWeight.normal);
-
-  TextStyle? funnyTextStyle(BuildContext context, double x) {
-    var boringStyle = textStyle(context);
-    return boringStyle?.copyWith(fontSize: x + boringStyle.fontSize!);
+  @override
+  Widget build(BuildContext context) {
+    return Padding(
+      padding: StyleGuide.regularPadding,
+      child: ElevatedButton(
+        onPressed: widget.onPressed,
+        style: ElevatedButton.styleFrom(
+          backgroundColor: primaryColor,
+          padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 20),
+          shape: RoundedRectangleBorder(
+            side: BorderSide(
+              color: borderColor,
+              width: widget.important
+                  ? StyleGuide.importantBorderWidth
+                  : StyleGuide.regularBorderWidth,
+              strokeAlign: BorderSide.strokeAlignCenter,
+            ),
+            borderRadius: const BorderRadius.all(
+              Radius.circular(StyleGuide.borderRadius),
+            ),
+          ),
+        ),
+        child: widget.funny
+            ? _FunnyLabel(
+                widget.text.characters,
+                animationValue: _animation.value,
+                boringStyle: textStyle,
+              )
+            : FittedText(
+                widget.text,
+                style: textStyle,
+              ),
+      ),
+    );
   }
+}
 
-  Widget _buildLabel(BuildContext context) {
-    if (!widget.funny) {
-      // Keeps it in one line
-      return FittedText(widget.text, style: textStyle(context)!);
-    }
+class _FunnyLabel extends StatelessWidget {
+  final Characters characters;
+  final double animationValue;
+  final _phases = <double>[];
+  final TextStyle? boringStyle;
+
+  _FunnyLabel(
+    this.characters, {
+    required this.animationValue,
+    required this.boringStyle,
+  });
+
+  TextStyle? funnyTextStyle(double x) =>
+      boringStyle?.copyWith(fontSize: x + boringStyle!.fontSize!);
+
+  @override
+  Widget build(BuildContext context) {
     var inlineSpans = <InlineSpan>[];
-    for (var i = 0; i < widget.text.characters.length; i++) {
-      var char = widget.text.characters.elementAt(i);
+    for (var i = 0; i < characters.length; i++) {
+      var char = characters.elementAt(i);
       double x;
       if (i == 0) {
         x = 1; // Prevents vertical oscillation
       } else {
         // This makes _phases robust enough to prevent exceptions when the text
         // changes while the animation is running.
+        var twoPi = pi * 2;
         while (_phases.length <= i) {
-          _phases.add(Random().nextDouble() * 2 * pi);
+          _phases.add(Random().nextDouble() * twoPi);
         }
-        x = sin(_phases[i] + 2 * pi * _animation.value);
+        x = sin(_phases[i] + twoPi * animationValue);
       }
-      inlineSpans.add(TextSpan(text: char, style: funnyTextStyle(context, x)));
+      inlineSpans.add(TextSpan(text: char, style: funnyTextStyle(x)));
     }
+
     return FittedBox(
       fit: BoxFit.scaleDown,
       child: RichText(text: TextSpan(children: inlineSpans)),
-    );
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    final primaryColor = Theme.of(context).buttonTheme.colorScheme!.primary;
-    final onPrimaryColor = Theme.of(context).buttonTheme.colorScheme!.onPrimary;
-    late final Color borderColor;
-    if (widget.onPressed == null) {
-      borderColor = Colors.transparent;
-    } else if (widget.important) {
-      borderColor = onPrimaryColor;
-    } else {
-      borderColor = Color.lerp(primaryColor, onPrimaryColor, 0.5)!;
-    }
-    return Padding(
-      padding: const EdgeInsets.all(10),
-      child: ElevatedButton(
-        onPressed: widget.onPressed,
-        style: ElevatedButton.styleFrom(
-          backgroundColor: Theme.of(context).buttonTheme.colorScheme!.primary,
-          padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
-          shape: RoundedRectangleBorder(
-            side: BorderSide(
-              color: borderColor,
-              strokeAlign: BorderSide.strokeAlignCenter,
-              width: widget.important ? 5 : 3,
-            ),
-            borderRadius: BorderRadius.circular(15),
-          ),
-        ),
-        child: _buildLabel(context),
-      ),
     );
   }
 }

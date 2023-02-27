@@ -12,6 +12,7 @@ import '/common/team_aware.dart';
 import '/common/turn_aware.dart';
 import '/common/widget_keys.dart';
 import '/games/turn_interstitial.dart';
+import '../common/style_guide.dart';
 import 'completion_screen.dart';
 
 abstract class TurnPlay extends GameSpecificStatefulWidget {
@@ -90,7 +91,7 @@ abstract class TurnPlayState<T extends Move> extends GameSpecificState<TurnPlay>
             PlayerTag(TurnAware.currentPlayer),
             const Gap(),
             Padding(
-              padding: const EdgeInsets.all(10.0),
+              padding: StyleGuide.regularPadding,
               child: AspectRatio(
                 key: gameAreaWidgetKey,
                 aspectRatio: 1.0, // It's a square

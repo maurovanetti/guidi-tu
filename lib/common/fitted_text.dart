@@ -2,9 +2,9 @@ import 'package:flutter/material.dart';
 
 class FittedText extends StatelessWidget {
   final String text;
-  final TextStyle style;
+  final TextStyle? style;
 
-  const FittedText(this.text, {super.key, required this.style});
+  const FittedText(this.text, {super.key, this.style});
 
   @override
   Widget build(BuildContext context) {

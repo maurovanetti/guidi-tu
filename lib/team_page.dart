@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
-import '/common/bubble.dart';
 import '/common/config.dart';
 import '/common/custom_button.dart';
 import '/common/custom_fab.dart';
@@ -12,6 +11,8 @@ import '/common/player.dart';
 import '/common/team_aware.dart';
 import '/common/tracked_state.dart';
 import '/common/widget_keys.dart';
+import '/common/with_bubbles.dart';
+import 'common/style_guide.dart';
 import 'pick_page.dart';
 
 const duplicatesWarning =
@@ -114,7 +115,7 @@ class _TeamPageState extends TrackedState<TeamPage> with Gendered, TeamAware {
       ),
       body: WithSquares(
         child: ListView(
-          padding: const EdgeInsets.all(30),
+          padding: StyleGuide.widePadding,
           children: _loading
               ? []
               : [

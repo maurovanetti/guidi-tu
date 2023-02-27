@@ -1,6 +1,7 @@
 // Some people don't follow the gender binary, but the current purpose for this
 // is to select the proper grammar gender in Italian, so we'll stick to the
 // binary for now. Localizations will improve from here.
+// ignore_for_file: avoid-non-ascii-symbols
 class Gender {
   final String letter;
   final String symbol;

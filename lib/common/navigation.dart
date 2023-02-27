@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 
 enum NavigationPushMode {
@@ -26,13 +28,14 @@ class Navigation {
     final route = MaterialPageRoute(builder: (_) => target());
     switch (mode) {
       case NavigationPushMode.push:
-        Navigator.push(context, route);
+        unawaited(Navigator.push(context, route));
         break;
       case NavigationPushMode.replaceLast:
-        Navigator.pushReplacement(context, route);
+        unawaited(Navigator.pushReplacement(context, route));
         break;
       case NavigationPushMode.replaceAll:
-        Navigator.pushAndRemoveUntil(context, route, (anyRoute) => false);
+        unawaited(
+            Navigator.pushAndRemoveUntil(context, route, (anyRoute) => false));
         break;
     }
   }

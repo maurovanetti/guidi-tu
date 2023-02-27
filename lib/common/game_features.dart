@@ -1,13 +1,19 @@
-import 'package:flutter/material.dart';
-import 'package:guidi_tu/common/widget_keys.dart';
+// We want to use the instances of game feature as globals.
+// ignore_for_file: prefer-static-class
 
+// This version of the app is in Italian only.
+// ignore_for_file: avoid-non-ascii-symbols
+
+import 'package:flutter/material.dart';
+
+import '/games/battleship.dart';
 import '/games/large_shot.dart';
 import '/games/morra.dart';
 import '/games/outcome_screen.dart';
 import '/games/small_shot.dart';
 import '/games/turn_play.dart';
-import '../games/battleship.dart';
 import 'config.dart' as config;
+import 'widget_keys.dart';
 
 class GameFeatures {
   final String name;
@@ -26,8 +32,6 @@ class GameFeatures {
   final bool pointsMatter;
   final String Function(int) formatPoints;
   final bool usesRigidGameArea;
-
-  static String dontFormat(i) => i.toString();
 
   GameFeatures({
     required this.name,
@@ -52,6 +56,8 @@ class GameFeatures {
     assert(minSuggestedPlayers <= this.maxSuggestedPlayers);
     assert(this.maxSuggestedPlayers <= config.maxPlayers);
   }
+
+  static String dontFormat(i) => i.toString();
 }
 
 final largeShot = GameFeatures(

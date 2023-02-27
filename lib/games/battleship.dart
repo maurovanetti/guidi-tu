@@ -35,13 +35,13 @@ class BattleshipState extends TurnPlayState<BattleshipMove> {
       );
 
   @override
-  buildGameArea() => GameWidget(game: _gameModule);
-
-  @override
   void initState() {
     _gameModule = BattleshipModule(setReady: setReady);
     super.initState();
   }
+
+  @override
+  buildGameArea() => GameWidget(game: _gameModule);
 }
 
 class BattleshipOutcome extends OutcomeScreen {
@@ -56,22 +56,21 @@ class BattleshipOutcomeState extends OutcomeScreenState<BattleshipMove> {
   initState() {
     super.initState();
     for (var playerIndex in TurnAware.turns) {
+      // TODO
       // ignore: unused_local_variable
       var player = players[playerIndex];
-      // TODO
     }
   }
-
-  @override
-  // ignore: unnecessary_overrides
-  Widget buildOutcome() => super.buildOutcome(); // TODO
 }
 
 class BattleshipMove extends MoveWithAttribution {
   final Map<BattleshipItem, BattleshipBoardCell> placedItems;
 
-  BattleshipMove(
-      {required super.player, required super.time, required this.placedItems});
+  BattleshipMove({
+    required super.player,
+    required super.time,
+    required this.placedItems,
+  });
 
   // Not using a getter here to indicate that the computation is expensive
   Map<BattleshipShip, BattleshipBoardCell> placedShips() {
@@ -91,14 +90,6 @@ class BattleshipMove extends MoveWithAttribution {
       pb[entry.key as BattleshipBomb] = entry.value;
     }
     return pb;
-  }
-
-  Map<BattleshipItem, BattleshipBoardCell> _otherPlacedItems(
-      Iterable<Move> allMoves) {
-    var rivalMoves = otherMoves<BattleshipMove>(allMoves);
-    var rivalPlacedItems =
-        Map.fromEntries(rivalMoves.expand((move) => move.placedItems.entries));
-    return rivalPlacedItems;
   }
 
   @override
@@ -121,6 +112,8 @@ class BattleshipMove extends MoveWithAttribution {
           break;
         }
       }
+      // Can remove none if no ship was hit.
+      // ignore: avoid-ignoring-return-values
       ownShips.remove(ownSunkenShip);
     }
     // Points for own ships saved must be counted after all sinking is done
@@ -152,5 +145,12 @@ class BattleshipMove extends MoveWithAttribution {
         " ${sunkensShipsCount * Battleship.sinkValue} points");
 
     return points;
+  }
+
+  Map<BattleshipItem, BattleshipBoardCell> _otherPlacedItems(
+    Iterable<Move> allMoves,
+  ) {
+    var rivalMoves = otherMoves<BattleshipMove>(allMoves);
+    return Map.fromEntries(rivalMoves.expand((m) => m.placedItems.entries));
   }
 }
