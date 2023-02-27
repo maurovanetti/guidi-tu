@@ -1,5 +1,5 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="net.coopalice.guiditu">
+    package="net.coopalice.guidi_tu">
    <application
         android:label="guidi_tu"
         android:name="${applicationName}"
