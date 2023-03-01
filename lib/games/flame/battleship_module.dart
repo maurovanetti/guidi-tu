@@ -23,6 +23,8 @@ class BattleshipModule extends FlameGame with HasDraggables {
     int gridColumns = 5;
     int gridRows = 5;
     double padding = size.x * 0.02;
+    // Same padding for left and top is not a mistake.
+    // ignore: no-equal-arguments
     Rect grid = Rect.fromLTWH(padding, padding, size.x * 0.75, size.y * 0.75);
     board = BattleshipBoard(
       rect: grid,

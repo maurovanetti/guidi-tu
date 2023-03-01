@@ -9,7 +9,7 @@ import '../test_utils.dart';
 void main() {
   TestWidgetsFlutterBinding.ensureInitialized();
 
-  setUp(() async {
+  setUp(() {
     // Bubbles can break tests using pumpAndSettle (they never settle), but it's
     // better in any case to avoid pumpAndSettle and use pumpForNavigation (a
     // custom extension) instead.

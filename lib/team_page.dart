@@ -35,9 +35,11 @@ class _TeamPageState extends TrackedState<TeamPage> with Gendered, TeamAware {
     super.initState();
     Future.delayed(Duration.zero, () async {
       await retrieveTeam();
-      setState(() {
-        _loading = false;
-      });
+      if (mounted) {
+        setState(() {
+          _loading = false;
+        });
+      }
     });
   }
 
@@ -45,11 +47,15 @@ class _TeamPageState extends TrackedState<TeamPage> with Gendered, TeamAware {
     var newPlayers = <PlayerButton>[];
     for (var player in players) {
       debugPrint("Player $player");
-      newPlayers.add(PlayerButton(player, onEdit: () {
-        _editPlayer(player);
-      }, onRemove: () {
-        _removePlayer(player);
-      }));
+      newPlayers.add(PlayerButton(
+        player,
+        onEdit: () {
+          _editPlayer(player);
+        },
+        onRemove: () {
+          _removePlayer(player);
+        },
+      ));
     }
     return newPlayers;
   }
@@ -57,9 +63,11 @@ class _TeamPageState extends TrackedState<TeamPage> with Gendered, TeamAware {
   void _editPlayer(Player player) async {
     debugPrint("Editing player $player");
     var editedPlayer = await showDialog<Player>(
-        context: context, builder: (context) => PlayerDialog(player));
+      context: context,
+      builder: (context) => PlayerDialog(player),
+    );
     debugPrint("Edited player $editedPlayer");
-    if (editedPlayer != null) {
+    if (editedPlayer != null && mounted) {
       setState(() {
         players[players.indexOf(player)] = editedPlayer;
       });
@@ -69,11 +77,9 @@ class _TeamPageState extends TrackedState<TeamPage> with Gendered, TeamAware {
   void _addNewPlayer() {
     debugPrint("Adding new player");
     Player newPlayer;
-    if (players.length % 2 == 0) {
-      newPlayer = Player(players.length, 'NUOVO', male);
-    } else {
-      newPlayer = Player(players.length, 'NUOVA', female);
-    }
+    newPlayer = players.length % 2 == 0
+        ? Player(players.length, 'NUOVO', male)
+        : Player(players.length, 'NUOVA', female);
     setState(() {
       players.add(newPlayer);
     });
@@ -217,41 +223,45 @@ class PlayerDialogState extends State<PlayerDialog> {
               key: setFemininePlayerWidgetKey,
               title: const Text('Chiamala «giocatrice»'),
               leading: Radio<Gender>(
-                  value: female,
-                  groupValue: _gender,
-                  onChanged: (value) {
-                    setState(() {
-                      _gender = value!;
-                    });
-                  }),
+                value: female,
+                groupValue: _gender,
+                onChanged: (value) {
+                  setState(() {
+                    _gender = value!;
+                  });
+                },
+              ),
             ),
             ListTile(
               key: setMasculinePlayerWidgetKey,
               title: const Text('Chiamalo «giocatore»'),
               leading: Radio<Gender>(
-                  value: male,
-                  groupValue: _gender,
-                  onChanged: (value) {
-                    setState(() {
-                      _gender = value!;
-                    });
-                  }),
-            )
+                value: male,
+                groupValue: _gender,
+                onChanged: (value) {
+                  setState(() {
+                    _gender = value!;
+                  });
+                },
+              ),
+            ),
           ],
         ),
       ),
       actions: [
         TextButton(
-            key: cancelEditPlayerWidgetKey,
-            onPressed: () => Navigator.of(context).pop(null),
-            child: const Text('Annulla')),
+          key: cancelEditPlayerWidgetKey,
+          onPressed: () => Navigator.of(context).pop(null),
+          child: const Text('Annulla'),
+        ),
         OutlinedButton(
-            key: submitEditPlayerWidgetKey,
-            onPressed: _readyToConfirm
-                ? () => Navigator.of(context)
-                    .pop(Player(_player.id, _nameController.text, _gender))
-                : null,
-            child: const Text('Conferma')),
+          key: submitEditPlayerWidgetKey,
+          onPressed: _readyToConfirm
+              ? () => Navigator.of(context)
+                  .pop(Player(_player.id, _nameController.text, _gender))
+              : null,
+          child: const Text('Conferma'),
+        ),
       ],
     );
   }
@@ -264,13 +274,16 @@ class UpperCaseTextFormatter extends TextInputFormatter {
 
   @override
   TextEditingValue formatEditUpdate(
-      TextEditingValue oldValue, TextEditingValue newValue) {
+    TextEditingValue oldValue,
+    TextEditingValue newValue,
+  ) {
     if (newValue.text.length > maxLength) {
       return oldValue;
     }
     return TextEditingValue(
-        text: newValue.text.toUpperCase(),
-        selection: newValue.selection,
-        composing: newValue.composing);
+      text: newValue.text.toUpperCase(),
+      selection: newValue.selection,
+      composing: newValue.composing,
+    );
   }
 }

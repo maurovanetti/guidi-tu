@@ -30,14 +30,12 @@ class BattleshipShip extends BattleshipItem {
     required BattleshipBoardCell shipCell,
     required BattleshipBoardCell bombCell,
   }) {
-    if (isVertical) {
-      return bombCell.column == shipCell.column &&
-          bombCell.row >= shipCell.row &&
-          bombCell.row < shipCell.row + cellSpan;
-    } else {
-      return bombCell.row == shipCell.row &&
-          bombCell.column >= shipCell.column &&
-          bombCell.column < shipCell.column + cellSpan;
-    }
+    return isVertical
+        ? bombCell.column == shipCell.column &&
+            bombCell.row >= shipCell.row &&
+            bombCell.row < shipCell.row + cellSpan
+        : bombCell.row == shipCell.row &&
+            bombCell.column >= shipCell.column &&
+            bombCell.column < shipCell.column + cellSpan;
   }
 }

@@ -108,12 +108,14 @@ class DraggableCustomSpriteComponent<T extends Game>
   void Function()? onFallbackSnap;
   bool Function()? onUnsnap; // If false, the snap is locked
 
-  DraggableCustomSpriteComponent(String assetPath, Vector2 position,
-      {bool hasShadow = true,
-      double elevation = 10.0,
-      Vector2? size,
-      Anchor? anchor})
-      : super(
+  DraggableCustomSpriteComponent(
+    String assetPath,
+    Vector2 position, {
+    bool hasShadow = true,
+    double elevation = 10.0,
+    Vector2? size,
+    Anchor? anchor,
+  }) : super(
           assetPath,
           position,
           hasShadow: hasShadow,
@@ -185,10 +187,11 @@ class SnapRule {
   double maxSnapDistance;
   late Vector2 fallbackSpot;
 
-  SnapRule(
-      {required this.spots,
-      this.maxSnapDistance = double.infinity,
-      Vector2? fallbackSpot}) {
+  SnapRule({
+    required this.spots,
+    this.maxSnapDistance = double.infinity,
+    Vector2? fallbackSpot,
+  }) {
     assert(spots.isNotEmpty || fallbackSpot != null,
         'At least one spot is required');
     this.fallbackSpot = fallbackSpot ?? spots.first;

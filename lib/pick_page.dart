@@ -137,12 +137,11 @@ class GameCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    var foreground = selected
-        ? Theme.of(context).buttonTheme.colorScheme?.onPrimaryContainer
-        : null;
-    var background = selected
-        ? Theme.of(context).buttonTheme.colorScheme?.primaryContainer
-        : null;
+    var theme = Theme.of(context);
+    var textTheme = theme.textTheme;
+    var buttonColorScheme = theme.buttonTheme.colorScheme;
+    var foreground = selected ? buttonColorScheme?.onPrimaryContainer : null;
+    var background = selected ? buttonColorScheme?.primaryContainer : null;
     Widget card = Card(
       key: pickGameWidgetKey(name),
       color: background,
@@ -153,15 +152,12 @@ class GameCard extends StatelessWidget {
             leading: Icon(icon, size: 50),
             title: Text(
               name,
-              style: Theme.of(context).textTheme.headlineMedium?.copyWith(
-                    color: foreground,
-                  ),
+              style: textTheme.headlineMedium?.copyWith(color: foreground),
             ),
-            subtitle: Text(description,
-                style: Theme.of(context)
-                    .textTheme
-                    .bodyLarge
-                    ?.copyWith(color: foreground)),
+            subtitle: Text(
+              description,
+              style: textTheme.bodyLarge?.copyWith(color: foreground),
+            ),
           ),
         ],
       ),

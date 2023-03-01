@@ -12,6 +12,7 @@ mixin ScoreAware {
 
   static final Map<Player, Score> scores = {};
   static final List<Award> _cachedAwards = [];
+
   static List<Award> get awards {
     if (_cachedAwards.isEmpty) {
       var playersScores = scores.entries.toList()
@@ -25,7 +26,8 @@ mixin ScoreAware {
       _cachedAwards.first.mustPay = true;
       _cachedAwards.last.mustDrive = true;
       debugPrint(
-          "Awards: ${_cachedAwards.map((a) => a.player.name).join(", ")}");
+        "Awards: ${_cachedAwards.map((a) => a.player.name).join(", ")}",
+      );
     }
     return _cachedAwards;
   }
@@ -70,7 +72,9 @@ mixin ScoreAware {
       return DriverAndPayer(null, null);
     }
     return DriverAndPayer(
-        prefs.getString(driverKey), prefs.getString(payerKey));
+      prefs.getString(driverKey),
+      prefs.getString(payerKey),
+    );
   }
 }
 
@@ -83,6 +87,7 @@ class Score extends Comparable<Score> {
   final String Function(int) formatPoints;
 
   String get formattedPoints => formatPoints(points);
+
   String get formattedTime => '${I18n.secondsFormat.format(time)}"';
 
   Score({
@@ -123,6 +128,7 @@ class Award {
   bool mustPay = false;
 
   bool get canDrink => !mustDrive;
+
   set canDrink(bool value) => mustDrive = !value;
 
   Award(this.player, this.score);

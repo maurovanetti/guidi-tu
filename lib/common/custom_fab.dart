@@ -20,11 +20,14 @@ class CustomFloatingActionButton extends StatelessWidget {
       tooltip: tooltip,
       onPressed: onPressed,
       shape: RoundedRectangleBorder(
-          side: BorderSide(
-              color: Theme.of(context).buttonTheme.colorScheme!.onPrimary,
-              width: StyleGuide.importantBorderWidth,
-              strokeAlign: BorderSide.strokeAlignCenter),
-          borderRadius: BorderRadius.circular(StyleGuide.borderRadius)),
+        side: BorderSide(
+          color: Theme.of(context).buttonTheme.colorScheme!.onPrimary,
+          width: StyleGuide.importantBorderWidth,
+          strokeAlign: BorderSide.strokeAlignCenter,
+        ),
+        borderRadius:
+            const BorderRadius.all(Radius.circular(StyleGuide.borderRadius)),
+      ),
       child: Icon(icon),
     );
   }

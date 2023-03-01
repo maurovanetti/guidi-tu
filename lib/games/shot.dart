@@ -22,6 +22,7 @@ class ShotState<T extends ShotMove> extends TurnPlayState<ShotMove>
   Timer? _longPressTimer;
 
   int n = 0;
+
   void changeN(int delta) => setState(() => n += delta);
 
   void longPressStart(int delta) {
@@ -283,6 +284,7 @@ class ShotOutcomeState extends OutcomeScreenState<ShotMove> {
         story = " ha assaltato il cielo";
       } else if (move.n < -100) {
         story = player.t(" è disceso negli inferi", " è discesa negli inferi");
+        // ignore: prefer-moving-to-variable
       } else if (move.n.abs() > 20) {
         story = player.t(" si è dato da fare", " si è data da fare");
       }
@@ -301,6 +303,7 @@ class ShotOutcomeState extends OutcomeScreenState<ShotMove> {
       }
       _playerStories[playerIndex] = story;
       _playerNicknames[playerIndex] =
+          // ignore: prefer-moving-to-variable
           smorfiaNapoletana[move.n.abs() % smorfiaNapoletana.length];
     }
   }

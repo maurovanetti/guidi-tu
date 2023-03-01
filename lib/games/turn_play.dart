@@ -28,6 +28,7 @@ abstract class TurnPlayState<T extends Move> extends GameSpecificState<TurnPlay>
 
   Duration get elapsed => DateTime.now().difference(_startTime);
 
+  // ignore: no-magic-number
   double get elapsedSeconds => elapsed.inMicroseconds * 1e-6;
 
   bool get isReadyAtStart => true;
@@ -49,22 +50,23 @@ abstract class TurnPlayState<T extends Move> extends GameSpecificState<TurnPlay>
     _ready = isReadyAtStart;
   }
 
-  Future<void> _recordTurn() async {
+  void _recordTurn() {
     recordMove(lastMove);
   }
 
   T get lastMove;
 
   void _completeTurn() async {
-    await _recordTurn();
+    _recordTurn();
     var hasEveryonePlayed = !await nextTurn();
     if (mounted) {
       if (hasEveryonePlayed) {
         Navigation.replaceLast(
-            context,
-            () => CompletionScreen(
-                  gameFeatures: widget.gameFeatures,
-                )).go();
+          context,
+          () => CompletionScreen(
+            gameFeatures: widget.gameFeatures,
+          ),
+        ).go();
       } else {
         Navigation.replaceLast(context,
             () => TurnInterstitial(gameFeatures: widget.gameFeatures)).go();

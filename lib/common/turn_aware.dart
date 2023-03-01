@@ -5,11 +5,13 @@ import 'team_aware.dart';
 
 mixin TurnAware<T extends Move> on TeamAware {
   static List<int> _turns = [];
+
   static List<int> get turns => _turns;
 
   static int _currentTurn = -1;
 
   static Player _currentPlayer = NoPlayer();
+
   static Player get currentPlayer => _currentPlayer;
 
   static final Map<Player, Move> _moves = {};
@@ -65,7 +67,6 @@ abstract class MoveWithAttribution extends Move {
   MoveWithAttribution({required this.player, required double time})
       : super(time: time);
 
-  Iterable<T> otherMoves<T extends MoveWithAttribution>(
-          Iterable<Move> allMoves) =>
-      allMoves.cast<T>().where((move) => move.player != player);
+  Iterable<T> otherMoves<T extends MoveWithAttribution>(Iterable<Move> all) =>
+      all.cast<T>().where((move) => move.player != player);
 }

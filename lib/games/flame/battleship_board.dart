@@ -12,15 +12,11 @@ class BattleshipBoard extends PositionComponent {
   late final double cellWidth;
   late final double cellHeight;
 
-  late List<List<BattleshipBoardCell>> _cells;
-
   // This is the same information as _cells, but in a different format more
   // suitable for registering the player's moves.
   final Map<BattleshipItem, BattleshipBoardCell> placedItems = {};
 
-  bool get isFull => placedItems.length == itemsCount;
-
-  Vector2 get cellSize => Vector2(cellWidth, cellHeight);
+  late final List<List<BattleshipBoardCell>> _cells;
 
   final List<void Function()> _listeners = [];
 
@@ -28,6 +24,15 @@ class BattleshipBoard extends PositionComponent {
   final List<Offset> _rightNotches = [];
   final List<Offset> _topNotches = [];
   final List<Offset> _bottomNotches = [];
+
+  bool get isFull => placedItems.length == itemsCount;
+
+  Vector2 get cellSize => Vector2(cellWidth, cellHeight);
+
+  Paint get paint => Paint()
+    ..color = Colors.blue.shade200
+    ..style = PaintingStyle.stroke
+    ..strokeWidth = 2.0;
 
   BattleshipBoard({
     required Rect rect,
@@ -57,16 +62,12 @@ class BattleshipBoard extends PositionComponent {
     );
   }
 
-  Paint get paint => Paint()
-    ..color = Colors.blue.shade200
-    ..style = PaintingStyle.stroke
-    ..strokeWidth = 2.0;
-
-  Iterable<Vector2> cellCenters(
-      {int leftmostColumnsSkipped = 0,
-      int topRowsSkipped = 0,
-      int rightmostColumnsSkipped = 0,
-      int bottomRowsSkipped = 0}) sync* {
+  Iterable<Vector2> cellCenters({
+    int leftmostColumnsSkipped = 0,
+    int topRowsSkipped = 0,
+    int rightmostColumnsSkipped = 0,
+    int bottomRowsSkipped = 0,
+  }) sync* {
     for (int row = topRowsSkipped; row < gridRows - bottomRowsSkipped; row++) {
       for (int column = leftmostColumnsSkipped;
           column < gridColumns - rightmostColumnsSkipped;
@@ -115,8 +116,9 @@ class BattleshipBoard extends PositionComponent {
         }
       }
     }
-    placedItems.remove(item);
-    _notifyListeners();
+    if (placedItems.remove(item) != null) {
+      _notifyListeners();
+    }
   }
 
   Map<String, dynamic> toJson() {
@@ -152,14 +154,14 @@ class BattleshipBoard extends PositionComponent {
     _listeners.add(notify);
   }
 
+  void clearListeners() {
+    _listeners.clear();
+  }
+
   void _notifyListeners() {
     for (var listener in _listeners) {
       listener();
     }
-  }
-
-  void clearListeners() {
-    _listeners.clear();
   }
 }
 
@@ -169,14 +171,14 @@ class BattleshipBoardCell {
   final int column;
   BattleshipItem? owner;
 
-  BattleshipBoardCell(this.board, this.row, this.column);
-
   Vector2 get center =>
       board.topLeftPosition +
       Vector2(
         board.cellWidth * (column + 0.5),
         board.cellHeight * (row + 0.5),
       );
+
+  BattleshipBoardCell(this.board, this.row, this.column);
 
   bool isAvailableFor(BattleshipItem item) {
     if (owner != null) {

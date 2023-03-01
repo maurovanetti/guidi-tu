@@ -41,7 +41,10 @@ class MorraState extends ShotState<MorraMove> {
 
   @override
   buildGameArea() {
-    var primaryColor = Theme.of(context).colorScheme.primary;
+    var primaryColor = Theme
+        .of(context)
+        .colorScheme
+        .primary;
 
     return ListView(
       children: [
@@ -117,9 +120,9 @@ class HandImage extends StatelessWidget {
     var padded = (padding == 0)
         ? raw
         : Padding(
-            padding: EdgeInsets.all(padding),
-            child: raw,
-          );
+      padding: EdgeInsets.all(padding),
+      child: raw,
+    );
     return padded;
   }
 }
@@ -169,13 +172,20 @@ class MorraOutcomeState extends OutcomeScreenState<MorraMove> {
             children: [
               TextSpan(
                 text: "Totale dita: ",
-                style: Theme.of(context).textTheme.headlineLarge,
+                style: Theme
+                    .of(context)
+                    .textTheme
+                    .headlineLarge,
               ),
               TextSpan(
                 text: _fingers.sum.toString(),
-                style: Theme.of(context).textTheme.headlineLarge?.copyWith(
-                      fontWeight: FontWeight.bold,
-                    ),
+                style: Theme
+                    .of(context)
+                    .textTheme
+                    .headlineLarge
+                    ?.copyWith(
+                  fontWeight: FontWeight.bold,
+                ),
               ),
             ],
           ),
@@ -188,12 +198,14 @@ class MorraOutcomeState extends OutcomeScreenState<MorraMove> {
 }
 
 class MorraMove extends ShotMove {
-  static countFingers(Iterable<MorraMove> moves) =>
-      moves.map((move) => move.fingers).sum;
-
   final int fingers;
 
   MorraMove({required super.time, required this.fingers, required super.n});
+
+  static countFingers(Iterable<MorraMove> moves) =>
+      moves
+          .map((move) => move.fingers)
+          .sum;
 
   @override
   int getPointsWith(Iterable<Move> allMoves) {

@@ -13,16 +13,28 @@ class Navigation {
   final NavigationPushMode mode;
   final Widget Function() target;
 
-  const Navigation._internal(this.context,
-      {this.mode = NavigationPushMode.push, required this.target});
+  const Navigation._internal(
+    this.context, {
+    this.mode = NavigationPushMode.push,
+    required this.target,
+  });
+
   const Navigation.push(BuildContext context, Widget Function() target)
       : this._internal(context, mode: NavigationPushMode.push, target: target);
+
   const Navigation.replaceLast(BuildContext context, Widget Function() target)
-      : this._internal(context,
-            mode: NavigationPushMode.replaceLast, target: target);
+      : this._internal(
+          context,
+          mode: NavigationPushMode.replaceLast,
+          target: target,
+        );
+
   const Navigation.replaceAll(BuildContext context, Widget Function() target)
-      : this._internal(context,
-            mode: NavigationPushMode.replaceAll, target: target);
+      : this._internal(
+          context,
+          mode: NavigationPushMode.replaceAll,
+          target: target,
+        );
 
   void go() {
     final route = MaterialPageRoute(builder: (_) => target());
@@ -35,7 +47,8 @@ class Navigation {
         break;
       case NavigationPushMode.replaceAll:
         unawaited(
-            Navigator.pushAndRemoveUntil(context, route, (anyRoute) => false));
+          Navigator.pushAndRemoveUntil(context, route, (anyRoute) => false),
+        );
         break;
     }
   }
