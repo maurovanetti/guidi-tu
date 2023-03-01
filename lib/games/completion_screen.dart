@@ -20,7 +20,7 @@ class CompletionScreen extends GameSpecificStatefulWidget {
 
 class CompletionScreenState extends GameSpecificState<CompletionScreen>
     with Gendered, TeamAware {
-  Future<void> _displayOutcome() async {
+  void _displayOutcome() {
     if (mounted) {
       Navigation.replaceAll(context, widget.gameFeatures.outcomeWidget).go();
     }
@@ -30,8 +30,11 @@ class CompletionScreenState extends GameSpecificState<CompletionScreen>
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text(t("Hanno giocato tutti", "Hanno giocato tutte",
-            "Ogni persona ha giocato")),
+        title: Text(t(
+          "Hanno giocato tutti",
+          "Hanno giocato tutte",
+          "Ogni persona ha giocato",
+        )),
       ),
       body: WithSquares(
         behind: true,
@@ -39,8 +42,10 @@ class CompletionScreenState extends GameSpecificState<CompletionScreen>
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              Text("I risultati finali sono pronti…",
-                  style: Theme.of(context).textTheme.headlineLarge),
+              Text(
+                "I risultati finali sono pronti…",
+                style: Theme.of(context).textTheme.headlineLarge,
+              ),
               const Gap(),
               CustomButton(
                 key: toOutcomeWidgetKey,

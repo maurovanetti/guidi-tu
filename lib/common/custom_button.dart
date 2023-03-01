@@ -30,6 +30,7 @@ class CustomButtonState extends State<CustomButton>
 
   late final AnimationController _controller;
   late Animation<double> _animation;
+  final _phases = <double>[];
 
   late final Color primaryColor;
   late final Color onPrimaryColor;
@@ -102,6 +103,7 @@ class CustomButtonState extends State<CustomButton>
                 widget.text.characters,
                 animationValue: _animation.value,
                 boringStyle: textStyle,
+                phases: _phases,
               )
             : FittedText(
                 widget.text,
@@ -115,13 +117,14 @@ class CustomButtonState extends State<CustomButton>
 class _FunnyLabel extends StatelessWidget {
   final Characters characters;
   final double animationValue;
-  final _phases = <double>[];
+  final List<double> phases;
   final TextStyle? boringStyle;
 
-  _FunnyLabel(
+  const _FunnyLabel(
     this.characters, {
     required this.animationValue,
     required this.boringStyle,
+    required this.phases,
   });
 
   TextStyle? funnyTextStyle(double x) =>
@@ -139,10 +142,10 @@ class _FunnyLabel extends StatelessWidget {
         // This makes _phases robust enough to prevent exceptions when the text
         // changes while the animation is running.
         var twoPi = pi * 2;
-        while (_phases.length <= i) {
-          _phases.add(Random().nextDouble() * twoPi);
+        while (phases.length <= i) {
+          phases.add(Random().nextDouble() * twoPi);
         }
-        x = sin(_phases[i] + twoPi * animationValue);
+        x = sin(phases[i] + twoPi * animationValue);
       }
       inlineSpans.add(TextSpan(text: char, style: funnyTextStyle(x)));
     }
