@@ -99,17 +99,19 @@ class _TeamPageState extends TrackedState<TeamPage> with Gendered, TeamAware {
   }
 
   void _showDuplicatesAlert() {
-    showDialog(
-        context: context,
-        builder: (context) => AlertDialog(
-              title: const Text("Nomi duplicati"),
-              content: const Text(duplicatesWarning),
-              actions: [
-                TextButton(
-                    onPressed: () => Navigator.of(context).pop(),
-                    child: const Text("OK"))
-              ],
-            ));
+    showDialog<void>(
+      context: context,
+      builder: (context) => AlertDialog(
+        title: const Text("Nomi duplicati"),
+        content: const Text(duplicatesWarning),
+        actions: [
+          TextButton(
+            onPressed: () => Navigator.of(context).pop(),
+            child: const Text("OK"),
+          ),
+        ],
+      ),
+    );
   }
 
   @override

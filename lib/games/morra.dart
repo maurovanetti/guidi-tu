@@ -27,10 +27,6 @@ class MorraState extends ShotState<MorraMove> {
     _fingers = 0;
   }
 
-  @override
-  MorraMove get lastMove =>
-      MorraMove(time: elapsedSeconds, fingers: _fingers, n: n);
-
   void _changeFingers(int delta) {
     int newFingers = _fingers + delta;
     if (newFingers >= 0 && newFingers <= 5) {
@@ -40,13 +36,13 @@ class MorraState extends ShotState<MorraMove> {
   }
 
   @override
-  buildGameArea() {
-    var primaryColor = Theme
-        .of(context)
-        .colorScheme
-        .primary;
+  MorraMove lastMove(time) => MorraMove(time: time, fingers: _fingers, n: n);
 
-    return ListView(
+  @override
+  Widget build(BuildContext context) {
+    debugPrint("Rebuilding Morra");
+    var primaryColor = Theme.of(context).colorScheme.primary;
+    var gameArea = ListView(
       children: [
         Row(
           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
@@ -91,6 +87,12 @@ class MorraState extends ShotState<MorraMove> {
         ),
       ],
     );
+
+    return GameAreaContainer(
+      gameArea,
+      gameFeatures: widget.gameFeatures,
+      onCompleteTurn: completeTurn,
+    );
   }
 }
 
@@ -117,13 +119,9 @@ class HandImage extends StatelessWidget {
       alignment: Alignment.topCenter,
       height: height,
     );
-    var padded = (padding == 0)
+    return (padding == 0)
         ? raw
-        : Padding(
-      padding: EdgeInsets.all(padding),
-      child: raw,
-    );
-    return padded;
+        : Padding(padding: EdgeInsets.all(padding), child: raw);
   }
 }
 
@@ -157,6 +155,7 @@ class MorraOutcomeState extends OutcomeScreenState<MorraMove> {
 
   @override
   void initOutcome() {
+    var textTheme = Theme.of(context).textTheme;
     outcomeWidget = ListView(
       children: [
         GridView.count(
@@ -172,18 +171,11 @@ class MorraOutcomeState extends OutcomeScreenState<MorraMove> {
             children: [
               TextSpan(
                 text: "Totale dita: ",
-                style: Theme
-                    .of(context)
-                    .textTheme
-                    .headlineLarge,
+                style: textTheme.headlineLarge,
               ),
               TextSpan(
                 text: _fingers.sum.toString(),
-                style: Theme
-                    .of(context)
-                    .textTheme
-                    .headlineLarge
-                    ?.copyWith(
+                style: textTheme.headlineLarge?.copyWith(
                   fontWeight: FontWeight.bold,
                 ),
               ),
@@ -203,9 +195,7 @@ class MorraMove extends ShotMove {
   MorraMove({required super.time, required this.fingers, required super.n});
 
   static countFingers(Iterable<MorraMove> moves) =>
-      moves
-          .map((move) => move.fingers)
-          .sum;
+      moves.map((move) => move.fingers).sum;
 
   @override
   int getPointsWith(Iterable<Move> allMoves) {

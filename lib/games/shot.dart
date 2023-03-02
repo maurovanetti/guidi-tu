@@ -8,13 +8,13 @@ import 'dart:async';
 import 'dart:math';
 
 import 'package:flutter/material.dart';
-import 'package:guidi_tu/common/player.dart';
-import 'package:guidi_tu/common/turn_aware.dart';
 
 import '/common/fitted_text.dart';
+import '/common/gap.dart';
+import '/common/player.dart';
 import '/common/snackbar.dart';
+import '/common/turn_aware.dart';
 import '/games/turn_play.dart';
-import '../common/gap.dart';
 import 'outcome_screen.dart';
 
 class ShotState<T extends ShotMove> extends TurnPlayState<ShotMove>
@@ -68,16 +68,22 @@ class ShotState<T extends ShotMove> extends TurnPlayState<ShotMove>
   }
 
   @override
-  ShotMove get lastMove => ShotMove(time: elapsedSeconds, n: n);
+  ShotMove lastMove(double time) => ShotMove(time: time, n: n);
 
   @override
-  buildGameArea() {
-    return Center(
+  Widget build(BuildContext context) {
+    var gameArea = Center(
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: numberControls,
       ),
+    );
+
+    return GameAreaContainer(
+      gameArea,
+      gameFeatures: widget.gameFeatures,
+      onCompleteTurn: completeTurn,
     );
   }
 }
@@ -122,9 +128,9 @@ class ArrowButton extends StatelessWidget {
 
 class _UpArrowButton extends ArrowButton {
   _UpArrowButton({
-    super.key,
-    super.enabled = true,
-    super.color,
+    super.key, // ignore: unused_element
+    super.enabled = true, // ignore: unused_element
+    super.color, // ignore: unused_element
     required ShotState shotState,
   }) : super(
           icon: Icons.keyboard_arrow_up_rounded,
@@ -137,9 +143,9 @@ class _UpArrowButton extends ArrowButton {
 
 class _DownArrowButton extends ArrowButton {
   _DownArrowButton({
-    super.key,
-    super.enabled = true,
-    super.color,
+    super.key, // ignore: unused_element
+    super.enabled = true, // ignore: unused_element
+    super.color, // ignore: unused_element
     required ShotState shotState,
   }) : super(
           icon: Icons.keyboard_arrow_down_rounded,

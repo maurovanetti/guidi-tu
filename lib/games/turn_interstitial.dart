@@ -1,3 +1,6 @@
+// This version of the app is in Italian only.
+// ignore_for_file: avoid-non-ascii-symbols
+
 import 'package:flutter/material.dart';
 
 import '/common/custom_button.dart';
@@ -64,25 +67,26 @@ class TurnInterstitialState extends TrackedState<TurnInterstitial>
           IconButton(
             icon: const Icon(Icons.cancel_rounded),
             onPressed: () => showDialog(
-                context: context,
-                builder: (context) => AlertDialog(
-                      title: const Text("Interruzione del gioco"),
-                      content:
-                          const Text("Vuoi davvero interrompere il gioco?\n"
-                              "Farai una figura da guastafeste!"),
-                      actions: [
-                        TextButton(
-                          onPressed: () => Navigator.of(context).pop(),
-                          child: const Text("Continua a giocare"),
-                        ),
-                        TextButton(
-                          onPressed: Navigation.replaceAll(
-                              context, () => const HomePage()).go,
-                          child: const Text("Ferma tutto"),
-                        )
-                      ],
-                    )),
-          )
+              context: context,
+              builder: (context) => AlertDialog(
+                title: const Text("Interruzione del gioco"),
+                content: const Text("Vuoi davvero interrompere il gioco?\n"
+                    "Farai una figura da guastafeste!"),
+                actions: [
+                  TextButton(
+                    onPressed: () => Navigator.of(context).pop(),
+                    child: const Text("Continua a giocare"),
+                  ),
+                  TextButton(
+                    onPressed:
+                        Navigation.replaceAll(context, () => const HomePage())
+                            .go,
+                    child: const Text("Ferma tutto"),
+                  ),
+                ],
+              ),
+            ),
+          ),
         ],
       ),
       body: WithBubbles(

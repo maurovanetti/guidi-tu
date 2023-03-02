@@ -1,18 +1,20 @@
 import 'dart:async';
+import 'dart:ui';
 
 import 'package:flutter/material.dart';
 
 import '/common/custom_button.dart';
 import '/common/game_aware.dart';
+import '/common/game_features.dart';
 import '/common/gap.dart';
 import '/common/gender.dart';
 import '/common/navigation.dart';
 import '/common/player.dart';
+import '/common/style_guide.dart';
 import '/common/team_aware.dart';
 import '/common/turn_aware.dart';
 import '/common/widget_keys.dart';
 import '/games/turn_interstitial.dart';
-import '../common/style_guide.dart';
 import 'completion_screen.dart';
 
 abstract class TurnPlay extends GameSpecificStatefulWidget {
@@ -24,40 +26,22 @@ abstract class TurnPlay extends GameSpecificStatefulWidget {
 
 abstract class TurnPlayState<T extends Move> extends GameSpecificState<TurnPlay>
     with Gendered, TeamAware, TurnAware {
-  late DateTime _startTime;
+  T lastMove(double time);
 
-  Duration get elapsed => DateTime.now().difference(_startTime);
-
-  // ignore: no-magic-number
-  double get elapsedSeconds => elapsed.inMicroseconds * 1e-6;
-
-  bool get isReadyAtStart => true;
-
-  late bool _ready;
+  bool ready = true; // Can be reset to false in initState() if needed.
 
   void setReady(bool ready) {
-    if (_ready != ready) {
+    if (this.ready != ready) {
+      debugPrint("Ready changed to $ready");
       setState(() {
-        _ready = ready;
+        this.ready = ready;
       });
     }
   }
 
-  @override
-  void initState() {
-    super.initState();
-    _startTime = DateTime.now();
-    _ready = isReadyAtStart;
-  }
-
-  void _recordTurn() {
-    recordMove(lastMove);
-  }
-
-  T get lastMove;
-
-  void _completeTurn() async {
-    _recordTurn();
+  Future<void> completeTurn(Duration duration) async {
+    // ignore: no-magic-number
+    recordMove(lastMove(duration.inMicroseconds / 1000000));
     var hasEveryonePlayed = !await nextTurn();
     if (mounted) {
       if (hasEveryonePlayed) {
@@ -68,17 +52,57 @@ abstract class TurnPlayState<T extends Move> extends GameSpecificState<TurnPlay>
           ),
         ).go();
       } else {
-        Navigation.replaceLast(context,
-            () => TurnInterstitial(gameFeatures: widget.gameFeatures)).go();
+        Navigation.replaceLast(
+          context,
+          () => TurnInterstitial(gameFeatures: widget.gameFeatures),
+        ).go();
       }
     }
   }
 
-  // Override this to build the game area
-  Widget buildGameArea() => buildPlaceHolder();
+  @override
+  Widget build(BuildContext context) {
+    return GameAreaContainer(
+      placeHolderWidget,
+      gameFeatures: widget.gameFeatures,
+      onCompleteTurn: completeTurn,
+      // ready can be passed here if the game can switch between ready and not.
+    );
+  }
+}
+
+class GameAreaContainer extends StatefulWidget {
+  final bool ready;
+  final Widget child;
+  final GameFeatures gameFeatures;
+  final FutureOr<void> Function(Duration) onCompleteTurn;
+
+  const GameAreaContainer(
+    this.child, {
+    super.key,
+    this.ready = true,
+    required this.gameFeatures,
+    required this.onCompleteTurn,
+  });
+
+  @override
+  createState() => GameAreaContainerState();
+}
+
+class GameAreaContainerState extends State<GameAreaContainer> {
+  late DateTime _startTime;
+
+  Duration get elapsed => DateTime.now().difference(_startTime);
+
+  @override
+  void initState() {
+    super.initState();
+    _startTime = DateTime.now();
+  }
 
   @override
   Widget build(BuildContext context) {
+    debugPrint("Rebuilding GameAreaContainer");
     return Scaffold(
       appBar: AppBar(
         title: Text(widget.gameFeatures.name),
@@ -97,14 +121,18 @@ abstract class TurnPlayState<T extends Move> extends GameSpecificState<TurnPlay>
               child: AspectRatio(
                 key: gameAreaWidgetKey,
                 aspectRatio: 1.0, // It's a square
-                child: buildGameArea(),
+                child: widget.child,
               ),
             ),
             const Gap(),
             CustomButton(
               key: toNextTurnWidgetKey,
               text: "Ho finito!",
-              onPressed: _ready ? _completeTurn : null,
+              onPressed: widget.ready
+                  ? () {
+                      widget.onCompleteTurn(elapsed);
+                    }
+                  : null,
             ),
             Clock(_startTime, key: clockWidgetKey),
           ],
@@ -165,8 +193,12 @@ class ClockState extends State<Clock> {
   @override
   Widget build(BuildContext context) {
     return Center(
-      child: Text('Tempo trascorso: ${_duration.inSeconds}"',
-          style: Theme.of(context).textTheme.headlineSmall),
+      child: Text(
+        'Tempo trascorso: ${_duration.inSeconds}"',
+        style: Theme.of(context).textTheme.headlineSmall?.copyWith(
+          fontFeatures: const [FontFeature.tabularFigures()],
+        ),
+      ),
     );
   }
 }

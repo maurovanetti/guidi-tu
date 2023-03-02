@@ -22,26 +22,32 @@ class Battleship extends TurnPlay {
 }
 
 class BattleshipState extends TurnPlayState<BattleshipMove> {
-  late BattleshipModule _gameModule;
-
-  @override
-  bool get isReadyAtStart => false;
-
-  @override
-  BattleshipMove get lastMove => BattleshipMove(
-        player: TurnAware.currentPlayer,
-        time: elapsedSeconds,
-        placedItems: _gameModule.board.placedItems,
-      );
+  late final BattleshipModule _gameModule;
 
   @override
   void initState() {
+    ready = false;
     _gameModule = BattleshipModule(setReady: setReady);
     super.initState();
   }
 
   @override
-  buildGameArea() => GameWidget(game: _gameModule);
+  BattleshipMove lastMove(double time) => BattleshipMove(
+        player: TurnAware.currentPlayer,
+        time: time,
+        placedItems: _gameModule.board.placedItems,
+      );
+
+  @override
+  Widget build(BuildContext context) {
+    debugPrint("Rebuilding Battleship");
+    return GameAreaContainer(
+      GameWidget(game: _gameModule),
+      ready: ready,
+      gameFeatures: widget.gameFeatures,
+      onCompleteTurn: completeTurn,
+    );
+  }
 }
 
 class BattleshipOutcome extends OutcomeScreen {

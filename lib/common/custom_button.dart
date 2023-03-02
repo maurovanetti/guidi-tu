@@ -32,11 +32,6 @@ class CustomButtonState extends State<CustomButton>
   late Animation<double> _animation;
   final _phases = <double>[];
 
-  late final Color primaryColor;
-  late final Color onPrimaryColor;
-  late final Color borderColor;
-  late final TextStyle? textStyle;
-
   @override
   void initState() {
     _controller = AnimationController(
@@ -50,11 +45,18 @@ class CustomButtonState extends State<CustomButton>
   }
 
   @override
-  void didChangeDependencies() {
+  void dispose() {
+    _controller.dispose();
+    super.dispose();
+  }
+
+  @override
+  Widget build(BuildContext context) {
     var theme = Theme.of(context);
     var colorScheme = theme.buttonTheme.colorScheme!;
-    primaryColor = colorScheme.primary;
-    onPrimaryColor = colorScheme.onPrimary;
+    var primaryColor = colorScheme.primary;
+    var onPrimaryColor = colorScheme.onPrimary;
+    Color borderColor;
     if (widget.onPressed == null) {
       borderColor = Colors.transparent;
     } else if (widget.important) {
@@ -63,21 +65,11 @@ class CustomButtonState extends State<CustomButton>
       borderColor =
           Color.lerp(primaryColor, onPrimaryColor, _borderColorBlendFactor)!;
     }
-    textStyle = theme.textTheme.headlineMedium?.copyWith(
+    var textStyle = theme.textTheme.headlineMedium?.copyWith(
       color: widget.onPressed == null ? colorScheme.background : onPrimaryColor,
       fontWeight: widget.important ? FontWeight.bold : FontWeight.normal,
     );
-    super.didChangeDependencies();
-  }
 
-  @override
-  void dispose() {
-    _controller.dispose();
-    super.dispose();
-  }
-
-  @override
-  Widget build(BuildContext context) {
     return Padding(
       padding: StyleGuide.regularPadding,
       child: ElevatedButton(

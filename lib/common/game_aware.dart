@@ -15,15 +15,13 @@ abstract class GameSpecificStatefulWidget extends StatefulWidget {
 
 abstract class GameSpecificState<T extends GameSpecificStatefulWidget>
     extends TrackedState<T> {
-  Widget buildPlaceHolder() {
-    return Container(
-      color: Colors.blue,
-      child: Center(
-        child: Text(
-          widget.gameFeatures.name,
-          style: const TextStyle(fontSize: 48),
-        ),
+  final placeHolderWidget = Container(
+    color: Colors.blue,
+    child: const Center(
+      child: Text(
+        "Not yet implemented",
+        style: TextStyle(fontSize: 48),
       ),
-    );
-  }
+    ),
+  );
 }

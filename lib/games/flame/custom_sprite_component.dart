@@ -7,39 +7,22 @@ import 'package:flutter/material.dart' hide Draggable;
 
 class CustomSpriteComponent<T extends Game> extends SpriteComponent
     with HasGameReference<T> {
-  // The light direction affects the shadow and is the same for all sprites
-  static Vector2 _lightDirection = Vector2(-1.0, 2.0).normalized();
-
-  static Vector2 get lightDirection => _lightDirection;
-
-  static set lightDirection(Vector2 value) =>
-      _lightDirection = value.normalized();
-
   // Using BasicPalette.black or .white here makes no difference, it's the
   // colorFilter that does the magic
   static final Paint shadowPaint = BasicPalette.black.withAlpha(50).paint()
     ..colorFilter = const ColorFilter.mode(Colors.black, BlendMode.srcATop);
-
   // Defining a default size for all sprites in a game can make sense for
   // tile-based games
-  static Vector2 defaultSpriteSize = Vector2.all(128.0);
-
+  static final Vector2 defaultSpriteSize = Vector2.all(128.0);
   final String assetPath;
   bool hasShadow;
 
+  // The light direction affects the shadow and is the same for all sprites
+  static Vector2 _lightDirection = Vector2(-1.0, 2.0).normalized();
   double _elevation = 0; // The actual default is 10.0, see constructor below
-  double get elevation => _elevation;
-
-  set elevation(value) {
-    // The shadow position must remain the same, so we need to update the
-    // position of the sprite in the opposite direction of the light
-    position -= lightDirection * (value - elevation);
-    _elevation = value;
-    _shadowOffset = null; // Invalidates the cached value
-  }
-
   Vector2? _cachedLightDirection;
   Vector2? _shadowOffset; // Works like a cache
+
   Vector2 get shadowOffset {
     if (_shadowOffset == null || _cachedLightDirection != lightDirection) {
       _cachedLightDirection = lightDirection;
@@ -51,13 +34,28 @@ class CustomSpriteComponent<T extends Game> extends SpriteComponent
     return _shadowOffset!;
   }
 
+  static Vector2 get lightDirection => _lightDirection;
+
+  double get elevation => _elevation;
+
+  Vector2 get groundLevelPosition => position + shadowOffset;
+
+  static set lightDirection(Vector2 value) =>
+      _lightDirection = value.normalized();
+
+  set elevation(value) {
+    // The shadow position must remain the same, so we need to update the
+    // position of the sprite in the opposite direction of the light
+    position -= lightDirection * (value - elevation);
+    _elevation = value;
+    _shadowOffset = null; // Invalidates the cached value
+  }
+
   @override
   set angle(double a) {
     _shadowOffset = null; // Invalidates the cached value
     super.angle = a;
   }
-
-  Vector2 get groundLevelPosition => position + shadowOffset;
 
   CustomSpriteComponent(
     this.assetPath,
