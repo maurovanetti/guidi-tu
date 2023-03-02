@@ -24,7 +24,7 @@ abstract class TurnPlay extends GameSpecificStatefulWidget {
   TurnPlayState createState();
 }
 
-abstract class TurnPlayState<T extends Move> extends GameSpecificState<TurnPlay>
+class TurnPlayState<T extends Move> extends GameSpecificState<TurnPlay>
     with Gendered, TeamAware, TurnAware {
   T lastMove(double time);
 
@@ -63,7 +63,6 @@ abstract class TurnPlayState<T extends Move> extends GameSpecificState<TurnPlay>
   @override
   Widget build(BuildContext context) {
     return GameAreaContainer(
-      placeHolderWidget,
       gameFeatures: widget.gameFeatures,
       onCompleteTurn: completeTurn,
       // ready can be passed here if the game can switch between ready and not.
@@ -73,12 +72,10 @@ abstract class TurnPlayState<T extends Move> extends GameSpecificState<TurnPlay>
 
 class GameAreaContainer extends StatefulWidget {
   final bool ready;
-  final Widget child;
   final GameFeatures gameFeatures;
   final FutureOr<void> Function(Duration) onCompleteTurn;
 
-  const GameAreaContainer(
-    this.child, {
+  const GameAreaContainer({
     super.key,
     this.ready = true,
     required this.gameFeatures,
@@ -121,7 +118,7 @@ class GameAreaContainerState extends State<GameAreaContainer> {
               child: AspectRatio(
                 key: gameAreaWidgetKey,
                 aspectRatio: 1.0, // It's a square
-                child: widget.child,
+                child: widget.gameFeatures.playWidget(),
               ),
             ),
             const Gap(),

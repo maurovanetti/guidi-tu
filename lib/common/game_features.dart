@@ -11,7 +11,7 @@ import '/games/large_shot.dart';
 import '/games/morra.dart';
 import '/games/outcome_screen.dart';
 import '/games/small_shot.dart';
-import '/games/turn_play.dart';
+import '../games/game_area.dart';
 import 'config.dart' as config;
 import 'widget_keys.dart';
 
@@ -25,7 +25,7 @@ class GameFeatures {
   final int maxPlayers;
   final int minSuggestedPlayers;
   final int maxSuggestedPlayers;
-  final TurnPlay Function() playWidget;
+  final GameArea Function() playWidget;
   final OutcomeScreen Function() outcomeWidget;
   final bool lessIsMore;
   final bool longerIsBetter;

@@ -1,5 +1,6 @@
 import 'package:flutter/foundation.dart';
 
+import 'move.dart';
 import 'player.dart';
 import 'team_aware.dart';
 
@@ -50,23 +51,4 @@ mixin TurnAware<T extends Move> on TeamAware {
   int getPoints(Player player) => getMove(player).getPointsWith(_moves.values);
 
   double getTime(Player player) => getMove(player).time;
-}
-
-abstract class Move {
-  final double time;
-
-  Move({required this.time});
-
-  // Override according to the specific game rules
-  int getPointsWith(Iterable<Move> allMoves);
-}
-
-abstract class MoveWithAttribution extends Move {
-  final Player player;
-
-  MoveWithAttribution({required this.player, required double time})
-      : super(time: time);
-
-  Iterable<T> otherMoves<T extends MoveWithAttribution>(Iterable<Move> all) =>
-      all.cast<T>().where((move) => move.player != player);
 }

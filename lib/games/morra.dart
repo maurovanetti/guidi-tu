@@ -80,7 +80,7 @@ class MorraState extends ShotState<MorraMove> {
               flex: 1,
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
-                children: numberControls,
+                children: [] // numberControls,
               ),
             ),
           ],

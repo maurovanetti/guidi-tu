@@ -15,10 +15,10 @@ import '/common/player.dart';
 import '/common/snackbar.dart';
 import '/common/turn_aware.dart';
 import '/games/turn_play.dart';
+import 'game_area.dart';
 import 'outcome_screen.dart';
 
-class ShotState<T extends ShotMove> extends TurnPlayState<ShotMove>
-    with QuickMessage {
+class ShotState<T extends ShotMove> extends GameAreaState<T> with QuickMessage {
   Timer? _longPressTimer;
 
   int n = 0;
@@ -36,10 +36,11 @@ class ShotState<T extends ShotMove> extends TurnPlayState<ShotMove>
     _longPressTimer?.cancel();
   }
 
-  late final List<Widget> numberControls;
-
   @override
-  void didChangeDependencies() {
+  ShotMove lastMove(double time) => ShotMove(time: time, n: n);
+
+  Widget buildGameArea(BuildContext context) {
+    debugPrint("Rebuilding game area");
     var theme = Theme.of(context);
     var displayButton = ElevatedButton(
       style: ElevatedButton.styleFrom(
@@ -59,29 +60,22 @@ class ShotState<T extends ShotMove> extends TurnPlayState<ShotMove>
             theme.textTheme.displayLarge!.copyWith(fontWeight: FontWeight.bold),
       ),
     );
-    numberControls = [
+    var numberControls = [
       _UpArrowButton(shotState: this),
       displayButton,
       _DownArrowButton(shotState: this),
     ];
-    super.didChangeDependencies();
+    return Center(
+        child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            crossAxisAlignment: CrossAxisAlignment.stretch,
+            children: numberControls));
   }
 
   @override
-  ShotMove lastMove(double time) => ShotMove(time: time, n: n);
-
-  @override
   Widget build(BuildContext context) {
-    var gameArea = Center(
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        crossAxisAlignment: CrossAxisAlignment.stretch,
-        children: numberControls,
-      ),
-    );
-
     return GameAreaContainer(
-      gameArea,
+      Builder(builder: buildGameArea),
       gameFeatures: widget.gameFeatures,
       onCompleteTurn: completeTurn,
     );
