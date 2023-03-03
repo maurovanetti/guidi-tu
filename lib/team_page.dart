@@ -201,9 +201,10 @@ class PlayerDialogState extends State<PlayerDialog> {
   @override
   Widget build(BuildContext context) {
     return AlertDialog(
+      scrollable: true,
       key: WidgetKeys.editPlayer,
       title: const Text('Modifica partecipante'),
-      content: ListView(
+      content: Column(
         children: [
           // Edit name
           TextField(
