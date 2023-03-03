@@ -2,6 +2,7 @@
 // ignore_for_file: avoid-non-ascii-symbols
 
 import 'package:flutter/material.dart';
+import 'package:guidi_tu/common/squeeze_or_scroll.dart';
 
 import '/common/custom_button.dart';
 import '/common/game_aware.dart';
@@ -93,9 +94,12 @@ class TurnInterstitialState extends TrackedState<TurnInterstitial>
         n: 5,
         behind: true,
         child: Center(
-          child: ListView(
-            shrinkWrap: true,
-            children: [
+          child: SqueezeOrScroll(
+            // Squeezing it does not work right now because the text does not
+            // resize. In order to do that some changes to the text widget are
+            // needed.
+            squeeze: false,
+            topChildren: [
               Text(
                 "Tocca a",
                 textAlign: TextAlign.center,
@@ -103,28 +107,30 @@ class TurnInterstitialState extends TrackedState<TurnInterstitial>
               ),
               PlayerTag(player),
               const Gap(),
-              Padding(
-                padding: StyleGuide.widePadding,
-                child: Column(
-                  children: [
-                    Text(
-                      widget.gameFeatures.description,
+            ],
+            centralChild: Padding(
+              padding: StyleGuide.widePadding,
+              child: Column(
+                children: [
+                  Text(
+                    widget.gameFeatures.description,
+                    textAlign: TextAlign.center,
+                    style: textTheme.headlineLarge,
+                  ),
+                  const Gap(),
+                  Text(
+                    widget.gameFeatures.explanation,
+                    textAlign: TextAlign.center,
+                    style: textTheme.titleLarge,
+                  ),
+                  const Gap(),
+                  const Text(
                       textAlign: TextAlign.center,
-                      style: textTheme.headlineLarge,
-                    ),
-                    const Gap(),
-                    Text(
-                      widget.gameFeatures.explanation,
-                      textAlign: TextAlign.center,
-                      style: textTheme.titleLarge,
-                    ),
-                    const Gap(),
-                    const Text(
-                        textAlign: TextAlign.center,
-                        'A pari merito, conta la velocità.'),
-                  ],
-                ),
+                      'A pari merito, conta la velocità.'),
+                ],
               ),
+            ),
+            bottomChildren: [
               const Gap(),
               if (player is! NoPlayer)
                 CustomButton(

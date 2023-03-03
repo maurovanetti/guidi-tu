@@ -1,11 +1,12 @@
 import 'dart:async';
-import 'dart:ui';
 
 import 'package:flutter/material.dart';
 
+import '../common/squeeze_or_scroll.dart';
+import '/common/clock.dart';
+import '/common/move.dart';
 import '/common/custom_button.dart';
 import '/common/game_aware.dart';
-import '/common/game_features.dart';
 import '/common/gap.dart';
 import '/common/gender.dart';
 import '/common/navigation.dart';
@@ -18,17 +19,29 @@ import '/games/turn_interstitial.dart';
 import 'completion_screen.dart';
 
 abstract class TurnPlay extends GameSpecificStatefulWidget {
+  bool get isReadyAtStart => true;
+
   const TurnPlay({super.key, required super.gameFeatures});
 
   @override
-  TurnPlayState createState();
+  State createState();
 }
 
+// No need to subclass this, all specific logic is in the GameAreaState and T.
 class TurnPlayState<T extends Move> extends GameSpecificState<TurnPlay>
-    with Gendered, TeamAware, TurnAware {
-  T lastMove(double time);
+    with Gendered, TeamAware, TurnAware<T>, MoveReceiver<T> {
+  late bool ready;
 
-  bool ready = true; // Can be reset to false in initState() if needed.
+  late DateTime _startTime;
+
+  Duration get elapsed => DateTime.now().difference(_startTime);
+
+  @override
+  void initState() {
+    super.initState();
+    _startTime = DateTime.now();
+    ready = widget.isReadyAtStart;
+  }
 
   void setReady(bool ready) {
     if (this.ready != ready) {
@@ -41,7 +54,7 @@ class TurnPlayState<T extends Move> extends GameSpecificState<TurnPlay>
 
   Future<void> completeTurn(Duration duration) async {
     // ignore: no-magic-number
-    recordMove(lastMove(duration.inMicroseconds / 1000000));
+    recordMove(receiveMove(), duration.inMicroseconds / 1000000);
     var hasEveryonePlayed = !await nextTurn();
     if (mounted) {
       if (hasEveryonePlayed) {
@@ -62,138 +75,41 @@ class TurnPlayState<T extends Move> extends GameSpecificState<TurnPlay>
 
   @override
   Widget build(BuildContext context) {
-    return GameAreaContainer(
-      gameFeatures: widget.gameFeatures,
-      onCompleteTurn: completeTurn,
-      // ready can be passed here if the game can switch between ready and not.
-    );
-  }
-}
-
-class GameAreaContainer extends StatefulWidget {
-  final bool ready;
-  final GameFeatures gameFeatures;
-  final FutureOr<void> Function(Duration) onCompleteTurn;
-
-  const GameAreaContainer({
-    super.key,
-    this.ready = true,
-    required this.gameFeatures,
-    required this.onCompleteTurn,
-  });
-
-  @override
-  createState() => GameAreaContainerState();
-}
-
-class GameAreaContainerState extends State<GameAreaContainer> {
-  late DateTime _startTime;
-
-  Duration get elapsed => DateTime.now().difference(_startTime);
-
-  @override
-  void initState() {
-    super.initState();
-    _startTime = DateTime.now();
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    debugPrint("Rebuilding GameAreaContainer");
     return Scaffold(
       appBar: AppBar(
         title: Text(widget.gameFeatures.name),
       ),
       body: Center(
-        child: ListView(
-          shrinkWrap: true,
-          physics: widget.gameFeatures.usesRigidGameArea
-              ? const NeverScrollableScrollPhysics()
-              : null,
-          children: [
+        child: SqueezeOrScroll(
+          squeeze: widget.gameFeatures.usesRigidGameArea,
+          topChildren: [
             PlayerTag(TurnAware.currentPlayer),
             const Gap(),
-            Padding(
-              padding: StyleGuide.regularPadding,
-              child: AspectRatio(
-                key: gameAreaWidgetKey,
-                aspectRatio: 1.0, // It's a square
-                child: widget.gameFeatures.playWidget(),
+          ],
+          centralChild: Padding(
+            padding: StyleGuide.regularPadding,
+            child: AspectRatio(
+              key: gameAreaWidgetKey,
+              aspectRatio: 1.0, // It's a square
+              child: widget.gameFeatures.buildGameArea(
+                setReady: setReady,
+                moveReceiver: this,
               ),
             ),
+          ),
+          bottomChildren: [
             const Gap(),
             CustomButton(
               key: toNextTurnWidgetKey,
               text: "Ho finito!",
-              onPressed: widget.ready
+              onPressed: ready
                   ? () {
-                      widget.onCompleteTurn(elapsed);
+                      completeTurn(elapsed);
                     }
                   : null,
             ),
             Clock(_startTime, key: clockWidgetKey),
           ],
-        ),
-      ),
-    );
-  }
-}
-
-class NoMove extends Move {
-  NoMove({required super.time});
-
-  @override
-  int getPointsWith(Iterable<Move> allMoves) => 0;
-}
-
-class Clock extends StatefulWidget {
-  final DateTime startTime;
-
-  const Clock(this.startTime, {super.key});
-
-  @override
-  createState() => ClockState();
-}
-
-class ClockState extends State<Clock> {
-  late Timer _timer;
-
-  Duration _duration = Duration.zero;
-
-  @override
-  initState() {
-    super.initState();
-    _untilNextSecond();
-  }
-
-  void _untilNextSecond() {
-    int targetMicro = widget.startTime.microsecondsSinceEpoch;
-    int currentMicro = DateTime.now().microsecondsSinceEpoch;
-    int diffMicro = (targetMicro - currentMicro) % 1000000;
-    _timer = Timer(Duration(microseconds: diffMicro), () {
-      setState(() {
-        _duration = DateTime.now().difference(widget.startTime);
-      });
-      // To check the error in microseconds, uncomment this line:
-      // debugPrint((_duration.inMicroseconds * 1e-6).toString());
-      // It's always below 0.1 seconds in emulator tests
-      _untilNextSecond();
-    });
-  }
-
-  @override
-  void dispose() {
-    _timer.cancel();
-    super.dispose();
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    return Center(
-      child: Text(
-        'Tempo trascorso: ${_duration.inSeconds}"',
-        style: Theme.of(context).textTheme.headlineSmall?.copyWith(
-          fontFeatures: const [FontFeature.tabularFigures()],
         ),
       ),
     );

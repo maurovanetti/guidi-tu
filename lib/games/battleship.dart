@@ -1,6 +1,9 @@
 import 'package:flame/game.dart';
 import 'package:flutter/material.dart';
+import 'package:guidi_tu/common/widget_keys.dart';
 
+import '../common/move.dart';
+import '../common/player.dart';
 import '/common/game_features.dart';
 import '/games/turn_play.dart';
 import '../common/turn_aware.dart';
@@ -9,44 +12,53 @@ import 'flame/battleship_bomb.dart';
 import 'flame/battleship_item.dart';
 import 'flame/battleship_module.dart';
 import 'flame/battleship_ship.dart';
+import 'game_area.dart';
 import 'outcome_screen.dart';
 
 class Battleship extends TurnPlay {
   static const saveValue = 5; // points for each own ship saved from enemy hits
   static const sinkValue = 1; // points for each enemy ship hit (not every hit!)
 
-  Battleship({super.key}) : super(gameFeatures: battleship);
+  @override
+  final bool isReadyAtStart = false;
+
+  Battleship() : super(key: battleshipWidgetKey, gameFeatures: battleship);
 
   @override
-  createState() => BattleshipState();
+  createState() => TurnPlayState<BattleshipMove>();
 }
 
-class BattleshipState extends TurnPlayState<BattleshipMove> {
+class BattleshipGameArea extends GameArea<BattleshipMove> {
+  BattleshipGameArea({
+    super.key,
+    required super.setReady,
+    required MoveReceiver moveReceiver,
+  }) : super(
+          gameFeatures: morra,
+          moveReceiver: moveReceiver as MoveReceiver<BattleshipMove>,
+        );
+
+  @override
+  createState() => BattleshipGameAreaState();
+}
+
+class BattleshipGameAreaState extends GameAreaState<BattleshipMove> {
   late final BattleshipModule _gameModule;
 
   @override
   void initState() {
-    ready = false;
-    _gameModule = BattleshipModule(setReady: setReady);
+    _gameModule = BattleshipModule(setReady: widget.setReady);
     super.initState();
   }
 
   @override
-  BattleshipMove lastMove(double time) => BattleshipMove(
-        player: TurnAware.currentPlayer,
-        time: time,
+  BattleshipMove getMove() => BattleshipMove(
         placedItems: _gameModule.board.placedItems,
       );
 
   @override
   Widget build(BuildContext context) {
-    debugPrint("Rebuilding Battleship");
-    return GameAreaContainer(
-      GameWidget(game: _gameModule),
-      ready: ready,
-      gameFeatures: widget.gameFeatures,
-      onCompleteTurn: completeTurn,
-    );
+    return GameWidget(game: _gameModule);
   }
 }
 
@@ -69,12 +81,10 @@ class BattleshipOutcomeState extends OutcomeScreenState<BattleshipMove> {
   }
 }
 
-class BattleshipMove extends MoveWithAttribution {
+class BattleshipMove extends Move {
   final Map<BattleshipItem, BattleshipBoardCell> placedItems;
 
   BattleshipMove({
-    required super.player,
-    required super.time,
     required this.placedItems,
   });
 
@@ -99,10 +109,13 @@ class BattleshipMove extends MoveWithAttribution {
   }
 
   @override
-  int getPointsWith(Iterable<Move> allMoves) {
+  int getPointsFor(Player player, Iterable<RecordedMove> allMoves) {
     var ownShips = placedItems.keys.whereType<BattleshipShip>().toList();
     var ownBombs = placedItems.keys.whereType<BattleshipBomb>().toList();
-    var rivalPlacedItems = _otherPlacedItems(allMoves);
+    var rivalMoves = RecordedMove.otherMoves(player, allMoves)
+        .cast<RecordedMove<BattleshipMove>>();
+    var rivalPlacedItems =
+        Map.fromEntries(rivalMoves.expand((m) => m.move.placedItems.entries));
     var rivalBombs = rivalPlacedItems.keys.whereType<BattleshipBomb>().toList();
     var rivalShips = rivalPlacedItems.keys.whereType<BattleshipShip>().toList();
 
@@ -128,7 +141,7 @@ class BattleshipMove extends MoveWithAttribution {
         " $points points");
 
     // Own bombs hitting rival ships
-    int sunkensShipsCount = 0;
+    int sunkenShipsCount = 0;
     for (var ownBomb in ownBombs) {
       BattleshipBoardCell ownBombCell = placedItems[ownBomb]!;
       List<BattleshipShip> rivalSunkenShips = [];
@@ -138,7 +151,7 @@ class BattleshipMove extends MoveWithAttribution {
           rivalSunkenShips.add(rivalShip);
           // Don't break here, because a bomb can hit ships of multiple rivals
           points += Battleship.sinkValue;
-          sunkensShipsCount++;
+          sunkenShipsCount++;
         }
       }
       // Sunken ships are removed from the list of rival ships, which prevents
@@ -147,16 +160,9 @@ class BattleshipMove extends MoveWithAttribution {
       rivalShips =
           rivalShips.where((ship) => !rivalSunkenShips.contains(ship)).toList();
     }
-    debugPrint("Ships sunk by ${player.name}: $sunkensShipsCount -->"
-        " ${sunkensShipsCount * Battleship.sinkValue} points");
+    debugPrint("Ships sunk by ${player.name}: $sunkenShipsCount -->"
+        " ${sunkenShipsCount * Battleship.sinkValue} points");
 
     return points;
-  }
-
-  Map<BattleshipItem, BattleshipBoardCell> _otherPlacedItems(
-    Iterable<Move> allMoves,
-  ) {
-    var rivalMoves = otherMoves<BattleshipMove>(allMoves);
-    return Map.fromEntries(rivalMoves.expand((m) => m.placedItems.entries));
   }
 }

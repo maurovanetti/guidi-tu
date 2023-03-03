@@ -1,22 +1,39 @@
 import 'package:collection/collection.dart';
 import 'package:flutter/material.dart';
 import 'package:guidi_tu/common/player.dart';
+import 'package:guidi_tu/common/widget_keys.dart';
 
+import '../common/move.dart';
 import '/common/game_features.dart';
 import '/common/gap.dart';
 import '/games/turn_play.dart';
 import '../common/turn_aware.dart';
+import 'game_area.dart';
 import 'outcome_screen.dart';
 import 'shot.dart';
 
 class Morra extends TurnPlay {
-  Morra({super.key}) : super(gameFeatures: morra);
+  Morra() : super(key: morraWidgetKey, gameFeatures: morra);
 
   @override
-  createState() => MorraState();
+  createState() => TurnPlayState<MorraMove>();
 }
 
-class MorraState extends ShotState<MorraMove> {
+class MorraGameArea extends GameArea<MorraMove> {
+  MorraGameArea({
+    super.key,
+    required super.setReady,
+    required MoveReceiver moveReceiver,
+  }) : super(
+          gameFeatures: morra,
+          moveReceiver: moveReceiver as MoveReceiver<MorraMove>,
+        );
+
+  @override
+  createState() => MorraGameAreaState();
+}
+
+class MorraGameAreaState extends ShotGameAreaState<MorraMove> {
   static const handImageHeight = 150.0;
 
   int _fingers = 0;
@@ -36,13 +53,12 @@ class MorraState extends ShotState<MorraMove> {
   }
 
   @override
-  MorraMove lastMove(time) => MorraMove(time: time, fingers: _fingers, n: n);
+  MorraMove getMove() => MorraMove(fingers: _fingers, n: n);
 
   @override
   Widget build(BuildContext context) {
-    debugPrint("Rebuilding Morra");
     var primaryColor = Theme.of(context).colorScheme.primary;
-    var gameArea = ListView(
+    return ListView(
       children: [
         Row(
           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
@@ -78,20 +94,15 @@ class MorraState extends ShotState<MorraMove> {
             const Gap(),
             Expanded(
               flex: 1,
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [] // numberControls,
+              child: ShotControls(
+                n: n,
+                stretched: false,
+                shotState: this,
               ),
             ),
           ],
         ),
       ],
-    );
-
-    return GameAreaContainer(
-      gameArea,
-      gameFeatures: widget.gameFeatures,
-      onCompleteTurn: completeTurn,
     );
   }
 }
@@ -192,14 +203,14 @@ class MorraOutcomeState extends OutcomeScreenState<MorraMove> {
 class MorraMove extends ShotMove {
   final int fingers;
 
-  MorraMove({required super.time, required this.fingers, required super.n});
+  MorraMove({required this.fingers, required super.n});
 
-  static countFingers(Iterable<MorraMove> moves) =>
-      moves.map((move) => move.fingers).sum;
+  static countFingers(Iterable<RecordedMove<MorraMove>> moves) =>
+      moves.map((rm) => rm.move.fingers).sum;
 
   @override
-  int getPointsWith(Iterable<Move> allMoves) {
-    int totalFingers = countFingers(allMoves.cast<MorraMove>());
+  int getPointsFor(Player player, Iterable<RecordedMove> allMoves) {
+    int totalFingers = countFingers(allMoves.cast<RecordedMove<MorraMove>>());
     return (totalFingers - n).abs();
   }
 }

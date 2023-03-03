@@ -1,26 +1,30 @@
-import 'dart:async';
-
 import 'package:flutter/material.dart';
 
-import '../common/game_features.dart';
-import '../common/turn_aware.dart';
+import '/common/game_features.dart';
+import '/common/move.dart';
 
-abstract class GameArea extends StatefulWidget {
+abstract class GameArea<T extends Move> extends StatefulWidget {
   final GameFeatures gameFeatures;
-  final Widget child;
-  final bool ready;
-  final FutureOr<void> Function(Duration) onCompleteTurn;
+  final void Function(bool) setReady;
+  final MoveReceiver<T> moveReceiver;
 
   const GameArea({
     super.key,
     required this.gameFeatures,
-    required this.child,
-    this.ready = true,
-    required this.onCompleteTurn,
+    required this.setReady,
+    required this.moveReceiver,
   });
 
   @override
   GameAreaState createState();
 }
 
-abstract class GameAreaState<T extends Move> extends State<GameArea> {}
+abstract class GameAreaState<T extends Move> extends State<GameArea<T>>
+    with MoveProvider<T> {
+
+  @override
+  void initState() {
+    super.initState();
+    addReceiver(widget.moveReceiver);
+  }
+}

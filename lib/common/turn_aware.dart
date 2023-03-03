@@ -15,7 +15,7 @@ mixin TurnAware<T extends Move> on TeamAware {
 
   static Player get currentPlayer => _currentPlayer;
 
-  static final Map<Player, Move> _moves = {};
+  static final Map<Player, RecordedMove> _moves = {};
 
   Future<bool> nextTurn() async {
     _currentTurn++;
@@ -40,15 +40,21 @@ mixin TurnAware<T extends Move> on TeamAware {
     _currentPlayer = NoPlayer();
   }
 
-  void recordMove(T move) {
-    _moves[_currentPlayer] = move;
+  void recordMove(T move, double time) {
+    _moves[_currentPlayer] = RecordedMove<T>(
+      move: move,
+      player: _currentPlayer,
+      time: time,
+    );
   }
 
-  T getMove(Player player) {
-    return _moves[player] as T;
-  }
+  RecordedMove<T> getRecordedMove(Player player) =>
+      _moves[player] as RecordedMove<T>;
 
-  int getPoints(Player player) => getMove(player).getPointsWith(_moves.values);
+  T getMove(Player player) => getRecordedMove(player).move;
 
-  double getTime(Player player) => getMove(player).time;
+  int getPoints(Player player) =>
+      getMove(player).getPointsFor(player, _moves.values);
+
+  double getTime(Player player) => getRecordedMove(player).time;
 }

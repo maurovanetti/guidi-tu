@@ -6,14 +6,15 @@
 
 import 'package:flutter/material.dart';
 
+import '/games/turn_play.dart';
 import '/games/battleship.dart';
 import '/games/large_shot.dart';
 import '/games/morra.dart';
 import '/games/outcome_screen.dart';
 import '/games/small_shot.dart';
-import '../games/game_area.dart';
+import '/games/game_area.dart';
 import 'config.dart' as config;
-import 'widget_keys.dart';
+import 'move.dart';
 
 class GameFeatures {
   final String name;
@@ -25,7 +26,11 @@ class GameFeatures {
   final int maxPlayers;
   final int minSuggestedPlayers;
   final int maxSuggestedPlayers;
-  final GameArea Function() playWidget;
+  final GameArea Function({
+    required void Function(bool) setReady,
+    required MoveReceiver moveReceiver,
+  }) buildGameArea;
+  final TurnPlay Function() playWidget;
   final OutcomeScreen Function() outcomeWidget;
   final bool lessIsMore;
   final bool longerIsBetter;
@@ -44,6 +49,7 @@ class GameFeatures {
     required this.minSuggestedPlayers,
     int? maxSuggestedPlayers,
     required this.playWidget,
+    required this.buildGameArea,
     required this.outcomeWidget,
     this.lessIsMore = false,
     this.longerIsBetter = false,
@@ -71,7 +77,8 @@ Ma attenzione: chi sceglie il numero più alto, paga.""",
   icon: Icons.arrow_circle_up_rounded,
   minPlayers: 2,
   minSuggestedPlayers: 3,
-  playWidget: () => LargeShot(key: largeShotWidgetKey),
+  buildGameArea: LargeShotGameArea.new,
+  playWidget: LargeShot.new,
   outcomeWidget: () => LargeShotOutcome(),
 );
 
@@ -86,7 +93,8 @@ Ma attenzione: chi sceglie il numero più basso, paga.""",
   icon: Icons.arrow_circle_down_rounded,
   minPlayers: 2,
   minSuggestedPlayers: 3,
-  playWidget: () => SmallShot(key: smallShotWidgetKey),
+  buildGameArea: SmallShotGameArea.new,
+  playWidget: SmallShot.new,
   outcomeWidget: () => SmallShotOutcome(),
   lessIsMore: true,
 );
@@ -104,9 +112,11 @@ Ma attenzione: chi si avvicina di più, paga.""",
   icon: Icons.back_hand_rounded,
   minPlayers: 2,
   minSuggestedPlayers: 2,
-  playWidget: () => Morra(key: morraWidgetKey),
-  outcomeWidget: () => MorraOutcome(),
-  lessIsMore: true, // meaning the difference between the sum and the guess
+  buildGameArea: MorraGameArea.new,
+  playWidget: Morra.new,
+  outcomeWidget: MorraOutcome.new,
+  lessIsMore: true,
+  // meaning the difference between the sum and the guess
   formatPoints: (p) => '±$p',
 );
 
@@ -125,8 +135,9 @@ Ma attenzione: chi fa più punti, paga.""",
   icon: Icons.sailing_rounded,
   minPlayers: 2,
   minSuggestedPlayers: 2,
-  playWidget: () => Battleship(key: battleshipWidgetKey),
-  outcomeWidget: () => BattleshipOutcome(),
+  buildGameArea: BattleshipGameArea.new,
+  playWidget: Battleship.new,
+  outcomeWidget: BattleshipOutcome.new,
   formatPoints: (p) => '$p pt.',
   usesRigidGameArea: true,
 );
