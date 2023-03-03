@@ -1,9 +1,9 @@
 import 'dart:convert';
 
-import 'package:guidi_tu/common/persistence.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 import 'gender.dart';
+import 'persistence.dart';
 import 'player.dart';
 
 mixin TeamAware on Gendered {

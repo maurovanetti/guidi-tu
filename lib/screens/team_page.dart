@@ -3,19 +3,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
-import '/common/config.dart';
-import '/common/custom_button.dart';
-import '/common/custom_fab.dart';
-import '/common/gap.dart';
-import '/common/gender.dart';
-import '/common/navigation.dart';
-import '/common/player.dart';
-import '/common/team_aware.dart';
-import '/common/tracked_state.dart';
-import '/common/widget_keys.dart';
-import '/common/with_bubbles.dart';
-import 'common/style_guide.dart';
-import 'pick_page.dart';
+import '/common/common.dart';
+import 'pick_screen.dart';
 
 class TeamPage extends StatefulWidget {
   static const duplicatesWarning =
@@ -101,7 +90,7 @@ class _TeamPageState extends TrackedState<TeamPage> with Gendered, TeamAware {
   Future<void> _proceedToPickPage() async {
     await storeTeam();
     if (mounted) {
-      Navigation.push(context, () => const PickPage()).go();
+      Navigation.push(context, () => const PickScreen()).go();
     }
   }
 

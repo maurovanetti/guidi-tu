@@ -1,32 +1,20 @@
 import 'package:flutter/material.dart';
 
-import '/common/squeeze_or_scroll.dart';
-import '/common/clock.dart';
-import '/common/move.dart';
-import '/common/custom_button.dart';
-import '/common/game_aware.dart';
-import '/common/gap.dart';
-import '/common/gender.dart';
-import '/common/navigation.dart';
-import '/common/player.dart';
-import '/common/style_guide.dart';
-import '/common/team_aware.dart';
-import '/common/turn_aware.dart';
-import '/common/widget_keys.dart';
-import '/games/turn_interstitial.dart';
+import '/common/common.dart';
+import 'turn_interstitial_screen.dart';
 import 'completion_screen.dart';
 
-abstract class TurnPlay extends GameSpecificStatefulWidget {
+abstract class TurnPlayScreen extends GameSpecificStatefulWidget {
   bool get isReadyAtStart => true;
 
-  const TurnPlay({super.key, required super.gameFeatures});
+  const TurnPlayScreen({super.key, required super.gameFeatures});
 
   @override
   State createState();
 }
 
 // No need to subclass this, all specific logic is in the GameAreaState and T.
-class TurnPlayState<T extends Move> extends GameSpecificState<TurnPlay>
+class TurnPlayState<T extends Move> extends GameSpecificState<TurnPlayScreen>
     with Gendered, TeamAware, TurnAware<T>, MoveReceiver<T> {
   late bool ready;
 
@@ -65,7 +53,7 @@ class TurnPlayState<T extends Move> extends GameSpecificState<TurnPlay>
       } else {
         Navigation.replaceLast(
           context,
-          () => TurnInterstitial(gameFeatures: widget.gameFeatures),
+          () => TurnInterstitialScreen(gameFeatures: widget.gameFeatures),
         ).go();
       }
     }

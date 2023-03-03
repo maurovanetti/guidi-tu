@@ -8,6 +8,11 @@ import 'battleship_bomb.dart';
 import 'battleship_board.dart';
 import 'battleship_ship.dart';
 
+export 'battleship_bomb.dart';
+export 'battleship_board.dart';
+export 'battleship_ship.dart';
+export 'battleship_item.dart';
+
 class BattleshipModule extends FlameGame with HasDraggables {
   late final BattleshipBoard board;
 

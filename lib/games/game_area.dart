@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 
-import '/common/game_features.dart';
-import '/common/move.dart';
+import '/common/common.dart';
 
 abstract class GameArea<T extends Move> extends StatefulWidget {
   final GameFeatures gameFeatures;
@@ -21,7 +20,6 @@ abstract class GameArea<T extends Move> extends StatefulWidget {
 
 abstract class GameAreaState<T extends Move> extends State<GameArea<T>>
     with MoveProvider<T> {
-
   @override
   void initState() {
     super.initState();

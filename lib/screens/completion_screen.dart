@@ -2,14 +2,7 @@
 
 import 'package:flutter/material.dart';
 
-import '/common/custom_button.dart';
-import '/common/game_aware.dart';
-import '/common/gap.dart';
-import '/common/gender.dart';
-import '/common/navigation.dart';
-import '/common/team_aware.dart';
-import '/common/with_bubbles.dart';
-import '../common/widget_keys.dart';
+import '/common/common.dart';
 
 class CompletionScreen extends GameSpecificStatefulWidget {
   const CompletionScreen({super.key, required super.gameFeatures});

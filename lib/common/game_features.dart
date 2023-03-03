@@ -6,13 +6,13 @@
 
 import 'package:flutter/material.dart';
 
-import '/games/turn_play.dart';
 import '/games/battleship.dart';
 import '/games/large_shot.dart';
 import '/games/morra.dart';
-import '/games/outcome_screen.dart';
 import '/games/small_shot.dart';
 import '/games/game_area.dart';
+import '/screens/outcome_screen.dart';
+import '/screens/turn_play_screen.dart';
 import 'config.dart';
 import 'move.dart';
 
@@ -30,7 +30,7 @@ class GameFeatures {
     required void Function(bool) setReady,
     required MoveReceiver moveReceiver,
   }) buildGameArea;
-  final TurnPlay Function() playWidget;
+  final TurnPlayScreen Function() playWidget;
   final OutcomeScreen Function() outcomeWidget;
   final bool lessIsMore;
   final bool longerIsBetter;

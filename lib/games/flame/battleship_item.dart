@@ -2,7 +2,6 @@ import 'dart:math';
 
 import 'package:flame/components.dart';
 
-import 'battleship_board.dart';
 import 'battleship_module.dart';
 import 'custom_sprite_component.dart';
 

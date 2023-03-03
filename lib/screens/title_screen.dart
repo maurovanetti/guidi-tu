@@ -1,22 +1,16 @@
 import 'package:flutter/material.dart';
 
-import 'common/custom_button.dart';
-import 'common/gap.dart';
-import 'common/navigation.dart';
-import 'common/score_aware.dart';
-import 'common/tracked_state.dart';
-import 'common/widget_keys.dart';
-import 'common/with_bubbles.dart';
-import 'tutorial_page.dart';
+import '/common/common.dart';
+import 'tutorial_screen.dart';
 
-class HomePage extends StatefulWidget {
-  const HomePage({super.key});
+class TitleScreen extends StatefulWidget {
+  const TitleScreen({super.key});
 
   @override
-  State<HomePage> createState() => _HomePageState();
+  State<TitleScreen> createState() => _TitleScreenState();
 }
 
-class _HomePageState extends TrackedState<HomePage> with ScoreAware {
+class _TitleScreenState extends TrackedState<TitleScreen> with ScoreAware {
   bool _loading = true;
 
   DriverAndPayer? _driverAndPayer;
@@ -72,7 +66,7 @@ class _HomePageState extends TrackedState<HomePage> with ScoreAware {
                     ? 'Gioca'
                     : 'Gioca di nuovo',
                 onPressed:
-                    Navigation.push(context, () => const TutorialPage()).go,
+                    Navigation.push(context, () => const TutorialScreen()).go,
               ),
               CustomButton(
                 text: 'Informazioni',

@@ -2,25 +2,17 @@ import 'dart:math';
 
 import 'package:flutter/material.dart';
 
-import '/common/custom_fab.dart';
-import '/common/game_features.dart';
-import '/common/gender.dart';
-import '/common/navigation.dart';
-import '/common/score_aware.dart';
-import '/common/team_aware.dart';
-import '/common/tracked_state.dart';
-import '/common/turn_aware.dart';
-import '/common/widget_keys.dart';
-import '/games/turn_interstitial.dart';
+import '/common/common.dart';
+import 'turn_interstitial_screen.dart';
 
-class PickPage extends StatefulWidget {
-  const PickPage({super.key});
+class PickScreen extends StatefulWidget {
+  const PickScreen({super.key});
 
   @override
-  State<PickPage> createState() => _PickPageState();
+  State<PickScreen> createState() => _PickScreenState();
 }
 
-class _PickPageState extends TrackedState<PickPage>
+class _PickScreenState extends TrackedState<PickScreen>
     with Gendered, TeamAware, TurnAware, ScoreAware {
   int? _selectedGameIndex;
   late final int _playerCount;
@@ -45,7 +37,7 @@ class _PickPageState extends TrackedState<PickPage>
       for (var gameFeatures in allGameFeatures) {
         var gameCard = GameCard(
           name: gameFeatures.name,
-          gameStart: TurnInterstitial(gameFeatures: gameFeatures),
+          gameStart: TurnInterstitialScreen(gameFeatures: gameFeatures),
           description: gameFeatures.description,
           icon: gameFeatures.icon,
           onTap: select,

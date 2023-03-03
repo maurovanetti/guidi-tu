@@ -1,18 +1,13 @@
 import 'package:collection/collection.dart';
 import 'package:flutter/material.dart';
-import 'package:guidi_tu/common/player.dart';
-import 'package:guidi_tu/common/widget_keys.dart';
 
-import '../common/move.dart';
-import '/common/game_features.dart';
-import '/common/gap.dart';
-import '/games/turn_play.dart';
-import '../common/turn_aware.dart';
+import '/common/common.dart';
+import '/screens/turn_play_screen.dart';
+import '/screens/outcome_screen.dart';
 import 'game_area.dart';
-import 'outcome_screen.dart';
 import 'shot.dart';
 
-class Morra extends TurnPlay {
+class Morra extends TurnPlayScreen {
   Morra() : super(key: WidgetKeys.morra, gameFeatures: morra);
 
   @override

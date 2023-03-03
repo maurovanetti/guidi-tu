@@ -1,19 +1,16 @@
 import 'package:flutter/material.dart';
 
-import 'common/custom_fab.dart';
-import 'common/navigation.dart';
-import 'common/tracked_state.dart';
-import 'common/widget_keys.dart';
+import '/common/common.dart';
 import 'team_page.dart';
 
-class TutorialPage extends StatefulWidget {
-  const TutorialPage({super.key});
+class TutorialScreen extends StatefulWidget {
+  const TutorialScreen({super.key});
 
   @override
-  State<TutorialPage> createState() => _TutorialPageState();
+  State<TutorialScreen> createState() => _TutorialScreenState();
 }
 
-class _TutorialPageState extends TrackedState<TutorialPage> {
+class _TutorialScreenState extends TrackedState<TutorialScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(

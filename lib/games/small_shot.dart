@@ -1,12 +1,10 @@
-import '/common/widget_keys.dart';
-import '/common/move.dart';
-import '/common/game_features.dart';
-import '/games/shot.dart';
-import '/games/turn_play.dart';
+import '/common/common.dart';
+import '/screens/outcome_screen.dart';
+import '/screens/turn_play_screen.dart';
 import 'game_area.dart';
-import 'outcome_screen.dart';
+import 'shot.dart';
 
-class SmallShot extends TurnPlay {
+class SmallShot extends TurnPlayScreen {
   SmallShot() : super(key: WidgetKeys.smallShot, gameFeatures: smallShot);
 
   @override

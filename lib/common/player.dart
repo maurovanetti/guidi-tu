@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:guidi_tu/common/style_guide.dart';
 
+import 'style_guide.dart';
 import 'fitted_text.dart';
 import 'gap.dart';
 import 'gender.dart';
@@ -87,7 +87,8 @@ class PlayerButton extends StatelessWidget {
   final void Function(Player)? onRemove;
   final void Function(Player)? onEdit;
 
-  const PlayerButton(this.player, {
+  const PlayerButton(
+    this.player, {
     super.key,
     this.onEdit,
     this.onRemove,
@@ -96,14 +97,10 @@ class PlayerButton extends StatelessWidget {
   get textColor => player.foreground;
 
   TextStyle textStyle(BuildContext context) =>
-      Theme
-          .of(context)
-          .textTheme
-          .headlineLarge!
-          .copyWith(
-        color: textColor,
-        fontWeight: FontWeight.bold,
-      );
+      Theme.of(context).textTheme.headlineLarge!.copyWith(
+            color: textColor,
+            fontWeight: FontWeight.bold,
+          );
 
   _edit() {
     onEdit?.call(player);
@@ -154,18 +151,18 @@ class PlayerButtonStructure extends StatelessWidget {
   final Widget child;
   final VoidCallback onEdit;
 
-  const PlayerButtonStructure(this.player, {
+  const PlayerButtonStructure(
+    this.player, {
     required this.child,
     this.onEdit = _uselessClick,
     super.key,
   });
 
-  get buttonStyle =>
-      ElevatedButton.styleFrom(
+  get buttonStyle => ElevatedButton.styleFrom(
         backgroundColor: player.background,
         shape: const RoundedRectangleBorder(
           borderRadius:
-          BorderRadius.all(Radius.circular(StyleGuide.borderRadius)),
+              BorderRadius.all(Radius.circular(StyleGuide.borderRadius)),
         ),
       );
 
@@ -190,10 +187,7 @@ class _PlayerIcon extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Text(player.icon, style: Theme
-        .of(context)
-        .textTheme
-        .headlineSmall);
+    return Text(player.icon, style: Theme.of(context).textTheme.headlineSmall);
   }
 }
 
@@ -223,7 +217,8 @@ class PlayerPerformance extends PlayerButton {
   final String primaryText;
   final String secondaryText;
 
-  const PlayerPerformance(Player player, {
+  const PlayerPerformance(
+    Player player, {
     required this.primaryText,
     this.secondaryText = '',
     super.key,
@@ -273,11 +268,11 @@ class PlayerPerformance extends PlayerButton {
 class PlayerPlacement extends PlayerPerformance {
   PlayerPlacement(Award award, {super.key})
       : super(
-    award.player,
-    primaryText: award.score.pointsMatter
-        ? award.score.formattedPoints
-        : award.score.formattedTime,
-    secondaryText:
-    award.score.pointsMatter ? award.score.formattedTime : '',
-  );
+          award.player,
+          primaryText: award.score.pointsMatter
+              ? award.score.formattedPoints
+              : award.score.formattedTime,
+          secondaryText:
+              award.score.pointsMatter ? award.score.formattedTime : '',
+        );
 }

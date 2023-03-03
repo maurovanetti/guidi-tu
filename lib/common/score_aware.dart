@@ -55,7 +55,9 @@ mixin ScoreAware {
     assert(await prefs.setString(Persistence.payerKey, payer.name));
     assert(await prefs.setString(Persistence.driverKey, driver.name));
     assert(await prefs.setInt(
-        Persistence.awardsTimeKey, now.millisecondsSinceEpoch));
+      Persistence.awardsTimeKey,
+      now.millisecondsSinceEpoch,
+    ));
     debugPrint("Stored awards: $payer must pay, $driver must drive");
   }
 

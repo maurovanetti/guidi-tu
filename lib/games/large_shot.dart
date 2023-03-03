@@ -1,13 +1,10 @@
-import 'package:guidi_tu/common/widget_keys.dart';
-
-import '/common/move.dart';
-import '/common/game_features.dart';
-import '/games/shot.dart';
-import '/games/turn_play.dart';
+import '/common/common.dart';
+import '/screens/turn_play_screen.dart';
+import '/screens/outcome_screen.dart';
 import 'game_area.dart';
-import 'outcome_screen.dart';
+import 'shot.dart';
 
-class LargeShot extends TurnPlay {
+class LargeShot extends TurnPlayScreen {
   LargeShot() : super(key: WidgetKeys.largeShot, gameFeatures: largeShot);
 
   @override

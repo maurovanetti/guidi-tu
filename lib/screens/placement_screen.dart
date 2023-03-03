@@ -3,17 +3,8 @@
 
 import 'package:flutter/material.dart';
 
-import '/common/custom_fab.dart';
-import '/common/gender.dart';
-import '/common/navigation.dart';
-import '/common/player.dart';
-import '/common/score_aware.dart';
-import '/common/style_guide.dart';
-import '/common/team_aware.dart';
-import '/common/tracked_state.dart';
-import '/common/widget_keys.dart';
-import '/common/with_bubbles.dart';
-import '/home_page.dart';
+import '/common/common.dart';
+import 'title_screen.dart';
 
 class PlacementScreen extends StatefulWidget {
   const PlacementScreen({super.key});
@@ -37,7 +28,7 @@ class PlacementScreenState extends TrackedState<PlacementScreen>
   Future<void> _endGame() async {
     await ScoreAware.storeAwards();
     if (mounted) {
-      Navigation.replaceAll(context, () => const HomePage()).go();
+      Navigation.replaceAll(context, () => const TitleScreen()).go();
     }
   }
 

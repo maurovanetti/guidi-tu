@@ -2,30 +2,18 @@
 // ignore_for_file: avoid-non-ascii-symbols
 
 import 'package:flutter/material.dart';
-import 'package:guidi_tu/common/squeeze_or_scroll.dart';
 
-import '/common/custom_button.dart';
-import '/common/game_aware.dart';
-import '/common/gap.dart';
-import '/common/gender.dart';
-import '/common/navigation.dart';
-import '/common/player.dart';
-import '/common/style_guide.dart';
-import '/common/team_aware.dart';
-import '/common/tracked_state.dart';
-import '/common/turn_aware.dart';
-import '/common/widget_keys.dart';
-import '/common/with_bubbles.dart';
-import '/home_page.dart';
+import '/common/common.dart';
+import 'title_screen.dart';
 
-class TurnInterstitial extends GameSpecificStatefulWidget {
-  const TurnInterstitial({super.key, required super.gameFeatures});
+class TurnInterstitialScreen extends GameSpecificStatefulWidget {
+  const TurnInterstitialScreen({super.key, required super.gameFeatures});
 
   @override
   TurnInterstitialState createState() => TurnInterstitialState();
 }
 
-class TurnInterstitialState extends TrackedState<TurnInterstitial>
+class TurnInterstitialState extends TrackedState<TurnInterstitialScreen>
     with Gendered, TeamAware, TurnAware {
   late Player player;
 
@@ -81,9 +69,10 @@ class TurnInterstitialState extends TrackedState<TurnInterstitial>
                     child: const Text("Continua a giocare"),
                   ),
                   TextButton(
-                    onPressed:
-                        Navigation.replaceAll(context, () => const HomePage())
-                            .go,
+                    onPressed: Navigation.replaceAll(
+                      context,
+                      () => const TitleScreen(),
+                    ).go,
                     child: const Text("Ferma tutto"),
                   ),
                 ],

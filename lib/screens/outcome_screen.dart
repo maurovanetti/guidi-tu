@@ -1,14 +1,6 @@
 import 'package:flutter/material.dart';
 
-import '/common/move.dart';
-import '/common/custom_fab.dart';
-import '/common/game_aware.dart';
-import '/common/gender.dart';
-import '/common/navigation.dart';
-import '/common/score_aware.dart';
-import '/common/team_aware.dart';
-import '/common/turn_aware.dart';
-import '/common/widget_keys.dart';
+import '/common/common.dart';
 import 'placement_screen.dart';
 
 abstract class OutcomeScreen extends GameSpecificStatefulWidget {

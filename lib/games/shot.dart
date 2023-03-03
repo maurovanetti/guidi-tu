@@ -9,14 +9,9 @@ import 'dart:math';
 
 import 'package:flutter/material.dart';
 
-import '/common/move.dart';
-import '/common/fitted_text.dart';
-import '/common/gap.dart';
-import '/common/player.dart';
-import '/common/snackbar.dart';
-import '/common/turn_aware.dart';
+import '/common/common.dart';
+import '/screens/outcome_screen.dart';
 import 'game_area.dart';
-import 'outcome_screen.dart';
 
 class ShotGameAreaState<T extends ShotMove> extends GameAreaState<T>
     with QuickMessage {
@@ -31,8 +26,8 @@ class ShotGameAreaState<T extends ShotMove> extends GameAreaState<T>
   void longPressStart(int delta) {
     _longPressTimer =
         Timer.periodic(const Duration(milliseconds: 100), (timer) {
-          changeN(delta);
-        });
+      changeN(delta);
+    });
   }
 
   void longPressEnd() {
@@ -72,10 +67,7 @@ class ArrowButton extends StatelessWidget {
 
   @override
   build(context) {
-    var actualColor = color ?? Theme
-        .of(context)
-        .colorScheme
-        .primary;
+    var actualColor = color ?? Theme.of(context).colorScheme.primary;
     return GestureDetector(
       child: IconButton(
         icon: Icon(
@@ -98,12 +90,12 @@ class _UpArrowButton extends ArrowButton {
     super.color, // ignore: unused_element
     required ShotGameAreaState shotState,
   }) : super(
-    icon: Icons.keyboard_arrow_up_rounded,
-    delta: 1,
-    changeN: shotState.changeN,
-    quickChangeNStart: shotState.longPressStart,
-    quickChangeNEnd: shotState.longPressEnd,
-  );
+          icon: Icons.keyboard_arrow_up_rounded,
+          delta: 1,
+          changeN: shotState.changeN,
+          quickChangeNStart: shotState.longPressStart,
+          quickChangeNEnd: shotState.longPressEnd,
+        );
 }
 
 class _DownArrowButton extends ArrowButton {
@@ -113,12 +105,12 @@ class _DownArrowButton extends ArrowButton {
     super.color, // ignore: unused_element
     required ShotGameAreaState shotState,
   }) : super(
-    icon: Icons.keyboard_arrow_down_rounded,
-    delta: -1,
-    changeN: shotState.changeN,
-    quickChangeNStart: shotState.longPressStart,
-    quickChangeNEnd: shotState.longPressEnd,
-  );
+          icon: Icons.keyboard_arrow_down_rounded,
+          delta: -1,
+          changeN: shotState.changeN,
+          quickChangeNStart: shotState.longPressStart,
+          quickChangeNEnd: shotState.longPressEnd,
+        );
 }
 
 class ShotControls extends StatelessWidget with QuickMessage {
@@ -149,14 +141,14 @@ class ShotControls extends StatelessWidget with QuickMessage {
       child: FittedText(
         n.toString(),
         style:
-        theme.textTheme.displayLarge!.copyWith(fontWeight: FontWeight.bold),
+            theme.textTheme.displayLarge!.copyWith(fontWeight: FontWeight.bold),
       ),
     );
     return Center(
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         crossAxisAlignment:
-        stretched ? CrossAxisAlignment.stretch : CrossAxisAlignment.center,
+            stretched ? CrossAxisAlignment.stretch : CrossAxisAlignment.center,
         children: [
           _UpArrowButton(shotState: shotState),
           displayButton,
@@ -322,16 +314,14 @@ class ShotOutcomeState extends OutcomeScreenState<ShotMove> {
       }
       _playerStories[playerIndex] = story;
       _playerNicknames[playerIndex] =
-      // ignore: prefer-moving-to-variable
-      smorfia[move.n.abs() % smorfia.length];
+          // ignore: prefer-moving-to-variable
+          smorfia[move.n.abs() % smorfia.length];
     }
   }
 
   @override
   void initOutcome() {
-    var textTheme = Theme
-        .of(context)
-        .textTheme;
+    var textTheme = Theme.of(context).textTheme;
     var widgets = <Widget>[];
     for (var playerIndex in TurnAware.turns) {
       var player = players[playerIndex];

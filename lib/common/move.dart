@@ -1,4 +1,4 @@
-import '/common/player.dart';
+import 'player.dart';
 
 abstract class Move {
   // Override according to the specific game rules

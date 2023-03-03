@@ -1,21 +1,13 @@
 import 'package:flame/game.dart';
 import 'package:flutter/material.dart';
-import 'package:guidi_tu/common/widget_keys.dart';
 
-import '../common/move.dart';
-import '../common/player.dart';
-import '/common/game_features.dart';
-import '/games/turn_play.dart';
-import '../common/turn_aware.dart';
-import 'flame/battleship_board.dart';
-import 'flame/battleship_bomb.dart';
-import 'flame/battleship_item.dart';
+import '/common/common.dart';
+import '/screens/turn_play_screen.dart';
+import '/screens/outcome_screen.dart';
 import 'flame/battleship_module.dart';
-import 'flame/battleship_ship.dart';
 import 'game_area.dart';
-import 'outcome_screen.dart';
 
-class Battleship extends TurnPlay {
+class Battleship extends TurnPlayScreen {
   static const saveValue = 5; // points for each own ship saved from enemy hits
   static const sinkValue = 1; // points for each enemy ship hit (not every hit!)
 

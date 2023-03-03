@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
-import 'home_page.dart';
+import 'screens/title_screen.dart';
 
 void main() async {
   // ignore: avoid-ignoring-return-values
@@ -27,7 +27,7 @@ class App extends StatelessWidget {
         fontFamily: 'Signika',
         useMaterial3: true,
       ),
-      home: const HomePage(),
+      home: const TitleScreen(),
       navigatorObservers: [routeObserver],
     );
   }
