@@ -71,7 +71,7 @@ abstract class OutcomeScreenState<T extends Move>
       ),
       body: outcomeWidget,
       floatingActionButton: CustomFloatingActionButton(
-        key: toPlacementWidgetKey,
+        key: WidgetKeys.toPlacement,
         tooltip: "Classifica",
         icon: Icons.skip_next_rounded,
         onPressed: _revealPlacement,

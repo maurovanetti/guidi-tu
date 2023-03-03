@@ -22,7 +22,7 @@ class Battleship extends TurnPlay {
   @override
   final bool isReadyAtStart = false;
 
-  Battleship() : super(key: battleshipWidgetKey, gameFeatures: battleship);
+  Battleship() : super(key: WidgetKeys.battleship, gameFeatures: battleship);
 
   @override
   createState() => TurnPlayState<BattleshipMove>();

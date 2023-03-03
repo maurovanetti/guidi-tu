@@ -53,7 +53,7 @@ class Player with Gendered {
   }
 
   Player.fromJson(this.id, Map<String, dynamic> json) : name = json['name'] {
-    gender = json['gender'] == male.letter ? male : female;
+    gender = json['gender'] == Gender.male.letter ? Gender.male : Gender.female;
   }
 
   Map<String, dynamic> toJson() {
@@ -77,37 +77,48 @@ class NoPlayer extends Player {
   @override
   get foreground => Colors.transparent;
 
-  NoPlayer() : super(0, '', neuter);
+  NoPlayer() : super(0, '', Gender.neuter);
 }
 
 class PlayerButton extends StatelessWidget {
   static const _genderSymbolScale = 0.8;
 
   final Player player;
-  final VoidCallback? onRemove;
-  final VoidCallback? onEdit;
+  final void Function(Player)? onRemove;
+  final void Function(Player)? onEdit;
 
-  const PlayerButton(
-    this.player, {
+  const PlayerButton(this.player, {
     super.key,
-    required this.onEdit,
-    required this.onRemove,
+    this.onEdit,
+    this.onRemove,
   });
 
   get textColor => player.foreground;
 
   TextStyle textStyle(BuildContext context) =>
-      Theme.of(context).textTheme.headlineLarge!.copyWith(
-            color: textColor,
-            fontWeight: FontWeight.bold,
-          );
+      Theme
+          .of(context)
+          .textTheme
+          .headlineLarge!
+          .copyWith(
+        color: textColor,
+        fontWeight: FontWeight.bold,
+      );
+
+  _edit() {
+    onEdit?.call(player);
+  }
+
+  _remove() {
+    onRemove?.call(player);
+  }
 
   @override
   Widget build(BuildContext context) {
     var style = textStyle(context);
     return PlayerButtonStructure(
       player,
-      onEdit: onEdit,
+      onEdit: _edit,
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         crossAxisAlignment: CrossAxisAlignment.center,
@@ -127,7 +138,7 @@ class PlayerButton extends StatelessWidget {
           ),
           IconButton(
             icon: Icon(Icons.remove_circle, color: textColor),
-            onPressed: onRemove,
+            onPressed: _remove,
           ),
         ],
       ),
@@ -136,29 +147,32 @@ class PlayerButton extends StatelessWidget {
 }
 
 class PlayerButtonStructure extends StatelessWidget {
+  // The useless click prevents the button from being disabled
+  static _uselessClick() {}
+
   final Player player;
   final Widget child;
-  final VoidCallback? onEdit;
+  final VoidCallback onEdit;
 
-  const PlayerButtonStructure(
-    this.player, {
+  const PlayerButtonStructure(this.player, {
     required this.child,
-    this.onEdit,
+    this.onEdit = _uselessClick,
     super.key,
   });
 
-  get buttonStyle => ElevatedButton.styleFrom(
+  get buttonStyle =>
+      ElevatedButton.styleFrom(
         backgroundColor: player.background,
         shape: const RoundedRectangleBorder(
           borderRadius:
-              BorderRadius.all(Radius.circular(StyleGuide.borderRadius)),
+          BorderRadius.all(Radius.circular(StyleGuide.borderRadius)),
         ),
       );
 
   @override
   Widget build(BuildContext context) {
     return Padding(
-      key: playerButtonWidgetKey(player),
+      key: WidgetKeys.playerButton(player),
       padding: StyleGuide.narrowPadding,
       child: ElevatedButton(
         onPressed: onEdit,
@@ -176,19 +190,20 @@ class _PlayerIcon extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Text(player.icon, style: Theme.of(context).textTheme.headlineSmall);
+    return Text(player.icon, style: Theme
+        .of(context)
+        .textTheme
+        .headlineSmall);
   }
 }
 
 class PlayerTag extends PlayerButton {
-  PlayerTag(Player player, {super.key})
-      : super(player, onEdit: () {}, onRemove: () {});
+  const PlayerTag(Player player, {super.key}) : super(player);
 
   @override
   Widget build(BuildContext context) {
     return PlayerButtonStructure(
       player,
-      onEdit: onEdit,
       child: Row(
         mainAxisAlignment: MainAxisAlignment.center,
         crossAxisAlignment: CrossAxisAlignment.center,
@@ -208,12 +223,11 @@ class PlayerPerformance extends PlayerButton {
   final String primaryText;
   final String secondaryText;
 
-  PlayerPerformance(
-    Player player, {
+  const PlayerPerformance(Player player, {
     required this.primaryText,
     this.secondaryText = '',
     super.key,
-  }) : super(player, onEdit: () {}, onRemove: () {});
+  }) : super(player);
 
   @override
   Widget build(BuildContext context) {
@@ -221,7 +235,6 @@ class PlayerPerformance extends PlayerButton {
     var horizontalGap = const Spacer(flex: 1);
     return PlayerButtonStructure(
       player,
-      onEdit: onEdit,
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         crossAxisAlignment: CrossAxisAlignment.center,
@@ -260,11 +273,11 @@ class PlayerPerformance extends PlayerButton {
 class PlayerPlacement extends PlayerPerformance {
   PlayerPlacement(Award award, {super.key})
       : super(
-          award.player,
-          primaryText: award.score.pointsMatter
-              ? award.score.formattedPoints
-              : award.score.formattedTime,
-          secondaryText:
-              award.score.pointsMatter ? award.score.formattedTime : '',
-        );
+    award.player,
+    primaryText: award.score.pointsMatter
+        ? award.score.formattedPoints
+        : award.score.formattedTime,
+    secondaryText:
+    award.score.pointsMatter ? award.score.formattedTime : '',
+  );
 }

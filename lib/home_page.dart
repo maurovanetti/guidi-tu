@@ -55,19 +55,19 @@ class _HomePageState extends TrackedState<HomePage> with ScoreAware {
               Text('Chi guida stasera?', style: style),
               DriverOrPayerLabel(
                 _driverAndPayer?.driver,
-                labelKey: driverWidgetKey,
+                labelKey: WidgetKeys.driver,
                 loading: _loading,
               ),
               const Gap(),
               Text('Chi paga stasera?', style: style),
               DriverOrPayerLabel(
                 _driverAndPayer?.payer,
-                labelKey: payerWidgetKey,
+                labelKey: WidgetKeys.payer,
                 loading: _loading,
               ),
               const Gap(),
               CustomButton(
-                key: toTutorialWidgetKey,
+                key: WidgetKeys.toTutorial,
                 text: _driverAndPayer?.driver == null
                     ? 'Gioca'
                     : 'Gioca di nuovo',

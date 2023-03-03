@@ -11,6 +11,7 @@ class CustomSpriteComponent<T extends Game> extends SpriteComponent
   // colorFilter that does the magic
   static final Paint shadowPaint = BasicPalette.black.withAlpha(50).paint()
     ..colorFilter = const ColorFilter.mode(Colors.black, BlendMode.srcATop);
+
   // Defining a default size for all sprites in a game can make sense for
   // tile-based games
   static final Vector2 defaultSpriteSize = Vector2.all(128.0);
@@ -99,12 +100,13 @@ class CustomSpriteComponent<T extends Game> extends SpriteComponent
 class DraggableCustomSpriteComponent<T extends Game>
     extends CustomSpriteComponent<T> with Draggable {
   final double extraElevationWhileDragged = 15.0;
-  Vector2 _deltaPositionWhileDragged = Vector2.zero();
   late SnapRule? snapRule;
 
   bool Function()? onSnap; // If false, the snap is forbidden
   void Function()? onFallbackSnap;
   bool Function()? onUnsnap; // If false, the snap is locked
+
+  Vector2 _deltaPositionWhileDragged = Vector2.zero();
 
   DraggableCustomSpriteComponent(
     String assetPath,
@@ -145,6 +147,18 @@ class DraggableCustomSpriteComponent<T extends Game>
     return false;
   }
 
+  @override
+  bool onDragEnd(DragEndInfo info) {
+    _onDragStop();
+    return false;
+  }
+
+  @override
+  bool onDragCancel() {
+    _onDragStop();
+    return false;
+  }
+
   void _onDragStop() {
     // _deltaPositionWhileDragged becomes irrelevant
     elevation -= extraElevationWhileDragged; // The position is updated in super
@@ -165,18 +179,6 @@ class DraggableCustomSpriteComponent<T extends Game>
         onFallbackSnap?.call();
       }
     }
-  }
-
-  @override
-  bool onDragEnd(DragEndInfo info) {
-    _onDragStop();
-    return false;
-  }
-
-  @override
-  bool onDragCancel() {
-    _onDragStop();
-    return false;
   }
 }
 

@@ -8,7 +8,7 @@ import 'game_area.dart';
 import 'outcome_screen.dart';
 
 class LargeShot extends TurnPlay {
-  LargeShot() : super(key: largeShotWidgetKey, gameFeatures: largeShot);
+  LargeShot() : super(key: WidgetKeys.largeShot, gameFeatures: largeShot);
 
   @override
   createState() => TurnPlayState<ShotMove>();

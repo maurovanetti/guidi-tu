@@ -86,7 +86,7 @@ class BubbleState extends State<Bubble>
       });
     });
     WidgetsBinding.instance.addPostFrameCallback((_) {
-      routeObserver.subscribe(this, ModalRoute.of(context)!);
+      App.routeObserver.subscribe(this, ModalRoute.of(context)!);
     });
     super.initState();
   }
@@ -100,7 +100,7 @@ class BubbleState extends State<Bubble>
   void dispose() {
     _floatingController.dispose();
     _fadingController.dispose();
-    routeObserver.unsubscribe(this);
+    App.routeObserver.unsubscribe(this);
     super.dispose();
   }
 

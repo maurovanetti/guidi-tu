@@ -7,7 +7,7 @@ import 'game_area.dart';
 import 'outcome_screen.dart';
 
 class SmallShot extends TurnPlay {
-  SmallShot() : super(key: smallShotWidgetKey, gameFeatures: smallShot);
+  SmallShot() : super(key: WidgetKeys.smallShot, gameFeatures: smallShot);
 
   @override
   createState() => TurnPlayState<ShotMove>();

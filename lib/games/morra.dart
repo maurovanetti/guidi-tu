@@ -13,7 +13,7 @@ import 'outcome_screen.dart';
 import 'shot.dart';
 
 class Morra extends TurnPlay {
-  Morra() : super(key: morraWidgetKey, gameFeatures: morra);
+  Morra() : super(key: WidgetKeys.morra, gameFeatures: morra);
 
   @override
   createState() => TurnPlayState<MorraMove>();

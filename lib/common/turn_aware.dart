@@ -17,7 +17,7 @@ mixin TurnAware<T extends Move> on TeamAware {
 
   static final Map<Player, RecordedMove> _moves = {};
 
-  Future<bool> nextTurn() async {
+  bool nextTurn() {
     _currentTurn++;
     if (_currentTurn >= turns.length) {
       _currentPlayer = NoPlayer();

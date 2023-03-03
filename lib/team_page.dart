@@ -1,3 +1,5 @@
+// This version of the app is in Italian only.
+// ignore_for_file: avoid-non-ascii-symbols
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
@@ -15,12 +17,11 @@ import '/common/with_bubbles.dart';
 import 'common/style_guide.dart';
 import 'pick_page.dart';
 
-const duplicatesWarning =
-    "Alcuni nomi sono uguali tra loro, per favore cambiali.";
-
-const addPlayersWarning = "Aggiungi almeno 2 partecipanti per favore.";
-
 class TeamPage extends StatefulWidget {
+  static const duplicatesWarning =
+      "Alcuni nomi sono uguali tra loro, per favore cambiali.";
+  static const addPlayersWarning = "Aggiungi almeno 2 partecipanti per favore.";
+
   const TeamPage({super.key});
 
   @override
@@ -43,23 +44,6 @@ class _TeamPageState extends TrackedState<TeamPage> with Gendered, TeamAware {
     });
   }
 
-  Iterable<PlayerButton> _buildNewPlayers() {
-    var newPlayers = <PlayerButton>[];
-    for (var player in players) {
-      debugPrint("Player $player");
-      newPlayers.add(PlayerButton(
-        player,
-        onEdit: () {
-          _editPlayer(player);
-        },
-        onRemove: () {
-          _removePlayer(player);
-        },
-      ));
-    }
-    return newPlayers;
-  }
-
   void _editPlayer(Player player) async {
     debugPrint("Editing player $player");
     var editedPlayer = await showDialog<Player>(
@@ -78,8 +62,8 @@ class _TeamPageState extends TrackedState<TeamPage> with Gendered, TeamAware {
     debugPrint("Adding new player");
     Player newPlayer;
     newPlayer = players.length % 2 == 0
-        ? Player(players.length, 'NUOVO', male)
-        : Player(players.length, 'NUOVA', female);
+        ? Player(players.length, 'NUOVO', Gender.male)
+        : Player(players.length, 'NUOVA', Gender.female);
     setState(() {
       players.add(newPlayer);
     });
@@ -89,7 +73,7 @@ class _TeamPageState extends TrackedState<TeamPage> with Gendered, TeamAware {
   void _removePlayer(Player player) {
     debugPrint("Removing player $player");
     setState(() {
-      players.remove(player);
+      assert(players.remove(player));
     });
     for (var i = 0; i < players.length; i++) {
       setState(() {
@@ -103,7 +87,7 @@ class _TeamPageState extends TrackedState<TeamPage> with Gendered, TeamAware {
       context: context,
       builder: (context) => AlertDialog(
         title: const Text("Nomi duplicati"),
-        content: const Text(duplicatesWarning),
+        content: const Text(TeamPage.duplicatesWarning),
         actions: [
           TextButton(
             onPressed: () => Navigator.of(context).pop(),
@@ -114,9 +98,21 @@ class _TeamPageState extends TrackedState<TeamPage> with Gendered, TeamAware {
     );
   }
 
+  Future<void> _proceedToPickPage() async {
+    await storeTeam();
+    if (mounted) {
+      Navigation.push(context, () => const PickPage()).go();
+    }
+  }
+
+  bool _hasDuplicates() {
+    var names = players.map((player) => player.name);
+    return names.toSet().length != names.length;
+  }
+
   @override
   Widget build(BuildContext context) {
-    bool hasDuplicates = _hasDuplicates(players);
+    bool hasDuplicates = _hasDuplicates();
     return Scaffold(
       appBar: AppBar(
         title: const Text('Registra i partecipanti'),
@@ -129,45 +125,43 @@ class _TeamPageState extends TrackedState<TeamPage> with Gendered, TeamAware {
               : [
                   if (players.isNotEmpty)
                     const Text("Clicca sui nomi per modificarli:"),
-                  ..._buildNewPlayers(),
-                  if (players.length < maxPlayers)
+                  ...players.map((player) => PlayerButton(
+                        player,
+                        onEdit: _editPlayer,
+                        onRemove: _removePlayer,
+                      )),
+                  if (players.length < Config.maxPlayers)
                     CustomButton(
-                        key: addPlayerWidgetKey,
-                        important: false,
-                        onPressed: _addNewPlayer,
-                        text: "Aggiungi partecipante"),
+                      key: WidgetKeys.addPlayer,
+                      important: false,
+                      onPressed: _addNewPlayer,
+                      text: "Aggiungi partecipante",
+                    ),
                   if (hasDuplicates)
-                    const Text(duplicatesWarning,
-                        style: TextStyle(color: Colors.red)),
+                    const Text(
+                      TeamPage.duplicatesWarning,
+                      style: TextStyle(color: Colors.red),
+                    ),
                   if (players.length < 2)
-                    const Text(addPlayersWarning,
-                        style: TextStyle(color: Colors.red)),
+                    const Text(
+                      TeamPage.addPlayersWarning,
+                      style: TextStyle(color: Colors.red),
+                    ),
                 ],
         ),
       ),
       floatingActionButton: players.length < 2
           ? null
           : CustomFloatingActionButton(
-              key: toPickWidgetKey,
+              key: WidgetKeys.toPick,
               onPressed:
+                  // ignore: avoid-nested-conditional-expressions
                   hasDuplicates ? _showDuplicatesAlert : _proceedToPickPage,
               tooltip: 'Pronti',
               icon: Icons.check_circle_rounded,
             ),
     );
   }
-
-  Future<void> _proceedToPickPage() async {
-    await storeTeam();
-    if (mounted) {
-      Navigation.push(context, () => const PickPage()).go();
-    }
-  }
-}
-
-bool _hasDuplicates(List<Player> players) {
-  var names = players.map((player) => player.name);
-  return names.toSet().length != names.length;
 }
 
 class PlayerDialog extends StatefulWidget {
@@ -190,74 +184,75 @@ class PlayerDialogState extends State<PlayerDialog> {
     _player = widget.player;
     _nameController = TextEditingController(text: _player.name);
     _gender = _player.gender;
-    _checkReadyToConfirm(_player.name);
+    _setReadyToConfirm(_player.name);
     super.initState();
   }
 
-  void _checkReadyToConfirm(String name) {
-    debugPrint("Checking if ready to confirm");
+  void _setReadyToConfirm(String name) {
+    _readyToConfirm = name.isNotEmpty;
+  }
+
+  void _updateReadyToConfirm(String name) {
     setState(() {
-      _readyToConfirm = name.isNotEmpty;
+      _setReadyToConfirm(name);
     });
   }
 
   @override
   Widget build(BuildContext context) {
     return AlertDialog(
-      key: editPlayerWidgetKey,
+      key: WidgetKeys.editPlayer,
       title: const Text('Modifica partecipante'),
-      content: SingleChildScrollView(
-        child: Column(
-          children: [
-            // Edit name
-            TextField(
-              key: editPlayerNameWidgetKey,
-              controller: _nameController,
-              decoration: const InputDecoration(counterText: 'max 5 lettere'),
-              inputFormatters: [UpperCaseTextFormatter(5)],
-              textCapitalization: TextCapitalization.characters,
-              style: Theme.of(context).textTheme.headlineLarge,
-              onChanged: _checkReadyToConfirm,
+      content: ListView(
+        children: [
+          // Edit name
+          TextField(
+            key: WidgetKeys.editPlayerName,
+            controller: _nameController,
+            decoration: const InputDecoration(counterText: 'max 5 lettere'),
+            inputFormatters: [UpperCaseTextFormatter(5)],
+            textCapitalization: TextCapitalization.characters,
+            style: Theme.of(context).textTheme.headlineLarge,
+            onChanged: _updateReadyToConfirm,
+          ),
+          const Gap(),
+          // Edit gender
+          ListTile(
+            key: WidgetKeys.setFemininePlayer,
+            title: const Text('Chiamala «giocatrice»'),
+            leading: Radio<Gender>(
+              value: Gender.female,
+              groupValue: _gender,
+              onChanged: (value) {
+                setState(() {
+                  _gender = value!;
+                });
+              },
             ),
-            const Gap(),
-            // Edit gender
-            ListTile(
-              key: setFemininePlayerWidgetKey,
-              title: const Text('Chiamala «giocatrice»'),
-              leading: Radio<Gender>(
-                value: female,
-                groupValue: _gender,
-                onChanged: (value) {
-                  setState(() {
-                    _gender = value!;
-                  });
-                },
-              ),
+          ),
+          ListTile(
+            key: WidgetKeys.setMasculinePlayer,
+            title: const Text('Chiamalo «giocatore»'),
+            leading: Radio<Gender>(
+              value: Gender.male,
+              groupValue: _gender,
+              onChanged: (value) {
+                setState(() {
+                  _gender = value!;
+                });
+              },
             ),
-            ListTile(
-              key: setMasculinePlayerWidgetKey,
-              title: const Text('Chiamalo «giocatore»'),
-              leading: Radio<Gender>(
-                value: male,
-                groupValue: _gender,
-                onChanged: (value) {
-                  setState(() {
-                    _gender = value!;
-                  });
-                },
-              ),
-            ),
-          ],
-        ),
+          ),
+        ],
       ),
       actions: [
         TextButton(
-          key: cancelEditPlayerWidgetKey,
+          key: WidgetKeys.cancelEditPlayer,
           onPressed: () => Navigator.of(context).pop(null),
           child: const Text('Annulla'),
         ),
         OutlinedButton(
-          key: submitEditPlayerWidgetKey,
+          key: WidgetKeys.submitEditPlayer,
           onPressed: _readyToConfirm
               ? () => Navigator.of(context)
                   .pop(Player(_player.id, _nameController.text, _gender))

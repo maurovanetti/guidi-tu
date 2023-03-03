@@ -1,3 +1,9 @@
+// Tests should be compact and sometimes repetitive, even a little dumb. For
+// this reason, we ignore several elegance rules in tests.
+// ignore_for_file: avoid-ignoring-return-values
+// ignore_for_file: avoid-non-ascii-symbols
+// ignore_for_file: no-magic-number
+
 import 'package:flutter_test/flutter_test.dart';
 import 'package:guidi_tu/common/game_features.dart';
 import 'package:guidi_tu/common/widget_keys.dart';
@@ -35,110 +41,110 @@ void main() {
       await tester.pumpWidget(const App());
       await tester
           .pump(const Duration(seconds: 4)); // Initial animation must complete
-      expect(toTutorialWidgetKey.found(), findsOneWidget);
-      await tester.tap(toTutorialWidgetKey.found());
+      expect(WidgetKeys.toTutorial.found(), findsOneWidget);
+      await tester.tap(WidgetKeys.toTutorial.found());
       await tester.pumpForNavigation();
 
       // Tutorial page
-      expect(toTutorialWidgetKey.found(), findsNothing);
-      expect(toTeamWidgetKey.found(), findsOneWidget);
-      await tester.tap(toTeamWidgetKey.found());
+      expect(WidgetKeys.toTutorial.found(), findsNothing);
+      expect(WidgetKeys.toTeam.found(), findsOneWidget);
+      await tester.tap(WidgetKeys.toTeam.found());
       await tester.pumpForNavigation();
 
       // Team page
-      expect(toTeamWidgetKey.found(), findsNothing);
-      await tester.tap(addPlayerWidgetKey.found());
+      expect(WidgetKeys.toTeam.found(), findsNothing);
+      await tester.tap(WidgetKeys.addPlayer.found());
       await tester.pump(); // Not a navigation, just a dialog opening
-      expect(editPlayerWidgetKey.found(), findsOneWidget);
-      await tester.enterText(editPlayerNameWidgetKey.found(), "TIZIO");
-      await tester.tap(setMasculinePlayerWidgetKey.found());
-      await tester.tap(submitEditPlayerWidgetKey.found());
+      expect(WidgetKeys.editPlayer.found(), findsOneWidget);
+      await tester.enterText(WidgetKeys.editPlayerName.found(), "TIZIO");
+      await tester.tap(WidgetKeys.setMasculinePlayer.found());
+      await tester.tap(WidgetKeys.submitEditPlayer.found());
       await tester.pumpForNavigation(); // Closing dialog and refreshing page
-      await tester.tap(addPlayerWidgetKey.found());
+      await tester.tap(WidgetKeys.addPlayer.found());
       await tester.pump(); // Not a navigation, just a dialog opening
-      expect(editPlayerWidgetKey.found(), findsOneWidget);
-      await tester.enterText(editPlayerNameWidgetKey.found(), "CAIA");
-      await tester.tap(setFemininePlayerWidgetKey.found());
-      await tester.tap(submitEditPlayerWidgetKey.found());
+      expect(WidgetKeys.editPlayer.found(), findsOneWidget);
+      await tester.enterText(WidgetKeys.editPlayerName.found(), "CAIA");
+      await tester.tap(WidgetKeys.setFemininePlayer.found());
+      await tester.tap(WidgetKeys.submitEditPlayer.found());
       await tester.pumpForNavigation(); // Closing dialog and refreshing page
-      await tester.ensureVisible(toPickWidgetKey.found());
-      expect(toPickWidgetKey.found(), findsOneWidget);
-      await tester.tap(toPickWidgetKey.found());
+      await tester.ensureVisible(WidgetKeys.toPick.found());
+      expect(WidgetKeys.toPick.found(), findsOneWidget);
+      await tester.tap(WidgetKeys.toPick.found());
       await tester.pumpForNavigation();
 
       // Pick page
-      expect(toPickWidgetKey.found(), findsNothing);
-      expect(pickGameWidgetKey(largeShot.name).found(), findsOneWidget);
-      await tester.tap(pickGameWidgetKey(largeShot.name).found());
-      expect(toTurnInterstitialWidgetKey.found(), findsOneWidget);
-      await tester.tap(toTurnInterstitialWidgetKey.found());
+      expect(WidgetKeys.toPick.found(), findsNothing);
+      expect(WidgetKeys.pickGame(largeShot.name).found(), findsOneWidget);
+      await tester.tap(WidgetKeys.pickGame(largeShot.name).found());
+      expect(WidgetKeys.toTurnInterstitial.found(), findsOneWidget);
+      await tester.tap(WidgetKeys.toTurnInterstitial.found());
       await tester.pumpForNavigation();
 
       // Turn interstitial page (1st player)
-      expect(toTurnInterstitialWidgetKey.found(), findsNothing);
-      expect(toTurnPlayWidgetKey.found(), findsOneWidget);
-      await tester.ensureVisible(toTurnPlayWidgetKey.found());
-      await tester.tap(toTurnPlayWidgetKey.found());
+      expect(WidgetKeys.toTurnInterstitial.found(), findsNothing);
+      expect(WidgetKeys.toTurnPlay.found(), findsOneWidget);
+      await tester.ensureVisible(WidgetKeys.toTurnPlay.found());
+      await tester.tap(WidgetKeys.toTurnPlay.found());
       await tester.pump(); // Not a navigation, just a dialog opening
-      expect(hiddenPlayAlertWidgetKey.found(), findsOneWidget);
-      expect(acknowledgeHiddenPlayWidgetKey.found(), findsOneWidget);
-      await tester.tap(acknowledgeHiddenPlayWidgetKey.found());
+      expect(WidgetKeys.hiddenPlayAlert.found(), findsOneWidget);
+      expect(WidgetKeys.acknowledgeHiddenPlay.found(), findsOneWidget);
+      await tester.tap(WidgetKeys.acknowledgeHiddenPlay.found());
       await tester.pumpForNavigation(); // Actual navigation
 
       // Turn play page (1st player)
-      expect(toTurnPlayWidgetKey.found(), findsNothing);
-      expect(largeShotWidgetKey.found(), findsOneWidget);
-      await tester.ensureVisible(clockWidgetKey.found());
-      expect(clockWidgetKey.found(), findsOneWidget);
-      await tester.ensureVisible(toNextTurnWidgetKey.found());
-      expect(toNextTurnWidgetKey.found(), findsOneWidget);
-      await tester.tap(toNextTurnWidgetKey.found());
+      expect(WidgetKeys.toTurnPlay.found(), findsNothing);
+      expect(WidgetKeys.largeShot.found(), findsOneWidget);
+      await tester.ensureVisible(WidgetKeys.clock.found());
+      expect(WidgetKeys.clock.found(), findsOneWidget);
+      await tester.ensureVisible(WidgetKeys.toNextTurn.found());
+      expect(WidgetKeys.toNextTurn.found(), findsOneWidget);
+      await tester.tap(WidgetKeys.toNextTurn.found());
       await tester.pumpForNavigation();
 
       // Turn interstitial page (2nd player)
-      expect(toNextTurnWidgetKey.found(), findsNothing);
-      expect(toTurnPlayWidgetKey.found(), findsOneWidget);
-      await tester.ensureVisible(toTurnPlayWidgetKey.found());
-      await tester.tap(toTurnPlayWidgetKey.found());
+      expect(WidgetKeys.toNextTurn.found(), findsNothing);
+      expect(WidgetKeys.toTurnPlay.found(), findsOneWidget);
+      await tester.ensureVisible(WidgetKeys.toTurnPlay.found());
+      await tester.tap(WidgetKeys.toTurnPlay.found());
       await tester.pump(); // Not a navigation, just a dialog opening
-      expect(hiddenPlayAlertWidgetKey.found(), findsOneWidget);
-      expect(acknowledgeHiddenPlayWidgetKey.found(), findsOneWidget);
-      await tester.tap(acknowledgeHiddenPlayWidgetKey.found());
+      expect(WidgetKeys.hiddenPlayAlert.found(), findsOneWidget);
+      expect(WidgetKeys.acknowledgeHiddenPlay.found(), findsOneWidget);
+      await tester.tap(WidgetKeys.acknowledgeHiddenPlay.found());
       await tester.pumpForNavigation(); // Actual navigation
 
       // Turn play page (2nd player)
-      expect(toTurnPlayWidgetKey.found(), findsNothing);
-      expect(largeShotWidgetKey.found(), findsOneWidget);
-      await tester.ensureVisible(clockWidgetKey.found());
-      expect(clockWidgetKey.found(), findsOneWidget);
-      await tester.ensureVisible(toNextTurnWidgetKey.found());
-      expect(toNextTurnWidgetKey.found(), findsOneWidget);
-      await tester.tap(toNextTurnWidgetKey.found());
+      expect(WidgetKeys.toTurnPlay.found(), findsNothing);
+      expect(WidgetKeys.largeShot.found(), findsOneWidget);
+      await tester.ensureVisible(WidgetKeys.clock.found());
+      expect(WidgetKeys.clock.found(), findsOneWidget);
+      await tester.ensureVisible(WidgetKeys.toNextTurn.found());
+      expect(WidgetKeys.toNextTurn.found(), findsOneWidget);
+      await tester.tap(WidgetKeys.toNextTurn.found());
       await tester.pumpForNavigation();
 
       // Completion screen
-      expect(toNextTurnWidgetKey.found(), findsNothing);
-      expect(toOutcomeWidgetKey.found(), findsOneWidget);
-      await tester.tap(toOutcomeWidgetKey.found());
+      expect(WidgetKeys.toNextTurn.found(), findsNothing);
+      expect(WidgetKeys.toOutcome.found(), findsOneWidget);
+      await tester.tap(WidgetKeys.toOutcome.found());
       await tester.pumpForNavigation();
 
       // Outcome screen
-      expect(toOutcomeWidgetKey.found(), findsNothing);
-      expect(toPlacementWidgetKey.found(), findsOneWidget);
-      await tester.tap(toPlacementWidgetKey.found());
+      expect(WidgetKeys.toOutcome.found(), findsNothing);
+      expect(WidgetKeys.toPlacement.found(), findsOneWidget);
+      await tester.tap(WidgetKeys.toPlacement.found());
       await tester.pumpForNavigation();
 
       // Placement screen
-      expect(toPlacementWidgetKey.found(), findsNothing);
-      expect(toHomeWidgetKey.found(), findsOneWidget);
-      await tester.tap(toHomeWidgetKey.found());
+      expect(WidgetKeys.toPlacement.found(), findsNothing);
+      expect(WidgetKeys.toHome.found(), findsOneWidget);
+      await tester.tap(WidgetKeys.toHome.found());
       await tester.pumpForNavigation();
 
       // Home screen again
       await tester
           .pump(const Duration(seconds: 4)); // Initial animation must complete
-      expect(toHomeWidgetKey.found(), findsNothing);
-      expect(toTutorialWidgetKey.found(), findsOneWidget);
+      expect(WidgetKeys.toHome.found(), findsNothing);
+      expect(WidgetKeys.toTutorial.found(), findsOneWidget);
       expect("TIZIO".found(), findsOneWidget);
       expect("CAIA".found(), findsOneWidget);
 
@@ -147,54 +153,61 @@ void main() {
   });
 
   group("Saved driver + payer", () {
-    testWidgets("App doesn't show driver + payer at start if missing",
-        (WidgetTester tester) async {
-      await tester.pumpWidget(const App());
-      expect(driverWidgetKey.found(), findsOneWidget);
-      expect(payerWidgetKey.found(), findsOneWidget);
-      await tester.pump(const Duration(seconds: 4)); // End initial animation
-      expect("GUIDO".found(), findsNothing);
-      expect("PAGO".found(), findsNothing);
-      expect(driverWidgetKey.found(), findsOneWidget);
-      expect(payerWidgetKey.found(), findsOneWidget);
-    });
+    testWidgets(
+      "App doesn't show driver + payer at start if missing",
+      (WidgetTester tester) async {
+        await tester.pumpWidget(const App());
+        expect(WidgetKeys.driver.found(), findsOneWidget);
+        expect(WidgetKeys.payer.found(), findsOneWidget);
+        await tester.pump(const Duration(seconds: 4)); // End initial animation
+        expect("GUIDO".found(), findsNothing);
+        expect("PAGO".found(), findsNothing);
+        expect(WidgetKeys.driver.found(), findsOneWidget);
+        expect(WidgetKeys.payer.found(), findsOneWidget);
+      },
+    );
 
-    testWidgets("App shows driver + payer at start if not expired",
-        (WidgetTester tester) async {
-      var prefs = await SharedPreferences.getInstance();
-      await prefs.setInt('awardsTime', DateTime.now().millisecondsSinceEpoch);
-      await prefs.setString('payer', 'PAGO');
-      await prefs.setString('driver', 'GUIDO');
-      await tester.pumpWidget(const App());
-      expect(driverWidgetKey.found(), findsOneWidget);
-      expect(payerWidgetKey.found(), findsOneWidget);
-      await tester.pump(const Duration(seconds: 4)); // End initial animation
-      var guido = "GUIDO".found().evaluate().single.widget;
-      var driver = driverWidgetKey.found().evaluate().single.widget;
-      expect(guido, driver);
-      var pago = "PAGO".found().evaluate().single.widget;
-      var payer = payerWidgetKey.found().evaluate().single.widget;
-      expect(pago, payer);
-    });
+    testWidgets(
+      "App shows driver + payer at start if not expired",
+      (WidgetTester tester) async {
+        var prefs = await SharedPreferences.getInstance();
+        await prefs.setInt('awardsTime', DateTime.now().millisecondsSinceEpoch);
+        await prefs.setString('payer', 'PAGO');
+        await prefs.setString('driver', 'GUIDO');
+        await tester.pumpWidget(const App());
+        expect(WidgetKeys.driver.found(), findsOneWidget);
+        expect(WidgetKeys.payer.found(), findsOneWidget);
+        await tester.pump(const Duration(seconds: 4)); // End initial animation
+        var guido = "GUIDO".found().evaluate().single.widget;
+        var driver = WidgetKeys.driver.found().evaluate().single.widget;
+        expect(guido, driver);
+        var pago = "PAGO".found().evaluate().single.widget;
+        var payer = WidgetKeys.payer.found().evaluate().single.widget;
+        expect(pago, payer);
+      },
+    );
 
-    testWidgets("App hides driver + payer at start if expired",
-        (WidgetTester tester) async {
-      var prefs = await SharedPreferences.getInstance();
-      await prefs.setInt(
+    testWidgets(
+      "App hides driver + payer at start if expired",
+      (WidgetTester tester) async {
+        var prefs = await SharedPreferences.getInstance();
+        await prefs.setInt(
           'awardsTime',
           DateTime.now()
               .subtract(const Duration(days: 2))
-              .millisecondsSinceEpoch);
-      await prefs.setString('payer', 'PAGO');
-      await prefs.setString('driver', 'GUIDO');
-      await tester.pumpWidget(const App());
-      expect(driverWidgetKey.found(), findsOneWidget);
-      expect(payerWidgetKey.found(), findsOneWidget);
-      await tester.pump(const Duration(seconds: 4)); // End initial animation
-      expect("GUIDO".found(), findsNothing);
-      expect("PAGO".found(), findsNothing);
-      expect(driverWidgetKey.found(), findsOneWidget);
-      expect(payerWidgetKey.found(), findsOneWidget);
-    });
+              .millisecondsSinceEpoch,
+        );
+        await prefs.setString('payer', 'PAGO');
+        await prefs.setString('driver', 'GUIDO');
+        await tester.pumpWidget(const App());
+        expect(WidgetKeys.driver.found(), findsOneWidget);
+        expect(WidgetKeys.payer.found(), findsOneWidget);
+        await tester.pump(const Duration(seconds: 4)); // End initial animation
+        expect("GUIDO".found(), findsNothing);
+        expect("PAGO".found(), findsNothing);
+        expect(WidgetKeys.driver.found(), findsOneWidget);
+        expect(WidgetKeys.payer.found(), findsOneWidget);
+      },
+    );
   });
 }

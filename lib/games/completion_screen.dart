@@ -48,7 +48,7 @@ class CompletionScreenState extends GameSpecificState<CompletionScreen>
               ),
               const Gap(),
               CustomButton(
-                key: toOutcomeWidgetKey,
+                key: WidgetKeys.toOutcome,
                 text: "Vediamoli!",
                 onPressed: _displayOutcome,
               ),

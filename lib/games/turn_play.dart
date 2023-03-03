@@ -1,8 +1,6 @@
-import 'dart:async';
-
 import 'package:flutter/material.dart';
 
-import '../common/squeeze_or_scroll.dart';
+import '/common/squeeze_or_scroll.dart';
 import '/common/clock.dart';
 import '/common/move.dart';
 import '/common/custom_button.dart';
@@ -52,10 +50,10 @@ class TurnPlayState<T extends Move> extends GameSpecificState<TurnPlay>
     }
   }
 
-  Future<void> completeTurn(Duration duration) async {
+  void completeTurn(Duration duration) {
     // ignore: no-magic-number
     recordMove(receiveMove(), duration.inMicroseconds / 1000000);
-    var hasEveryonePlayed = !await nextTurn();
+    var hasEveryonePlayed = !nextTurn();
     if (mounted) {
       if (hasEveryonePlayed) {
         Navigation.replaceLast(
@@ -89,7 +87,7 @@ class TurnPlayState<T extends Move> extends GameSpecificState<TurnPlay>
           centralChild: Padding(
             padding: StyleGuide.regularPadding,
             child: AspectRatio(
-              key: gameAreaWidgetKey,
+              key: WidgetKeys.gameArea,
               aspectRatio: 1.0, // It's a square
               child: widget.gameFeatures.buildGameArea(
                 setReady: setReady,
@@ -100,7 +98,7 @@ class TurnPlayState<T extends Move> extends GameSpecificState<TurnPlay>
           bottomChildren: [
             const Gap(),
             CustomButton(
-              key: toNextTurnWidgetKey,
+              key: WidgetKeys.toNextTurn,
               text: "Ho finito!",
               onPressed: ready
                   ? () {
@@ -108,7 +106,7 @@ class TurnPlayState<T extends Move> extends GameSpecificState<TurnPlay>
                     }
                   : null,
             ),
-            Clock(_startTime, key: clockWidgetKey),
+            Clock(_startTime, key: WidgetKeys.clock),
           ],
         ),
       ),

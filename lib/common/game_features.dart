@@ -13,7 +13,7 @@ import '/games/morra.dart';
 import '/games/outcome_screen.dart';
 import '/games/small_shot.dart';
 import '/games/game_area.dart';
-import 'config.dart' as config;
+import 'config.dart';
 import 'move.dart';
 
 class GameFeatures {
@@ -56,11 +56,11 @@ class GameFeatures {
     this.pointsMatter = true,
     this.formatPoints = dontFormat,
     this.usesRigidGameArea = false,
-  })  : maxPlayers = maxPlayers ?? config.maxPlayers,
-        maxSuggestedPlayers = maxSuggestedPlayers ?? config.maxPlayers {
+  })  : maxPlayers = maxPlayers ?? Config.maxPlayers,
+        maxSuggestedPlayers = maxSuggestedPlayers ?? Config.maxPlayers {
     assert(minPlayers <= minSuggestedPlayers);
     assert(minSuggestedPlayers <= this.maxSuggestedPlayers);
-    assert(this.maxSuggestedPlayers <= config.maxPlayers);
+    assert(this.maxSuggestedPlayers <= Config.maxPlayers);
   }
 
   static String dontFormat(i) => i.toString();

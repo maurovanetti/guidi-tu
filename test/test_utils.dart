@@ -1,3 +1,8 @@
+// These utils are the only place where new top-level public members are
+// allowed. Please be careful before introducing more, and consider how they may
+// affect the reliability of the tests.
+// ignore_for_file: avoid-top-level-members-in-tests
+
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 
@@ -24,25 +29,32 @@ extension CustomTestUtils on WidgetTester {
   }
 }
 
-void debugListRelevantWidgets() {
-  debugPrint("=== Widgets with ValueKey<String> ===");
-  find
-      .byWidgetPredicate((widget) => widget.key is ValueKey<String>,
-          skipOffstage: false)
-      .evaluate()
-      .forEach(
-    (element) {
-      debugPrint(element.widget.toString());
-    },
-  );
-  debugPrint("======== Text in widgets ========");
-  find
-      .byWidgetPredicate((widget) => widget is Text, skipOffstage: false)
-      .evaluate()
-      .forEach(
-    (element) {
-      debugPrint((element.widget as Text).data);
-    },
-  );
-  debugPrint("=====================================");
+class TestUtils {
+  static void debugListRelevantWidgets() {
+    debugPrint("=== Widgets with ValueKey<String> ===");
+    find
+        .byWidgetPredicate(
+          (widget) => widget.key is ValueKey<String>,
+          skipOffstage: false,
+        )
+        .evaluate()
+        .forEach(
+      (element) {
+        debugPrint(element.widget.toString());
+      },
+    );
+    debugPrint("======== Text in widgets ========");
+    find
+        .byWidgetPredicate(
+          (widget) => widget is Text,
+          skipOffstage: false,
+        )
+        .evaluate()
+        .forEach(
+      (element) {
+        debugPrint((element.widget as Text).data);
+      },
+    );
+    debugPrint("=====================================");
+  }
 }

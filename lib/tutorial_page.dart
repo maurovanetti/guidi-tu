@@ -29,7 +29,7 @@ class _TutorialPageState extends TrackedState<TutorialPage> {
         ),
       ),
       floatingActionButton: CustomFloatingActionButton(
-        key: toTeamWidgetKey,
+        key: WidgetKeys.toTeam,
         onPressed: Navigation.replaceLast(context, () => const TeamPage()).go,
         tooltip: 'Avanti',
         icon: Icons.arrow_forward,

@@ -39,12 +39,12 @@ class TurnInterstitialState extends TrackedState<TurnInterstitial>
     showDialog<void>(
       context: context,
       builder: (context) => AlertDialog(
-        key: hiddenPlayAlertWidgetKey,
+        key: WidgetKeys.hiddenPlayAlert,
         title: const Text("Gioca di nascosto"),
         content: const Text("Non mostrare la tua mossa agli altri."),
         actions: [
           TextButton(
-            key: acknowledgeHiddenPlayWidgetKey,
+            key: WidgetKeys.acknowledgeHiddenPlay,
             onPressed: _play,
             child: const Text("OK"),
           ),
@@ -71,8 +71,10 @@ class TurnInterstitialState extends TrackedState<TurnInterstitial>
               context: context,
               builder: (context) => AlertDialog(
                 title: const Text("Interruzione del gioco"),
-                content: const Text("Vuoi davvero interrompere il gioco?\n"
-                    "Farai una figura da guastafeste!"),
+                content: const Text(
+                  "Vuoi davvero interrompere il gioco?\n"
+                  "Farai una figura da guastafeste!",
+                ),
                 actions: [
                   TextButton(
                     onPressed: () => Navigator.of(context).pop(),
@@ -125,8 +127,9 @@ class TurnInterstitialState extends TrackedState<TurnInterstitial>
                   ),
                   const Gap(),
                   const Text(
-                      textAlign: TextAlign.center,
-                      'A pari merito, conta la velocità.'),
+                    textAlign: TextAlign.center,
+                    'A pari merito, conta la velocità.',
+                  ),
                 ],
               ),
             ),
@@ -134,7 +137,7 @@ class TurnInterstitialState extends TrackedState<TurnInterstitial>
               const Gap(),
               if (player is! NoPlayer)
                 CustomButton(
-                  key: toTurnPlayWidgetKey,
+                  key: WidgetKeys.toTurnPlay,
                   text: player.t("Sono pronto", "Sono pronta"),
                   onPressed: widget.gameFeatures.secretPlay
                       ? _showSecretPlayAlert

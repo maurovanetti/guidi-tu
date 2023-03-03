@@ -26,6 +26,7 @@ class _PickPageState extends TrackedState<PickPage>
   late final int _playerCount;
   List<GameCard> _gameCards = [];
 
+  // ignore: avoid-returning-widgets
   GameCard get _selectedGame => _gameCards[_selectedGameIndex ?? 0];
 
   set _selectedGame(GameCard value) {
@@ -74,8 +75,8 @@ class _PickPageState extends TrackedState<PickPage>
       _playerCount >= gameFeatures.minSuggestedPlayers &&
       _playerCount <= gameFeatures.maxSuggestedPlayers;
 
-  Future<void> _startGame() async {
-    await nextTurn();
+  void _startGame() {
+    assert(nextTurn());
     if (mounted) {
       Navigation.replaceAll(context, () => _selectedGame.gameStart).go();
     }
@@ -94,7 +95,7 @@ class _PickPageState extends TrackedState<PickPage>
         ),
       ),
       floatingActionButton: CustomFloatingActionButton(
-        key: toTurnInterstitialWidgetKey,
+        key: WidgetKeys.toTurnInterstitial,
         tooltip: 'Inizio',
         icon: Icons.play_arrow_rounded,
         onPressed: _startGame,
@@ -143,7 +144,7 @@ class GameCard extends StatelessWidget {
     var foreground = selected ? buttonColorScheme?.onPrimaryContainer : null;
     var background = selected ? buttonColorScheme?.primaryContainer : null;
     Widget card = Card(
-      key: pickGameWidgetKey(name),
+      key: WidgetKeys.pickGame(name),
       color: background,
       child: Column(
         mainAxisSize: MainAxisSize.min,
