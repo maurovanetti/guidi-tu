@@ -157,8 +157,8 @@ void main() {
       "App doesn't show driver + payer at start if missing",
       (WidgetTester tester) async {
         await tester.pumpWidget(const App());
-        expect(WidgetKeys.driver.found(), findsOneWidget);
-        expect(WidgetKeys.payer.found(), findsOneWidget);
+        expect(WidgetKeys.driver.found(), findsNothing);
+        expect(WidgetKeys.payer.found(), findsNothing);
         await tester.pump(const Duration(seconds: 4)); // End initial animation
         expect("GUIDO".found(), findsNothing);
         expect("PAGO".found(), findsNothing);
@@ -175,8 +175,8 @@ void main() {
         await prefs.setString('payer', 'PAGO');
         await prefs.setString('driver', 'GUIDO');
         await tester.pumpWidget(const App());
-        expect(WidgetKeys.driver.found(), findsOneWidget);
-        expect(WidgetKeys.payer.found(), findsOneWidget);
+        expect(WidgetKeys.driver.found(), findsNothing);
+        expect(WidgetKeys.payer.found(), findsNothing);
         await tester.pump(const Duration(seconds: 4)); // End initial animation
         var guido = "GUIDO".found().evaluate().single.widget;
         var driver = WidgetKeys.driver.found().evaluate().single.widget;
@@ -200,8 +200,8 @@ void main() {
         await prefs.setString('payer', 'PAGO');
         await prefs.setString('driver', 'GUIDO');
         await tester.pumpWidget(const App());
-        expect(WidgetKeys.driver.found(), findsOneWidget);
-        expect(WidgetKeys.payer.found(), findsOneWidget);
+        expect(WidgetKeys.driver.found(), findsNothing);
+        expect(WidgetKeys.payer.found(), findsNothing);
         await tester.pump(const Duration(seconds: 4)); // End initial animation
         expect("GUIDO".found(), findsNothing);
         expect("PAGO".found(), findsNothing);

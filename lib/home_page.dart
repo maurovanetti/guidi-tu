@@ -113,13 +113,13 @@ class DriverOrPayerLabel extends StatelessWidget {
     if (name == null) {
       return Text(
         'Scopriamolo!',
-        key: key,
+        key: labelKey,
         style: style.copyWith(fontStyle: FontStyle.italic),
       );
     }
     return Text(
       name!,
-      key: key,
+      key: labelKey,
       style: style.copyWith(fontWeight: FontWeight.bold),
     );
   }

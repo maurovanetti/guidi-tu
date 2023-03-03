@@ -30,12 +30,12 @@ extension CustomTestUtils on WidgetTester {
 }
 
 class TestUtils {
-  static void debugListRelevantWidgets() {
+  static void debugListRelevantWidgets({bool skipOffstage = false}) {
     debugPrint("=== Widgets with ValueKey<String> ===");
     find
         .byWidgetPredicate(
           (widget) => widget.key is ValueKey<String>,
-          skipOffstage: false,
+          skipOffstage: skipOffstage,
         )
         .evaluate()
         .forEach(
@@ -47,7 +47,7 @@ class TestUtils {
     find
         .byWidgetPredicate(
           (widget) => widget is Text,
-          skipOffstage: false,
+          skipOffstage: skipOffstage,
         )
         .evaluate()
         .forEach(
