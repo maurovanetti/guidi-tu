@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 
 import '/common/common.dart';
-import 'turn_interstitial_screen.dart';
 import 'completion_screen.dart';
+import 'turn_instructions_screen.dart';
 
 abstract class TurnPlayScreen extends GameSpecificStatefulWidget {
   bool get isReadyAtStart => true;
@@ -53,7 +53,7 @@ class TurnPlayState<T extends Move> extends GameSpecificState<TurnPlayScreen>
       } else {
         Navigation.replaceLast(
           context,
-          () => TurnInterstitialScreen(gameFeatures: widget.gameFeatures),
+          () => TurnInstructionsScreen(gameFeatures: widget.gameFeatures),
         ).go();
       }
     }

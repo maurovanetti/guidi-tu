@@ -49,6 +49,7 @@ flutter:
   assets:
       - assets/images/battleship/
       - assets/images/morra/
+      - assets/images/morra/interstitial/
   fonts:
     - family: Signika
       fonts:

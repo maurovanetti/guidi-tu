@@ -17,6 +17,7 @@ class WidgetKeys {
   static const toTutorial = Key('to-tutorial');
   static const toTeam = Key('to-team');
   static const toPick = Key('to-pick');
+  static const toTurnInstructions = Key('to-turn-instructions');
   static const toTurnInterstitial = Key('to-turn-interstitial');
   static const toTurnPlay = Key('to-turn-play');
   static const toNextTurn = Key('to-next-turn');

@@ -2,8 +2,8 @@ import 'package:collection/collection.dart';
 import 'package:flutter/material.dart';
 
 import '/common/common.dart';
-import '/screens/turn_play_screen.dart';
 import '/screens/outcome_screen.dart';
+import '/screens/turn_play_screen.dart';
 import 'game_area.dart';
 import 'shot.dart';
 
@@ -45,6 +45,14 @@ class MorraGameAreaState extends ShotGameAreaState<MorraMove> {
       debugPrint("Fingers = $newFingers");
       setState(() => _fingers = newFingers);
     }
+  }
+
+  @override
+  void didChangeDependencies() {
+    for (var hand in HandImage.hands) {
+      precacheImage(AssetImage(hand), context);
+    }
+    super.didChangeDependencies();
   }
 
   @override
@@ -103,7 +111,7 @@ class MorraGameAreaState extends ShotGameAreaState<MorraMove> {
 }
 
 class HandImage extends StatelessWidget {
-  static const _hands = [
+  static const hands = [
     "assets/images/morra/zero.png",
     "assets/images/morra/one.png",
     "assets/images/morra/two.png",
@@ -121,7 +129,7 @@ class HandImage extends StatelessWidget {
   @override
   build(context) {
     var raw = Image.asset(
-      _hands[fingers],
+      hands[fingers],
       alignment: Alignment.topCenter,
       height: height,
     );
