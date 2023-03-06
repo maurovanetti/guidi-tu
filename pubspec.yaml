@@ -48,8 +48,11 @@ flutter:
   uses-material-design: true
   assets:
       - assets/images/battleship/
+      - assets/images/battleship/interstitial/
       - assets/images/morra/
       - assets/images/morra/interstitial/
+      - assets/images/shot/
+      - assets/images/shot/interstitial/
   fonts:
     - family: Signika
       fonts:

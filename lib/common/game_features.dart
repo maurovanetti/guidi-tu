@@ -7,10 +7,10 @@
 import 'package:flutter/material.dart';
 
 import '/games/battleship.dart';
+import '/games/game_area.dart';
 import '/games/large_shot.dart';
 import '/games/morra.dart';
 import '/games/small_shot.dart';
-import '/games/game_area.dart';
 import '/screens/outcome_screen.dart';
 import '/screens/turn_play_screen.dart';
 import 'config.dart';
@@ -37,6 +37,7 @@ class GameFeatures {
   final bool pointsMatter;
   final String Function(int) formatPoints;
   final bool usesRigidGameArea;
+  final String interstitialAnimationPath; // Path below images with no extension
 
   GameFeatures({
     required this.name,
@@ -56,6 +57,7 @@ class GameFeatures {
     this.pointsMatter = true,
     this.formatPoints = dontFormat,
     this.usesRigidGameArea = false,
+    required this.interstitialAnimationPath,
   })  : maxPlayers = maxPlayers ?? Config.maxPlayers,
         maxSuggestedPlayers = maxSuggestedPlayers ?? Config.maxPlayers {
     assert(minPlayers <= minSuggestedPlayers);
@@ -80,6 +82,7 @@ Ma attenzione: chi sceglie il numero più alto, paga.""",
   buildGameArea: LargeShotGameArea.new,
   playWidget: LargeShot.new,
   outcomeWidget: () => LargeShotOutcome(),
+  interstitialAnimationPath: "shot/interstitial/LargeShot",
 );
 
 final smallShot = GameFeatures(
@@ -97,6 +100,7 @@ Ma attenzione: chi sceglie il numero più basso, paga.""",
   playWidget: SmallShot.new,
   outcomeWidget: () => SmallShotOutcome(),
   lessIsMore: true,
+  interstitialAnimationPath: "shot/interstitial/SmallShot",
 );
 
 final morra = GameFeatures(
@@ -118,6 +122,7 @@ Ma attenzione: chi si avvicina di più, paga.""",
   lessIsMore: true,
   // meaning the difference between the sum and the guess
   formatPoints: (p) => '±$p',
+  interstitialAnimationPath: "morra/interstitial/Morra",
 );
 
 final battleship = GameFeatures(
@@ -140,6 +145,7 @@ Ma attenzione: chi fa più punti, paga.""",
   outcomeWidget: BattleshipOutcome.new,
   formatPoints: (p) => '$p pt.',
   usesRigidGameArea: true,
+  interstitialAnimationPath: "", // TODO
 );
 
 final List<GameFeatures> allGameFeatures = [

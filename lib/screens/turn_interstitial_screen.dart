@@ -57,15 +57,19 @@ class InterstitialAnimationState extends State<InterstitialAnimation> {
 
   @override
   void initState() {
-    debugPrint("InterstitialAnimationState.initState");
     super.initState();
     _loadAnimation();
   }
 
   Future<void> _loadAnimation() async {
-    var imageFilePath = 'morra/interstitial/Morra.png';
+    var path = widget.gameFeatures.interstitialAnimationPath;
+    if (path.isEmpty) {
+      debugPrint("No interstitial animation for ${widget.gameFeatures.name}");
+      return;
+    }
+    var imageFilePath = '$path.png';
     var image = await Flame.images.load(imageFilePath);
-    var jsonFilePath = 'images/morra/interstitial/Morra.json';
+    var jsonFilePath = 'images/$path.json';
     var jsonData = jsonDecode(await Flame.assets.readFile(jsonFilePath));
     if (mounted) {
       setState(() {
