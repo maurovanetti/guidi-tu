@@ -1,5 +1,3 @@
-import 'dart:convert';
-
 import 'package:flame/flame.dart';
 import 'package:flame/widgets.dart';
 import 'package:flutter/material.dart';
@@ -44,6 +42,8 @@ class TurnInterstitialState extends TrackedState<TurnInterstitialScreen> {
 }
 
 class InterstitialAnimation extends StatefulWidget {
+  static const int fps = 10;
+
   final GameFeatures gameFeatures;
 
   const InterstitialAnimation({super.key, required this.gameFeatures});
@@ -62,18 +62,22 @@ class InterstitialAnimationState extends State<InterstitialAnimation> {
   }
 
   Future<void> _loadAnimation() async {
-    var path = widget.gameFeatures.interstitialAnimationPath;
+    // Lower case is required because Flame.images.loadAllFromPattern assumes
+    // lower-case pattern matching.
+    String path = widget.gameFeatures.interstitialAnimationPath.toLowerCase();
     if (path.isEmpty) {
       debugPrint("No interstitial animation for ${widget.gameFeatures.name}");
       return;
     }
-    var imageFilePath = '$path.png';
-    var image = await Flame.images.load(imageFilePath);
-    var jsonFilePath = 'images/$path.json';
-    var jsonData = jsonDecode(await Flame.assets.readFile(jsonFilePath));
+    var frameImages = await Flame.images
+        .loadAllFromPattern(RegExp('${RegExp.escape(path)}_\\d+\\.png'));
+    var sprites = frameImages.map((image) => Sprite(image)).toList();
     if (mounted) {
       setState(() {
-        animation = SpriteAnimation.fromAsepriteData(image, jsonData);
+        animation = SpriteAnimation.spriteList(
+          sprites,
+          stepTime: 1 / InterstitialAnimation.fps,
+        );
       });
     }
   }
