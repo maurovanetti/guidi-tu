@@ -21,6 +21,7 @@ class _TutorialScreenState extends TrackedState<TutorialScreen> {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
+            InterstitialAnimation(prefix: 'tutorial/Transition_mezzaria 2'),
             Text("Spiegazione"),
           ],
         ),

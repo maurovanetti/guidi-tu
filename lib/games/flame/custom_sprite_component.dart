@@ -4,7 +4,8 @@ import 'package:flame/experimental.dart';
 import 'package:flame/game.dart';
 import 'package:flame/palette.dart';
 import 'package:flutter/material.dart' hide Draggable;
-import 'package:guidi_tu/common/animation_loader.dart';
+
+import '/common/common.dart';
 
 class CustomSpriteComponent<T extends Game> extends SpriteAnimationComponent
     with HasGameReference<T> {
