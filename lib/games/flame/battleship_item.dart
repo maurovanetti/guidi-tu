@@ -1,5 +1,3 @@
-import 'dart:math';
-
 import 'package:flame/components.dart';
 
 import 'battleship_module.dart';
@@ -16,23 +14,21 @@ abstract class BattleshipItem
     required BattleshipBoard board,
     this.cellSpan = 1,
     this.isVertical = false,
-    bool flipped = false,
   }) : super(
           assetPath,
           position,
-          size:
-              Vector2(board.cellSize.x * cellSpan.toDouble(), board.cellSize.y),
+          size: Vector2(board.cellSize.x, board.cellSize.y),
           elevation: 8,
-          // Even if it spans more cells, it's anchored at the center of the 1st
-          anchor: Anchor(0.5 / cellSpan, 0.5),
         ) {
+    // Basic size of a 1x1 ship, it will be scaled up in a moment if needed.
+    size = Vector2(board.cellSize.x, board.cellSize.y);
+    // Even if it spans more cells, it's anchored at the center of the 1st.
     if (isVertical) {
-      angle = pi / 2;
-    }
-    if (flipped) {
-      // Directly flipping it would break the consistence of the shadow
-      angle += pi;
-      anchor = Anchor(1 - anchor.x, 0.5);
+      size.y *= cellSpan;
+      anchor = Anchor(0.5, 0.5 / cellSpan);
+    } else {
+      size.x *= cellSpan;
+      anchor = Anchor(0.5 / cellSpan, 0.5);
     }
     snapRule = SnapRule(
       // Snaps to the center of each cell

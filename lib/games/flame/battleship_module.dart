@@ -1,17 +1,16 @@
 import 'dart:async';
-import 'dart:math';
 
 import 'package:flame/game.dart';
 import 'package:flutter/material.dart';
 
-import 'battleship_bomb.dart';
 import 'battleship_board.dart';
+import 'battleship_bomb.dart';
 import 'battleship_ship.dart';
 
-export 'battleship_bomb.dart';
 export 'battleship_board.dart';
-export 'battleship_ship.dart';
+export 'battleship_bomb.dart';
 export 'battleship_item.dart';
+export 'battleship_ship.dart';
 
 class BattleshipModule extends FlameGame with HasDraggables {
   late final BattleshipBoard board;
@@ -43,7 +42,7 @@ class BattleshipModule extends FlameGame with HasDraggables {
         size.y - padding - board.cellHeight / 2,
       ),
       cellSpan: 1,
-      isVertical: Random().nextBool(),
+      isVertical: false,
       board: board,
     );
     var mediumShip = BattleshipShip(

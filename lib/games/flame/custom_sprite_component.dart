@@ -4,21 +4,26 @@ import 'package:flame/experimental.dart';
 import 'package:flame/game.dart';
 import 'package:flame/palette.dart';
 import 'package:flutter/material.dart' hide Draggable;
+import 'package:guidi_tu/common/animation_loader.dart';
 
-class CustomSpriteComponent<T extends Game> extends SpriteComponent
+class CustomSpriteComponent<T extends Game> extends SpriteAnimationComponent
     with HasGameReference<T> {
   // Using BasicPalette.black or .white here makes no difference, it's the
-  // colorFilter that does the magic
+  // colorFilter that does the magic.
   static final Paint shadowPaint = BasicPalette.black.withAlpha(50).paint()
     ..colorFilter = const ColorFilter.mode(Colors.black, BlendMode.srcATop);
 
   // Defining a default size for all sprites in a game can make sense for
-  // tile-based games
+  // tile-based games.
   static final Vector2 defaultSpriteSize = Vector2.all(128.0);
+  // The assetPath can be a path to a single image or a path to a directory that
+  // contains multiple frames of an animation. If the path ends with ".png" or
+  // ".jpg" or ".jpeg", it's assumed to be a single image.
   final String assetPath;
+  int? fps;
   bool hasShadow;
 
-  // The light direction affects the shadow and is the same for all sprites
+  // The light direction affects the shadow and is the same for all sprites.
   static Vector2 _lightDirection = Vector2(-1.0, 2.0).normalized();
   double _elevation = 0; // The actual default is 10.0, see constructor below
   Vector2? _cachedLightDirection;
@@ -46,7 +51,7 @@ class CustomSpriteComponent<T extends Game> extends SpriteComponent
 
   set elevation(value) {
     // The shadow position must remain the same, so we need to update the
-    // position of the sprite in the opposite direction of the light
+    // position of the sprite in the opposite direction of the light.
     position -= lightDirection * (value - elevation);
     _elevation = value;
     _shadowOffset = null; // Invalidates the cached value
@@ -65,13 +70,14 @@ class CustomSpriteComponent<T extends Game> extends SpriteComponent
     double? elevation,
     Vector2? size,
     Anchor? anchor,
+    this.fps,
   }) : super(
           size: size ?? defaultSpriteSize,
           anchor: anchor ?? Anchor.center,
           position: position,
         ) {
     // If there's no shadow, the default elevation is 0 to prevent the sprite
-    // from being rendered in a different initial position than expected
+    // from being rendered in a different initial position than expected.
     this._elevation = elevation ?? (hasShadow ? 0.0 : 5.0);
   }
 
@@ -80,12 +86,12 @@ class CustomSpriteComponent<T extends Game> extends SpriteComponent
     // Reminder: this uses local coordinates!
     // Shadow sprite
     if (hasShadow) {
-      sprite?.render(
-        canvas,
-        position: shadowOffset,
-        size: size,
-        overridePaint: shadowPaint,
-      );
+      animation?.getSprite().render(
+            canvas,
+            position: shadowOffset,
+            size: size,
+            overridePaint: shadowPaint,
+          );
     }
     // Main sprite
     super.render(canvas);
@@ -93,7 +99,15 @@ class CustomSpriteComponent<T extends Game> extends SpriteComponent
 
   @override
   Future<void> onLoad() async {
-    sprite = await game.loadSprite(assetPath);
+    if (assetPath.endsWith('.png') ||
+        assetPath.endsWith('.jpg') ||
+        assetPath.endsWith('.jpeg')) {
+      var sprite = await game.loadSprite(assetPath);
+      animation =
+          SpriteAnimation.spriteList([sprite], stepTime: double.infinity);
+    } else {
+      animation = await AnimationLoader.load(assetPath, fps: fps);
+    }
   }
 }
 
@@ -111,18 +125,12 @@ class DraggableCustomSpriteComponent<T extends Game>
   DraggableCustomSpriteComponent(
     String assetPath,
     Vector2 position, {
-    bool hasShadow = true,
-    double elevation = 10.0,
-    Vector2? size,
-    Anchor? anchor,
-  }) : super(
-          assetPath,
-          position,
-          hasShadow: hasShadow,
-          elevation: elevation,
-          size: size,
-          anchor: anchor,
-        );
+    super.hasShadow = true,
+    super.elevation = 10.0,
+    super.size,
+    super.anchor,
+    super.fps,
+  }) : super(assetPath, position);
 
   @override
   bool onDragStart(DragStartInfo info) {

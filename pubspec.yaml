@@ -49,6 +49,8 @@ flutter:
   assets:
     - assets/images/battleship/
     - assets/images/battleship/interstitial/
+    - assets/images/battleship/duck/
+    - assets/images/battleship/buoy/
     - assets/images/morra/
     - assets/images/morra/interstitial/
     - assets/images/shot/

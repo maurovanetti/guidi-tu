@@ -1,8 +1,8 @@
-import 'package:flame/flame.dart';
 import 'package:flame/widgets.dart';
 import 'package:flutter/material.dart';
 
 import '/common/common.dart';
+import '../common/animation_loader.dart';
 
 class TurnInterstitialScreen extends GameSpecificStatefulWidget {
   const TurnInterstitialScreen({super.key, required super.gameFeatures});
@@ -62,22 +62,16 @@ class InterstitialAnimationState extends State<InterstitialAnimation> {
   }
 
   Future<void> _loadAnimation() async {
-    // Lower case is required because Flame.images.loadAllFromPattern assumes
-    // lower-case pattern matching.
-    String path = widget.gameFeatures.interstitialAnimationPath.toLowerCase();
+    String path = widget.gameFeatures.interstitialAnimationPath;
     if (path.isEmpty) {
       debugPrint("No interstitial animation for ${widget.gameFeatures.name}");
       return;
     }
-    var frameImages = await Flame.images
-        .loadAllFromPattern(RegExp('${RegExp.escape(path)}_\\d+\\.png'));
-    var sprites = frameImages.map((image) => Sprite(image)).toList();
+    var animation =
+        await AnimationLoader.load(path, fps: InterstitialAnimation.fps);
     if (mounted) {
       setState(() {
-        animation = SpriteAnimation.spriteList(
-          sprites,
-          stepTime: 1 / InterstitialAnimation.fps,
-        );
+        this.animation = animation;
       });
     }
   }

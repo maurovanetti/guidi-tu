@@ -1,5 +1,3 @@
-import 'dart:math';
-
 import 'package:flame/components.dart';
 
 import 'battleship_board.dart';
@@ -12,9 +10,8 @@ class BattleshipShip extends BattleshipItem {
     super.cellSpan = 1,
     super.isVertical = false,
   }) : super(
-          'battleship/short_ship.png', // TODO Images for different sizes
+          BattleshipShip.getAssetPath(cellSpan, isVertical),
           position,
-          flipped: Random().nextBool(),
         );
 
   @override
@@ -37,5 +34,15 @@ class BattleshipShip extends BattleshipItem {
         : bombCell.row == shipCell.row &&
             bombCell.column >= shipCell.column &&
             bombCell.column < shipCell.column + cellSpan;
+  }
+
+  static String getAssetPath(int cellSpan, bool isVertical) {
+    if (cellSpan == 1) {
+      return 'battleship/duck/Naval_Papera';
+    }
+    if (isVertical) {
+      return 'battleship/buoy/Navale_Faro';
+    }
+    return 'battleship/short_ship.png';
   }
 }
