@@ -82,7 +82,7 @@ Ma attenzione: chi sceglie il numero più alto, paga.""",
   buildGameArea: LargeShotGameArea.new,
   playWidget: LargeShot.new,
   outcomeWidget: () => LargeShotOutcome(),
-  interstitialAnimationPath: "shot/interstitial/LargeShot",
+  interstitialAnimationPath: "shot/interstitial/Game_Numero Alto",
 );
 
 final smallShot = GameFeatures(
@@ -100,7 +100,7 @@ Ma attenzione: chi sceglie il numero più basso, paga.""",
   playWidget: SmallShot.new,
   outcomeWidget: () => SmallShotOutcome(),
   lessIsMore: true,
-  interstitialAnimationPath: "shot/interstitial/SmallShot",
+  interstitialAnimationPath: "shot/interstitial/Game_Numero Basso",
 );
 
 final morra = GameFeatures(
@@ -145,7 +145,7 @@ Ma attenzione: chi fa più punti, paga.""",
   outcomeWidget: BattleshipOutcome.new,
   formatPoints: (p) => '$p pt.',
   usesRigidGameArea: true,
-  interstitialAnimationPath: "", // TODO
+  interstitialAnimationPath: "battleship/interstitial/Game_Naval",
 );
 
 final List<GameFeatures> allGameFeatures = [
