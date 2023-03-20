@@ -16,6 +16,7 @@ class SmallShotGameArea extends GameArea<ShotMove> {
     super.key,
     required super.setReady,
     required MoveReceiver moveReceiver,
+    required super.startTime,
   }) : super(
           gameFeatures: largeShot,
           moveReceiver: moveReceiver as MoveReceiver<ShotMove>,

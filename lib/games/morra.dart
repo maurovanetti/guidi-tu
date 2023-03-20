@@ -19,6 +19,7 @@ class MorraGameArea extends GameArea<MorraMove> {
     super.key,
     required super.setReady,
     required MoveReceiver moveReceiver,
+    required super.startTime,
   }) : super(
           gameFeatures: morra,
           moveReceiver: moveReceiver as MoveReceiver<MorraMove>,

@@ -1,6 +1,6 @@
 import '/common/common.dart';
-import '/screens/turn_play_screen.dart';
 import '/screens/outcome_screen.dart';
+import '/screens/turn_play_screen.dart';
 import 'game_area.dart';
 import 'shot.dart';
 
@@ -16,6 +16,7 @@ class LargeShotGameArea extends GameArea<ShotMove> {
     super.key,
     required super.setReady,
     required MoveReceiver moveReceiver,
+    required super.startTime,
   }) : super(
           gameFeatures: largeShot,
           moveReceiver: moveReceiver as MoveReceiver<ShotMove>,

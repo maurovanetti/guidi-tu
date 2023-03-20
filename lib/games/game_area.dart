@@ -4,6 +4,7 @@ import '/common/common.dart';
 
 abstract class GameArea<T extends Move> extends StatefulWidget {
   final GameFeatures gameFeatures;
+  final DateTime startTime; // Only used in "synchronized" games like Stopwatch
   final void Function(bool) setReady;
   final MoveReceiver<T> moveReceiver;
 
@@ -12,6 +13,7 @@ abstract class GameArea<T extends Move> extends StatefulWidget {
     required this.gameFeatures,
     required this.setReady,
     required this.moveReceiver,
+    required this.startTime,
   });
 
   @override

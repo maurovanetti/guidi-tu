@@ -82,6 +82,7 @@ class TurnPlayState<T extends Move> extends GameSpecificState<TurnPlayScreen>
               key: WidgetKeys.gameArea,
               aspectRatio: 1.0, // It's a square
               child: widget.gameFeatures.buildGameArea(
+                startTime: _startTime,
                 setReady: setReady,
                 moveReceiver: this,
               ),

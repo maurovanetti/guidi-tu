@@ -2,8 +2,8 @@ import 'package:flame/game.dart';
 import 'package:flutter/material.dart';
 
 import '/common/common.dart';
-import '/screens/turn_play_screen.dart';
 import '/screens/outcome_screen.dart';
+import '/screens/turn_play_screen.dart';
 import 'flame/battleship_module.dart';
 import 'game_area.dart';
 
@@ -25,6 +25,7 @@ class BattleshipGameArea extends GameArea<BattleshipMove> {
     super.key,
     required super.setReady,
     required MoveReceiver moveReceiver,
+    required super.startTime,
   }) : super(
           gameFeatures: morra,
           moveReceiver: moveReceiver as MoveReceiver<BattleshipMove>,

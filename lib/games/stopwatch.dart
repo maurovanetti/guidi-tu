@@ -6,6 +6,8 @@ import '/screens/turn_play_screen.dart';
 import 'game_area.dart';
 
 class Stopwatch extends TurnPlayScreen {
+  static const period = 3; // seconds
+
   Stopwatch() : super(key: WidgetKeys.stopwatch, gameFeatures: stopwatch);
 
   @override
@@ -14,9 +16,11 @@ class Stopwatch extends TurnPlayScreen {
 
 class StopwatchState extends TurnPlayState<NoMove> {
   @override
-  Duration get elapsed =>
-      // ignore: no-magic-number
-      Duration(microseconds: super.elapsed.inMicroseconds % 1000000);
+  Duration get elapsed => Duration(
+        microseconds:
+            // ignore: no-magic-number
+            super.elapsed.inMicroseconds % (Stopwatch.period * 1000000),
+      );
 
   @override
   bool get displayClock => false;
@@ -27,6 +31,7 @@ class StopwatchGameArea extends GameArea<NoMove> {
     super.key,
     required super.setReady,
     required MoveReceiver moveReceiver,
+    required super.startTime,
   }) : super(
           gameFeatures: stopwatch,
           moveReceiver: moveReceiver as MoveReceiver<NoMove>,
@@ -42,7 +47,7 @@ class StopwatchGameAreaState extends GameAreaState<NoMove> {
 
   @override
   Widget build(BuildContext context) {
-    return Text("Start time: ...");
+    return Text("Start time: ${widget.startTime}");
   }
 }
 

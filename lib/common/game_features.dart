@@ -30,6 +30,7 @@ class GameFeatures {
   final GameArea Function({
     required void Function(bool) setReady,
     required MoveReceiver moveReceiver,
+    required DateTime startTime,
   }) buildGameArea;
   final TurnPlayScreen Function() playWidget;
   final OutcomeScreen Function() outcomeWidget;
@@ -84,7 +85,7 @@ Ma attenzione: chi sceglie il numero più alto, paga.""",
   minSuggestedPlayers: 3,
   buildGameArea: LargeShotGameArea.new,
   playWidget: LargeShot.new,
-  outcomeWidget: () => LargeShotOutcome(),
+  outcomeWidget: LargeShotOutcome.new,
   interstitialAnimationPath: "shot/interstitial/Game_Numero Alto",
 );
 
@@ -101,7 +102,7 @@ Ma attenzione: chi sceglie il numero più basso, paga.""",
   minSuggestedPlayers: 3,
   buildGameArea: SmallShotGameArea.new,
   playWidget: SmallShot.new,
-  outcomeWidget: () => SmallShotOutcome(),
+  outcomeWidget: SmallShotOutcome.new,
   lessIsMore: true,
   interstitialAnimationPath: "shot/interstitial/Game_Numero Basso",
 );
@@ -168,7 +169,7 @@ Ma attenzione: chi finisce col numero più alto, paga.""",
   minSuggestedPlayers: 2,
   buildGameArea: StopwatchGameArea.new,
   playWidget: Stopwatch.new,
-  outcomeWidget: () => StopwatchOutcome(),
+  outcomeWidget: StopwatchOutcome.new,
   pointsMatter: false,
   timeMatters: false,
   interstitialAnimationPath: "",
