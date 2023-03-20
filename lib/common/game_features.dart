@@ -157,13 +157,13 @@ final stopwatch = GameFeatures(
   name: "Cronometro",
   description: "Spacca il secondo.",
   explanation: """
-La lancetta gira velocemente da 0 a 60.
+La lancetta gira velocemente.
 
 Cerca di fermarla prima che arrivi allo zero, ma più vicino possibile.
   
-Guidi tu se la lancetta indica un numero più basso di tutti gli altri.
+Guidi tu se hai fermato la lancetta più indietro di tutti.
 
-Ma attenzione: chi finisce col numero più alto, paga.""",
+Ma attenzione: chi la ferma più avanti di tutti, paga.""",
   secretPlay: false,
   icon: Icons.timer_rounded,
   minPlayers: 2,
@@ -176,10 +176,35 @@ Ma attenzione: chi finisce col numero più alto, paga.""",
   interstitialAnimationPath: "",
 );
 
+final steadyHand = GameFeatures(
+  name: "Mano ferma",
+  description: "Resisti immobile.",
+  explanation: """
+Tieni il telefono in orizzontale sulla tua mano.
+  
+Comparirà una biglia, appoggiata sullo schermo.
+
+Non farla cadere dalla piattaforma circolare per il tempo più lungo possibile.
+  
+Guidi tu se resisti meno di tutti.
+
+Ma attenzione: chi resiste più a lungo, paga.""",
+  icon: Icons.balance_rounded,
+  minPlayers: 2,
+  minSuggestedPlayers: 2,
+  buildGameArea: StopwatchGameArea.new, // TODO
+  playWidget: Stopwatch.new, // TODO
+  outcomeWidget: StopwatchOutcome.new, // TODO
+  formatPoints: (p) => '${I18n.secondsFormat.format(p / 1000000)}"',
+  externalClock: false,
+  interstitialAnimationPath: "",
+);
+
 final List<GameFeatures> allGameFeatures = [
   largeShot,
   smallShot,
   morra,
   battleship,
   stopwatch,
+  steadyHand,
 ];
