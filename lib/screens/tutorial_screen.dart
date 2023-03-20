@@ -25,56 +25,65 @@ class _TutorialScreenState extends TrackedState<TutorialScreen> {
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
           Expanded(
-            child: Scrollbar(
-              thumbVisibility: true,
-              child: ListView(
-                padding: StyleGuide.regularPadding,
-                children: const [
-                  Text(
-                    "😱 Chi beve alcolici non può guidare: troppo pericoloso.",
-                    style: bold,
-                  ),
-                  Text(
-                    "Ogni gruppo che esce dovrebbe avere un Guidatore Sobrio "
-                    "Designato o una Guidatrice Sobria Designata, che quella "
-                    "sera non beve alcolici. 🤷",
-                  ),
-                  Gap(),
-                  Text(
-                    "🎯 Ma come scegliere chi guida e chi invece beve?",
-                    style: bold,
-                  ),
-                  Text(
-                    "Con questa app! 📲",
-                    style: bold,
-                  ),
-                  Text("Giocando a uno dei minigiochi dell'app, il gruppo "
-                      "stabilisce chi guida e chi beve. 🎲"),
-                  Gap(),
-                  Text(
-                    "🚕 Chi arriva in ultima posizione, guida e non beve.",
-                    style: bold,
-                  ),
-                  Text(
-                    "🥇 Ma attenzione: chi arriva in prima posizione, può bere ma "
-                    "deve pagare.",
-                    style: bold,
-                  ),
-                  Text("Decidete prima di giocare cosa dovrà pagare chi arriva "
-                      "primo o prima. 🤝"),
-                  Text("Paga da bere analcolici a chi guiderà? ☕️"),
-                  Text(
-                    "Paga il biglietto d'ingresso al locale a chi guiderà? 🎟️",
-                  ),
-                  Text("Paga snack per tutto il gruppo? 🍟"),
-                  Text("Paga la benzina? ⛽"),
-                  Gap(),
-                  Text(
-                    "✨ Buona serata e… "
-                    "che guidi il peggiore e che paghi il migliore!",
-                    style: bold,
-                  ),
-                ],
+            child: Container(
+              decoration: ShapeDecoration(
+                shape: StyleGuide.getImportantBorder(context),
+              ),
+              padding: StyleGuide.regularPadding,
+              margin: StyleGuide.regularPadding,
+              child: Scrollbar(
+                thumbVisibility: true,
+                child: ListView(
+                  padding: StyleGuide.scrollbarPadding,
+                  children: const [
+                    Text(
+                      "😱 Chi beve alcolici non può guidare: troppo pericoloso.",
+                      style: bold,
+                    ),
+                    Text(
+                      "Ogni gruppo che esce dovrebbe avere un Guidatore Sobrio "
+                      "Designato o una Guidatrice Sobria Designata, che quella "
+                      "sera non beve alcolici. 🤷",
+                    ),
+                    Gap(),
+                    Text(
+                      "🎯 Ma come scegliere chi guida e chi invece beve?",
+                      style: bold,
+                    ),
+                    Text(
+                      "Con questa app! 📲",
+                      style: bold,
+                    ),
+                    Text("Giocando a uno dei minigiochi dell'app, il gruppo "
+                        "stabilisce chi guida e chi beve. 🎲"),
+                    Gap(),
+                    Text(
+                      "🚕 Chi arriva in ultima posizione, guida e non beve.",
+                      style: bold,
+                    ),
+                    Text(
+                      "🥇 Ma attenzione: chi arriva in prima posizione, può bere ma "
+                      "deve pagare.",
+                      style: bold,
+                    ),
+                    Text(
+                      "Decidete prima di giocare cosa dovrà pagare chi arriva "
+                      "primo o prima. 🤝",
+                    ),
+                    Text("Paga da bere analcolici a chi guiderà? ☕️"),
+                    Text(
+                      "Paga il biglietto d'ingresso al locale a chi guiderà? 🎟️",
+                    ),
+                    Text("Paga snack per tutto il gruppo? 🍟"),
+                    Text("Paga la benzina? ⛽"),
+                    Gap(),
+                    Text(
+                      "✨ Buona serata e… "
+                      "che guidi il peggiore e che paghi il migliore!",
+                      style: bold,
+                    ),
+                  ],
+                ),
               ),
             ),
           ),

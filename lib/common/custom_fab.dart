@@ -19,15 +19,7 @@ class CustomFloatingActionButton extends StatelessWidget {
     return FloatingActionButton(
       tooltip: tooltip,
       onPressed: onPressed,
-      shape: RoundedRectangleBorder(
-        side: BorderSide(
-          color: Theme.of(context).buttonTheme.colorScheme!.onPrimary,
-          width: StyleGuide.importantBorderWidth,
-          strokeAlign: BorderSide.strokeAlignCenter,
-        ),
-        borderRadius:
-            const BorderRadius.all(Radius.circular(StyleGuide.borderRadius)),
-      ),
+      shape: StyleGuide.getImportantBorder(context),
       child: Icon(icon),
     );
   }
