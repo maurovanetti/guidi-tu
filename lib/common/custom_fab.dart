@@ -32,3 +32,13 @@ class CustomFloatingActionButton extends StatelessWidget {
     );
   }
 }
+
+class SafeMarginForCustomFloatingActionButton extends SizedBox {
+  static const safeMarginHeight = 100.0;
+
+  const SafeMarginForCustomFloatingActionButton({super.key})
+      : super(
+          width: double.infinity,
+          height: safeMarginHeight,
+        );
+}
