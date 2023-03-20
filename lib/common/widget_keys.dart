@@ -8,6 +8,7 @@ class WidgetKeys {
   static const smallShot = Key('small-shot');
   static const morra = Key('morra');
   static const battleship = Key('battleship');
+  static const stopwatch = Key('stopwatch');
 
 // Content areas
   static const payer = Key('payer');

@@ -13,7 +13,9 @@ abstract class TurnPlayScreen extends GameSpecificStatefulWidget {
   State createState();
 }
 
-// No need to subclass this, all specific logic is in the GameAreaState and T.
+// In most cases there's no need to subclass this, all specific logic can go in
+// the GameAreaState and T. But there are some special cases like Stopwatch that
+// modifies the time logic.
 class TurnPlayState<T extends Move> extends GameSpecificState<TurnPlayScreen>
     with Gendered, TeamAware, TurnAware<T>, MoveReceiver<T> {
   late bool ready;
@@ -21,6 +23,8 @@ class TurnPlayState<T extends Move> extends GameSpecificState<TurnPlayScreen>
   late DateTime _startTime;
 
   Duration get elapsed => DateTime.now().difference(_startTime);
+
+  bool get displayClock => true;
 
   @override
   void initState() {
@@ -94,7 +98,7 @@ class TurnPlayState<T extends Move> extends GameSpecificState<TurnPlayScreen>
                     }
                   : null,
             ),
-            Clock(_startTime, key: WidgetKeys.clock),
+            if (displayClock) Clock(_startTime, key: WidgetKeys.clock),
           ],
         ),
       ),

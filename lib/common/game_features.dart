@@ -13,6 +13,7 @@ import '/games/morra.dart';
 import '/games/small_shot.dart';
 import '/screens/outcome_screen.dart';
 import '/screens/turn_play_screen.dart';
+import '../games/stopwatch.dart';
 import 'config.dart';
 import 'move.dart';
 
@@ -35,6 +36,7 @@ class GameFeatures {
   final bool lessIsMore;
   final bool longerIsBetter;
   final bool pointsMatter;
+  final bool timeMatters;
   final String Function(int) formatPoints;
   final bool usesRigidGameArea;
   final String interstitialAnimationPath; // Path below images with no extension
@@ -55,6 +57,7 @@ class GameFeatures {
     this.lessIsMore = false,
     this.longerIsBetter = false,
     this.pointsMatter = true,
+    this.timeMatters = true,
     this.formatPoints = dontFormat,
     this.usesRigidGameArea = false,
     required this.interstitialAnimationPath,
@@ -120,7 +123,7 @@ Ma attenzione: chi si avvicina di più, paga.""",
   playWidget: Morra.new,
   outcomeWidget: MorraOutcome.new,
   lessIsMore: true,
-  // meaning the difference between the sum and the guess
+  // Means the difference between the sum and the guess
   formatPoints: (p) => '±$p',
   interstitialAnimationPath: "morra/interstitial/Morra",
 );
@@ -148,9 +151,33 @@ Ma attenzione: chi fa più punti, paga.""",
   interstitialAnimationPath: "battleship/interstitial/Game_Naval",
 );
 
+final stopwatch = GameFeatures(
+  name: "Cronometro",
+  description: "Spacca il secondo.",
+  explanation: """
+La lancetta gira velocemente da 0 a 60.
+
+Cerca di fermarla prima che arrivi allo zero, ma più vicino possibile.
+  
+Guidi tu se la lancetta indica un numero più basso di tutti gli altri.
+
+Ma attenzione: chi finisce col numero più alto, paga.""",
+  secretPlay: false,
+  icon: Icons.timer_rounded,
+  minPlayers: 2,
+  minSuggestedPlayers: 2,
+  buildGameArea: StopwatchGameArea.new,
+  playWidget: Stopwatch.new,
+  outcomeWidget: () => StopwatchOutcome(),
+  pointsMatter: false,
+  timeMatters: false,
+  interstitialAnimationPath: "",
+);
+
 final List<GameFeatures> allGameFeatures = [
   largeShot,
   smallShot,
   morra,
   battleship,
+  stopwatch,
 ];
