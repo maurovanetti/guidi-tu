@@ -82,6 +82,7 @@ mixin ScoreAware {
 class Score extends Comparable<Score> {
   final int points;
   final bool pointsMatter;
+  final bool timeDisplayed;
   double time;
   final bool lessIsMore;
   final bool longerIsBetter;
@@ -91,14 +92,22 @@ class Score extends Comparable<Score> {
 
   String get formattedTime => '${I18n.secondsFormat.format(time)}"';
 
+  String get displayedFirst => pointsMatter ? formattedPoints : formattedTime;
+
+  String get displayedSecond =>
+      pointsMatter && timeDisplayed ? formattedTime : '';
+
   Score({
     required this.points,
     this.pointsMatter = true,
+    this.timeDisplayed = true,
     required this.time,
     this.lessIsMore = false,
     this.longerIsBetter = false,
     required this.formatPoints,
-  });
+  }) {
+    assert(pointsMatter || timeDisplayed);
+  }
 
   @override
   compareTo(Score other) {

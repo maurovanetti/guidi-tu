@@ -15,6 +15,7 @@ import '/screens/outcome_screen.dart';
 import '/screens/turn_play_screen.dart';
 import '../games/stopwatch.dart';
 import 'config.dart';
+import 'i18n.dart';
 import 'move.dart';
 
 class GameFeatures {
@@ -37,7 +38,7 @@ class GameFeatures {
   final bool lessIsMore;
   final bool longerIsBetter;
   final bool pointsMatter;
-  final bool timeMatters;
+  final bool externalClock;
   final String Function(int) formatPoints;
   final bool usesRigidGameArea;
   final String interstitialAnimationPath; // Path below images with no extension
@@ -58,7 +59,7 @@ class GameFeatures {
     this.lessIsMore = false,
     this.longerIsBetter = false,
     this.pointsMatter = true,
-    this.timeMatters = true,
+    this.externalClock = true,
     this.formatPoints = dontFormat,
     this.usesRigidGameArea = false,
     required this.interstitialAnimationPath,
@@ -170,8 +171,8 @@ Ma attenzione: chi finisce col numero più alto, paga.""",
   buildGameArea: StopwatchGameArea.new,
   playWidget: Stopwatch.new,
   outcomeWidget: StopwatchOutcome.new,
-  pointsMatter: false,
-  timeMatters: false,
+  formatPoints: (p) => '${I18n.secondsFormat.format(p / 1000000)}"',
+  externalClock: false,
   interstitialAnimationPath: "",
 );
 

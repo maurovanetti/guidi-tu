@@ -55,6 +55,7 @@ flutter:
     - assets/images/morra/interstitial/
     - assets/images/shot/
     - assets/images/shot/interstitial/
+    - assets/images/stopwatch/
     - assets/images/tutorial/
   fonts:
     - family: Signika

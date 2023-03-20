@@ -353,6 +353,7 @@ class ShotOutcomeState extends OutcomeScreenState<ShotMove> {
               style: textTheme.headlineMedium
                   ?.copyWith(fontStyle: FontStyle.italic),
             ),
+            const SafeMarginForCustomFloatingActionButton(),
           ],
     );
   }

@@ -23,6 +23,7 @@ abstract class OutcomeScreenState<T extends Move>
         lessIsMore: widget.gameFeatures.lessIsMore,
         longerIsBetter: widget.gameFeatures.longerIsBetter,
         pointsMatter: widget.gameFeatures.pointsMatter,
+        timeDisplayed: widget.gameFeatures.externalClock,
         formatPoints: widget.gameFeatures.formatPoints,
       );
       ScoreAware.recordScore(player, score);

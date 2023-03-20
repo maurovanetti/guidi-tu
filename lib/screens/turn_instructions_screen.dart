@@ -118,11 +118,13 @@ class TurnInstructionsScreenState extends TrackedState<TurnInstructionsScreen>
                     textAlign: TextAlign.center,
                     style: textTheme.titleLarge,
                   ),
-                  const Gap(),
-                  const Text(
-                    textAlign: TextAlign.center,
-                    'A pari merito, conta la velocità.',
-                  ),
+                  if (widget.gameFeatures.externalClock) ...[
+                    const Gap(),
+                    const Text(
+                      textAlign: TextAlign.center,
+                      'A pari merito, conta la velocità.',
+                    ),
+                  ],
                 ],
               ),
             ),

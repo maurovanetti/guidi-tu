@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 
-import 'style_guide.dart';
 import 'fitted_text.dart';
 import 'gap.dart';
 import 'gender.dart';
 import 'score_aware.dart';
+import 'style_guide.dart';
 import 'widget_keys.dart';
 
 class Player with Gendered {
@@ -269,10 +269,7 @@ class PlayerPlacement extends PlayerPerformance {
   PlayerPlacement(Award award, {super.key})
       : super(
           award.player,
-          primaryText: award.score.pointsMatter
-              ? award.score.formattedPoints
-              : award.score.formattedTime,
-          secondaryText:
-              award.score.pointsMatter ? award.score.formattedTime : '',
+          primaryText: award.score.displayedFirst,
+          secondaryText: award.score.displayedSecond,
         );
 }
