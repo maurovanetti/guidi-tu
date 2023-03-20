@@ -132,7 +132,7 @@ class TurnInstructionsScreenState extends TrackedState<TurnInstructionsScreen>
               const Gap(),
               if (player is! NoPlayer)
                 CustomButton(
-                  key: WidgetKeys.toTurnPlay,
+                  key: WidgetKeys.toTurnInterstitial,
                   text: player.t("Sono pronto", "Sono pronta"),
                   onPressed: widget.gameFeatures.secretPlay
                       ? _showSecretPlayAlert

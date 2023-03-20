@@ -76,20 +76,26 @@ void main() {
       expect(WidgetKeys.toPick.found(), findsNothing);
       expect(WidgetKeys.pickGame(largeShot.name).found(), findsOneWidget);
       await tester.tap(WidgetKeys.pickGame(largeShot.name).found());
-      expect(WidgetKeys.toTurnInterstitial.found(), findsOneWidget);
-      await tester.tap(WidgetKeys.toTurnInterstitial.found());
+      expect(WidgetKeys.toTurnInstructions.found(), findsOneWidget);
+      await tester.tap(WidgetKeys.toTurnInstructions.found());
       await tester.pumpForNavigation();
 
-      // Turn interstitial page (1st player)
-      expect(WidgetKeys.toTurnInterstitial.found(), findsNothing);
-      expect(WidgetKeys.toTurnPlay.found(), findsOneWidget);
-      await tester.ensureVisible(WidgetKeys.toTurnPlay.found());
-      await tester.tap(WidgetKeys.toTurnPlay.found());
+      // Turn instructions page (1st player)
+      expect(WidgetKeys.toTurnInstructions.found(), findsNothing);
+      expect(WidgetKeys.toTurnInterstitial.found(), findsOneWidget);
+      await tester.ensureVisible(WidgetKeys.toTurnInterstitial.found());
+      await tester.tap(WidgetKeys.toTurnInterstitial.found());
       await tester.pump(); // Not a navigation, just a dialog opening
       expect(WidgetKeys.hiddenPlayAlert.found(), findsOneWidget);
       expect(WidgetKeys.acknowledgeHiddenPlay.found(), findsOneWidget);
       await tester.tap(WidgetKeys.acknowledgeHiddenPlay.found());
       await tester.pumpForNavigation(); // Actual navigation
+
+      // Turn interstitial page (1st player)
+      expect(WidgetKeys.toTurnInterstitial.found(), findsNothing);
+      expect(WidgetKeys.toTurnPlay.found(), findsOneWidget);
+      await tester.tap(WidgetKeys.toTurnPlay.found());
+      await tester.pumpForNavigation();
 
       // Turn play page (1st player)
       expect(WidgetKeys.toTurnPlay.found(), findsNothing);
@@ -101,16 +107,22 @@ void main() {
       await tester.tap(WidgetKeys.toNextTurn.found());
       await tester.pumpForNavigation();
 
-      // Turn interstitial page (2nd player)
-      expect(WidgetKeys.toNextTurn.found(), findsNothing);
-      expect(WidgetKeys.toTurnPlay.found(), findsOneWidget);
-      await tester.ensureVisible(WidgetKeys.toTurnPlay.found());
-      await tester.tap(WidgetKeys.toTurnPlay.found());
+      // Turn instructions page (2nd player)
+      expect(WidgetKeys.toTurnInstructions.found(), findsNothing);
+      expect(WidgetKeys.toTurnInterstitial.found(), findsOneWidget);
+      await tester.ensureVisible(WidgetKeys.toTurnInterstitial.found());
+      await tester.tap(WidgetKeys.toTurnInterstitial.found());
       await tester.pump(); // Not a navigation, just a dialog opening
       expect(WidgetKeys.hiddenPlayAlert.found(), findsOneWidget);
       expect(WidgetKeys.acknowledgeHiddenPlay.found(), findsOneWidget);
       await tester.tap(WidgetKeys.acknowledgeHiddenPlay.found());
       await tester.pumpForNavigation(); // Actual navigation
+
+      // Turn interstitial page (2nd player)
+      expect(WidgetKeys.toTurnInterstitial.found(), findsNothing);
+      expect(WidgetKeys.toTurnPlay.found(), findsOneWidget);
+      await tester.tap(WidgetKeys.toTurnPlay.found());
+      await tester.pumpForNavigation();
 
       // Turn play page (2nd player)
       expect(WidgetKeys.toTurnPlay.found(), findsNothing);
