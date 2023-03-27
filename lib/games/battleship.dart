@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:flame/game.dart';
 import 'package:flutter/material.dart';
 
@@ -63,15 +65,138 @@ class BattleshipOutcome extends OutcomeScreen {
 }
 
 class BattleshipOutcomeState extends OutcomeScreenState<BattleshipMove> {
+  List<IncrementalBattleshipScore> incrementalScores = [];
+
   @override
   initState() {
     super.initState();
     for (var playerIndex in TurnAware.turns) {
-      // TODO
-      // ignore: unused_local_variable
       var player = players[playerIndex];
+      incrementalScores.add(IncrementalBattleshipScore(
+        recordedMove: getRecordedMove(player),
+      ));
     }
   }
+
+  @override
+  void initOutcome() {
+    repeatable = true;
+    outcomeWidget =
+        IncrementalBattleshipOutcome(incrementalScores: incrementalScores);
+  }
+}
+
+class IncrementalBattleshipOutcome extends StatefulWidget {
+  final List<IncrementalBattleshipScore> incrementalScores;
+
+  const IncrementalBattleshipOutcome({
+    super.key,
+    required this.incrementalScores,
+  });
+
+  @override
+  IncrementalBattleshipOutcomeState createState() =>
+      IncrementalBattleshipOutcomeState();
+}
+
+class IncrementalBattleshipOutcomeState
+    extends State<IncrementalBattleshipOutcome> {
+  Player? _player;
+
+  @override
+  initState() {
+    super.initState();
+    Future.delayed(Duration.zero, () async {
+      for (var x in widget.incrementalScores) {
+        await schedule([_setUp(x)], 3.0);
+      }
+    });
+  }
+
+  Future<void> schedule(Iterable<Future<void>> tasks, double seconds) async {
+    var _ = await Future.wait(tasks);
+    return Future.delayed(Duration(
+      milliseconds: (Duration.millisecondsPerSecond * seconds).toInt(),
+    ));
+  }
+
+  Future<void> _setUp(IncrementalBattleshipScore score) async {
+    setState(() {
+      _player = score.recordedMove.player;
+    });
+    return;
+  }
+
+  _buildTableRow(
+    String title,
+    String Function(IncrementalBattleshipScore) mapper,
+  ) {
+    var heightFactor = 1.5;
+    return TableRow(children: [
+      Center(heightFactor: heightFactor, child: Text(title)),
+      ...widget.incrementalScores.map((x) {
+        var value = mapper(x);
+        return Center(child: Text(value));
+      }).toList(),
+    ]);
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return SqueezeOrScroll(
+      squeeze: true,
+      topChildren: [
+        Padding(
+          padding: StyleGuide.narrowPadding,
+          child: Table(
+            defaultVerticalAlignment: TableCellVerticalAlignment.middle,
+            border:
+                TableBorder.all(color: Theme.of(context).colorScheme.primary),
+            children: [
+              if (widget.incrementalScores.length < 4)
+                _buildTableRow('', (x) => x.recordedMove.player.name)
+              else
+                _buildTableRow('', (x) => x.recordedMove.player.icon),
+              // ignore: avoid-non-ascii-symbols
+              _buildTableRow('🦆', (x) => x.pointsForShips.toString()),
+              // ignore: avoid-non-ascii-symbols
+              _buildTableRow('🎯', (x) => x.pointsForHits.toString()),
+            ],
+          ),
+        ),
+        const Text(
+          "${Battleship.saveValue} pt. per ogni galleggiante salvato.",
+        ),
+        const Text(
+          "${Battleship.sinkValue} pt. per ogni colpo andato a segno.",
+        ),
+        const Gap(),
+      ],
+      centralChild: AspectRatio(
+        aspectRatio: 1.0,
+        child: Container(
+          color: Colors.blue,
+          child: const Center(
+            child: Text(
+              "TODO",
+              style: TextStyle(fontSize: 48),
+            ),
+          ),
+        ),
+      ),
+      bottomChildren: [
+        if (_player != null) PlayerTag(_player!),
+      ],
+    );
+  }
+}
+
+class IncrementalBattleshipScore {
+  final RecordedMove<BattleshipMove> recordedMove;
+  final int pointsForShips = 0;
+  final int pointsForHits = 0;
+
+  IncrementalBattleshipScore({required this.recordedMove});
 }
 
 class BattleshipMove extends Move {

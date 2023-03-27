@@ -14,6 +14,7 @@ abstract class OutcomeScreenState<T extends Move>
     extends GameSpecificState<OutcomeScreen>
     with Gendered, TeamAware, ScoreAware, TurnAware<T> {
   late final Widget outcomeWidget;
+  bool repeatable = false;
 
   void _revealPlacement() {
     for (var player in players) {
@@ -60,6 +61,15 @@ abstract class OutcomeScreenState<T extends Move>
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+        actions: [
+          if (repeatable)
+            IconButton(
+              icon: const Icon(Icons.replay_rounded),
+              onPressed: () {
+                //TODO
+              },
+            ),
+        ],
         title: const Text("Risultati"),
       ),
       body: outcomeWidget,
