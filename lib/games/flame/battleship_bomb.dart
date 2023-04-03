@@ -1,5 +1,6 @@
 import 'package:flame/components.dart';
 
+import 'battleship_board.dart';
 import 'battleship_item.dart';
 
 class BattleshipBomb extends BattleshipItem {
@@ -16,5 +17,14 @@ class BattleshipBomb extends BattleshipItem {
     return {
       'type': 'bomb',
     };
+  }
+
+  static BattleshipBomb createOn(
+      BattleshipBoard newBoard, BattleshipBoardCell cell) {
+    var newCell = newBoard.cellAt(cell.row, cell.column);
+    return BattleshipBomb(
+      newCell.center,
+      board: newBoard,
+    );
   }
 }

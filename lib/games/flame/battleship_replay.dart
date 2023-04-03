@@ -1,6 +1,5 @@
 import 'dart:async';
 
-import 'package:flame/game.dart';
 import 'package:flutter/material.dart';
 
 import 'battleship_module.dart';
@@ -9,11 +8,8 @@ export 'battleship_bomb.dart';
 export 'battleship_item.dart';
 export 'battleship_ship.dart';
 
-class BattleshipReplay extends FlameGame {
-  late final BattleshipBoard board;
-
-  @override
-  Color backgroundColor() => Colors.blue.shade900;
+class BattleshipReplay extends BattleshipModule {
+  BattleshipReplay() : super(setReady: (_) {});
 
   @override
   Future<void> onLoad() async {
@@ -28,5 +24,29 @@ class BattleshipReplay extends FlameGame {
       gridRows: gridRows,
     );
     await add(board);
+  }
+
+  void importBomb(BattleshipBoardCell cell) {
+    var bomb = BattleshipBomb.createOn(board, cell)..draggable = false;
+    add(bomb);
+    // Bombs are not "placed" on the board, just displayed over it, because
+    // their places are potentially occupied by rival ships
+  }
+
+  void importShip(BattleshipShip ship, BattleshipBoardCell cell) {
+    var shipClone = ship.copyOn(board, cell)..draggable = false;
+    add(shipClone);
+    assert(board.placeItem(shipClone), "Ship import failed");
+  }
+
+  void clear() {
+    removeWhere((component) => component is BattleshipItem);
+  }
+
+  Future<void> importSink(BattleshipBoardCell cell) async {
+    var itemOnCell = board.cellAt(cell.row, cell.column).owner;
+    if (itemOnCell is BattleshipShip) {
+      return itemOnCell.sink();
+    }
   }
 }

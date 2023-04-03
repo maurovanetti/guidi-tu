@@ -54,4 +54,22 @@ class BattleshipShip extends BattleshipItem {
     }
     return 'battleship/short_ship.png';
   }
+
+  BattleshipShip copyOn(BattleshipBoard newBoard, BattleshipBoardCell cell) {
+    var newCell = newBoard.cellAt(cell.row, cell.column);
+    return BattleshipShip(
+      newCell.center,
+      board: newBoard,
+      cellSpan: cellSpan,
+      isVertical: isVertical,
+    );
+  }
+
+  Future<void> sink() async {
+    for (var i = 0; i < 7; i++) {
+      visible = !visible;
+      var _ = await Future.delayed(const Duration(milliseconds: 200));
+    }
+    visible = false;
+  }
 }

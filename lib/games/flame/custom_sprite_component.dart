@@ -23,6 +23,7 @@ class CustomSpriteComponent<T extends Game> extends SpriteAnimationComponent
   final String assetPath;
   int? fps;
   bool hasShadow;
+  bool visible = true;
 
   // The light direction affects the shadow and is the same for all sprites.
   static Vector2 _lightDirection = Vector2(-1.0, 2.0).normalized();
@@ -84,6 +85,7 @@ class CustomSpriteComponent<T extends Game> extends SpriteAnimationComponent
 
   @override
   void render(Canvas canvas) {
+    if (!visible) return;
     // Reminder: this uses local coordinates!
     // Shadow sprite
     if (hasShadow) {
@@ -114,6 +116,8 @@ class CustomSpriteComponent<T extends Game> extends SpriteAnimationComponent
 
 class DraggableCustomSpriteComponent<T extends Game>
     extends CustomSpriteComponent<T> with Draggable {
+  bool draggable = true;
+
   final double extraElevationWhileDragged = 15.0;
   late SnapRule? snapRule;
 
@@ -145,6 +149,14 @@ class DraggableCustomSpriteComponent<T extends Game>
       debugPrint('Dragging is forbidden because component is snap-locked');
     }
     return false;
+  }
+
+  @override
+  bool handleDragStart(int pointerId, DragStartInfo info) {
+    if (draggable) {
+      return super.handleDragStart(pointerId, info);
+    }
+    return true;
   }
 
   @override
