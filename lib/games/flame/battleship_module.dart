@@ -13,6 +13,9 @@ export 'battleship_item.dart';
 export 'battleship_ship.dart';
 
 class BattleshipModule extends FlameGame with HasDraggables {
+  static const gridColumns = 5;
+  static const gridRows = 5;
+
   late final BattleshipBoard board;
 
   final void Function(bool) setReady;
@@ -24,8 +27,8 @@ class BattleshipModule extends FlameGame with HasDraggables {
 
   @override
   Future<void> onLoad() async {
-    int gridColumns = 5;
-    int gridRows = 5;
+    int gridColumns = BattleshipModule.gridColumns;
+    int gridRows = BattleshipModule.gridRows;
     double padding = size.x * 0.02;
     // Same padding for left and top is not a mistake.
     // ignore: no-equal-arguments

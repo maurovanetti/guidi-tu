@@ -7,6 +7,7 @@ import '/common/common.dart';
 import '/screens/outcome_screen.dart';
 import '/screens/turn_play_screen.dart';
 import 'flame/battleship_module.dart';
+import 'flame/battleship_replay.dart';
 import 'game_area.dart';
 
 class Battleship extends TurnPlayScreen {
@@ -103,6 +104,7 @@ class IncrementalBattleshipOutcome extends StatefulWidget {
 class IncrementalBattleshipOutcomeState
     extends State<IncrementalBattleshipOutcome> {
   Player? _player;
+  final GameWidget _gameWidget = GameWidget(game: BattleshipReplay());
 
   @override
   initState() {
@@ -122,13 +124,16 @@ class IncrementalBattleshipOutcomeState
   }
 
   Future<void> schedule(Iterable<Future<void>> tasks, double seconds) async {
+    if (!mounted) return;
     var _ = await Future.wait(tasks);
+    if (!mounted) return;
     return Future.delayed(Duration(
       milliseconds: (Duration.millisecondsPerSecond * seconds).toInt(),
     ));
   }
 
   Future<void> _setUp(IncrementalBattleshipScore score) async {
+    if (!mounted) return;
     setState(() {
       _player = score.recordedMove.player;
     });
@@ -145,6 +150,7 @@ class IncrementalBattleshipOutcomeState
       for (var shipCellGroup in shipCellGroups) {
         if (shipCellGroup.contains(cell)) {
           hit = true;
+          if (!mounted) return;
           setState(() {
             hitter.pointsForHits += Battleship.hitValue;
           });
@@ -171,6 +177,7 @@ class IncrementalBattleshipOutcomeState
     }
     for (var shipSpot in shipSpots.entries) {
       if (rivalBombCells.containsAll(shipSpot.key.cells(shipSpot.value))) {
+        if (!mounted) return;
         // TODO Sink animation for shipSpot
         setState(() {
           x.pointsForSaves -= Battleship.saveValue;
@@ -196,50 +203,47 @@ class IncrementalBattleshipOutcomeState
 
   @override
   Widget build(BuildContext context) {
-    return SqueezeOrScroll(
-      squeeze: true,
-      topChildren: [
-        Padding(
-          padding: StyleGuide.narrowPadding,
-          child: Table(
-            defaultVerticalAlignment: TableCellVerticalAlignment.middle,
-            border:
-                TableBorder.all(color: Theme.of(context).colorScheme.primary),
-            children: [
-              if (widget.incrementalScores.length < 4)
-                _buildTableRow('', (x) => x.recordedMove.player.name)
-              else
-                _buildTableRow('', (x) => x.recordedMove.player.icon),
-              // ignore: avoid-non-ascii-symbols
-              _buildTableRow('🦆', (x) => x.pointsForSaves.toString()),
-              // ignore: avoid-non-ascii-symbols
-              _buildTableRow('🎯', (x) => x.pointsForHits.toString()),
-            ],
-          ),
-        ),
-        const Text(
-          "${Battleship.saveValue} pt. per ogni galleggiante salvato.",
-        ),
-        const Text(
-          "${Battleship.hitValue} pt. per ogni colpo andato a segno.",
-        ),
-        const Gap(),
-      ],
-      centralChild: AspectRatio(
-        aspectRatio: 1.0,
-        child: Container(
-          color: Colors.blue,
-          child: Center(
-            child: Text(
-              _player?.name ?? '',
-              style: const TextStyle(fontSize: 48),
+    return Center(
+      child: SqueezeOrScroll(
+        squeeze: true,
+        topChildren: [
+          Padding(
+            padding: StyleGuide.narrowPadding,
+            child: Table(
+              defaultVerticalAlignment: TableCellVerticalAlignment.middle,
+              border:
+                  TableBorder.all(color: Theme.of(context).colorScheme.primary),
+              children: [
+                if (widget.incrementalScores.length < 4)
+                  _buildTableRow('', (x) => x.recordedMove.player.name)
+                else
+                  _buildTableRow('', (x) => x.recordedMove.player.icon),
+                // ignore: avoid-non-ascii-symbols
+                _buildTableRow('🦆', (x) => x.pointsForSaves.toString()),
+                // ignore: avoid-non-ascii-symbols
+                _buildTableRow('🎯', (x) => x.pointsForHits.toString()),
+              ],
             ),
           ),
+          const Text(
+            "${Battleship.saveValue} pt. per ogni galleggiante salvato.",
+          ),
+          const Text(
+            "${Battleship.hitValue} pt. per ogni colpo andato a segno.",
+          ),
+          const Gap(),
+        ],
+        centralChild: Padding(
+          padding: StyleGuide.regularPadding,
+          child: AspectRatio(
+            aspectRatio: 1.0, // It's a square
+            child: _gameWidget,
+          ),
         ),
+        bottomChildren: [
+          if (_player != null) PlayerTag(_player!),
+        ],
       ),
-      bottomChildren: [
-        if (_player != null) PlayerTag(_player!),
-      ],
     );
   }
 }
