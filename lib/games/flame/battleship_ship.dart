@@ -36,6 +36,15 @@ class BattleshipShip extends BattleshipItem {
             bombCell.column < shipCell.column + cellSpan;
   }
 
+  Set<BattleshipBoardCell> cells(BattleshipBoardCell pivot) {
+    Set<BattleshipBoardCell> cells = {pivot};
+    for (var i = 1, cell = pivot; i < cellSpan; i++) {
+      cell = isVertical ? cell.below() : cell.right();
+      assert(cells.add(cell), "Error in ship cells");
+    }
+    return cells;
+  }
+
   static String getAssetPath(int cellSpan, bool isVertical) {
     if (cellSpan == 1) {
       return 'battleship/duck/Naval_Papera';

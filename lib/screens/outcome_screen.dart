@@ -66,7 +66,10 @@ abstract class OutcomeScreenState<T extends Move>
             IconButton(
               icon: const Icon(Icons.replay_rounded),
               onPressed: () {
-                //TODO
+                Navigation.replaceLast(
+                  context,
+                  widget.gameFeatures.outcomeWidget,
+                ).go();
               },
             ),
         ],

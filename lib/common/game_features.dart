@@ -136,7 +136,7 @@ final battleship = GameFeatures(
   explanation: """
 Scegli dove collocare le tue paperelle e i tuoi proiettili di sughero.
 
-Fai ${Battleship.saveValue} punti per ogni tua paperella salvata, ${Battleship.sinkValue} per ogni paperella altrui che affondi. 
+Fai ${Battleship.saveValue} punti per ogni tua paperella salvata, ${Battleship.hitValue} per ogni paperella altrui che affondi. 
   
 Guidi tu se fai meno punti.
 

@@ -178,7 +178,16 @@ class BattleshipBoardCell {
         board.cellHeight * (row + 0.5),
       );
 
+  @override
+  int get hashCode => row * 1000 + column;
+
   BattleshipBoardCell(this.board, this.row, this.column);
+
+  @override
+  operator ==(other) =>
+      other is BattleshipBoardCell &&
+      row == other.row &&
+      column == other.column;
 
   bool isAvailableFor(BattleshipItem item) {
     if (owner != null) {
@@ -204,5 +213,21 @@ class BattleshipBoardCell {
       }
     }
     return true;
+  }
+
+  BattleshipBoardCell below() {
+    return board.cellAt(row + 1, column);
+  }
+
+  BattleshipBoardCell above() {
+    return board.cellAt(row - 1, column);
+  }
+
+  BattleshipBoardCell left() {
+    return board.cellAt(row, column - 1);
+  }
+
+  BattleshipBoardCell right() {
+    return board.cellAt(row, column + 1);
   }
 }
