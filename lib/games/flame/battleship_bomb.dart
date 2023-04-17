@@ -20,7 +20,9 @@ class BattleshipBomb extends BattleshipItem {
   }
 
   static BattleshipBomb createOn(
-      BattleshipBoard newBoard, BattleshipBoardCell cell) {
+    BattleshipBoard newBoard,
+    BattleshipBoardCell cell,
+  ) {
     var newCell = newBoard.cellAt(cell.row, cell.column);
     return BattleshipBomb(
       newCell.center,

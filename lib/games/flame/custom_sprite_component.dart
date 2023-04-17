@@ -1,9 +1,8 @@
 import 'package:flame/components.dart';
-import 'package:flame/events.dart';
 import 'package:flame/experimental.dart';
 import 'package:flame/game.dart';
 import 'package:flame/palette.dart';
-import 'package:flutter/material.dart' hide Draggable;
+import 'package:flutter/material.dart';
 
 import '/common/common.dart';
 
@@ -115,7 +114,7 @@ class CustomSpriteComponent<T extends Game> extends SpriteAnimationComponent
 }
 
 class DraggableCustomSpriteComponent<T extends Game>
-    extends CustomSpriteComponent<T> with Draggable {
+    extends CustomSpriteComponent<T> with DragCallbacks {
   bool draggable = true;
 
   final double extraElevationWhileDragged = 15.0;
@@ -124,8 +123,6 @@ class DraggableCustomSpriteComponent<T extends Game>
   bool Function()? onSnap; // If false, the snap is forbidden
   void Function()? onFallbackSnap;
   bool Function()? onUnsnap; // If false, the snap is locked
-
-  Vector2 _deltaPositionWhileDragged = Vector2.zero();
 
   DraggableCustomSpriteComponent(
     String assetPath,
@@ -138,46 +135,37 @@ class DraggableCustomSpriteComponent<T extends Game>
   }) : super(assetPath, position);
 
   @override
-  bool onDragStart(DragStartInfo info) {
-    if (onUnsnap?.call() ?? true) {
-      elevation +=
-          extraElevationWhileDragged; // The position is updated in super
-      _deltaPositionWhileDragged = info.eventPosition.game - position;
-      priority =
-          elevation.toInt(); // Makes sure the component is rendered on top
-    } else {
-      debugPrint('Dragging is forbidden because component is snap-locked');
-    }
-    return false;
-  }
-
-  @override
-  bool handleDragStart(int pointerId, DragStartInfo info) {
+  void onDragStart(DragStartEvent event) {
+    super.onDragStart(event);
     if (draggable) {
-      return super.handleDragStart(pointerId, info);
+      if (onUnsnap?.call() ?? true) {
+        elevation +=
+            extraElevationWhileDragged; // The position is updated in super
+        priority =
+            elevation.toInt(); // Makes sure the component is rendered on top
+      } else {
+        debugPrint('Dragging is forbidden because component is snap-locked');
+      }
     }
-    return true;
   }
 
   @override
-  bool onDragUpdate(DragUpdateInfo info) {
+  void onDragUpdate(DragUpdateEvent event) {
     if (isDragged) {
-      final localPosition = info.eventPosition.game;
-      position = localPosition - _deltaPositionWhileDragged;
+      position += event.delta;
     }
-    return false;
   }
 
   @override
-  bool onDragEnd(DragEndInfo info) {
+  void onDragEnd(DragEndEvent event) {
+    super.onDragEnd(event);
     _onDragStop();
-    return false;
   }
 
   @override
-  bool onDragCancel() {
+  void onDragCancel(DragCancelEvent event) {
+    super.onDragCancel(event);
     _onDragStop();
-    return false;
   }
 
   void _onDragStop() {

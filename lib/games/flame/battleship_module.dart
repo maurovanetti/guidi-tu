@@ -12,7 +12,7 @@ export 'battleship_bomb.dart';
 export 'battleship_item.dart';
 export 'battleship_ship.dart';
 
-class BattleshipModule extends FlameGame with HasDraggables {
+class BattleshipModule extends FlameGame {
   static const gridColumns = 5;
   static const gridRows = 5;
 
