@@ -7,6 +7,7 @@ class AnimationLoader {
   static Future<SpriteAnimation?> load(
     String path, {
     int? fps,
+    bool loop = true,
   }) async {
     // Lower case is required because Flame.images.loadAllFromPattern assumes
     // lower-case pattern matching.
@@ -20,6 +21,7 @@ class AnimationLoader {
     return SpriteAnimation.spriteList(
       sprites,
       stepTime: 1 / (fps ?? defaultFps),
+      loop: loop,
     );
   }
 }

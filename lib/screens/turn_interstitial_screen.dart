@@ -29,6 +29,8 @@ class TurnInterstitialState extends TrackedState<TurnInterstitialScreen> {
       body: Center(
         child: InterstitialAnimation(
           prefix: widget.gameFeatures.interstitialAnimationPath,
+          repeat: widget.gameFeatures.interstitialAnimationRepeat,
+          onComplete: _play,
         ),
       ),
       floatingActionButton: CustomFloatingActionButton(

@@ -42,6 +42,7 @@ class GameFeatures {
   final String Function(int) formatPoints;
   final bool usesRigidGameArea;
   final String interstitialAnimationPath; // Path below images with no extension
+  final num interstitialAnimationRepeat;
 
   GameFeatures({
     required this.name,
@@ -63,6 +64,7 @@ class GameFeatures {
     this.formatPoints = dontFormat,
     this.usesRigidGameArea = false,
     required this.interstitialAnimationPath,
+    this.interstitialAnimationRepeat = 1,
   })  : maxPlayers = maxPlayers ?? Config.maxPlayers,
         maxSuggestedPlayers = maxSuggestedPlayers ?? Config.maxPlayers {
     assert(minPlayers <= minSuggestedPlayers);
@@ -128,6 +130,7 @@ Ma attenzione: chi si avvicina di più, paga.""",
   // Means the difference between the sum and the guess
   formatPoints: (p) => '±$p',
   interstitialAnimationPath: "morra/interstitial/Morra",
+  interstitialAnimationRepeat: 2,
 );
 
 final battleship = GameFeatures(

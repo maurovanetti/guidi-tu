@@ -88,7 +88,10 @@ class _TutorialScreenState extends TrackedState<TutorialScreen> {
             ),
           ),
           const Gap(),
-          const InterstitialAnimation(prefix: 'tutorial/Transition_mezzaria 2'),
+          const InterstitialAnimation(
+            prefix: 'tutorial/Transition_mezzaria 2',
+            repeat: double.infinity,
+          ),
         ],
       ),
       floatingActionButton: CustomFloatingActionButton(

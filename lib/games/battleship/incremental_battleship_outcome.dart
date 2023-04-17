@@ -69,10 +69,10 @@ class IncrementalBattleshipOutcomeState
   ) async {
     var shipCellGroups = target.recordedMove.move.placedShipCells();
     for (var cell in hitter.recordedMove.move.placedBombCells()) {
-      bool hit = false;
+      // bool hit = false;
       for (var shipCellGroup in shipCellGroups) {
         if (shipCellGroup.contains(cell)) {
-          hit = true;
+          // hit = true;
           if (!mounted) return;
           setState(() {
             hitter.pointsForHits += Battleship.hitValue;
