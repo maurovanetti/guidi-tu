@@ -5,7 +5,6 @@ import 'package:flutter/material.dart';
 
 import '/common/common.dart';
 import 'title_screen.dart';
-import 'turn_interstitial_screen.dart';
 
 class TurnInstructionsScreen extends GameSpecificStatefulWidget {
   const TurnInstructionsScreen({super.key, required super.gameFeatures});
@@ -43,10 +42,7 @@ class TurnInstructionsScreenState extends TrackedState<TurnInstructionsScreen>
   }
 
   void _play() {
-    Navigation.replaceAll(
-      context,
-      () => TurnInterstitialScreen(gameFeatures: widget.gameFeatures),
-    ).go();
+    Navigation.replaceAll(context, widget.gameFeatures.playWidget).go();
   }
 
   @override
@@ -132,7 +128,7 @@ class TurnInstructionsScreenState extends TrackedState<TurnInstructionsScreen>
               const Gap(),
               if (player is! NoPlayer)
                 CustomButton(
-                  key: WidgetKeys.toTurnInterstitial,
+                  key: WidgetKeys.toTurnPlay,
                   text: player.t("Sono pronto", "Sono pronta"),
                   onPressed: widget.gameFeatures.secretPlay
                       ? _showSecretPlayAlert

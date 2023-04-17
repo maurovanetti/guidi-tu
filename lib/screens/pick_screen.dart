@@ -3,7 +3,7 @@ import 'dart:math';
 import 'package:flutter/material.dart';
 
 import '/common/common.dart';
-import 'turn_instructions_screen.dart';
+import 'interstitial_screen.dart';
 
 class PickScreen extends StatefulWidget {
   const PickScreen({super.key});
@@ -37,7 +37,7 @@ class _PickScreenState extends TrackedState<PickScreen>
       for (var gameFeatures in allGameFeatures) {
         var gameCard = GameCard(
           name: gameFeatures.name,
-          gameStart: TurnInstructionsScreen(gameFeatures: gameFeatures),
+          gameStart: InterstitialScreen(gameFeatures: gameFeatures),
           description: gameFeatures.description,
           icon: gameFeatures.icon,
           onTap: select,
@@ -87,7 +87,7 @@ class _PickScreenState extends TrackedState<PickScreen>
         ),
       ),
       floatingActionButton: CustomFloatingActionButton(
-        key: WidgetKeys.toTurnInstructions,
+        key: WidgetKeys.toInterstitial,
         tooltip: 'Inizio',
         icon: Icons.play_arrow_rounded,
         onPressed: _startGame,

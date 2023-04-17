@@ -1,15 +1,16 @@
 import 'package:flutter/material.dart';
 
 import '/common/common.dart';
+import 'turn_instructions_screen.dart';
 
-class TurnInterstitialScreen extends GameSpecificStatefulWidget {
-  const TurnInterstitialScreen({super.key, required super.gameFeatures});
+class InterstitialScreen extends GameSpecificStatefulWidget {
+  const InterstitialScreen({super.key, required super.gameFeatures});
 
   @override
   TurnInterstitialState createState() => TurnInterstitialState();
 }
 
-class TurnInterstitialState extends TrackedState<TurnInterstitialScreen> {
+class TurnInterstitialState extends TrackedState<InterstitialScreen> {
   late Player player;
 
   @override
@@ -19,7 +20,10 @@ class TurnInterstitialState extends TrackedState<TurnInterstitialScreen> {
   }
 
   void _play() {
-    Navigation.replaceAll(context, widget.gameFeatures.playWidget).go();
+    Navigation.replaceAll(
+      context,
+      () => TurnInstructionsScreen(gameFeatures: widget.gameFeatures),
+    ).go();
   }
 
   @override
@@ -34,7 +38,7 @@ class TurnInterstitialState extends TrackedState<TurnInterstitialScreen> {
         ),
       ),
       floatingActionButton: CustomFloatingActionButton(
-        key: WidgetKeys.toTurnPlay,
+        key: WidgetKeys.toTurnInstructions,
         tooltip: 'Gioca',
         icon: Icons.play_arrow_rounded,
         onPressed: _play,
