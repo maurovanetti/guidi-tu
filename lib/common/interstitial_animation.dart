@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 import 'animation_loader.dart';
 
 class InterstitialAnimation extends StatefulWidget {
-  static const int fps = 10;
+  static const int fps = 20;
 
   final String prefix;
   final num repeat;

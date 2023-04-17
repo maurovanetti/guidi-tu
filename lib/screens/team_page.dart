@@ -60,7 +60,7 @@ class _TeamPageState extends TrackedState<TeamPage> with Gendered, TeamAware {
   }
 
   void _removePlayer(Player player) {
-    debugPrint("Removing player $player");
+    debugPrint("Removing player $player from $players");
     setState(() {
       assert(players.remove(player));
     });

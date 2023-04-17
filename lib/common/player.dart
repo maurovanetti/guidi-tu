@@ -1,3 +1,4 @@
+import 'package:flame/extensions.dart';
 import 'package:flutter/material.dart';
 
 import 'fitted_text.dart';
@@ -11,40 +12,35 @@ class Player with Gendered {
   int id;
   String name;
 
-  // TODO Replace with proper icons
-  // ignore_for_file: avoid-non-ascii-symbols
   static const _icons = [
-    '🎹',
-    '🎸',
-    '🎷',
-    '🎤',
-    '🎻',
-    '🥁',
-    '🎺',
+    'player_1',
+    'player_2',
+    'player_3',
+    'player_4',
+    'player_5',
+    'player_6',
+    'player_7',
+    'player_8', // not used
   ];
 
-  static final _foregroundColors = [
-    Colors.purple.shade900,
-    Colors.pink.shade900,
-    Colors.brown.shade900,
-    Colors.indigo.shade900,
-    Colors.green.shade900,
-    Colors.black87,
-    Colors.deepOrange.shade900,
-  ];
-  static final _backgroundColors = [
-    Colors.purpleAccent.shade100,
-    Colors.pinkAccent.shade100,
-    Colors.brown.shade300,
-    Colors.indigoAccent.shade100,
-    Colors.greenAccent.shade100,
-    Colors.grey.shade100,
-    Colors.deepOrangeAccent.shade100,
+  static const _brightening = 0.5;
+  static const _darkening = 0.7;
+  static final _palette = [
+    const Color.fromARGB(255, 0xff, 0xd4, 0x02),
+    const Color.fromARGB(255, 0xe0, 0x3a, 0x3b),
+    const Color.fromARGB(255, 0x2b, 0xd7, 0x86),
+    const Color.fromARGB(255, 0x0b, 0xc3, 0xff),
+    const Color.fromARGB(255, 0xcb, 0x54, 0xe8),
+    const Color.fromARGB(255, 0x00, 0x00, 0x00),
+    const Color.fromARGB(255, 0x48, 0x27, 0xb6),
+    const Color.fromARGB(255, 0xdd, 0xdd, 0xdd),
   ];
 
-  Color get background => _backgroundColors[id % _backgroundColors.length];
+  Color get color => _palette[id % _palette.length];
 
-  Color get foreground => _foregroundColors[id % _foregroundColors.length];
+  Color get foreground => color.brighten(_brightening);
+
+  Color get background => color.darken(_darkening);
 
   String get icon => _icons[id % _icons.length];
 
@@ -120,7 +116,7 @@ class PlayerButton extends StatelessWidget {
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [
-          _PlayerIcon(player),
+          PlayerIcon.color(player),
           Row(
             children: [
               Text(player.name.toUpperCase(), style: style),
@@ -134,7 +130,7 @@ class PlayerButton extends StatelessWidget {
             ],
           ),
           IconButton(
-            icon: Icon(Icons.remove_circle, color: textColor),
+            icon: Icon(Icons.remove_circle, color: player.color),
             onPressed: _remove,
           ),
         ],
@@ -160,9 +156,12 @@ class PlayerButtonStructure extends StatelessWidget {
 
   get buttonStyle => ElevatedButton.styleFrom(
         backgroundColor: player.background,
-        shape: const RoundedRectangleBorder(
-          borderRadius:
-              BorderRadius.all(Radius.circular(StyleGuide.borderRadius)),
+        shape: RoundedRectangleBorder(
+          borderRadius: onEdit == _uselessClick
+              ? BorderRadius.zero
+              : const BorderRadius.all(
+                  Radius.circular(StyleGuide.borderRadius),
+                ),
         ),
       );
 
@@ -170,7 +169,7 @@ class PlayerButtonStructure extends StatelessWidget {
   Widget build(BuildContext context) {
     return Padding(
       key: WidgetKeys.playerButton(player),
-      padding: StyleGuide.narrowPadding,
+      padding: StyleGuide.stripePadding,
       child: ElevatedButton(
         onPressed: onEdit,
         style: buttonStyle,
@@ -180,14 +179,27 @@ class PlayerButtonStructure extends StatelessWidget {
   }
 }
 
-class _PlayerIcon extends StatelessWidget {
+enum PlayerIconVariant { white, color, inverted }
+
+class PlayerIcon extends StatelessWidget {
+  final PlayerIconVariant variant;
   final Player player;
 
-  const _PlayerIcon(this.player);
+  const PlayerIcon.white(this.player, {super.key})
+      : variant = PlayerIconVariant.white;
+  const PlayerIcon.color(this.player, {super.key})
+      : variant = PlayerIconVariant.color;
+  const PlayerIcon.inverted(this.player, {super.key})
+      : variant = PlayerIconVariant.inverted;
 
   @override
   Widget build(BuildContext context) {
-    return Text(player.icon, style: Theme.of(context).textTheme.headlineSmall);
+    return Image(
+      image: AssetImage(
+        'assets/images/players/${variant.name}/${player.icon}.png',
+      ),
+      width: StyleGuide.iconSize,
+    );
   }
 }
 
@@ -202,7 +214,7 @@ class PlayerTag extends PlayerButton {
         mainAxisAlignment: MainAxisAlignment.center,
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [
-          _PlayerIcon(player),
+          PlayerIcon.color(player),
           const Gap(),
           Text(player.name.toUpperCase(), style: textStyle(context)),
         ],
@@ -236,7 +248,7 @@ class PlayerPerformance extends PlayerButton {
         children: [
           Expanded(
             flex: 2,
-            child: _PlayerIcon(player),
+            child: PlayerIcon.color(player),
           ),
           horizontalGap,
           Expanded(

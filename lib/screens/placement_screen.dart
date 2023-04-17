@@ -89,6 +89,7 @@ class PlacementCard extends StatelessWidget {
     debugPrint("Role: $role");
     return Card(
       child: ListTile(
+        contentPadding: StyleGuide.stripePadding,
         title: PlayerPlacement(award),
         subtitle: Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,

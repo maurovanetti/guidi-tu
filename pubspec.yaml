@@ -47,6 +47,9 @@ dev_dependencies:
 flutter:
   uses-material-design: true
   assets:
+    - assets/images/players/white/
+    - assets/images/players/color/
+    - assets/images/players/inverted/
     - assets/images/battleship/
     - assets/images/battleship/interstitial/
     - assets/images/battleship/duck/
