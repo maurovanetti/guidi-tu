@@ -1,5 +1,6 @@
 import 'dart:async';
 
+import 'package:flame/components.dart';
 import 'package:flutter/material.dart';
 
 import 'battleship_module.dart';
@@ -26,21 +27,28 @@ class BattleshipReplay extends BattleshipModule {
     await add(board);
   }
 
-  void importBomb(BattleshipBoardCell cell) {
+  BattleshipBomb importBomb(BattleshipBoardCell cell) {
     var bomb = BattleshipBomb.createOn(board, cell)..draggable = false;
     add(bomb);
     // Bombs are not "placed" on the board, just displayed over it, because
     // their places are potentially occupied by rival ships
+    return bomb;
   }
 
-  void importShip(BattleshipShip ship, BattleshipBoardCell cell) {
+  BattleshipShip importShip(BattleshipShip ship, BattleshipBoardCell cell) {
     var shipClone = ship.copyOn(board, cell)..draggable = false;
     add(shipClone);
     assert(board.placeItem(shipClone), "Ship import failed");
+    return shipClone;
   }
 
   void clear() {
-    removeWhere((component) => component is BattleshipItem);
+    for (Component child in children) {
+      if (child is BattleshipItem) {
+        board.removeItem(child);
+        remove(child);
+      }
+    }
   }
 
   Future<void> importSink(BattleshipBoardCell cell) async {

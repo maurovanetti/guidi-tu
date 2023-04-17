@@ -87,7 +87,7 @@ class CustomSpriteComponent<T extends Game> extends SpriteAnimationComponent
     if (!visible) return;
     // Reminder: this uses local coordinates!
     // Shadow sprite
-    if (hasShadow) {
+    if (hasShadow && opacity == 1.0) {
       animation?.getSprite().render(
             canvas,
             position: shadowOffset,

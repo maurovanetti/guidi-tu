@@ -55,7 +55,7 @@ class IncrementalBattleshipOutcomeState
     if (!mounted) return;
     _replay.clear();
     for (var shipSpot in score.recordedMove.move.placedShips().entries) {
-      _replay.importShip(shipSpot.key, shipSpot.value);
+      var _ = _replay.importShip(shipSpot.key, shipSpot.value);
     }
     setState(() {
       _player = score.recordedMove.player;
@@ -67,21 +67,22 @@ class IncrementalBattleshipOutcomeState
     IncrementalBattleshipScore target,
     IncrementalBattleshipScore hitter,
   ) async {
+    const missOpacity = 0.3;
     var shipCellGroups = target.recordedMove.move.placedShipCells();
     for (var cell in hitter.recordedMove.move.placedBombCells()) {
-      // bool hit = false;
+      bool hit = false;
       for (var shipCellGroup in shipCellGroups) {
         if (shipCellGroup.contains(cell)) {
-          // hit = true;
+          hit = true;
           if (!mounted) return;
           setState(() {
             hitter.pointsForHits += Battleship.hitValue;
           });
         }
       }
-      _replay.importBomb(cell);
+      var bomb = _replay.importBomb(cell);
       var _ = await Future.delayed(const Duration(milliseconds: 200));
-      // TODO Animate bomb (hit or !hit)
+      bomb.opacity = hit ? 1.0 : missOpacity;
     }
     return;
   }
