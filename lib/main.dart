@@ -24,7 +24,7 @@ class App extends StatelessWidget {
       theme: ThemeData(
         colorSchemeSeed: Colors.purpleAccent,
         brightness: Brightness.dark,
-        fontFamily: 'Signika',
+        fontFamily: 'LexendDeca',
         useMaterial3: true,
       ),
       home: const TitleScreen(),

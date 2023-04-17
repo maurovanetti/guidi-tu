@@ -65,3 +65,6 @@ flutter:
     - family: Signika
       fonts:
         - asset: assets/fonts/Signika-VariableFont_wght.ttf
+    - family: LexendDeca
+      fonts:
+        - asset: assets/fonts/LexendDeca-VariableFont_wght.ttf
