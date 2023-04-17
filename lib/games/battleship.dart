@@ -36,12 +36,50 @@ class BattleshipGameArea extends GameArea<BattleshipMove> {
   createState() => BattleshipGameAreaState();
 }
 
-class BattleshipGameAreaState extends GameAreaState<BattleshipMove> {
+class BattleshipGameAreaState extends GameAreaState<BattleshipMove>
+    with Gendered, TeamAware {
   late final BattleshipModule _gameModule;
 
   @override
   void initState() {
-    _gameModule = BattleshipModule(setReady: widget.setReady);
+    // Relative likelihood of hitting a ship (not necessarily sinking it):
+    // 2 players: 5 bombs for 10 target cells = 5 * 10 = 50
+    // 3 players: 4 bombs for 8 target cells = 2 * 4 * 8 = 64
+    // 4 players: 3 bombs for 7 target cells = 3 * 3 * 7 = 63
+    // 5 players: 3 bombs for 6 target cells = 4 * 3 * 6 = 72
+    // 6 players: 2 bombs for 6 target cells = 5 * 2 * 6 = 60
+    // 7 players: 2 bombs for 6 target cells = 6 * 2 * 6 = 72
+    int shipCount;
+    int bombCount;
+    switch (players.length) {
+      case 2:
+        shipCount = 7;
+        bombCount = 5;
+        break;
+      case 3:
+        shipCount = 5;
+        bombCount = 4;
+        break;
+      case 4:
+        shipCount = 4;
+        bombCount = 3;
+        break;
+      case 5:
+        shipCount = 3;
+        bombCount = 3;
+        break;
+      case 6:
+      case 7:
+      default:
+        shipCount = 3;
+        bombCount = 2;
+        break;
+    }
+    _gameModule = BattleshipModule(
+      setReady: widget.setReady,
+      shipCount: shipCount,
+      bombCount: bombCount,
+    );
     super.initState();
   }
 

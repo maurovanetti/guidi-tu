@@ -75,7 +75,10 @@ class PlacementCard extends StatelessWidget {
       );
       style = style.copyWith(fontWeight: FontWeight.bold);
     } else if (award.canDrink) {
-      role = grammar("Bevitore Autorizzato", "Bevitrice Autorizzata");
+      role = grammar(
+        "Bevitore Autorizzato",
+        "Bevitrice Autorizzata",
+      );
     } else {
       role = grammar(
         "Guidatore Sobrio Designato",

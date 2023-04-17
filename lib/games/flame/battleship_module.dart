@@ -17,10 +17,20 @@ class BattleshipModule extends FlameGame {
   static const gridRows = 5;
 
   late final BattleshipBoard board;
+  late final int shipCount;
+  late final int bombCount;
 
   final void Function(bool) setReady;
 
-  BattleshipModule({required this.setReady});
+  BattleshipModule({
+    required this.setReady,
+    this.shipCount = 3,
+    this.bombCount = 5,
+  }) {
+    assert(bombCount <= 5, "Too many bombs");
+    assert(shipCount <= gridRows + 3, "Too many ships");
+    assert(shipCount <= gridColumns + 3, "Too many ships");
+  }
 
   @override
   Color backgroundColor() => Colors.blue.shade900;
@@ -66,7 +76,19 @@ class BattleshipModule extends FlameGame {
       isVertical: false,
       board: board,
     );
-    for (var ship in [smallShip, mediumShip, largeShip]) {
+    List<BattleshipShip> extra = [];
+    for (int i = 0; i + 3 < shipCount; i++) {
+      var extraShip = BattleshipShip(
+        // ignore: no-equal-arguments
+        board.cellAt(i, i).center,
+        cellSpan: 1,
+        isVertical: false,
+        board: board,
+      );
+      extra.add(extraShip);
+      assert(board.placeItem(extraShip), "Error placing extra ship");
+    }
+    for (var ship in [smallShip, mediumShip, largeShip, ...extra]) {
       await add(ship);
     }
     var rightwardOneCell = Vector2(1, 0) * board.cellWidth;
@@ -80,7 +102,7 @@ class BattleshipModule extends FlameGame {
       rightOfLargeShip + rightwardOneCell,
       belowMediumShip + downwardOneCell * 2,
     ];
-    for (int i = 0; i < 5; i++) {
+    for (int i = 0; i < bombCount; i++) {
       var bomb = BattleshipBomb(
         bombPositions[i],
         board: board,
