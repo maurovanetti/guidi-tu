@@ -136,8 +136,8 @@ class DraggableCustomSpriteComponent<T extends Game>
 
   @override
   void onDragStart(DragStartEvent event) {
-    super.onDragStart(event);
     if (draggable) {
+      super.onDragStart(event);
       if (onUnsnap?.call() ?? true) {
         elevation +=
             extraElevationWhileDragged; // The position is updated in super
@@ -151,21 +151,25 @@ class DraggableCustomSpriteComponent<T extends Game>
 
   @override
   void onDragUpdate(DragUpdateEvent event) {
-    if (isDragged) {
+    if (draggable) {
       position += event.delta;
     }
   }
 
   @override
   void onDragEnd(DragEndEvent event) {
-    super.onDragEnd(event);
-    _onDragStop();
+    if (draggable) {
+      super.onDragEnd(event);
+      _onDragStop();
+    }
   }
 
   @override
   void onDragCancel(DragCancelEvent event) {
-    super.onDragCancel(event);
-    _onDragStop();
+    if (draggable) {
+      super.onDragCancel(event);
+      _onDragStop();
+    }
   }
 
   void _onDragStop() {
