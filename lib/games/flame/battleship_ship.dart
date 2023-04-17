@@ -52,7 +52,7 @@ class BattleshipShip extends BattleshipItem {
     if (isVertical) {
       return 'battleship/buoy/Navale_Faro';
     }
-    return 'battleship/short_ship.png';
+    return 'battleship/boat/Game_Naval_nave';
   }
 
   BattleshipShip copyOn(BattleshipBoard newBoard, BattleshipBoardCell cell) {
