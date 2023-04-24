@@ -174,7 +174,7 @@ Ma attenzione: chi la ferma più avanti di tutti, paga.""",
   buildGameArea: StopwatchGameArea.new,
   playWidget: Stopwatch.new,
   outcomeWidget: StopwatchOutcome.new,
-  formatPoints: (p) => '${I18n.secondsFormat.format(p / 1000000)}"',
+  formatPoints: (p) => '${I18n.preciserSecondsFormat.format(p / 1000000)}"',
   externalClock: false,
   interstitialAnimationPath: "",
 );
@@ -201,7 +201,7 @@ Ma attenzione: chi resiste più a lungo, paga.""",
   // TODO
   outcomeWidget: StopwatchOutcome.new,
   // TODO
-  formatPoints: (p) => '${I18n.preciserSecondsFormat.format(p / 1000000)}"',
+  formatPoints: (p) => '${I18n.secondsFormat.format(p / 1000000)}"',
   externalClock: false,
   interstitialAnimationPath: "",
 );

@@ -54,6 +54,10 @@ class StopwatchGameArea extends GameArea<StopwatchMove> {
 
 class StopwatchGameAreaState extends GameAreaState<StopwatchMove>
     with TickerProviderStateMixin {
+  static const badColor = Colors.redAccent;
+  static const averageColor = Colors.orangeAccent;
+  static const goodColor = Colors.greenAccent;
+
   late final Ticker _ticker;
   double? _handPosition;
   double? _secondsIntoPeriod;
@@ -77,6 +81,19 @@ class StopwatchGameAreaState extends GameAreaState<StopwatchMove>
     widget.setReady(true);
   }
 
+  _trafficLightColor(double t) {
+    var t1 = Stopwatch.period / 2;
+    var t2 = Stopwatch.period * (3 / 4);
+    var t3 = Stopwatch.period;
+    if (t < t1) {
+      return badColor;
+    } else if (t < t2) {
+      return Color.lerp(badColor, averageColor, (t - t1) / (t2 - t1));
+    } else {
+      return Color.lerp(averageColor, goodColor, (t - t2) / (t3 - t2));
+    }
+  }
+
   @override
   dispose() {
     _ticker.dispose();
@@ -90,6 +107,9 @@ class StopwatchGameAreaState extends GameAreaState<StopwatchMove>
 
   @override
   Widget build(BuildContext context) {
+    // ignore: no-magic-number
+    var leftOffsetForLabel = MediaQuery.of(context).size.width / 2 - 35;
+    var bottomOffsetForLabel = 20 + (_secondsIntoPeriod ?? 0) * 5;
     return Column(
       children: [
         CustomButton(text: "STOP", onPressed: _ticker.isTicking ? _stop : null),
@@ -110,14 +130,17 @@ class StopwatchGameAreaState extends GameAreaState<StopwatchMove>
                     ),
               if (_secondsIntoPeriod != null)
                 Align(
-                  alignment: Alignment.bottomCenter,
+                  alignment: Alignment.bottomLeft,
                   child: Padding(
-                    padding: StyleGuide.regularPadding,
+                    padding: EdgeInsets.only(
+                      left: leftOffsetForLabel,
+                      bottom: bottomOffsetForLabel,
+                    ),
                     child: Text(
                       I18n.secondsFormat.format(_secondsIntoPeriod!),
                       style:
                           Theme.of(context).textTheme.headlineLarge?.copyWith(
-                        color: Colors.red,
+                        color: _trafficLightColor(_secondsIntoPeriod!),
                         fontWeight: FontWeight.bold,
                         fontFeatures: [const FontFeature.tabularFigures()],
                       ),
