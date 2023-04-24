@@ -31,12 +31,15 @@ class CompletionScreenState extends GameSpecificState<CompletionScreen>
       ),
       body: WithSquares(
         behind: true,
-        child: Center(
+        child: Padding(
+          padding: StyleGuide.widePadding,
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
+            crossAxisAlignment: CrossAxisAlignment.center,
             children: [
               Text(
                 "I risultati finali sono pronti…",
+                textAlign: TextAlign.center,
                 style: Theme.of(context).textTheme.headlineLarge,
               ),
               const Gap(),
