@@ -155,6 +155,7 @@ class StopwatchGameAreaState extends GameAreaState<StopwatchMove>
   }
 }
 
+// TODO Take a chance to give some advice
 class StopwatchOutcome extends OutcomeScreen {
   StopwatchOutcome({super.key}) : super(gameFeatures: stopwatch);
 
