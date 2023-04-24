@@ -1,5 +1,6 @@
 import 'package:flame/components.dart';
 
+import '/common/common.dart';
 import 'battleship_module.dart';
 import 'custom_sprite_component.dart';
 
@@ -14,8 +15,10 @@ abstract class BattleshipItem
     required BattleshipBoard board,
     this.cellSpan = 1,
     this.isVertical = false,
+    Player? player,
   }) : super(
           assetPath,
+          stampAssetPath: player?.iconAssetPath(PlayerIconVariant.white),
           position,
           size: Vector2(board.cellSize.x, board.cellSize.y),
           elevation: 8,

@@ -22,10 +22,16 @@ class SqueezeOrScroll extends StatelessWidget {
             Flexible(child: centralChild),
             ...bottomChildren,
           ])
-        : ListView(shrinkWrap: true, children: [
-            ...topChildren,
-            centralChild,
-            ...bottomChildren,
-          ]);
+        : Scrollbar(
+            thumbVisibility: true,
+            child: ListView(
+              shrinkWrap: true,
+              children: [
+                ...topChildren,
+                centralChild,
+                ...bottomChildren,
+              ],
+            ),
+          );
   }
 }

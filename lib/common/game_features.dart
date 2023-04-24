@@ -135,11 +135,11 @@ Ma attenzione: chi si avvicina di più, paga.""",
 
 final battleship = GameFeatures(
   name: "Battaglia navale",
-  description: "Salva le tue paperelle.",
+  description: "Salva e affonda.",
   explanation: """
-Scegli dove collocare le tue paperelle e i tuoi proiettili di sughero.
+Scegli dove collocare i tuoi galleggianti e in quali caselle attaccare.
 
-Fai ${Battleship.saveValue} punti per ogni tua paperella salvata, ${Battleship.hitValue} per ogni paperella altrui che affondi. 
+Fai ${Battleship.saveValue} punti per ogni tuo galleggiante salvato, ${Battleship.hitValue} per ognuno che affondi. 
   
 Guidi tu se fai meno punti.
 
@@ -195,10 +195,13 @@ Ma attenzione: chi resiste più a lungo, paga.""",
   icon: Icons.balance_rounded,
   minPlayers: 2,
   minSuggestedPlayers: 2,
-  buildGameArea: StopwatchGameArea.new, // TODO
-  playWidget: Stopwatch.new, // TODO
-  outcomeWidget: StopwatchOutcome.new, // TODO
-  formatPoints: (p) => '${I18n.secondsFormat.format(p / 1000000)}"',
+  buildGameArea: StopwatchGameArea.new,
+  // TODO
+  playWidget: Stopwatch.new,
+  // TODO
+  outcomeWidget: StopwatchOutcome.new,
+  // TODO
+  formatPoints: (p) => '${I18n.preciserSecondsFormat.format(p / 1000000)}"',
   externalClock: false,
   interstitialAnimationPath: "",
 );

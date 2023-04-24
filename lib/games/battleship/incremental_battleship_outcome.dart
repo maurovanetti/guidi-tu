@@ -52,14 +52,22 @@ class IncrementalBattleshipOutcomeState
   }
 
   Future<void> _setUp(IncrementalBattleshipScore score) async {
-    if (!mounted) return;
-    _replay.clear();
-    for (var shipSpot in score.recordedMove.move.placedShips().entries) {
-      var _ = _replay.importShip(shipSpot.key, shipSpot.value);
+    if (mounted) {
+      _replay.clear();
+      setState(() {
+        _player = score.recordedMove.player;
+      });
+      // ignore: avoid-ignoring-return-values
+      await Future.delayed(const Duration(milliseconds: 500));
+    } else {
+      return;
     }
-    setState(() {
-      _player = score.recordedMove.player;
-    });
+    for (var shipSpot in score.recordedMove.move.placedShips().entries) {
+      // ignore: avoid-ignoring-return-values
+      await Future.delayed(const Duration(milliseconds: 200));
+      // ignore: avoid-ignoring-return-values
+      _replay.importShip(shipSpot.key, shipSpot.value);
+    }
     return;
   }
 
@@ -70,6 +78,7 @@ class IncrementalBattleshipOutcomeState
     const missOpacity = 0.3;
     var shipCellGroups = target.recordedMove.move.placedShipCells();
     for (var cell in hitter.recordedMove.move.placedBombCells()) {
+      var _ = await Future.delayed(const Duration(milliseconds: 200));
       bool hit = false;
       for (var shipCellGroup in shipCellGroups) {
         if (shipCellGroup.contains(cell)) {
@@ -80,8 +89,7 @@ class IncrementalBattleshipOutcomeState
           });
         }
       }
-      var bomb = _replay.importBomb(cell);
-      var _ = await Future.delayed(const Duration(milliseconds: 200));
+      var bomb = _replay.importBomb(cell, hitter.recordedMove.player);
       bomb.opacity = hit ? 1.0 : missOpacity;
     }
     return;

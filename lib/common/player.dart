@@ -61,6 +61,9 @@ class Player with Gendered {
 
   @override
   String toString() => "$id:$name";
+
+  String iconAssetPath(PlayerIconVariant variant) =>
+      'players/${variant.name}/$iconName.png';
 }
 
 class NoPlayer extends Player {
@@ -204,7 +207,7 @@ class PlayerIcon extends StatelessWidget {
     }
     return Image(
       image: AssetImage(
-        'assets/images/players/${variant.name}/${player.iconName}.png',
+        'assets/images/${player.iconAssetPath(variant)}',
       ),
       width: StyleGuide.iconSize,
     );

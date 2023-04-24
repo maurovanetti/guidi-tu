@@ -16,6 +16,7 @@ class CustomSpriteComponent<T extends Game> extends SpriteAnimationComponent
   // Defining a default size for all sprites in a game can make sense for
   // tile-based games.
   static final Vector2 defaultSpriteSize = Vector2.all(128.0);
+
   // The assetPath can be a path to a single image or a path to a directory that
   // contains multiple frames of an animation. If the path ends with ".png" or
   // ".jpg" or ".jpeg", it's assumed to be a single image.
@@ -23,6 +24,11 @@ class CustomSpriteComponent<T extends Game> extends SpriteAnimationComponent
   int? fps;
   bool hasShadow;
   bool visible = true;
+
+  // Optional stamp sprite that is rendered on top of the main sprite.
+  final String? stampAssetPath;
+  static const stampSizeFactor = 0.33;
+  Sprite? _stampSprite;
 
   // The light direction affects the shadow and is the same for all sprites.
   static Vector2 _lightDirection = Vector2(-1.0, 2.0).normalized();
@@ -68,6 +74,7 @@ class CustomSpriteComponent<T extends Game> extends SpriteAnimationComponent
     this.assetPath,
     Vector2 position, {
     this.hasShadow = true,
+    this.stampAssetPath,
     double? elevation,
     Vector2? size,
     Anchor? anchor,
@@ -97,6 +104,17 @@ class CustomSpriteComponent<T extends Game> extends SpriteAnimationComponent
     }
     // Main sprite
     super.render(canvas);
+    // Stamp sprite
+    if (_stampSprite != null) {
+      Paint stampPaint = Paint()..color = Colors.white.withOpacity(opacity);
+      var stampSize = size * stampSizeFactor;
+      _stampSprite!.render(
+        canvas,
+        size: stampSize,
+        position: (size - stampSize) / 2,
+        overridePaint: stampPaint,
+      );
+    }
   }
 
   @override
@@ -109,6 +127,9 @@ class CustomSpriteComponent<T extends Game> extends SpriteAnimationComponent
           SpriteAnimation.spriteList([sprite], stepTime: double.infinity);
     } else {
       animation = await AnimationLoader.load(assetPath, fps: fps);
+    }
+    if (stampAssetPath != null) {
+      _stampSprite = await game.loadSprite(stampAssetPath!);
     }
   }
 }
@@ -127,6 +148,7 @@ class DraggableCustomSpriteComponent<T extends Game>
   DraggableCustomSpriteComponent(
     String assetPath,
     Vector2 position, {
+    super.stampAssetPath,
     super.hasShadow = true,
     super.elevation = 10.0,
     super.size,

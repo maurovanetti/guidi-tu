@@ -3,6 +3,7 @@ import 'dart:async';
 import 'package:flame/components.dart';
 import 'package:flutter/material.dart';
 
+import '/common/common.dart';
 import 'battleship_module.dart';
 
 export 'battleship_bomb.dart';
@@ -28,8 +29,9 @@ class BattleshipReplay extends BattleshipModule {
     await add(board);
   }
 
-  BattleshipBomb importBomb(BattleshipBoardCell cell) {
-    var bomb = BattleshipBomb.createOn(board, cell)..draggable = false;
+  BattleshipBomb importBomb(BattleshipBoardCell cell, Player player) {
+    var bomb = BattleshipBomb.createOn(board, cell, player: player)
+      ..draggable = false;
     add(bomb);
     // Bombs are not "placed" on the board, just displayed over it, because
     // their places are potentially occupied by rival ships
