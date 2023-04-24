@@ -1,3 +1,5 @@
+import 'dart:collection';
+
 import 'package:collection/collection.dart';
 import 'package:flutter/material.dart';
 
@@ -21,9 +23,9 @@ class MorraGameArea extends GameArea<MorraMove> {
     required MoveReceiver moveReceiver,
     required super.startTime,
   }) : super(
-          gameFeatures: morra,
-          moveReceiver: moveReceiver as MoveReceiver<MorraMove>,
-        );
+    gameFeatures: morra,
+    moveReceiver: moveReceiver as MoveReceiver<MorraMove>,
+  );
 
   @override
   createState() => MorraGameAreaState();
@@ -61,7 +63,10 @@ class MorraGameAreaState extends ShotGameAreaState<MorraMove> {
 
   @override
   Widget build(BuildContext context) {
-    var primaryColor = Theme.of(context).colorScheme.primary;
+    var primaryColor = Theme
+        .of(context)
+        .colorScheme
+        .primary;
     return ListView(
       children: [
         Row(
@@ -124,8 +129,23 @@ class HandImage extends StatelessWidget {
   final int fingers;
   final double? height;
   final double padding;
+  late final Player player;
 
-  const HandImage(this.fingers, {super.key, this.height, this.padding = 0});
+  HandImage(this.fingers, {
+    super.key,
+    this.height,
+    this.padding = 0,
+    Player? player,
+  }) {
+    this.player = player ?? NoPlayer();
+  }
+
+  // The alignment details depend on the actual hand image features.
+  static final _iconAlignment = AlignmentGeometry.lerp(
+    Alignment.bottomCenter,
+    Alignment.bottomRight,
+    0.4,
+  )!;
 
   @override
   build(context) {
@@ -136,7 +156,16 @@ class HandImage extends StatelessWidget {
     );
     return (padding == 0)
         ? raw
-        : Padding(padding: EdgeInsets.all(padding), child: raw);
+        : Padding(
+      padding: EdgeInsets.all(padding),
+      child: Stack(
+        alignment: _iconAlignment,
+        children: [
+          raw,
+          PlayerIcon.color(player),
+        ],
+      ),
+    );
   }
 }
 
@@ -150,14 +179,14 @@ class MorraOutcome extends OutcomeScreen {
 class MorraOutcomeState extends OutcomeScreenState<MorraMove> {
   static const _handsPadding = 10.0;
 
-  late final _fingers = <int>[];
+  late final LinkedHashMap<Player, int> _fingers = LinkedHashMap<Player, int>();
   late final _playerPerformances = <PlayerPerformance>[];
 
   @override
   initState() {
     for (var playerIndex in TurnAware.turns) {
       var player = players[playerIndex];
-      _fingers.add(getMove(player).fingers);
+      _fingers[player] = (getMove(player).fingers);
       _playerPerformances.add(
         PlayerPerformance(
           player,
@@ -170,14 +199,21 @@ class MorraOutcomeState extends OutcomeScreenState<MorraMove> {
 
   @override
   void initOutcome() {
-    var textTheme = Theme.of(context).textTheme;
+    var textTheme = Theme
+        .of(context)
+        .textTheme;
     outcomeWidget = ListView(
       children: [
         GridView.count(
           crossAxisCount: 4,
           shrinkWrap: true,
-          children: _fingers
-              .map((fingers) => HandImage(fingers, padding: _handsPadding))
+          children: _fingers.entries
+              .map((fingers) =>
+              HandImage(
+                fingers.value,
+                padding: _handsPadding,
+                player: fingers.key,
+              ))
               .toList(),
         ),
         Text.rich(
@@ -189,7 +225,7 @@ class MorraOutcomeState extends OutcomeScreenState<MorraMove> {
                 style: textTheme.headlineLarge,
               ),
               TextSpan(
-                text: _fingers.sum.toString(),
+                text: _fingers.values.sum.toString(),
                 style: textTheme.headlineLarge?.copyWith(
                   fontWeight: FontWeight.bold,
                 ),
@@ -210,7 +246,9 @@ class MorraMove extends ShotMove {
   MorraMove({required this.fingers, required super.n});
 
   static countFingers(Iterable<RecordedMove<MorraMove>> moves) =>
-      moves.map((rm) => rm.move.fingers).sum;
+      moves
+          .map((rm) => rm.move.fingers)
+          .sum;
 
   @override
   int getPointsFor(Player player, Iterable<RecordedMove> allMoves) {
