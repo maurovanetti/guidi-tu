@@ -21,7 +21,7 @@ class IncrementalBattleshipOutcome extends StatefulWidget {
 
 class IncrementalBattleshipOutcomeState
     extends State<IncrementalBattleshipOutcome> {
-  Player? _player;
+  Player _player = NoPlayer();
   final BattleshipReplay _replay = BattleshipReplay();
   late final GameWidget _gameWidget = GameWidget(game: _replay);
 
@@ -185,9 +185,7 @@ class IncrementalBattleshipOutcomeState
             child: _gameWidget,
           ),
         ),
-        bottomChildren: [
-          if (_player != null) PlayerTag(_player!),
-        ],
+        bottomChildren: [PlayerTag(_player)],
       ),
     );
   }

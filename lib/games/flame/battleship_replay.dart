@@ -19,6 +19,7 @@ class BattleshipReplay extends BattleshipModule {
     double padding = size.x * 0.05;
     // ignore: no-equal-arguments
     Rect grid = Rect.fromLTWH(padding, padding, size.x * 0.9, size.y * 0.9);
+    // This only works if the GameWidget is never resized.
     board = BattleshipBoard(
       rect: grid,
       gridColumns: gridColumns,

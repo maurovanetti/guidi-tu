@@ -43,6 +43,7 @@ class BattleshipModule extends FlameGame {
     // Same padding for left and top is not a mistake.
     // ignore: no-equal-arguments
     Rect grid = Rect.fromLTWH(padding, padding, size.x * 0.75, size.y * 0.75);
+    // This only works if the GameWidget is never resized.
     board = BattleshipBoard(
       rect: grid,
       gridColumns: gridColumns,

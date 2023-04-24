@@ -196,6 +196,12 @@ class PlayerIcon extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    if (player is NoPlayer) {
+      return const SizedBox(
+        width: StyleGuide.iconSize,
+        height: StyleGuide.iconSize,
+      );
+    }
     return Image(
       image: AssetImage(
         'assets/images/players/${variant.name}/${player.iconName}.png',
