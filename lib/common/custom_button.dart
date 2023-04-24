@@ -68,6 +68,8 @@ class CustomButtonState extends State<CustomButton>
     var textStyle = theme.textTheme.headlineMedium?.copyWith(
       color: widget.onPressed == null ? colorScheme.background : onPrimaryColor,
       fontWeight: widget.important ? FontWeight.bold : FontWeight.normal,
+      fontSize:
+          widget.important ? null : theme.textTheme.headlineSmall?.fontSize,
     );
 
     return Padding(
@@ -85,9 +87,7 @@ class CustomButtonState extends State<CustomButton>
                   : StyleGuide.regularBorderWidth,
               strokeAlign: BorderSide.strokeAlignCenter,
             ),
-            borderRadius: const BorderRadius.all(
-              Radius.circular(StyleGuide.borderRadius),
-            ),
+            borderRadius: StyleGuide.borderRadius,
           ),
         ),
         child: widget.funny

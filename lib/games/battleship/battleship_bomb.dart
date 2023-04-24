@@ -1,6 +1,6 @@
 import 'package:flame/components.dart';
-import 'package:guidi_tu/common/player.dart';
 
+import '/common/player.dart';
 import 'battleship_board.dart';
 import 'battleship_item.dart';
 

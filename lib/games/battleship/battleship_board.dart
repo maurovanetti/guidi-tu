@@ -25,6 +25,8 @@ class BattleshipBoard extends PositionComponent {
   final List<Offset> _topNotches = [];
   final List<Offset> _bottomNotches = [];
 
+  bool get isEmpty => placedItems.isEmpty;
+
   bool get isFull => placedItems.length == itemsCount;
 
   Vector2 get cellSize => Vector2(cellWidth, cellHeight);

@@ -3,8 +3,8 @@ import 'package:flutter/material.dart';
 
 import '/common/common.dart';
 import '/games/battleship.dart';
-import '/games/flame/battleship_board.dart';
-import '/games/flame/battleship_replay.dart';
+import 'battleship_board.dart';
+import 'battleship_replay.dart';
 
 class IncrementalBattleshipOutcome extends StatefulWidget {
   final List<IncrementalBattleshipScore> incrementalScores;

@@ -162,9 +162,7 @@ class PlayerButtonStructure extends StatelessWidget {
         shape: RoundedRectangleBorder(
           borderRadius: onEdit == _uselessClick
               ? BorderRadius.zero
-              : const BorderRadius.all(
-                  Radius.circular(StyleGuide.borderRadius),
-                ),
+              : StyleGuide.borderRadius,
         ),
       );
 

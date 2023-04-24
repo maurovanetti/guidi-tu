@@ -4,8 +4,10 @@ import 'package:flame/components.dart';
 import 'package:flutter/material.dart';
 
 import '/common/common.dart';
+import 'battleship_board.dart';
+import 'battleship_bomb.dart';
 import 'battleship_module.dart';
-
+import 'battleship_ship.dart';
 export 'battleship_bomb.dart';
 export 'battleship_item.dart';
 export 'battleship_ship.dart';

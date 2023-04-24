@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:guidi_tu/common/common.dart';
 
 import 'screens/title_screen.dart';
 
@@ -21,12 +22,7 @@ class App extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       title: 'Guidi Tu',
-      theme: ThemeData(
-        colorSchemeSeed: Colors.purpleAccent,
-        brightness: Brightness.dark,
-        fontFamily: 'LexendDeca',
-        useMaterial3: true,
-      ),
+      theme: StyleGuide.themeData,
       home: const TitleScreen(),
       navigatorObservers: [routeObserver],
     );

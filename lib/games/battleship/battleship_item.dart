@@ -1,8 +1,9 @@
 import 'package:flame/components.dart';
 
 import '/common/common.dart';
+import '/games/flame/custom_sprite_component.dart';
+import 'battleship_board.dart';
 import 'battleship_module.dart';
-import 'custom_sprite_component.dart';
 
 abstract class BattleshipItem
     extends DraggableCustomSpriteComponent<BattleshipModule> {

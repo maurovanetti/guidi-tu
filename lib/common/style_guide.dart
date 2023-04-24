@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
 class StyleGuide {
-  static const borderRadius = 15.0;
+  static const borderRadius = BorderRadius.all(Radius.circular(30.0));
   static const importantBorderWidth = 5.0;
   static const regularBorderWidth = 3.0;
 
@@ -13,12 +13,21 @@ class StyleGuide {
 
   static const iconSize = 30.0;
 
+  static const fontFamily = 'LexendDeca';
+  static const inGameFontSize = 24.0;
+
+  static final themeData = ThemeData(
+    colorSchemeSeed: Colors.purpleAccent,
+    brightness: Brightness.dark,
+    fontFamily: fontFamily,
+    useMaterial3: true,
+  );
+
   static getImportantBorder(BuildContext context) => RoundedRectangleBorder(
         side: BorderSide(
           color: Theme.of(context).buttonTheme.colorScheme!.onPrimary,
           width: StyleGuide.importantBorderWidth,
         ),
-        borderRadius:
-            const BorderRadius.all(Radius.circular(StyleGuide.borderRadius)),
+        borderRadius: borderRadius,
       );
 }

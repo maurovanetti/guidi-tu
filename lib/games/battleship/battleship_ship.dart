@@ -1,7 +1,7 @@
 import 'package:flame/components.dart';
 
-import 'battleship_board.dart';
 import 'battleship_item.dart';
+import 'battleship_board.dart';
 
 class BattleshipShip extends BattleshipItem {
   BattleshipShip(
