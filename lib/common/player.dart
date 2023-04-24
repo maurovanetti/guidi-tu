@@ -42,7 +42,7 @@ class Player with Gendered {
 
   Color get background => color.darken(_darkening);
 
-  String get icon => _icons[id % _icons.length];
+  String get iconName => _icons[id % _icons.length];
 
   Player(this.id, this.name, gender) {
     this.gender = gender;
@@ -65,7 +65,7 @@ class Player with Gendered {
 
 class NoPlayer extends Player {
   @override
-  get icon => '';
+  get iconName => '';
 
   @override
   get background => Colors.transparent;
@@ -187,8 +187,10 @@ class PlayerIcon extends StatelessWidget {
 
   const PlayerIcon.white(this.player, {super.key})
       : variant = PlayerIconVariant.white;
+
   const PlayerIcon.color(this.player, {super.key})
       : variant = PlayerIconVariant.color;
+
   const PlayerIcon.inverted(this.player, {super.key})
       : variant = PlayerIconVariant.inverted;
 
@@ -196,7 +198,7 @@ class PlayerIcon extends StatelessWidget {
   Widget build(BuildContext context) {
     return Image(
       image: AssetImage(
-        'assets/images/players/${variant.name}/${player.icon}.png',
+        'assets/images/players/${variant.name}/${player.iconName}.png',
       ),
       width: StyleGuide.iconSize,
     );

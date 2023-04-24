@@ -99,7 +99,6 @@ class IncrementalBattleshipOutcomeState
     for (var shipSpot in shipSpots.entries) {
       if (rivalBombCells.containsAll(shipSpot.key.cells(shipSpot.value))) {
         if (!mounted) return;
-        // TODO Sink animation for shipSpot
         _replay.importSink(shipSpot.value);
         setState(() {
           x.pointsForSaves -= Battleship.saveValue;
@@ -109,16 +108,28 @@ class IncrementalBattleshipOutcomeState
     return;
   }
 
-  _buildTableRow(
+  get _tableStyle => Theme.of(context).textTheme.headlineMedium;
+
+  _buildTableRowFromStrings(
     String title,
     String Function(IncrementalBattleshipScore) mapper,
   ) {
+    mapperWrapper(x) => Text(mapper(x), style: _tableStyle);
+    return _buildTableRow(title, mapperWrapper);
+  }
+
+  _buildTableRow(
+    String title,
+    Widget Function(IncrementalBattleshipScore) mapper,
+  ) {
     var heightFactor = 1.1;
-    var style = Theme.of(context).textTheme.headlineMedium;
     return TableRow(children: [
-      Center(heightFactor: heightFactor, child: Text(title, style: style)),
+      Center(
+        heightFactor: heightFactor,
+        child: Text(title, style: _tableStyle),
+      ),
       ...widget.incrementalScores.map((x) {
-        return Center(child: Text(mapper(x), style: style));
+        return Center(child: mapper(x));
       }).toList(),
     ]);
   }
@@ -136,14 +147,26 @@ class IncrementalBattleshipOutcomeState
               border:
                   TableBorder.all(color: Theme.of(context).colorScheme.primary),
               children: [
-                if (widget.incrementalScores.length < 4)
-                  _buildTableRow('', (x) => x.recordedMove.player.name)
+                if (widget.incrementalScores.length <= 2)
+                  _buildTableRowFromStrings(
+                    '',
+                    (x) => x.recordedMove.player.name,
+                  )
                 else
-                  _buildTableRow('', (x) => x.recordedMove.player.icon),
-                // ignore: avoid-non-ascii-symbols
-                _buildTableRow('🦆', (x) => x.pointsForSaves.toString()),
-                // ignore: avoid-non-ascii-symbols
-                _buildTableRow('🎯', (x) => "+${x.pointsForHits}"),
+                  _buildTableRow(
+                    '',
+                    (x) => PlayerIcon.color(x.recordedMove.player),
+                  ),
+                _buildTableRowFromStrings(
+                  // ignore: avoid-non-ascii-symbols
+                  '🦆',
+                  (x) => x.pointsForSaves.toString(),
+                ),
+                _buildTableRowFromStrings(
+                  // ignore: avoid-non-ascii-symbols
+                  '🎯',
+                  (x) => "+${x.pointsForHits}",
+                ),
               ],
             ),
           ),
