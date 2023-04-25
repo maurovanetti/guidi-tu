@@ -44,6 +44,7 @@ dev_dependencies:
   dart_code_metrics_presets: ^1.6.0
   flutter_lints: ^2.0.1
   flutter_launcher_icons: ^0.13.1
+  flutter_native_splash: ^2.2.19
 
 flutter:
   uses-material-design: true
@@ -73,8 +74,13 @@ flutter:
 
 # flutter pub run flutter_launcher_icons
 flutter_launcher_icons:
-  image_path: "assets/icons/icon.png"
+  image_path: assets/icons/icon.png
   android: true
   ios: true
   adaptive_icon_background: "#2f2735"
-  adaptive_icon_foreground: "assets/icons/icon_transparent.png"
+  adaptive_icon_foreground: assets/icons/icon_transparent.png
+
+# flutter pub run flutter_native_splash:create
+flutter_native_splash:
+  color: "#2f2735"
+  fullscreen: true
