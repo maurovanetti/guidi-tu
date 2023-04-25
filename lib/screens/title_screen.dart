@@ -46,6 +46,12 @@ class _TitleScreenState extends TrackedState<TitleScreen> with ScoreAware {
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
+              Expanded(
+                child: Image.asset(
+                  'assets/images/title/logo.png',
+                ),
+              ),
+              const Gap(),
               Text('Chi guida stasera?', style: style),
               DriverOrPayerLabel(
                 _driverAndPayer?.driver,
@@ -75,6 +81,7 @@ class _TitleScreenState extends TrackedState<TitleScreen> with ScoreAware {
                 },
                 important: false,
               ),
+              const Gap(),
             ],
           ),
         ),
@@ -105,13 +112,13 @@ class DriverOrPayerLabel extends StatelessWidget {
       );
     }
     if (name == null) {
-      return Text(
-        'Scopriamolo!',
+      return FittedText(
+        'Decidetelo giocando!',
         key: labelKey,
         style: style.copyWith(fontStyle: FontStyle.italic),
       );
     }
-    return Text(
+    return FittedText(
       name!,
       key: labelKey,
       style: style.copyWith(fontWeight: FontWeight.bold),

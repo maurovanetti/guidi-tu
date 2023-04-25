@@ -47,6 +47,7 @@ dev_dependencies:
 flutter:
   uses-material-design: true
   assets:
+    - assets/images/title/
     - assets/images/players/white/
     - assets/images/players/color/
     - assets/images/players/inverted/
