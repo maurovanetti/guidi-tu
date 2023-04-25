@@ -24,8 +24,6 @@ class TurnPlayState<T extends Move> extends GameSpecificState<TurnPlayScreen>
 
   Duration get elapsed => DateTime.now().difference(_startTime);
 
-  bool get displayClock => true;
-
   @override
   void initState() {
     super.initState();
@@ -99,7 +97,8 @@ class TurnPlayState<T extends Move> extends GameSpecificState<TurnPlayScreen>
                     }
                   : null,
             ),
-            if (displayClock) Clock(_startTime, key: WidgetKeys.clock),
+            if (widget.gameFeatures.externalClock)
+              Clock(_startTime, key: WidgetKeys.clock),
           ],
         ),
       ),

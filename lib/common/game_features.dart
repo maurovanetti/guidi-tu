@@ -6,6 +6,7 @@
 
 import 'package:flutter/material.dart';
 
+import '/games/steady_hand.dart';
 import '/games/battleship.dart';
 import '/games/game_area.dart';
 import '/games/large_shot.dart';
@@ -195,14 +196,12 @@ Ma attenzione: chi resiste più a lungo, paga.""",
   icon: Icons.balance_rounded,
   minPlayers: 2,
   minSuggestedPlayers: 2,
-  buildGameArea: StopwatchGameArea.new,
-  // TODO
-  playWidget: Stopwatch.new,
-  // TODO
-  outcomeWidget: StopwatchOutcome.new,
-  // TODO
+  buildGameArea: SteadyHandGameArea.new,
+  playWidget: SteadyHand.new,
+  outcomeWidget: SteadyHandOutcome.new,
   formatPoints: (p) => '${I18n.secondsFormat.format(p / 1000000)}"',
   externalClock: false,
+  usesRigidGameArea: true,
   interstitialAnimationPath: "",
 );
 

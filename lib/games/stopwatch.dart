@@ -17,10 +17,12 @@ class Stopwatch extends TurnPlayScreen {
   static const period = 6; // seconds
 
   static int microsecondsIntoPeriod(Duration total) =>
-      total.inMicroseconds % (Stopwatch.period * 1000000);
+      total.inMicroseconds %
+      (Stopwatch.period * Duration.microsecondsPerSecond);
 
   static double fractionOfPeriod(Duration total) =>
-      microsecondsIntoPeriod(total) / (Stopwatch.period * 1000000);
+      microsecondsIntoPeriod(total) /
+      (Stopwatch.period * Duration.microsecondsPerSecond);
 
   Stopwatch() : super(key: WidgetKeys.stopwatch, gameFeatures: stopwatch);
 
@@ -32,9 +34,6 @@ class StopwatchState extends TurnPlayState<StopwatchMove> {
   @override
   Duration get elapsed =>
       Duration(microseconds: Stopwatch.microsecondsIntoPeriod(super.elapsed));
-
-  @override
-  bool get displayClock => false;
 }
 
 class StopwatchGameArea extends GameArea<StopwatchMove> {
@@ -102,7 +101,8 @@ class StopwatchGameAreaState extends GameAreaState<StopwatchMove>
 
   @override
   StopwatchMove getMove() => StopwatchMove(
-        microseconds: (_secondsIntoPeriod! * 1000000).toInt(),
+        microseconds:
+            (_secondsIntoPeriod! * Duration.microsecondsPerSecond).toInt(),
       );
 
   @override

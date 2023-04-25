@@ -9,6 +9,7 @@ class WidgetKeys {
   static const morra = Key('morra');
   static const battleship = Key('battleship');
   static const stopwatch = Key('stopwatch');
+  static const steadyHand = Key('steady-hand');
 
 // Content areas
   static const payer = Key('payer');
