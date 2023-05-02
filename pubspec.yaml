@@ -33,9 +33,11 @@ dependencies:
   flutter:
     sdk: flutter
   collection: ^1.17.1
-  intl: ^0.18.0
+  intl: ^0.18.1
   shared_preferences: ^2.1.0
   flame: ^1.7.3
+  flame_forge2d: ^0.13.0+1
+  sensors_plus: ^2.0.5
 
 dev_dependencies:
   flutter_test:
@@ -62,6 +64,7 @@ flutter:
     - assets/images/morra/interstitial/
     - assets/images/shot/
     - assets/images/shot/interstitial/
+    - assets/images/steady_hand/
     - assets/images/stopwatch/
     - assets/images/tutorial/
   fonts:

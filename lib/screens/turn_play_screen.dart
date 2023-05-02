@@ -1,3 +1,4 @@
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 
 import '/common/common.dart';
@@ -19,6 +20,7 @@ abstract class TurnPlayScreen extends GameSpecificStatefulWidget {
 class TurnPlayState<T extends Move> extends GameSpecificState<TurnPlayScreen>
     with Gendered, TeamAware, TurnAware<T>, MoveReceiver<T> {
   late bool ready;
+  bool repeatable = kDebugMode;
 
   late DateTime _startTime;
 
@@ -66,6 +68,16 @@ class TurnPlayState<T extends Move> extends GameSpecificState<TurnPlayScreen>
     return Scaffold(
       appBar: AppBar(
         title: Text(widget.gameFeatures.name),
+        actions: [
+          if (repeatable)
+            IconButton(
+              icon: const Icon(Icons.replay_rounded),
+              onPressed: () {
+                Navigation.replaceAll(context, widget.gameFeatures.playWidget)
+                    .go();
+              },
+            ),
+        ],
       ),
       body: Center(
         child: SqueezeOrScroll(

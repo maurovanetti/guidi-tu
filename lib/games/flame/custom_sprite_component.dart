@@ -86,7 +86,7 @@ class CustomSpriteComponent<T extends Game> extends SpriteAnimationComponent
         ) {
     // If there's no shadow, the default elevation is 0 to prevent the sprite
     // from being rendered in a different initial position than expected.
-    this._elevation = elevation ?? (hasShadow ? 0.0 : 5.0);
+    this._elevation = elevation ?? (hasShadow ? 1.0 : 0.0);
   }
 
   @override
