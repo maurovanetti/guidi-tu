@@ -132,6 +132,14 @@ class CustomSpriteComponent<T extends Game> extends SpriteAnimationComponent
       _stampSprite = await game.loadSprite(stampAssetPath!);
     }
   }
+
+  Future<void> flash() async {
+    for (var i = 0; i < 7; i++) {
+      visible = !visible;
+      var _ = await Future.delayed(const Duration(milliseconds: 200));
+    }
+    visible = false;
+  }
 }
 
 class DraggableCustomSpriteComponent<T extends Game>

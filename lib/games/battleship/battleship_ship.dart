@@ -1,7 +1,7 @@
 import 'package:flame/components.dart';
 
-import 'battleship_item.dart';
 import 'battleship_board.dart';
+import 'battleship_item.dart';
 
 class BattleshipShip extends BattleshipItem {
   BattleshipShip(
@@ -63,13 +63,5 @@ class BattleshipShip extends BattleshipItem {
       cellSpan: cellSpan,
       isVertical: isVertical,
     );
-  }
-
-  Future<void> sink() async {
-    for (var i = 0; i < 7; i++) {
-      visible = !visible;
-      var _ = await Future.delayed(const Duration(milliseconds: 200));
-    }
-    visible = false;
   }
 }

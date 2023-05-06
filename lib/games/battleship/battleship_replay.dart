@@ -8,6 +8,7 @@ import 'battleship_board.dart';
 import 'battleship_bomb.dart';
 import 'battleship_module.dart';
 import 'battleship_ship.dart';
+
 export 'battleship_bomb.dart';
 export 'battleship_item.dart';
 export 'battleship_ship.dart';
@@ -59,7 +60,7 @@ class BattleshipReplay extends BattleshipModule {
   Future<void> importSink(BattleshipBoardCell cell) async {
     var itemOnCell = board.cellAt(cell.row, cell.column).owner;
     if (itemOnCell is BattleshipShip) {
-      return itemOnCell.sink();
+      return itemOnCell.flash();
     }
   }
 }

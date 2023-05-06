@@ -2,19 +2,27 @@ import 'dart:async';
 
 import 'package:flame/components.dart';
 import 'package:flame_forge2d/flame_forge2d.dart';
+import 'package:guidi_tu/games/steady_hand/steady_hand_platform.dart';
 import 'package:sensors_plus/sensors_plus.dart';
 
 import '/games/flame/custom_sprite_component.dart';
 
 class SteadyHandBall extends BodyComponent {
   static const radius = 3.0;
+  static const finalGravityMultiplier = 200.0;
+  static const gravityMultiplierIncreasePerSecond = 40.0;
 
   final Vector2 position;
+  final SteadyHandPlatform platform;
   final void Function() notifyFallen;
+  final sprite = SteadyHandBallSprite();
+
+  double _gravityMultiplier = 0;
+  bool _isFalling = false;
 
   StreamSubscription<AccelerometerEvent>? _accelerations;
 
-  SteadyHandBall(this.position, {required this.notifyFallen})
+  SteadyHandBall(this.position, this.platform, {required this.notifyFallen})
       : super(renderBody: false);
 
   @override
@@ -35,9 +43,11 @@ class SteadyHandBall extends BodyComponent {
 
   @override
   Future<void> onLoad() {
-    add(SteadyHandBallSprite());
+    add(sprite);
     _accelerations = accelerometerEvents.listen((AccelerometerEvent event) {
-      body.applyForce(Vector2(-event.x, event.y) * 20);
+      if (!_isFalling) {
+        body.applyForce(Vector2(-event.x, event.y) * _gravityMultiplier);
+      }
     });
     return super.onLoad();
   }
@@ -46,6 +56,21 @@ class SteadyHandBall extends BodyComponent {
   void onRemove() {
     _accelerations?.cancel();
     super.onRemove();
+  }
+
+  @override
+  void update(double dt) {
+    var delta = gravityMultiplierIncreasePerSecond * dt;
+    _gravityMultiplier =
+        (_gravityMultiplier + delta).clamp(0, finalGravityMultiplier);
+    if (!_isFalling & !platform.isUnder(body)) {
+      _isFalling = true;
+      body.linearVelocity = Vector2.zero();
+      body.setAwake(false);
+      sprite.flash();
+      notifyFallen();
+    }
+    super.update(dt);
   }
 }
 

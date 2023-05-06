@@ -8,7 +8,7 @@ import 'steady_hand_ball.dart';
 import 'steady_hand_platform.dart';
 
 class SteadyHandModule extends Forge2DGame {
-  static const ballOffset = 1 / 4;
+  static const ballOffset = 0;
 
   final void Function() notifyFallen;
 
@@ -21,14 +21,17 @@ class SteadyHandModule extends Forge2DGame {
 
   @override
   Future<void> onLoad() async {
-    add(SteadyHandPlatform(
+    var platform = SteadyHandPlatform(
       size / 2,
       radius: size.x * (1 - 1 / 10) / 2,
-    ));
-    add(SteadyHandBall(
+    );
+    var ball = SteadyHandBall(
       size * ((ballOffset + 1) / 2),
+      platform,
       notifyFallen: notifyFallen,
-    ));
+    );
+    add(platform);
+    add(ball);
     super.onLoad();
   }
 }
