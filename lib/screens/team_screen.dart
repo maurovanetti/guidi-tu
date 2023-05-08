@@ -137,6 +137,7 @@ class _TeamScreenState extends TrackedState<TeamScreen>
                       TeamScreen.addPlayersWarning,
                       style: TextStyle(color: Colors.red),
                     ),
+                  const SafeMarginForCustomFloatingActionButton(),
                 ],
         ),
       ),

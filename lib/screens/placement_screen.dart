@@ -40,9 +40,16 @@ class PlacementScreenState extends TrackedState<PlacementScreen>
       ),
       body: WithBubbles(
         behind: true,
-        child: ListView(
-          padding: StyleGuide.regularPadding,
-          children: _placementCards,
+        child: Scrollbar(
+          thumbVisibility: true,
+          child: ListView(
+            shrinkWrap: true,
+            padding: StyleGuide.regularPadding,
+            children: [
+              ..._placementCards,
+              const SafeMarginForCustomFloatingActionButton(),
+            ],
+          ),
         ),
       ),
       floatingActionButton: CustomFloatingActionButton(
