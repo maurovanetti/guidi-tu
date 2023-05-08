@@ -6,7 +6,7 @@ import 'package:flutter_carousel_widget/flutter_carousel_widget.dart';
 import 'package:flutter_markdown/flutter_markdown.dart';
 
 import '/common/common.dart';
-import 'team_page.dart';
+import 'team_screen.dart';
 
 class TutorialScreen extends StatefulWidget {
   const TutorialScreen({super.key});
@@ -33,7 +33,7 @@ class _TutorialScreenState extends TrackedState<TutorialScreen> {
 
   void _moveOn() {
     if (_lastPage) {
-      Navigation.replaceLast(context, () => const TeamPage()).go();
+      Navigation.replaceLast(context, () => const TeamScreen()).go();
     } else {
       _carouselController.nextPage();
     }

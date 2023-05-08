@@ -6,18 +6,19 @@ import 'package:flutter/services.dart';
 import '/common/common.dart';
 import 'pick_screen.dart';
 
-class TeamPage extends StatefulWidget {
+class TeamScreen extends StatefulWidget {
   static const duplicatesWarning =
       "Alcuni nomi sono uguali tra loro, per favore cambiali.";
   static const addPlayersWarning = "Aggiungi almeno 2 partecipanti per favore.";
 
-  const TeamPage({super.key});
+  const TeamScreen({super.key});
 
   @override
-  State<TeamPage> createState() => _TeamPageState();
+  State<TeamScreen> createState() => _TeamScreenState();
 }
 
-class _TeamPageState extends TrackedState<TeamPage> with Gendered, TeamAware {
+class _TeamScreenState extends TrackedState<TeamScreen>
+    with Gendered, TeamAware {
   bool _loading = true;
 
   @override
@@ -76,7 +77,7 @@ class _TeamPageState extends TrackedState<TeamPage> with Gendered, TeamAware {
       context: context,
       builder: (context) => AlertDialog(
         title: const Text("Nomi duplicati"),
-        content: const Text(TeamPage.duplicatesWarning),
+        content: const Text(TeamScreen.duplicatesWarning),
         actions: [
           TextButton(
             onPressed: () => Navigator.of(context).pop(),
@@ -128,12 +129,12 @@ class _TeamPageState extends TrackedState<TeamPage> with Gendered, TeamAware {
                     ),
                   if (hasDuplicates)
                     const Text(
-                      TeamPage.duplicatesWarning,
+                      TeamScreen.duplicatesWarning,
                       style: TextStyle(color: Colors.red),
                     ),
                   if (players.length < 2)
                     const Text(
-                      TeamPage.addPlayersWarning,
+                      TeamScreen.addPlayersWarning,
                       style: TextStyle(color: Colors.red),
                     ),
                 ],
