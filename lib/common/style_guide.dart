@@ -21,6 +21,11 @@ class StyleGuide {
     brightness: Brightness.dark,
     fontFamily: fontFamily,
     useMaterial3: true,
+    cardTheme: const CardTheme(
+      shape: RoundedRectangleBorder(
+        borderRadius: borderRadius,
+      ),
+    ),
   );
 
   static getImportantBorder(BuildContext context) => RoundedRectangleBorder(
@@ -29,5 +34,21 @@ class StyleGuide {
           width: StyleGuide.importantBorderWidth,
         ),
         borderRadius: borderRadius,
+      );
+
+  static getLabelOnImportantBorder(BuildContext context, String text) =>
+      Padding(
+        padding: EdgeInsets.only(left: borderRadius.topLeft.x),
+        child: Text(
+          text,
+          textAlign: TextAlign.start,
+          style: Theme.of(context).textTheme.headlineMedium!.copyWith(
+                color: Color.lerp(
+                  Theme.of(context).buttonTheme.colorScheme!.onPrimary,
+                  Colors.white,
+                  0.5,
+                ),
+              ),
+        ),
       );
 }

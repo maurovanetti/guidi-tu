@@ -1,6 +1,7 @@
 // This version of the app is in Italian only.
 // ignore_for_file: avoid-non-ascii-symbols
 
+import 'package:collection/collection.dart';
 import 'package:flutter/material.dart';
 
 import '/common/common.dart';
@@ -15,14 +16,21 @@ class PlacementScreen extends StatefulWidget {
 
 class PlacementScreenState extends TrackedState<PlacementScreen>
     with Gendered, TeamAware, ScoreAware {
-  late final List<Widget> _placementCards;
+  late final List<List<Widget>> _placementGroups;
 
   @override
   initState() {
     super.initState();
-    _placementCards = ScoreAware.awards
-        .map((award) => PlacementCard(award))
-        .toList(growable: false);
+    var placementCards =
+        ScoreAware.awards.map((award) => PlacementCard(award)).toList();
+
+    var payer = placementCards.removeAt(0);
+    var driver = placementCards.removeLast();
+    _placementGroups = [
+      [payer],
+      placementCards,
+      [driver],
+    ];
   }
 
   Future<void> _endGame() async {
@@ -38,18 +46,45 @@ class PlacementScreenState extends TrackedState<PlacementScreen>
       appBar: AppBar(
         title: const Text("Classifica"),
       ),
-      body: WithBubbles(
-        behind: true,
-        child: Scrollbar(
-          thumbVisibility: true,
-          child: ListView(
-            shrinkWrap: true,
-            padding: StyleGuide.regularPadding,
-            children: [
-              ..._placementCards,
-              const SafeMarginForCustomFloatingActionButton(),
-            ],
-          ),
+      body: Scrollbar(
+        thumbVisibility: true,
+        child: ListView(
+          shrinkWrap: true,
+          padding: StyleGuide.regularPadding,
+          children: [
+            ..._placementGroups.mapIndexed(
+              (i, group) => group.isNotEmpty
+                  ? Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        StyleGuide.getLabelOnImportantBorder(
+                          context,
+                          [
+                            "Può bere ma paga",
+                            if (group.length > 1)
+                              "Possono bere"
+                            else
+                              "Può bere",
+                            "Guida e non beve",
+                          ].elementAt(i),
+                        ),
+                        Container(
+                          decoration: ShapeDecoration(
+                            shape: StyleGuide.getImportantBorder(context),
+                          ),
+                          padding: EdgeInsets.zero,
+                          margin: EdgeInsets.zero,
+                          child: Column(
+                            children: group,
+                          ),
+                        ),
+                        const Gap(),
+                      ],
+                    )
+                  : Container(),
+            ),
+            const SafeMarginForCustomFloatingActionButton(),
+          ],
         ),
       ),
       floatingActionButton: CustomFloatingActionButton(
@@ -95,6 +130,9 @@ class PlacementCard extends StatelessWidget {
     }
     debugPrint("Role: $role");
     return Card(
+      shape: const RoundedRectangleBorder(
+        borderRadius: StyleGuide.borderRadius,
+      ),
       child: ListTile(
         contentPadding: StyleGuide.stripePadding,
         title: PlayerPlacement(award),
