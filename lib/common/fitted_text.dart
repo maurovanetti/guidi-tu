@@ -3,8 +3,9 @@ import 'package:flutter/material.dart';
 class FittedText extends StatelessWidget {
   final String text;
   final TextStyle? style;
+  final TextAlign? textAlign;
 
-  const FittedText(this.text, {super.key, this.style});
+  const FittedText(this.text, {super.key, this.style, this.textAlign});
 
   @override
   Widget build(BuildContext context) {
@@ -14,6 +15,7 @@ class FittedText extends StatelessWidget {
           fit: BoxFit.scaleDown,
           child: Text(
             text,
+            textAlign: textAlign,
             style: style,
           ),
         );

@@ -10,7 +10,7 @@ import 'dart:math';
 import 'package:flutter/material.dart';
 
 import '/common/common.dart';
-import '/screens/outcome_screen.dart';
+import '/screens/stories_screen.dart';
 import 'game_area.dart';
 
 class ShotGameAreaState<T extends ShotMove> extends GameAreaState<T>
@@ -159,7 +159,7 @@ class ShotControls extends StatelessWidget with QuickMessage {
   }
 }
 
-class ShotOutcomeState extends OutcomeScreenState<ShotMove> {
+class ShotOutcomeState extends StoriesScreenState<ShotMove> {
   // Folk dream interpretation for lottery prediction, revised
   static const List<String> smorfia = [
     "il neonato",
@@ -264,14 +264,11 @@ class ShotOutcomeState extends OutcomeScreenState<ShotMove> {
     "il bilico",
   ];
 
-  late final List<String> _playerNicknames;
-  late final List<String> _playerStories;
+  late final Map<Player, String> _playerNicknames;
 
   @override
-  initState() {
-    super.initState();
-    _playerNicknames = List.filled(players.length, '');
-    _playerStories = List.filled(players.length, '');
+  void tellPlayerStories() {
+    _playerNicknames = <Player, String>{};
     for (var playerIndex in TurnAware.turns) {
       var player = players[playerIndex];
       String story = '';
@@ -312,51 +309,19 @@ class ShotOutcomeState extends OutcomeScreenState<ShotMove> {
       } else if (time > 20) {
         story += " in tempi astronomici";
       }
-      _playerStories[playerIndex] = story;
-      _playerNicknames[playerIndex] =
+      playerStories[playerIndex] = story;
+      _playerNicknames[player] =
           // ignore: prefer-moving-to-variable
           smorfia[move.n.abs() % smorfia.length];
     }
   }
 
   @override
-  void initOutcome() {
-    var textTheme = Theme.of(context).textTheme;
-    var widgets = <Widget>[];
-    for (var playerIndex in TurnAware.turns) {
-      var player = players[playerIndex];
-      widgets.add(
-        PlayerPerformance(
-          player,
-          primaryText: getMove(player).n.toString(),
-          secondaryText: _playerNicknames[playerIndex],
-        ),
+  PlayerPerformance getPlayerPerformance(Player player) => PlayerPerformance(
+        player,
+        primaryText: getMove(player).n.toString(),
+        secondaryText: _playerNicknames[player]!,
       );
-      widgets.add(
-        Text(
-          _playerStories[playerIndex],
-          textAlign: TextAlign.center,
-          style: textTheme.headlineMedium,
-        ),
-      );
-      widgets.add(const Gap());
-    }
-
-    outcomeWidget = ListView(
-      padding: const EdgeInsets.symmetric(horizontal: 20),
-      children: widgets +
-          [
-            const Gap(),
-            Text(
-              "E ora vediamo la classifica!",
-              textAlign: TextAlign.center,
-              style: textTheme.headlineMedium
-                  ?.copyWith(fontStyle: FontStyle.italic),
-            ),
-            const SafeMarginForCustomFloatingActionButton(),
-          ],
-    );
-  }
 }
 
 class ShotMove extends Move {

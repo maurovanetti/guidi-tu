@@ -6,12 +6,12 @@
 
 import 'package:flutter/material.dart';
 
-import '/games/steady_hand.dart';
 import '/games/battleship.dart';
 import '/games/game_area.dart';
 import '/games/large_shot.dart';
 import '/games/morra.dart';
 import '/games/small_shot.dart';
+import '/games/steady_hand.dart';
 import '/games/stopwatch.dart';
 import '/screens/outcome_screen.dart';
 import '/screens/turn_play_screen.dart';
@@ -175,7 +175,8 @@ Ma attenzione: chi la ferma più avanti di tutti, paga.""",
   buildGameArea: StopwatchGameArea.new,
   playWidget: Stopwatch.new,
   outcomeWidget: StopwatchOutcome.new,
-  formatPoints: (p) => '${I18n.preciserSecondsFormat.format(p / 1000000)}"',
+  formatPoints: (p) =>
+      '${I18n.preciserSecondsFormat.format(p / Duration.microsecondsPerSecond)}"',
   externalClock: false,
   interstitialAnimationPath: "",
 );
@@ -199,7 +200,8 @@ Ma attenzione: chi resiste più a lungo, paga.""",
   buildGameArea: SteadyHandGameArea.new,
   playWidget: SteadyHand.new,
   outcomeWidget: SteadyHandOutcome.new,
-  formatPoints: (p) => '${I18n.secondsFormat.format(p / 1000000)}"',
+  formatPoints: (p) =>
+      '${I18n.secondsFormat.format(p / Duration.microsecondsPerSecond)}"',
   externalClock: false,
   usesRigidGameArea: true,
   interstitialAnimationPath: "",

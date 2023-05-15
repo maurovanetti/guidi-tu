@@ -1,4 +1,7 @@
+// ignore_for_file: avoid-non-ascii-symbols
+
 import 'dart:async';
+import 'dart:math';
 import 'dart:ui';
 
 import 'package:flame/game.dart';
@@ -6,7 +9,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
 
 import '/common/common.dart';
-import '/screens/outcome_screen.dart';
+import '/screens/stories_screen.dart';
 import '/screens/turn_play_screen.dart';
 import 'game_area.dart';
 import 'steady_hand/steady_hand_module.dart';
@@ -119,15 +122,61 @@ class SteadyHandGameAreaState extends GameAreaState<SteadyHandMove>
   }
 }
 
-// TODO Take a chance to give some advice
-class SteadyHandOutcome extends OutcomeScreen {
+class SteadyHandOutcome extends StoriesScreen<SteadyHandMove> {
   SteadyHandOutcome({super.key}) : super(gameFeatures: steadyHand);
 
   @override
-  OutcomeScreenState<SteadyHandMove> createState() => SteadyHandOutcomeState();
+  StoriesScreenState<SteadyHandMove> createState() => SteadyHandOutcomeState();
 }
 
-class SteadyHandOutcomeState extends OutcomeScreenState<SteadyHandMove> {}
+class SteadyHandOutcomeState extends StoriesScreenState<SteadyHandMove> {
+  late final List<int> _playerTimes;
+
+  @override
+  void tellPlayerStories() {
+    int bestTime = 0;
+    _playerTimes = List.filled(players.length, 0);
+    for (var playerIndex in TurnAware.turns) {
+      var player = players[playerIndex];
+      String story = '';
+      switch (Random().nextInt(3)) {
+        case 0:
+          story = " ha resistito";
+          break;
+        case 1:
+          story = " ha tenuto duro";
+          break;
+        case 2:
+          story = player.t(" è rimasto in sella", " è rimasta in sella");
+          break;
+      }
+      playerStories[playerIndex] = story;
+      var time = getRecordedMove(player).move.microseconds;
+      _playerTimes[playerIndex] = time;
+      bestTime = max(time, bestTime);
+    }
+    for (var playerIndex in TurnAware.turns) {
+      var relativeOutcome = _playerTimes[playerIndex] / bestTime;
+      String ending;
+      if (relativeOutcome < 1 / 10) {
+        ending = " pochissimo";
+      } else if (relativeOutcome < 1 / 2) {
+        ending = " dignitosamente";
+      } else if (relativeOutcome < 3 / 4) {
+        ending = " un bel po'";
+      } else {
+        ending = " a lungo";
+      }
+      playerStories[playerIndex] += ending;
+    }
+  }
+
+  @override
+  PlayerPerformance getPlayerPerformance(Player player) => PlayerPerformance(
+        player,
+        primaryText: steadyHand.formatPoints(getMove(player).microseconds),
+      );
+}
 
 class SteadyHandMove extends Move {
   final int microseconds;
