@@ -6,9 +6,9 @@ import '/screens/outcome_screen.dart';
 import '/screens/turn_play_screen.dart';
 import 'battleship/battleship_board.dart';
 import 'battleship/battleship_bomb.dart';
+import 'battleship/battleship_module.dart';
 import 'battleship/battleship_ship.dart';
 import 'battleship/incremental_battleship_outcome.dart';
-import 'battleship/battleship_module.dart';
 import 'game_area.dart';
 
 class Battleship extends TurnPlayScreen {
@@ -31,7 +31,7 @@ class BattleshipGameArea extends GameArea<BattleshipMove> {
     required MoveReceiver moveReceiver,
     required super.startTime,
   }) : super(
-          gameFeatures: morra,
+          gameFeatures: battleship,
           moveReceiver: moveReceiver as MoveReceiver<BattleshipMove>,
         );
 

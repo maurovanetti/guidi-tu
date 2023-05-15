@@ -15,6 +15,7 @@ import '/games/steady_hand.dart';
 import '/games/stopwatch.dart';
 import '/screens/outcome_screen.dart';
 import '/screens/turn_play_screen.dart';
+import '../games/ouija.dart';
 import 'config.dart';
 import 'i18n.dart';
 import 'move.dart';
@@ -207,6 +208,29 @@ Ma attenzione: chi resiste più a lungo, paga.""",
   interstitialAnimationPath: "",
 );
 
+final ouija = GameFeatures(
+  name: "Telepatia",
+  description: "Indovina la parola.",
+  explanation: """
+Componi una sequenza di lettere.
+
+Fai ${Ouija.missValue} per ogni lettera usata anche da altri, 
+${Ouija.guessValue} punti se è anche nella stessa posizione. 
+  
+Guida chi fa meno punti.
+
+Ma attenzione: chi ne fa di più, paga.""",
+  icon: Icons.wifi_rounded,
+  minPlayers: 3,
+  minSuggestedPlayers: 4,
+  buildGameArea: OuijaGameArea.new,
+  playWidget: Ouija.new,
+  outcomeWidget: OuijaOutcome.new,
+  formatPoints: (p) => '$p pt.',
+  usesRigidGameArea: true,
+  interstitialAnimationPath: "",
+);
+
 final List<GameFeatures> allGameFeatures = [
   largeShot,
   smallShot,
@@ -214,4 +238,5 @@ final List<GameFeatures> allGameFeatures = [
   battleship,
   stopwatch,
   steadyHand,
+  // ouija, TODO Enable when ready
 ];

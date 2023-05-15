@@ -7,6 +7,7 @@ import '/games/flame/custom_text_box_component.dart';
 import 'battleship_board.dart';
 import 'battleship_bomb.dart';
 import 'battleship_ship.dart';
+
 export 'battleship_item.dart';
 
 class BattleshipModule extends FlameGame {
@@ -34,8 +35,6 @@ class BattleshipModule extends FlameGame {
 
   @override
   Future<void> onLoad() async {
-    int gridColumns = BattleshipModule.gridColumns;
-    int gridRows = BattleshipModule.gridRows;
     double padding = size.x * 0.02;
     // Same padding for left and top is not a mistake.
     // ignore: no-equal-arguments
