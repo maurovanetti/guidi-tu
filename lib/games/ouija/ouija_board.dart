@@ -21,5 +21,8 @@ class OuijaBoard extends CustomBoard<OuijaBoardCell> {
 }
 
 class OuijaBoardCell extends CustomBoardCell {
-  OuijaBoardCell(super.board, super.row, super.column);
+  @override
+  final OuijaBoard board;
+
+  OuijaBoardCell(this.board, super.row, super.column);
 }

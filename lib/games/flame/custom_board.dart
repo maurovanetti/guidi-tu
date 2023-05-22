@@ -9,13 +9,14 @@ abstract class CustomBoard<T extends CustomBoardCell>
 
   late final double cellWidth;
   late final double cellHeight;
-
   late final List<List<T>> _cells;
 
   final List<Offset> _leftNotches = [];
   final List<Offset> _rightNotches = [];
   final List<Offset> _topNotches = [];
   final List<Offset> _bottomNotches = [];
+
+  Vector2 get cellSize => Vector2(cellWidth, cellHeight);
 
   Paint get paint => Paint();
 
@@ -67,12 +68,32 @@ abstract class CustomBoard<T extends CustomBoardCell>
     var column = (centerPosition.x - topLeftPosition.x) ~/ cellWidth;
     return cellAt(row, column);
   }
+
+  Iterable<Vector2> cellCenters({
+    int leftmostColumnsSkipped = 0,
+    int topRowsSkipped = 0,
+    int rightmostColumnsSkipped = 0,
+    int bottomRowsSkipped = 0,
+  }) sync* {
+    for (int row = topRowsSkipped; row < gridRows - bottomRowsSkipped; row++) {
+      for (int column = leftmostColumnsSkipped;
+          column < gridColumns - rightmostColumnsSkipped;
+          column++) {
+        var cellCenter = topLeftPosition +
+            Vector2(
+              cellWidth * (column + 0.5),
+              cellHeight * (row + 0.5),
+            );
+        yield cellCenter;
+      }
+    }
+  }
 }
 
-class CustomBoardCell {
-  final CustomBoard board;
+abstract class CustomBoardCell {
   final int row;
   final int column;
+  CustomBoard get board;
 
   Vector2 get center =>
       board.topLeftPosition +
@@ -84,7 +105,7 @@ class CustomBoardCell {
   @override
   int get hashCode => row * 1000 + column;
 
-  CustomBoardCell(this.board, this.row, this.column);
+  CustomBoardCell(this.row, this.column);
 
   @override
   operator ==(other) =>

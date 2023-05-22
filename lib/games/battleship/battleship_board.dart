@@ -1,96 +1,32 @@
-import 'package:flame/components.dart';
-import 'package:flame/extensions.dart';
 import 'package:flutter/material.dart';
 
+import '/common/common.dart';
+import '../flame/custom_board.dart';
 import 'battleship_item.dart';
 
-class BattleshipBoard extends PositionComponent {
-  int gridColumns;
-  int gridRows;
+class BattleshipBoard extends CustomBoard<BattleshipBoardCell>
+    with CustomNotifier {
   int itemsCount = 0;
-
-  late final double cellWidth;
-  late final double cellHeight;
 
   // This is the same information as _cells, but in a different format more
   // suitable for registering the player's moves.
   final Map<BattleshipItem, BattleshipBoardCell> placedItems = {};
 
-  late final List<List<BattleshipBoardCell>> _cells;
-
-  final List<void Function()> _listeners = [];
-
-  final List<Offset> _leftNotches = [];
-  final List<Offset> _rightNotches = [];
-  final List<Offset> _topNotches = [];
-  final List<Offset> _bottomNotches = [];
-
   bool get isEmpty => placedItems.isEmpty;
 
   bool get isFull => placedItems.length == itemsCount;
 
-  Vector2 get cellSize => Vector2(cellWidth, cellHeight);
-
-  Paint get paint => Paint()
+  @override
+  Paint get paint => super.paint
     ..color = Colors.blue.shade200
     ..style = PaintingStyle.stroke
     ..strokeWidth = 2.0;
 
   BattleshipBoard({
-    required Rect rect,
-    required this.gridColumns,
-    required this.gridRows,
-  }) : super(
-          position: rect.center.toVector2(),
-          size: rect.size.toVector2(),
-          anchor: Anchor.center,
-        ) {
-    cellWidth = rect.width / gridColumns;
-    cellHeight = rect.height / gridRows;
-    for (double y = 0; y <= rect.height; y += cellHeight) {
-      _leftNotches.add(Offset(0, y));
-      _rightNotches.add(Offset(rect.width, y));
-    }
-    for (double x = 0; x <= rect.width; x += cellWidth) {
-      _topNotches.add(Offset(x, 0));
-      _bottomNotches.add(Offset(x, rect.height));
-    }
-    _cells = List.generate(
-      gridRows,
-      (row) => List.generate(
-        gridColumns,
-        (column) => BattleshipBoardCell(this, row, column),
-      ),
-    );
-  }
-
-  Iterable<Vector2> cellCenters({
-    int leftmostColumnsSkipped = 0,
-    int topRowsSkipped = 0,
-    int rightmostColumnsSkipped = 0,
-    int bottomRowsSkipped = 0,
-  }) sync* {
-    for (int row = topRowsSkipped; row < gridRows - bottomRowsSkipped; row++) {
-      for (int column = leftmostColumnsSkipped;
-          column < gridColumns - rightmostColumnsSkipped;
-          column++) {
-        var cellCenter = topLeftPosition +
-            Vector2(
-              cellWidth * (column + 0.5),
-              cellHeight * (row + 0.5),
-            );
-        yield cellCenter;
-      }
-    }
-  }
-
-  BattleshipBoardCell cellAt(int row, int column) => _cells[row][column];
-
-  BattleshipBoardCell cellOn(Vector2 centerPosition) {
-    var row = (centerPosition.y - topLeftPosition.y) ~/ cellHeight;
-    var column = (centerPosition.x - topLeftPosition.x) ~/ cellWidth;
-    return cellAt(row, column);
-  }
+    required super.rect,
+    required super.gridColumns,
+    required super.gridRows,
+  });
 
   bool placeItem(BattleshipItem item) {
     var cell = cellOn(item.position);
@@ -103,7 +39,7 @@ class BattleshipBoard extends PositionComponent {
         }
       }
       placedItems[item] = cell;
-      _notifyListeners();
+      notifyListeners();
       return true;
     }
     return false;
@@ -119,7 +55,7 @@ class BattleshipBoard extends PositionComponent {
       }
     }
     if (placedItems.remove(item) != null) {
-      _notifyListeners();
+      notifyListeners();
     }
   }
 
@@ -142,54 +78,16 @@ class BattleshipBoard extends PositionComponent {
   }
 
   @override
-  void render(Canvas canvas) {
-    for (int i = 0; i < _leftNotches.length; i++) {
-      canvas.drawLine(_leftNotches[i], _rightNotches[i], paint);
-    }
-    for (int i = 0; i < _topNotches.length; i++) {
-      canvas.drawLine(_topNotches[i], _bottomNotches[i], paint);
-    }
-    super.render(canvas);
-  }
-
-  void addListener(void Function() notify) {
-    _listeners.add(notify);
-  }
-
-  void clearListeners() {
-    _listeners.clear();
-  }
-
-  void _notifyListeners() {
-    for (var listener in _listeners) {
-      listener();
-    }
-  }
+  BattleshipBoardCell createCell(int row, int column) =>
+      BattleshipBoardCell(this, row, column);
 }
 
-class BattleshipBoardCell {
+class BattleshipBoardCell extends CustomBoardCell {
+  @override
   final BattleshipBoard board;
-  final int row;
-  final int column;
   BattleshipItem? owner;
 
-  Vector2 get center =>
-      board.topLeftPosition +
-      Vector2(
-        board.cellWidth * (column + 0.5),
-        board.cellHeight * (row + 0.5),
-      );
-
-  @override
-  int get hashCode => row * 1000 + column;
-
-  BattleshipBoardCell(this.board, this.row, this.column);
-
-  @override
-  operator ==(other) =>
-      other is BattleshipBoardCell &&
-      row == other.row &&
-      column == other.column;
+  BattleshipBoardCell(this.board, super.row, super.column);
 
   bool isAvailableFor(BattleshipItem item) {
     if (owner != null) {
@@ -215,21 +113,5 @@ class BattleshipBoardCell {
       }
     }
     return true;
-  }
-
-  BattleshipBoardCell below() {
-    return board.cellAt(row + 1, column);
-  }
-
-  BattleshipBoardCell above() {
-    return board.cellAt(row - 1, column);
-  }
-
-  BattleshipBoardCell left() {
-    return board.cellAt(row, column - 1);
-  }
-
-  BattleshipBoardCell right() {
-    return board.cellAt(row, column + 1);
   }
 }
