@@ -15,7 +15,7 @@ class Ouija extends TurnPlayScreen {
   @override
   final bool isReadyAtStart = false;
 
-  Ouija() : super(key: WidgetKeys.ouija, gameFeatures: battleship);
+  Ouija() : super(key: WidgetKeys.ouija, gameFeatures: ouija);
 
   @override
   createState() => TurnPlayState<OuijaMove>();
@@ -83,7 +83,7 @@ class OuijaGameAreaState extends GameAreaState<OuijaMove>
 }
 
 class OuijaOutcome extends OutcomeScreen {
-  OuijaOutcome({super.key}) : super(gameFeatures: battleship);
+  OuijaOutcome({super.key}) : super(gameFeatures: ouija);
 
   @override
   OuijaOutcomeState createState() => OuijaOutcomeState();

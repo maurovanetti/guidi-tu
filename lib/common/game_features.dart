@@ -238,5 +238,5 @@ final List<GameFeatures> allGameFeatures = [
   battleship,
   stopwatch,
   steadyHand,
-  // ouija, TODO Enable when ready
+  ouija,
 ];

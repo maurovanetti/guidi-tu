@@ -25,9 +25,14 @@ class OuijaModule extends FlameGame {
   @override
   Future<void> onLoad() async {
     double padding = size.x * 0.02;
-    // Same padding for left and top is not a mistake.
-    // ignore: no-equal-arguments
-    Rect grid = Rect.fromLTRB(padding, padding, padding, padding);
+    Rect grid = Rect.fromLTWH(
+      padding,
+      // Same padding for left and top is not a mistake.
+      // ignore: no-equal-arguments
+      padding,
+      size.x - padding * 2,
+      size.y - padding * 2,
+    );
     // This only works if the GameWidget is never resized.
     board = OuijaBoard(
       rect: grid,
