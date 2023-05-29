@@ -21,7 +21,7 @@ class IncrementalOuijaOutcomeState extends State<IncrementalOuijaOutcome> {
   @override
   initState() {
     super.initState();
-    Future.delayed(Duration.zero, () async {
+    Future.delayed(const Duration(milliseconds: 1000), () async {
       var letterCount = widget.incrementalScores.first.letters.length;
       for (int i = 0; i < letterCount; i++) {
         await schedule([_resolve(i)], 1.0);
@@ -36,6 +36,11 @@ class IncrementalOuijaOutcomeState extends State<IncrementalOuijaOutcome> {
     return Future.delayed(Duration(
       milliseconds: (Duration.millisecondsPerSecond * seconds).toInt(),
     ));
+  }
+
+  Future<void> _shortPause() async {
+    // ignore: avoid-ignoring-return-values
+    await Future.delayed(const Duration(milliseconds: 500));
   }
 
   Future<void> _resolve(int position) async {
@@ -53,6 +58,7 @@ class IncrementalOuijaOutcomeState extends State<IncrementalOuijaOutcome> {
             letter.type = OuijaGuessType.miss;
             continue;
           }
+          letter.type = OuijaGuessType.none;
         }
         switch (letter.type) {
           case OuijaGuessType.guess:
@@ -66,11 +72,8 @@ class IncrementalOuijaOutcomeState extends State<IncrementalOuijaOutcome> {
             break;
         }
         setState(() {});
-        // ignore: avoid-ignoring-return-values
-        await Future.delayed(const Duration(milliseconds: 500));
+        await _shortPause();
       }
-      // ignore: avoid-ignoring-return-values
-      await Future.delayed(const Duration(milliseconds: 500));
     }
   }
 
@@ -91,7 +94,10 @@ class IncrementalOuijaOutcomeState extends State<IncrementalOuijaOutcome> {
         return Center(
           child: Text(
             ouijaGuess.letter,
-            style: _tableStyle.copyWith(color: ouijaGuess.colorByType),
+            style: _tableStyle.copyWith(
+              color: ouijaGuess.colorByType,
+              fontWeight: ouijaGuess.weightByType,
+            ),
             textAlign: TextAlign.center,
           ),
         );
@@ -181,6 +187,17 @@ class OuijaGuess {
         return Colors.orange.shade200;
       case OuijaGuessType.guess:
         return Colors.green.shade300;
+    }
+  }
+
+  FontWeight? get weightByType {
+    switch (type) {
+      case OuijaGuessType.pending:
+      case OuijaGuessType.none:
+        return FontWeight.normal;
+      case OuijaGuessType.miss:
+      case OuijaGuessType.guess:
+        return FontWeight.bold;
     }
   }
 
