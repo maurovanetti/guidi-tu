@@ -51,6 +51,9 @@ class OuijaModule extends FlameGame {
       slots: letterCount,
     );
     await add(board);
+    board.wordNotifier.addListener(() {
+      setReady(board.word.length >= letterCount);
+    });
 
     String alphabet;
     var sessionData = await TeamAware.retrieveSessionData();
