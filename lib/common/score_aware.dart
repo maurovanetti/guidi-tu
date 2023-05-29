@@ -79,7 +79,7 @@ mixin ScoreAware {
   }
 }
 
-class Score extends Comparable<Score> {
+class Score implements Comparable<Score> {
   final int points;
   final bool pointsMatter;
   final bool timeDisplayed;

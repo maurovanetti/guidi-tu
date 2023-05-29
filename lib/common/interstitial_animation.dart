@@ -1,3 +1,4 @@
+import 'package:flame/sprite.dart';
 import 'package:flame/widgets.dart';
 import 'package:flutter/material.dart';
 
@@ -22,7 +23,7 @@ class InterstitialAnimation extends StatefulWidget {
 }
 
 class InterstitialAnimationState extends State<InterstitialAnimation> {
-  SpriteAnimation? animation;
+  SpriteAnimationTicker? animationTicker;
   late num _animationCount;
 
   @override
@@ -37,27 +38,27 @@ class InterstitialAnimationState extends State<InterstitialAnimation> {
       debugPrint("No interstitial animation in ${widget.prefix}_*.png");
       return;
     }
-    var animation = await AnimationLoader.load(
+    SpriteAnimation animation = (await AnimationLoader.load(
       widget.prefix,
       fps: InterstitialAnimation.fps,
       loop: true,
-    );
+    ))!;
     debugPrint("Interstitial animation loaded: ${widget.prefix}_*.png");
     if (mounted) {
       setState(() {
-        this.animation = animation;
+        animationTicker = SpriteAnimationTicker(animation);
       });
       _repeatAnimation();
     }
   }
 
   void _repeatAnimation() {
-    var a = animation!;
+    var a = animationTicker!;
     a.onFrame = (frame) {
       if (a.isLastFrame) {
         _animationCount--;
         if (_animationCount <= 0) {
-          a.loop = false;
+          a.spriteAnimation.loop = false;
           widget.onComplete?.call();
         }
       }
@@ -68,9 +69,12 @@ class InterstitialAnimationState extends State<InterstitialAnimation> {
   Widget build(BuildContext context) {
     return AspectRatio(
       aspectRatio: 1,
-      child: animation == null
+      child: animationTicker == null
           ? const SizedBox.shrink()
-          : SpriteAnimationWidget(animation: animation!),
+          : SpriteAnimationWidget(
+              animationTicker: animationTicker!,
+              animation: animationTicker!.spriteAnimation,
+            ),
     );
   }
 }

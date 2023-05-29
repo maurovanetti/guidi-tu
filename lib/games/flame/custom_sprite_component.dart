@@ -1,4 +1,5 @@
 import 'package:flame/components.dart';
+import 'package:flame/events.dart';
 import 'package:flame/experimental.dart';
 import 'package:flame/game.dart';
 import 'package:flame/palette.dart';
@@ -97,7 +98,7 @@ class CustomSpriteComponent<T extends Game> extends SpriteAnimationComponent
     // Reminder: this uses local coordinates!
     // Shadow sprite
     if (hasShadow && opacity == 1.0) {
-      animation?.getSprite().render(
+      animationTicker?.getSprite().render(
             canvas,
             position: shadowOffset,
             size: size,
