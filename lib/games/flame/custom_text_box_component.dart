@@ -29,7 +29,7 @@ class CustomTextBoxComponent extends TextBoxComponent {
           boxConfig: _boxConfig,
           align: Anchor.center,
           position: position,
-          priority: Priorities.textPriority,
+          priority: Priorities.messagePriority,
         ) {
     if (autoDismiss) {
       Future.delayed(dismissDelay, dismiss);

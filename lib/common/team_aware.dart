@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'dart:convert';
 
 import 'package:shared_preferences/shared_preferences.dart';
@@ -42,5 +43,16 @@ mixin TeamAware on Gendered {
     var prefs = await SharedPreferences.getInstance();
     var team = players.map((player) => jsonEncode(player.toJson()));
     assert(await prefs.setStringList(Persistence.playersKey, team.toList()));
+    unawaited(prefs.remove(Persistence.sessionKey));
+  }
+
+  static Future<void> storeSessionData(Map<String, dynamic> data) async {
+    var prefs = await SharedPreferences.getInstance();
+    assert(await prefs.setString(Persistence.sessionKey, jsonEncode(data)));
+  }
+
+  static Future<Map<String, dynamic>> retrieveSessionData() async {
+    var prefs = await SharedPreferences.getInstance();
+    return jsonDecode(prefs.getString(Persistence.sessionKey) ?? '{}');
   }
 }

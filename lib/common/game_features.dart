@@ -214,8 +214,8 @@ final ouija = GameFeatures(
   explanation: """
 Componi una sequenza di lettere.
 
-Fai ${Ouija.missValue} per ogni lettera usata anche da altri, 
-${Ouija.guessValue} punti se è anche nella stessa posizione. 
+Fai ${Ouija.missValue} pt. per ogni lettera usata anche da altri, 
+${Ouija.guessValue} pt. se è anche nella stessa posizione. 
   
 Guida chi fa meno punti.
 
