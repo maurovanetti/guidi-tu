@@ -23,14 +23,12 @@ class OuijaFrame extends CustomSpriteComponent {
           priority: Priorities.toolPriority,
           hasShadow: false,
         ) {
-    board.wordNotifier.addListener(_onWordChange);
     _nextStep();
   }
 
   @override
   void onRemove() {
     _timer?.stop();
-    board.wordNotifier.removeListener(_onWordChange);
     super.onRemove();
   }
 
@@ -52,10 +50,6 @@ class OuijaFrame extends CustomSpriteComponent {
       }
     }
     super.update(dt);
-  }
-
-  void _onWordChange() {
-    // Nothing to do
   }
 
   void _nextStep() {
