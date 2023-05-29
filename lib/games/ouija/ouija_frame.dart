@@ -1,0 +1,79 @@
+import 'package:flame/components.dart';
+
+import '../flame/custom_sprite_component.dart';
+import '../flame/priorities.dart';
+import 'ouija_board.dart';
+
+class OuijaFrame extends CustomSpriteComponent {
+  static const pauseAtLetter = 0.2;
+  static const pauseAtCenter = 1.0;
+  static const speed = 500.0;
+
+  final OuijaBoard board;
+  final List<Vector2> path = [];
+  String _nextLetter = '';
+  Vector2? _nextDestination;
+  Timer? _timer;
+
+  OuijaFrame(this.board, {required Vector2 size})
+      : super(
+          'ouija/frame.png',
+          board.absoluteCenter,
+          size: size,
+          priority: Priorities.toolPriority,
+          hasShadow: false,
+        ) {
+    board.wordNotifier.addListener(_onWordChange);
+    _nextStep();
+  }
+
+  @override
+  void onRemove() {
+    _timer?.stop();
+    board.wordNotifier.removeListener(_onWordChange);
+    super.onRemove();
+  }
+
+  @override
+  void update(double dt) {
+    if (_timer?.isRunning() ?? false) {
+      _timer?.update(dt);
+    } else if (_nextDestination != null) {
+      var ds = speed * dt;
+      var dp = _nextDestination! - position;
+      // ignore: prefer-conditional-expressions
+      if (dp.length < ds) {
+        position = _nextDestination!;
+        double pauseDuration =
+            position == board.absoluteCenter ? pauseAtCenter : pauseAtLetter;
+        _timer = Timer(pauseDuration, onTick: _nextStep)..start();
+      } else {
+        position += dp.normalized() * ds;
+      }
+    }
+    super.update(dt);
+  }
+
+  void _onWordChange() {
+    // Nothing to do
+  }
+
+  void _nextStep() {
+    if (_nextLetter.isEmpty) {
+      _goTo(board.absoluteCenter);
+      if (board.word.isNotEmpty) {
+        _nextLetter = board.word[0];
+      }
+    } else {
+      int index = board.word.indexOf(_nextLetter);
+      _goTo(board.spotOf(_nextLetter) ?? board.absoluteCenter);
+      index++;
+      _nextLetter = index < board.word.length ? board.word[index] : '';
+    }
+    // _timer = Timer(stepDuration, onTick: _nextStep)..start();
+  }
+
+  void _goTo(Vector2 destination) {
+    _nextDestination = destination;
+  }
+}

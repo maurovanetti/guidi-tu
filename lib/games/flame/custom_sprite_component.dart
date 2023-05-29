@@ -78,11 +78,13 @@ class CustomSpriteComponent<T extends Game> extends SpriteAnimationComponent
     double? elevation,
     Vector2? size,
     Anchor? anchor,
+    int? priority,
     this.fps,
   }) : super(
           size: size ?? defaultSpriteSize,
           anchor: anchor ?? Anchor.center,
           position: position,
+          priority: priority,
         ) {
     // If there's no shadow, the default elevation is 0 to prevent the sprite
     // from being rendered in a different initial position than expected.

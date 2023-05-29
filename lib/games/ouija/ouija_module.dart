@@ -1,7 +1,7 @@
-import 'dart:ui';
-
 import 'package:flame/game.dart';
+import 'package:flutter/material.dart';
 import 'package:guidi_tu/common/common.dart';
+import 'package:guidi_tu/games/ouija/ouija_frame.dart';
 
 import 'ouija_board.dart';
 import 'ouija_item.dart';
@@ -77,5 +77,7 @@ class OuijaModule extends FlameGame {
     for (int i = 0; i < letterCount; i++) {
       await add(OuijaPassiveItem(board, i));
     }
+
+    await add(OuijaFrame(board, size: board.cellSize));
   }
 }
