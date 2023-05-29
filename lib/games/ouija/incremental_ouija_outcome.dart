@@ -59,6 +59,7 @@ class IncrementalOuijaOutcomeState extends State<IncrementalOuijaOutcome> {
           case OuijaGuessType.miss:
             beingChecked.pointsForMisses += Ouija.missValue;
             break;
+          case OuijaGuessType.pending:
           case OuijaGuessType.none:
             break;
         }
@@ -105,7 +106,7 @@ class IncrementalOuijaOutcomeState extends State<IncrementalOuijaOutcome> {
         squeeze: false,
         topChildren: const [],
         centralChild: Padding(
-          padding: StyleGuide.narrowPadding,
+          padding: StyleGuide.regularPadding,
           child: Table(
             defaultVerticalAlignment: TableCellVerticalAlignment.middle,
             border:
@@ -114,8 +115,13 @@ class IncrementalOuijaOutcomeState extends State<IncrementalOuijaOutcome> {
           ),
         ),
         bottomChildren: const [
-          Text("${Ouija.guessValue} pt. per lettera indovinata."),
-          Text("${Ouija.missValue} pt. per lettera nel posto sbagliato."),
+          Center(
+            child: Text("${Ouija.guessValue} pt. per lettera indovinata."),
+          ),
+          Center(
+            child:
+                Text("${Ouija.missValue} pt. per lettera nel posto sbagliato."),
+          ),
         ],
       ),
     );
@@ -146,6 +152,7 @@ class IncrementalOuijaScore {
 }
 
 enum OuijaGuessType {
+  pending,
   none,
   miss,
   guess,
@@ -157,14 +164,16 @@ class OuijaGuess {
 
   Color? get colorByType {
     switch (type) {
-      case OuijaGuessType.none:
+      case OuijaGuessType.pending:
         return null;
+      case OuijaGuessType.none:
+        return Colors.red.shade800;
       case OuijaGuessType.miss:
-        return Colors.orange.shade800;
+        return Colors.orange.shade200;
       case OuijaGuessType.guess:
-        return Colors.green.shade800;
+        return Colors.green.shade300;
     }
   }
 
-  OuijaGuess(this.letter, [this.type = OuijaGuessType.none]);
+  OuijaGuess(this.letter, [this.type = OuijaGuessType.pending]);
 }

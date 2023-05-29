@@ -15,11 +15,9 @@ class OuijaModule extends FlameGame {
 
   late final OuijaBoard board;
   late final int letterCount;
-
-  String currentWord = '';
-
   final void Function(bool) setReady;
 
+  String get currentWord => board.word;
   int get capacity => gridColumns * gridRows - 1; // -1 for the backspace
 
   OuijaModule({
