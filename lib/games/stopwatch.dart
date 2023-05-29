@@ -112,7 +112,6 @@ class StopwatchGameAreaState extends GameAreaState<StopwatchMove>
     var bottomOffsetForLabel = 20 + (_secondsIntoPeriod ?? 0) * 5;
     return Column(
       children: [
-        CustomButton(text: "STOP", onPressed: _ticker.isTicking ? _stop : null),
         Flexible(
           child: Stack(
             alignment: Alignment.center,
@@ -150,6 +149,7 @@ class StopwatchGameAreaState extends GameAreaState<StopwatchMove>
             ],
           ),
         ),
+        CustomButton(text: "STOP", onPressed: _ticker.isTicking ? _stop : null),
       ],
     );
   }

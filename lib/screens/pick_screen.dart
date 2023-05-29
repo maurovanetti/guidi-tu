@@ -83,7 +83,10 @@ class _PickScreenState extends TrackedState<PickScreen>
       body: Center(
         child: ListView(
           shrinkWrap: true,
-          children: _gameCards.toList(), // to rebuild it every time
+          children: [
+            ..._gameCards.toList(), // to rebuild it every time
+            const SafeMarginForCustomFloatingActionButton(),
+          ],
         ),
       ),
       floatingActionButton: CustomFloatingActionButton(
