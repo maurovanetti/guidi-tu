@@ -79,7 +79,7 @@ flutter:
       fonts:
         - asset: assets/fonts/LexendDeca-VariableFont_wght.ttf
 
-# flutter pub run flutter_launcher_icons
+# dart run flutter_launcher_icons
 flutter_launcher_icons:
   image_path: assets/icons/icon.png
   android: true
@@ -87,7 +87,7 @@ flutter_launcher_icons:
   adaptive_icon_background: "#2f2735"
   adaptive_icon_foreground: assets/icons/icon_transparent.png
 
-# flutter pub run flutter_native_splash:create
+# dart run flutter_native_splash:create
 flutter_native_splash:
   color: "#2f2735"
   fullscreen: true

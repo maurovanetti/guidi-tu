@@ -1,6 +1,5 @@
-<manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="net.coopalice.guidi_tu">
-   <application
+<manifest xmlns:android="http://schemas.android.com/apk/res/android">
+    <application
         android:label="guidi_tu"
         android:name="${applicationName}"
         android:icon="@mipmap/ic_launcher">
