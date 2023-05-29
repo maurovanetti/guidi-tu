@@ -1,3 +1,5 @@
+import 'dart:ui';
+
 import 'package:flutter/material.dart';
 
 import '/common/common.dart';
@@ -72,7 +74,9 @@ class IncrementalOuijaOutcomeState extends State<IncrementalOuijaOutcome> {
     }
   }
 
-  get _tableStyle => Theme.of(context).textTheme.headlineMedium;
+  get _tableStyle => Theme.of(context).textTheme.headlineMedium?.copyWith(
+        fontFeatures: [const FontFeature.tabularFigures()],
+      );
 
   TableRow _buildTableRow(IncrementalOuijaScore incrementalScore) {
     var heightFactor = 1.1;
@@ -92,9 +96,13 @@ class IncrementalOuijaOutcomeState extends State<IncrementalOuijaOutcome> {
           ),
         );
       }).toList(),
-      Text(
-        "$pointsForGuesses + $pointsForMisses",
-        style: _tableStyle,
+      Container(
+        alignment: Alignment.center,
+        constraints: const BoxConstraints(minWidth: 100.0),
+        child: Text(
+          "$pointsForGuesses + $pointsForMisses",
+          style: _tableStyle,
+        ),
       ),
     ]);
   }
@@ -108,6 +116,7 @@ class IncrementalOuijaOutcomeState extends State<IncrementalOuijaOutcome> {
         centralChild: Padding(
           padding: StyleGuide.regularPadding,
           child: Table(
+            defaultColumnWidth: const IntrinsicColumnWidth(),
             defaultVerticalAlignment: TableCellVerticalAlignment.middle,
             border:
                 TableBorder.all(color: Theme.of(context).colorScheme.primary),
