@@ -67,15 +67,15 @@ class OuijaModule extends FlameGame {
       TeamAware.storeSessionData({ouijaAlphabetKey: alphabet});
     }
     // ignore: avoid-non-ascii-symbols
-    String alphabetEtc = '$alphabet⌫';
+    String alphabetEtc = alphabet + OuijaActiveItem.backspace;
     for (int i = 0; i < alphabetEtc.length; i++) {
       int row = i ~/ gridColumns;
       int column = i % gridColumns;
-      await add(OuijaItem.onCell(alphabetEtc[i], board.cellAt(row, column)));
+      await add(OuijaActiveItem(alphabetEtc[i], board.cellAt(row, column)));
     }
 
     for (int i = 0; i < letterCount; i++) {
-      await add(OuijaItem.onSlot('?', board, i));
+      await add(OuijaPassiveItem(board, i));
     }
   }
 }
