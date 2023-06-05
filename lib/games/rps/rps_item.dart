@@ -3,6 +3,7 @@ import 'package:flame/events.dart';
 import 'package:flutter/material.dart';
 import 'package:guidi_tu/games/rps.dart';
 
+import '../flame/custom_sprite_component.dart';
 import '/common/common.dart';
 import '../flame/priorities.dart';
 import 'rps_board.dart';
@@ -26,8 +27,27 @@ class RockPaperScissorsItemTextRenderer extends TextPaint {
   }
 }
 
-class TextRockPaperScissorsItem extends TextComponent {
-  TextRockPaperScissorsItem(
+class RockPaperScissorsIcon extends CustomSpriteComponent {
+  static final hands = {
+    Rock(): "$_path/zero.png",
+    Paper(): "$_path/five.png",
+    Scissors(): "$_path/two.png",
+  };
+  static const _path = "assets/images/rps/hands";
+
+  RockPaperScissorsIcon(
+      RockPaperScissorsGesture gesture,
+      Vector2 position, {
+        super.size,
+      }) : super(
+    hands[gesture]!,
+    position,
+    priority: Priorities.stickerPriority,
+  );
+}
+
+class RockPaperScissorsText extends TextComponent {
+  RockPaperScissorsText(
     String representation,
     Vector2? position, {
     required Vector2 boxSize,
@@ -56,8 +76,8 @@ class RockPaperScissorsItem extends PositionComponent {
   }
 
   void setGesture(RockPaperScissorsGesture gesture, {required Color color}) {
-    removeWhere((c) => c is TextRockPaperScissorsItem);
-    add(TextRockPaperScissorsItem(
+    removeWhere((c) => c is RockPaperScissorsText);
+    add(RockPaperScissorsText(
       gesture.hand,
       null,
       boxSize: size,
@@ -66,8 +86,8 @@ class RockPaperScissorsItem extends PositionComponent {
   }
 
   void setText(String text, {required Color color}) {
-    removeWhere((c) => c is TextRockPaperScissorsItem);
-    add(TextRockPaperScissorsItem(
+    removeWhere((c) => c is RockPaperScissorsText);
+    add(RockPaperScissorsText(
       text,
       null,
       boxSize: size,
