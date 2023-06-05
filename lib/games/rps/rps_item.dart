@@ -26,10 +26,10 @@ class RockPaperScissorsItemTextRenderer extends TextPaint {
   }
 }
 
-class RockPaperScissorsItem extends TextComponent {
-  RockPaperScissorsItem._internal(
+class TextRockPaperScissorsItem extends TextComponent {
+  TextRockPaperScissorsItem(
     String representation,
-    Vector2 position, {
+    Vector2? position, {
     required Vector2 boxSize,
     required Color color,
   }) : super(
@@ -44,31 +44,36 @@ class RockPaperScissorsItem extends TextComponent {
         ) {
     assert(text.length == 1);
   }
+}
 
-  RockPaperScissorsItem._onCell(
-    String representation,
-    RockPaperScissorsBoardCell cell,
-    Color color,
-  ) : this._internal(
-          representation,
-          cell.center,
-          boxSize: cell.board.cellSize,
-          color: color,
-        );
+class RockPaperScissorsItem extends PositionComponent {
+  RockPaperScissorsItem(
+    Vector2 position, {
+    required Vector2 size,
+  }) {
+    this.position = position;
+    this.size = size;
+  }
 
-  RockPaperScissorsItem._onSlot(
-    String representation,
-    RockPaperScissorsBoard board,
-    int slot,
-    Color color,
-  ) : this._internal(
-          representation,
-          board.absolutePositionOfAnchor(Anchor.bottomLeft) +
-              board.slotSize / 2 +
-              Vector2(slot.toDouble(), 0) * board.slotWidth,
-          boxSize: board.slotSize,
-          color: color,
-        );
+  void setGesture(RockPaperScissorsGesture gesture, {required Color color}) {
+    removeWhere((c) => c is TextRockPaperScissorsItem);
+    add(TextRockPaperScissorsItem(
+      gesture.hand,
+      null,
+      boxSize: size,
+      color: color,
+    ));
+  }
+
+  void setText(String text, {required Color color}) {
+    removeWhere((c) => c is TextRockPaperScissorsItem);
+    add(TextRockPaperScissorsItem(
+      text,
+      null,
+      boxSize: size,
+      color: color,
+    ));
+  }
 }
 
 class RockPaperScissorsActiveItem extends RockPaperScissorsItem
@@ -81,7 +86,8 @@ class RockPaperScissorsActiveItem extends RockPaperScissorsItem
   RockPaperScissorsActiveItem(
     RockPaperScissorsGesture gesture,
     RockPaperScissorsBoardCell cell,
-  ) : super._onCell(gesture.hand, cell, Colors.white) {
+  ) : super(cell.center, size: cell.board.cellSize) {
+    setGesture(gesture, color: Colors.white);
     onSelect = () {
       if (!cell.board.addGesture(gesture)) {
         debugPrint('No more slots to fill');
@@ -91,7 +97,8 @@ class RockPaperScissorsActiveItem extends RockPaperScissorsItem
 
   RockPaperScissorsActiveItem.backspace(
     RockPaperScissorsBoardCell cell,
-  ) : super._onCell(backspaceEmoji, cell, Colors.grey) {
+  ) : super(cell.center, size: cell.board.cellSize) {
+    setText(backspaceEmoji, color: Colors.grey);
     onSelect = () {
       if (!cell.board.removeGesture()) {
         debugPrint('No letters to remove');
@@ -106,13 +113,22 @@ class RockPaperScissorsActiveItem extends RockPaperScissorsItem
 class RockPaperScissorsPassiveItem extends RockPaperScissorsItem {
   static const String pending = '_';
 
-  String get representation => text;
+  String _text = '';
+
+  String get representation => _text;
   set representation(String letter) {
-    text = letter.isEmpty ? pending : letter.characters.first;
+    _text = letter.isEmpty ? pending : letter.characters.first;
+    setText(_text, color: Colors.yellow[200]!);
   }
 
   RockPaperScissorsPassiveItem(RockPaperScissorsBoard board, int slot)
-      : super._onSlot(pending, board, slot, Colors.yellow[200]!) {
+      : super(
+          board.absolutePositionOfAnchor(Anchor.bottomLeft) +
+              board.slotSize / 2 +
+              Vector2(slot.toDouble(), 0) * board.slotWidth,
+          size: board.slotSize,
+        ) {
+    setText(pending, color: Colors.yellow[200]!);
     board.registerSlotItem(slot, this);
   }
 }
