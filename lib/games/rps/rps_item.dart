@@ -3,8 +3,8 @@ import 'package:flame/events.dart';
 import 'package:flutter/material.dart';
 import 'package:guidi_tu/games/rps.dart';
 
-import '../flame/custom_sprite_component.dart';
 import '/common/common.dart';
+import '../flame/custom_sprite_component.dart';
 import '../flame/priorities.dart';
 import 'rps_board.dart';
 
@@ -36,14 +36,14 @@ class RockPaperScissorsIcon extends CustomSpriteComponent {
   static const _path = "assets/images/rps/hands";
 
   RockPaperScissorsIcon(
-      RockPaperScissorsGesture gesture,
-      Vector2 position, {
-        super.size,
-      }) : super(
-    hands[gesture]!,
-    position,
-    priority: Priorities.stickerPriority,
-  );
+    RockPaperScissorsGesture gesture,
+    Vector2 position, {
+    super.size,
+  }) : super(
+          hands[gesture]!,
+          position,
+          priority: Priorities.stickerPriority,
+        );
 }
 
 class RockPaperScissorsText extends TextComponent {
