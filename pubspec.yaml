@@ -62,7 +62,7 @@ flutter:
     - assets/images/battleship/duck/
     - assets/images/battleship/boat/
     - assets/images/battleship/buoy/
-    - assets/images/morra/
+    - assets/images/morra/hands/
     - assets/images/morra/interstitial/
     - assets/images/ouija/
     # - assets/images/ouija/interstitial/
@@ -71,6 +71,8 @@ flutter:
     - assets/images/steady_hand/
     - assets/images/stopwatch/
     - assets/images/tutorial/
+    - assets/images/rps/hands/
+    - assets/images/rps/interstitial/
   fonts:
     - family: Signika
       fonts:

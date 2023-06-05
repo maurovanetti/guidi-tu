@@ -10,12 +10,13 @@ import '/games/battleship.dart';
 import '/games/game_area.dart';
 import '/games/large_shot.dart';
 import '/games/morra.dart';
+import '/games/ouija.dart';
+import '/games/rps.dart';
 import '/games/small_shot.dart';
 import '/games/steady_hand.dart';
 import '/games/stopwatch.dart';
 import '/screens/outcome_screen.dart';
 import '/screens/turn_play_screen.dart';
-import '../games/ouija.dart';
 import 'config.dart';
 import 'i18n.dart';
 import 'move.dart';
@@ -231,6 +232,31 @@ Ma attenzione: chi ne fa di più, paga.""",
   interstitialAnimationPath: "",
 );
 
+final rps = GameFeatures(
+  name: "Morra cinese",
+  description: "Sasso, carta o forbici?",
+  explanation: """
+Componi una sequenza di giocate. 
+Sasso batte forbici, forbici battono carta, carta batte sasso.
+
+Per ogni turno, se non c'è un pareggio, una fazione vince e l'altra perde.
+Chi vince fa 1 punto.
+  
+Guida chi fa meno punti.
+
+Ma attenzione: chi ne fa di più, paga.""",
+  icon: Icons.recycling_rounded,
+  minPlayers: 2,
+  minSuggestedPlayers: 2,
+  maxSuggestedPlayers: 3,
+  buildGameArea: RockPaperScissorsGameArea.new,
+  playWidget: RockPaperScissors.new,
+  outcomeWidget: RockPaperScissorsOutcome.new,
+  formatPoints: (p) => '$p pt.',
+  usesRigidGameArea: true,
+  interstitialAnimationPath: "rps/interstitial/Morra",
+);
+
 final List<GameFeatures> allGameFeatures = [
   largeShot,
   smallShot,
@@ -239,4 +265,5 @@ final List<GameFeatures> allGameFeatures = [
   stopwatch,
   steadyHand,
   ouija,
+  rps,
 ];

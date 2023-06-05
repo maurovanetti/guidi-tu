@@ -23,9 +23,9 @@ class MorraGameArea extends GameArea<MorraMove> {
     required MoveReceiver moveReceiver,
     required super.startTime,
   }) : super(
-    gameFeatures: morra,
-    moveReceiver: moveReceiver as MoveReceiver<MorraMove>,
-  );
+          gameFeatures: morra,
+          moveReceiver: moveReceiver as MoveReceiver<MorraMove>,
+        );
 
   @override
   createState() => MorraGameAreaState();
@@ -63,10 +63,7 @@ class MorraGameAreaState extends ShotGameAreaState<MorraMove> {
 
   @override
   Widget build(BuildContext context) {
-    var primaryColor = Theme
-        .of(context)
-        .colorScheme
-        .primary;
+    var primaryColor = Theme.of(context).colorScheme.primary;
     return ListView(
       children: [
         Row(
@@ -117,13 +114,15 @@ class MorraGameAreaState extends ShotGameAreaState<MorraMove> {
 }
 
 class HandImage extends StatelessWidget {
+  static const _path = "assets/images/morra/hands";
+
   static const hands = [
-    "assets/images/morra/zero.png",
-    "assets/images/morra/one.png",
-    "assets/images/morra/two.png",
-    "assets/images/morra/three.png",
-    "assets/images/morra/four.png",
-    "assets/images/morra/five.png",
+    "$_path/zero.png",
+    "$_path/one.png",
+    "$_path/two.png",
+    "$_path/three.png",
+    "$_path/four.png",
+    "$_path/five.png",
   ];
 
   final int fingers;
@@ -131,7 +130,8 @@ class HandImage extends StatelessWidget {
   final double padding;
   late final Player player;
 
-  HandImage(this.fingers, {
+  HandImage(
+    this.fingers, {
     super.key,
     this.height,
     this.padding = 0,
@@ -157,15 +157,15 @@ class HandImage extends StatelessWidget {
     return (padding == 0)
         ? raw
         : Padding(
-      padding: EdgeInsets.all(padding),
-      child: Stack(
-        alignment: _iconAlignment,
-        children: [
-          raw,
-          PlayerIcon.color(player),
-        ],
-      ),
-    );
+            padding: EdgeInsets.all(padding),
+            child: Stack(
+              alignment: _iconAlignment,
+              children: [
+                raw,
+                PlayerIcon.color(player),
+              ],
+            ),
+          );
   }
 }
 
@@ -199,21 +199,18 @@ class MorraOutcomeState extends OutcomeScreenState<MorraMove> {
 
   @override
   void initOutcome() {
-    var textTheme = Theme
-        .of(context)
-        .textTheme;
+    var textTheme = Theme.of(context).textTheme;
     outcomeWidget = ListView(
       children: [
         GridView.count(
           crossAxisCount: 4,
           shrinkWrap: true,
           children: _fingers.entries
-              .map((fingers) =>
-              HandImage(
-                fingers.value,
-                padding: _handsPadding,
-                player: fingers.key,
-              ))
+              .map((fingers) => HandImage(
+                    fingers.value,
+                    padding: _handsPadding,
+                    player: fingers.key,
+                  ))
               .toList(),
         ),
         Text.rich(
@@ -246,9 +243,7 @@ class MorraMove extends ShotMove {
   MorraMove({required this.fingers, required super.n});
 
   static countFingers(Iterable<RecordedMove<MorraMove>> moves) =>
-      moves
-          .map((rm) => rm.move.fingers)
-          .sum;
+      moves.map((rm) => rm.move.fingers).sum;
 
   @override
   int getPointsFor(Player player, Iterable<RecordedMove> allMoves) {

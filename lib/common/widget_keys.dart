@@ -11,6 +11,7 @@ class WidgetKeys {
   static const stopwatch = Key('stopwatch');
   static const steadyHand = Key('steady-hand');
   static const ouija = Key('ouija');
+  static const rps = Key('rps');
 
 // Content areas
   static const payer = Key('payer');

@@ -1,9 +1,9 @@
 import 'package:flame/game.dart';
 import 'package:flutter/material.dart';
-import 'package:guidi_tu/common/common.dart';
-import 'package:guidi_tu/games/ouija/ouija_frame.dart';
 
+import '/common/common.dart';
 import 'ouija_board.dart';
+import 'ouija_frame.dart';
 import 'ouija_item.dart';
 
 class OuijaModule extends FlameGame {
