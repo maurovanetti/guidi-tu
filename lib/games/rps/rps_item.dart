@@ -76,14 +76,17 @@ class RockPaperScissorsItem extends PositionComponent {
   }) {
     this.position = position;
     this.size = size;
+    anchor = Anchor.center;
   }
 
   void setGesture(RockPaperScissorsGesture gesture, {required Color color}) {
     removeWhere((c) => c is RockPaperScissorsText);
+    var iconSize = size;
+    iconSize.x *= 4 / 5;
     add(RockPaperScissorsIcon(
       gesture,
-      Vector2.zero(),
-      size: size..scale(4 / 5),
+      size / 2,
+      size: iconSize,
       color: color,
     ));
   }
