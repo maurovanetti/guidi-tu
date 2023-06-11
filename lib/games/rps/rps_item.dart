@@ -39,13 +39,11 @@ class RockPaperScissorsIcon extends CustomSpriteComponent {
     RockPaperScissorsGesture gesture,
     Vector2 position, {
     required super.size,
-    required Color color,
   }) : super(
           hands[gesture]!,
           position,
           keepAspectRatio: true,
           priority: Priorities.stickerPriority,
-          color: color,
         );
 }
 
@@ -79,7 +77,7 @@ class RockPaperScissorsItem extends PositionComponent {
     anchor = Anchor.center;
   }
 
-  void setGesture(RockPaperScissorsGesture gesture, {required Color color}) {
+  void setGesture(RockPaperScissorsGesture gesture) {
     removeWhere((c) => c is RockPaperScissorsText);
     var iconSize = size;
     iconSize.x *= 4 / 5;
@@ -87,7 +85,6 @@ class RockPaperScissorsItem extends PositionComponent {
       gesture,
       size / 2,
       size: iconSize,
-      color: color,
     ));
   }
 
@@ -95,7 +92,7 @@ class RockPaperScissorsItem extends PositionComponent {
     removeWhere((c) => c is RockPaperScissorsText);
     add(RockPaperScissorsText(
       text,
-      null,
+      size / 2,
       boxSize: size,
       color: color,
     ));
@@ -113,7 +110,7 @@ class RockPaperScissorsActiveItem extends RockPaperScissorsItem
     RockPaperScissorsGesture gesture,
     RockPaperScissorsBoardCell cell,
   ) : super(cell.center, size: cell.board.cellSize) {
-    setGesture(gesture, color: Colors.white);
+    setGesture(gesture);
     onSelect = () {
       if (!cell.board.addGesture(gesture)) {
         debugPrint('No more slots to fill');

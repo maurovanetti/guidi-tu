@@ -83,13 +83,11 @@ class CustomSpriteComponent<T extends Game> extends SpriteAnimationComponent
     Anchor? anchor,
     int? priority,
     this.fps,
-    Color? color,
   }) : super(
           size: size ?? defaultSpriteSize,
           anchor: anchor ?? Anchor.center,
           position: position,
           priority: priority,
-          paint: color != null ? PaletteEntry(color).paint() : null,
         ) {
     // If there's no shadow, the default elevation is 0 to prevent the sprite
     // from being rendered in a different initial position than expected.
@@ -126,23 +124,28 @@ class CustomSpriteComponent<T extends Game> extends SpriteAnimationComponent
 
   @override
   Future<void> onLoad() async {
+    Vector2 referenceSize;
     if (assetPath.endsWith('.png') ||
         assetPath.endsWith('.jpg') ||
         assetPath.endsWith('.jpeg')) {
       var sprite = await game.loadSprite(assetPath);
-      if (keepAspectRatio) {
-        double wrongAspectRatio = size.x / size.y;
-        double originalAspectRatio = sprite.srcSize.x / sprite.srcSize.y;
-        if (wrongAspectRatio > originalAspectRatio) { // too wide
-          size.x = size.y * originalAspectRatio;
-        } else if (wrongAspectRatio < originalAspectRatio) { // too tall
-          size.y = size.x / originalAspectRatio;
-        }
-      }
+      referenceSize = sprite.srcSize;
       animation =
           SpriteAnimation.spriteList([sprite], stepTime: double.infinity);
     } else {
       animation = await AnimationLoader.load(assetPath, fps: fps);
+      referenceSize = animation!.frames.first.sprite.srcSize;
+    }
+    if (keepAspectRatio) {
+      double wrongAspectRatio = size.x / size.y;
+      double originalAspectRatio = referenceSize.x / referenceSize.y;
+      if (wrongAspectRatio > originalAspectRatio) {
+        // too wide
+        size.x = size.y * originalAspectRatio;
+      } else if (wrongAspectRatio < originalAspectRatio) {
+        // too tall
+        size.y = size.x / originalAspectRatio;
+      }
     }
     if (stampAssetPath != null) {
       _stampSprite = await game.loadSprite(stampAssetPath!);
