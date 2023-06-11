@@ -71,7 +71,7 @@ class IncrementalRockPaperScissorsOutcomeState
       );
 
   TableRow _buildTableRow(IncrementalRockPaperScissorsScore incrementalScore) {
-    var heightFactor = 1.1;
+    var heightFactor = 1.5;
     return TableRow(children: [
       Center(
         heightFactor: heightFactor,
@@ -79,10 +79,14 @@ class IncrementalRockPaperScissorsOutcomeState
       ),
       ...incrementalScore.gestures.map((gesture) {
         return Center(
-          child: Image(
-            image: AssetImage('assets/images/${gesture.gesture.assetPath}'),
-            width: StyleGuide.iconSize,
-            color: gesture.colorByType,
+          child: ImageFiltered(
+            imageFilter: ImageFilter.dilate(radiusX: 0.5, radiusY: 0.5),
+            enabled: gesture.isThickByType,
+            child: Image(
+              image: AssetImage('assets/images/${gesture.gesture.assetPath}'),
+              width: StyleGuide.iconSize,
+              color: gesture.colorByType,
+            ),
           ),
         );
       }).toList(),
