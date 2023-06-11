@@ -39,11 +39,13 @@ class RockPaperScissorsIcon extends CustomSpriteComponent {
     RockPaperScissorsGesture gesture,
     Vector2 position, {
     required super.size,
+    Color? color,
   }) : super(
           hands[gesture]!,
           position,
           keepAspectRatio: true,
           priority: Priorities.stickerPriority,
+          color: color,
         );
 }
 
@@ -77,7 +79,7 @@ class RockPaperScissorsItem extends PositionComponent {
     anchor = Anchor.center;
   }
 
-  void setGesture(RockPaperScissorsGesture gesture) {
+  void setGesture(RockPaperScissorsGesture gesture, {Color? color}) {
     _clear();
     var iconSize = size.clone();
     iconSize.x *= 4 / 5;
@@ -85,6 +87,7 @@ class RockPaperScissorsItem extends PositionComponent {
       gesture,
       size / 2,
       size: iconSize,
+      color: color,
     ));
   }
 
@@ -140,16 +143,17 @@ class RockPaperScissorsActiveItem extends RockPaperScissorsItem
 }
 
 class RockPaperScissorsPassiveItem extends RockPaperScissorsItem {
-  static const String pending = '_';
+  static final color = Colors.yellow[200]!;
+  static const pending = '_';
 
   RockPaperScissorsGesture? _gesture;
   RockPaperScissorsGesture? get gesture => _gesture;
   set gesture(RockPaperScissorsGesture? value) {
     _gesture = value;
     if (value == null) {
-      setText(pending, color: Colors.yellow[200]!);
+      setText(pending, color: color);
     } else {
-      setGesture(value);
+      setGesture(value, color: color);
     }
   }
 

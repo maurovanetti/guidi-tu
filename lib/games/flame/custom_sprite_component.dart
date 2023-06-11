@@ -3,6 +3,7 @@ import 'package:flame/events.dart';
 import 'package:flame/experimental.dart';
 import 'package:flame/game.dart';
 import 'package:flame/palette.dart';
+import 'package:flame/rendering.dart';
 import 'package:flutter/material.dart';
 
 import '/common/common.dart';
@@ -83,6 +84,7 @@ class CustomSpriteComponent<T extends Game> extends SpriteAnimationComponent
     Anchor? anchor,
     int? priority,
     this.fps,
+    Color? color,
   }) : super(
           size: size ?? defaultSpriteSize,
           anchor: anchor ?? Anchor.center,
@@ -91,7 +93,10 @@ class CustomSpriteComponent<T extends Game> extends SpriteAnimationComponent
         ) {
     // If there's no shadow, the default elevation is 0 to prevent the sprite
     // from being rendered in a different initial position than expected.
-    this._elevation = elevation ?? (hasShadow ? 1.0 : 0.0);
+    _elevation = elevation ?? (hasShadow ? 1.0 : 0.0);
+    if (color != null) {
+      decorator.addLast(PaintDecorator.tint(color));
+    }
   }
 
   @override
