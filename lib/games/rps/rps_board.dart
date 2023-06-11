@@ -60,8 +60,8 @@ class RockPaperScissorsBoard extends CustomBoard<RockPaperScissorsBoardCell>
 
   void _refreshSlots() {
     for (int slot = 0; slot < slots; slot++) {
-      _passiveItems[slot]?.representation =
-          slot < sequence.length ? sequence[slot].hand : '';
+      _passiveItems[slot]?.gesture =
+          slot < sequence.length ? sequence[slot] : null;
     }
     notifyListeners();
   }

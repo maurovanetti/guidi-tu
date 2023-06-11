@@ -60,7 +60,7 @@ class RockPaperScissorsText extends TextComponent {
             color: color,
           ),
           position: position,
-          anchor: const Anchor(0.5, 0.45), // to compensate baseline offset
+          anchor: const Anchor(0.5, 0.3), // to compensate baseline offset
           priority: Priorities.stickerPriority,
         ) {
     assert(text.length == 1);
@@ -78,8 +78,8 @@ class RockPaperScissorsItem extends PositionComponent {
   }
 
   void setGesture(RockPaperScissorsGesture gesture) {
-    removeWhere((c) => c is RockPaperScissorsText);
-    var iconSize = size;
+    _clear();
+    var iconSize = size.clone();
     iconSize.x *= 4 / 5;
     add(RockPaperScissorsIcon(
       gesture,
@@ -89,13 +89,19 @@ class RockPaperScissorsItem extends PositionComponent {
   }
 
   void setText(String text, {required Color color}) {
-    removeWhere((c) => c is RockPaperScissorsText);
+    _clear();
     add(RockPaperScissorsText(
       text,
       size / 2,
       boxSize: size,
       color: color,
     ));
+  }
+
+  void _clear() {
+    removeWhere(
+      (c) => c is RockPaperScissorsText || c is RockPaperScissorsIcon,
+    );
   }
 }
 
@@ -136,12 +142,15 @@ class RockPaperScissorsActiveItem extends RockPaperScissorsItem
 class RockPaperScissorsPassiveItem extends RockPaperScissorsItem {
   static const String pending = '_';
 
-  String _text = '';
-
-  String get representation => _text;
-  set representation(String letter) {
-    _text = letter.isEmpty ? pending : letter.characters.first;
-    setText(_text, color: Colors.yellow[200]!);
+  RockPaperScissorsGesture? _gesture;
+  RockPaperScissorsGesture? get gesture => _gesture;
+  set gesture(RockPaperScissorsGesture? value) {
+    _gesture = value;
+    if (value == null) {
+      setText(pending, color: Colors.yellow[200]!);
+    } else {
+      setGesture(value);
+    }
   }
 
   RockPaperScissorsPassiveItem(RockPaperScissorsBoard board, int slot)
