@@ -79,13 +79,10 @@ class IncrementalRockPaperScissorsOutcomeState
       ),
       ...incrementalScore.gestures.map((gesture) {
         return Center(
-          child: Text(
-            gesture.hand,
-            style: _tableStyle.copyWith(
-              color: gesture.colorByType,
-              fontWeight: gesture.weightByType,
-            ),
-            textAlign: TextAlign.center,
+          child: Image(
+            image: AssetImage('assets/images/${gesture.gesture.assetPath}'),
+            width: StyleGuide.iconSize,
+            color: gesture.colorByType,
           ),
         );
       }).toList(),
@@ -156,9 +153,9 @@ class RockPaperScissorsGestureOutcome {
   Color? get colorByType {
     switch (type) {
       case RockPaperScissorsGestureOutcomeType.pending:
-        return null;
-      case RockPaperScissorsGestureOutcomeType.tie:
         return Colors.grey.shade500;
+      case RockPaperScissorsGestureOutcomeType.tie:
+        return Colors.grey.shade400;
       case RockPaperScissorsGestureOutcomeType.standoff:
         return Colors.orange.shade200;
       case RockPaperScissorsGestureOutcomeType.victory:
@@ -168,19 +165,17 @@ class RockPaperScissorsGestureOutcome {
     }
   }
 
-  FontWeight? get weightByType {
+  bool get isThickByType {
     switch (type) {
       case RockPaperScissorsGestureOutcomeType.pending:
       case RockPaperScissorsGestureOutcomeType.tie:
       case RockPaperScissorsGestureOutcomeType.standoff:
       case RockPaperScissorsGestureOutcomeType.defeat:
-        return FontWeight.normal;
+        return false;
       case RockPaperScissorsGestureOutcomeType.victory:
-        return FontWeight.bold;
+        return true;
     }
   }
-
-  String get hand => gesture.hand;
 
   RockPaperScissorsGestureOutcome(
     this.gesture, [

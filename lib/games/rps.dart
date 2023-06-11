@@ -91,7 +91,8 @@ class RockPaperScissorsOutcomeState
 }
 
 sealed class RockPaperScissorsGesture {
-  String get hand;
+  static const path = "rps/hands";
+  String get assetPath;
 
   bool beats(RockPaperScissorsGesture other);
 
@@ -120,7 +121,7 @@ class Rock extends RockPaperScissorsGesture {
   static final Rock _instance = Rock._internal();
 
   @override
-  String get hand => 'S';
+  String get assetPath => '${RockPaperScissorsGesture.path}/rock.png';
 
   Rock._internal();
   factory Rock() => _instance;
@@ -135,7 +136,7 @@ class Paper extends RockPaperScissorsGesture {
   static final Paper _instance = Paper._internal();
 
   @override
-  String get hand => 'C';
+  String get assetPath => '${RockPaperScissorsGesture.path}/paper.png';
 
   Paper._internal();
   factory Paper() => _instance;
@@ -150,7 +151,7 @@ class Scissors extends RockPaperScissorsGesture {
   static final Scissors _instance = Scissors._internal();
 
   @override
-  String get hand => 'F';
+  String get assetPath => '${RockPaperScissorsGesture.path}/scissors.png';
 
   Scissors._internal();
   factory Scissors() => _instance;

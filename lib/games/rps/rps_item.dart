@@ -28,20 +28,13 @@ class RockPaperScissorsTextRenderer extends TextPaint {
 }
 
 class RockPaperScissorsIcon extends CustomSpriteComponent {
-  static final hands = {
-    Rock(): "$_path/rock.png",
-    Paper(): "$_path/paper.png",
-    Scissors(): "$_path/scissors.png",
-  };
-  static const _path = "rps/hands";
-
   RockPaperScissorsIcon(
     RockPaperScissorsGesture gesture,
     Vector2 position, {
     required super.size,
     Color? color,
   }) : super(
-          hands[gesture]!,
+          gesture.assetPath,
           position,
           keepAspectRatio: true,
           priority: Priorities.stickerPriority,
