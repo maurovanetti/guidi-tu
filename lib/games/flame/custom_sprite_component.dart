@@ -22,6 +22,7 @@ class CustomSpriteComponent<T extends Game> extends SpriteAnimationComponent
   // contains multiple frames of an animation. If the path ends with ".png" or
   // ".jpg" or ".jpeg", it's assumed to be a single image.
   final String assetPath;
+  final bool keepAspectRatio;
   int? fps;
   bool hasShadow;
   bool visible = true;
@@ -78,14 +79,17 @@ class CustomSpriteComponent<T extends Game> extends SpriteAnimationComponent
     this.stampAssetPath,
     double? elevation,
     Vector2? size,
+    this.keepAspectRatio = false,
     Anchor? anchor,
     int? priority,
     this.fps,
+    Color? color,
   }) : super(
           size: size ?? defaultSpriteSize,
           anchor: anchor ?? Anchor.center,
           position: position,
           priority: priority,
+          paint: color != null ? PaletteEntry(color).paint() : null,
         ) {
     // If there's no shadow, the default elevation is 0 to prevent the sprite
     // from being rendered in a different initial position than expected.
@@ -126,6 +130,15 @@ class CustomSpriteComponent<T extends Game> extends SpriteAnimationComponent
         assetPath.endsWith('.jpg') ||
         assetPath.endsWith('.jpeg')) {
       var sprite = await game.loadSprite(assetPath);
+      if (keepAspectRatio) {
+        double wrongAspectRatio = size.x / size.y;
+        double originalAspectRatio = sprite.srcSize.x / sprite.srcSize.y;
+        if (wrongAspectRatio > originalAspectRatio) { // too wide
+          size.x = size.y * originalAspectRatio;
+        } else if (wrongAspectRatio < originalAspectRatio) { // too tall
+          size.y = size.x / originalAspectRatio;
+        }
+      }
       animation =
           SpriteAnimation.spriteList([sprite], stepTime: double.infinity);
     } else {

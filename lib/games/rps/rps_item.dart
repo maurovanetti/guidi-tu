@@ -1,15 +1,15 @@
 import 'package:flame/components.dart';
 import 'package:flame/events.dart';
 import 'package:flutter/material.dart';
-import 'package:guidi_tu/games/rps.dart';
 
 import '/common/common.dart';
-import '../flame/custom_sprite_component.dart';
-import '../flame/priorities.dart';
+import '/games/flame/custom_sprite_component.dart';
+import '/games/flame/priorities.dart';
+import '/games/rps.dart';
 import 'rps_board.dart';
 
-class RockPaperScissorsItemTextRenderer extends TextPaint {
-  RockPaperScissorsItemTextRenderer({double? height, required Color color})
+class RockPaperScissorsTextRenderer extends TextPaint {
+  RockPaperScissorsTextRenderer({double? height, required Color color})
       : super(
           style: TextStyle(
             color: color,
@@ -29,20 +29,23 @@ class RockPaperScissorsItemTextRenderer extends TextPaint {
 
 class RockPaperScissorsIcon extends CustomSpriteComponent {
   static final hands = {
-    Rock(): "$_path/zero.png",
-    Paper(): "$_path/five.png",
-    Scissors(): "$_path/two.png",
+    Rock(): "$_path/rock.png",
+    Paper(): "$_path/paper.png",
+    Scissors(): "$_path/scissors.png",
   };
-  static const _path = "assets/images/rps/hands";
+  static const _path = "rps/hands";
 
   RockPaperScissorsIcon(
     RockPaperScissorsGesture gesture,
     Vector2 position, {
-    super.size,
+    required super.size,
+    required Color color,
   }) : super(
           hands[gesture]!,
           position,
+          keepAspectRatio: true,
           priority: Priorities.stickerPriority,
+          color: color,
         );
 }
 
@@ -54,7 +57,7 @@ class RockPaperScissorsText extends TextComponent {
     required Color color,
   }) : super(
           text: representation,
-          textRenderer: RockPaperScissorsItemTextRenderer(
+          textRenderer: RockPaperScissorsTextRenderer(
             height: boxSize.x,
             color: color,
           ),
@@ -77,10 +80,10 @@ class RockPaperScissorsItem extends PositionComponent {
 
   void setGesture(RockPaperScissorsGesture gesture, {required Color color}) {
     removeWhere((c) => c is RockPaperScissorsText);
-    add(RockPaperScissorsText(
-      gesture.hand,
-      null,
-      boxSize: size,
+    add(RockPaperScissorsIcon(
+      gesture,
+      Vector2.zero(),
+      size: size..scale(4 / 5),
       color: color,
     ));
   }
