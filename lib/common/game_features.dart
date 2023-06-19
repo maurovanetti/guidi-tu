@@ -171,7 +171,7 @@ Cerca di fermarla prima che arrivi allo zero, ma più vicino possibile.
 Guidi tu se hai fermato la lancetta più indietro di tutti.
 
 Ma attenzione: chi la ferma più avanti di tutti, paga.""",
-  secretPlay: false,
+  secretPlay: true,
   icon: Icons.timer_rounded,
   minPlayers: 2,
   minSuggestedPlayers: 2,
@@ -197,6 +197,7 @@ Non farla cadere dalla piattaforma circolare per il tempo più lungo possibile.
 Guidi tu se resisti meno di tutti.
 
 Ma attenzione: chi resiste più a lungo, paga.""",
+  secretPlay: true,
   icon: Icons.balance_rounded,
   minPlayers: 2,
   minSuggestedPlayers: 2,
@@ -222,6 +223,7 @@ ${Ouija.guessValue} pt. se è anche nella stessa posizione.
 Guida chi fa meno punti.
 
 Ma attenzione: chi ne fa di più, paga.""",
+  secretPlay: true,
   icon: Icons.wifi_rounded,
   minPlayers: 3,
   minSuggestedPlayers: 4,
@@ -246,6 +248,7 @@ Chi vince fa 1 punto.
 Guida chi fa meno punti.
 
 Ma attenzione: chi ne fa di più, paga.""",
+  secretPlay: true,
   icon: Icons.recycling_rounded,
   minPlayers: 2,
   minSuggestedPlayers: 2,
