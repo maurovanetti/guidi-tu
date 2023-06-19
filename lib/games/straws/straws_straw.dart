@@ -9,7 +9,7 @@ class StrawsStraw extends NineTileBoxComponent
     with HasGameReference<StrawsModule> {
   bool _picked = false;
 
-  get length => size.x;
+  int get length => size.x.toInt();
 
   @override
   int get hashCode => Object.hash(position, angle, length);
@@ -29,14 +29,14 @@ class StrawsStraw extends NineTileBoxComponent
   StrawsStraw(
     Vector2 from, {
     required double angle,
-    required double length,
+    required int length,
     required Sprite sprite,
   }) : super(
           nineTileBox: NineTileBox(sprite),
           position: from,
           angle: angle,
           anchor: Anchor.centerLeft,
-          size: Vector2(length, 10),
+          size: Vector2(length.toDouble(), 10),
         );
 
   factory StrawsStraw.fromJson(Map<String, dynamic> json, Sprite sprite) {

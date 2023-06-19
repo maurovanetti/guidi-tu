@@ -18,4 +18,9 @@ class StrawsReplay extends StrawsModule {
     }
     return straws;
   }
+
+  @override
+  void init() {
+    // Don't pick any straw at start
+  }
 }

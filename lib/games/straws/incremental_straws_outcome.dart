@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:flame/game.dart';
 import 'package:flutter/material.dart';
 
@@ -22,6 +24,8 @@ class IncrementalStrawsOutcomeState extends State<IncrementalStrawsOutcome> {
   Player _player = NoPlayer();
   late final StrawsReplay _replay;
   late final GameWidget _gameWidget = GameWidget(game: _replay);
+  late final Timer _timer;
+  int _moveIndex = 0;
 
   @override
   initState() {
@@ -31,23 +35,21 @@ class IncrementalStrawsOutcomeState extends State<IncrementalStrawsOutcome> {
       strawsToDisplay.add(move.move.straw.toJson());
     }
     _replay = StrawsReplay(strawsToDisplay);
-    Future.delayed(Duration.zero, _cycleThroughMoves);
+    _timer = Timer.periodic(const Duration(seconds: 1), (timer) {
+      if (!mounted) {
+        timer.cancel();
+        return;
+      }
+      var recordedMove = widget.recordedMoves[_moveIndex];
+      _display(recordedMove);
+      _moveIndex = (_moveIndex + 1) % widget.recordedMoves.length;
+    });
   }
 
-  Future<void> _cycleThroughMoves() async {
-    for (var x in widget.recordedMoves) {
-      await schedule([_display(x)], 2.0);
-    }
-    await _cycleThroughMoves();
-  }
-
-  Future<void> schedule(Iterable<Future<void>> tasks, double seconds) async {
-    if (!mounted) return;
-    var _ = await Future.wait(tasks);
-    if (!mounted) return;
-    return Future.delayed(Duration(
-      milliseconds: (Duration.millisecondsPerSecond * seconds).toInt(),
-    ));
+  @override
+  dispose() {
+    _timer.cancel();
+    super.dispose();
   }
 
   Future<void> _display(RecordedMove<StrawsMove> recordedMove) async {

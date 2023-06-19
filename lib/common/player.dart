@@ -266,13 +266,13 @@ class PlayerPerformance extends PlayerButton {
           ),
           horizontalGap,
           Expanded(
-            flex: 4,
+            flex: 5,
             child: FittedText(primaryText, style: style),
           ),
           if (secondaryText.isNotEmpty) horizontalGap,
           if (secondaryText.isNotEmpty)
             Expanded(
-              flex: 4,
+              flex: 3,
               child: FittedText(
                 secondaryText,
                 style: style.copyWith(

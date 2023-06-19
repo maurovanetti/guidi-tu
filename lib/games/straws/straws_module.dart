@@ -30,7 +30,7 @@ class StrawsModule extends FlameGame {
     for (var straw in _straws) {
       add(straw);
     }
-    pick(_straws.first);
+    init();
   }
 
   Future<List<StrawsStraw>> retrieveStraws({required Sprite sprite}) async {
@@ -58,6 +58,10 @@ class StrawsModule extends FlameGame {
     return straws;
   }
 
+  void init() {
+    pick(_straws.first);
+  }
+
   void pick([StrawsStraw? straw]) {
     assert(_straws.isNotEmpty, "No straws to pick from");
     pickedStraw.picked = false;
@@ -74,7 +78,8 @@ class StrawsModule extends FlameGame {
     var from = _randomPositionInRect(size, 0.9);
     var to = _randomPositionInRect(size, 0.9);
     var delta = to - from;
-    var length = delta.length;
+    // Truncated to an integer number of pixels
+    var length = delta.length.toInt();
     if (length < minLength) {
       return _randomStraw(minLength: minLength, sprite: sprite);
     }
