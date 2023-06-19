@@ -30,7 +30,8 @@ class TurnInstructionsScreenState extends TrackedState<TurnInstructionsScreen>
         key: WidgetKeys.hiddenPlayAlert,
         title: const Text("Gioca di nascosto"),
         content: const Text(
-            "Non mostrare la tua mossa a chi non ha ancora giocato."),
+          "Non mostrare la tua mossa a chi non ha ancora giocato.",
+        ),
         actions: [
           TextButton(
             key: WidgetKeys.acknowledgeHiddenPlay,

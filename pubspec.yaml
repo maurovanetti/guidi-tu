@@ -65,7 +65,7 @@ flutter:
     - assets/images/morra/hands/
     - assets/images/morra/interstitial/
     - assets/images/ouija/
-    # - assets/images/ouija/interstitial/
+    - assets/images/ouija/interstitial/
     - assets/images/shot/
     - assets/images/shot/interstitial/
     - assets/images/steady_hand/

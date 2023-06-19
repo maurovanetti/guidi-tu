@@ -232,7 +232,7 @@ Ma attenzione: chi ne fa di più, paga.""",
   outcomeWidget: OuijaOutcome.new,
   formatPoints: (p) => '$p pt.',
   usesRigidGameArea: true,
-  interstitialAnimationPath: "",
+  interstitialAnimationPath: "ouija/interstitial/Telepathy",
 );
 
 final rps = GameFeatures(
