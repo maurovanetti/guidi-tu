@@ -14,7 +14,7 @@ class StrawsModule extends FlameGame {
 
   final void Function(bool) setReady;
 
-  final List<StrawsStraw> _straws = [];
+  late final List<StrawsStraw> _straws;
   int _pickedStrawIndex = 0;
   StrawsStraw get pickedStraw => _straws[_pickedStrawIndex];
 
@@ -26,14 +26,22 @@ class StrawsModule extends FlameGame {
   @override
   Future<void> onLoad() async {
     var sprite = await loadSprite('straws/straw.png');
+    _straws = await retrieveStraws(sprite: sprite);
+    for (var straw in _straws) {
+      add(straw);
+    }
+    pick(_straws.first);
+  }
+
+  Future<List<StrawsStraw>> retrieveStraws({required Sprite sprite}) async {
+    List<StrawsStraw> straws = [];
     var sessionData = await TeamAware.retrieveSessionData();
     if (sessionData.containsKey(strawsSetupKey)) {
       debugPrint("Loading straws from session data");
       var strawsSetup = sessionData[strawsSetupKey];
       for (var strawSetup in strawsSetup) {
         var straw = StrawsStraw.fromJson(strawSetup, sprite);
-        _straws.add(straw);
-        add(straw);
+        straws.add(straw);
       }
     } else {
       List<Map<String, dynamic>> strawsSetup = [];
@@ -42,13 +50,12 @@ class StrawsModule extends FlameGame {
           minLength: size.x * minStrawLengthRatio,
           sprite: sprite,
         );
-        _straws.add(straw);
-        add(straw);
+        straws.add(straw);
         strawsSetup.add(straw.toJson());
       }
       TeamAware.storeSessionData({strawsSetupKey: strawsSetup});
     }
-    pick(_straws.first);
+    return straws;
   }
 
   void pick([StrawsStraw? straw]) {

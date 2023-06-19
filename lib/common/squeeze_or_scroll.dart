@@ -8,9 +8,9 @@ class SqueezeOrScroll extends StatelessWidget {
 
   const SqueezeOrScroll({
     super.key,
-    required this.topChildren,
+    this.topChildren = const [],
     required this.centralChild,
-    required this.bottomChildren,
+    this.bottomChildren = const [],
     this.squeeze = false,
   });
 

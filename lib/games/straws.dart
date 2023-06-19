@@ -5,6 +5,7 @@ import '/common/common.dart';
 import '/screens/outcome_screen.dart';
 import '/screens/turn_play_screen.dart';
 import 'game_area.dart';
+import 'straws/incremental_straws_outcome.dart';
 import 'straws/straws_module.dart';
 import 'straws/straws_straw.dart';
 
@@ -90,7 +91,7 @@ class StrawsOutcomeState extends OutcomeScreenState<StrawsMove> {
   @override
   void initOutcome() {
     repeatable = true;
-    // outcomeWidget = IncrementalStrawsOutcome(recordedMoves: recordedMoves);
+    outcomeWidget = IncrementalStrawsOutcome(recordedMoves: recordedMoves);
   }
 }
 

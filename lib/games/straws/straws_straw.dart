@@ -11,6 +11,9 @@ class StrawsStraw extends NineTileBoxComponent
 
   get length => size.x;
 
+  @override
+  int get hashCode => Object.hash(position, angle, length);
+
   bool get picked => _picked;
   set picked(bool value) {
     if (value && !_picked) {
@@ -56,4 +59,11 @@ class StrawsStraw extends NineTileBoxComponent
         'angle': angle,
         'length': length,
       };
+
+  @override
+  operator ==(other) =>
+      other is StrawsStraw &&
+      other.position == position &&
+      other.angle == angle &&
+      other.length == length;
 }
