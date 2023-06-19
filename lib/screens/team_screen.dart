@@ -52,8 +52,8 @@ class _TeamScreenState extends TrackedState<TeamScreen>
     debugPrint("Adding new player");
     Player newPlayer;
     newPlayer = players.length % 2 == 0
-        ? Player(players.length, 'NUOVO', Gender.male)
-        : Player(players.length, 'NUOVA', Gender.female);
+        ? Player(players.length, 'COSO', Gender.male)
+        : Player(players.length, 'COSA', Gender.female);
     setState(() {
       players.add(newPlayer);
     });
