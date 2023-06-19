@@ -1,11 +1,27 @@
 import 'package:flame/components.dart';
 import 'package:flame/experimental.dart';
+import 'package:flame/rendering.dart';
+import 'package:flutter/material.dart';
 
 import 'straws_module.dart';
 
 class StrawsStraw extends NineTileBoxComponent
     with HasGameReference<StrawsModule> {
-  get span => size.x;
+  bool _picked = false;
+
+  get length => size.x;
+
+  bool get picked => _picked;
+  set picked(bool value) {
+    if (value && !_picked) {
+      // --> on
+      decorator.addLast(PaintDecorator.tint(Colors.white));
+    } else if (!value && _picked) {
+      // --> off
+      decorator.removeLast();
+    }
+    _picked = value;
+  }
 
   StrawsStraw(
     Vector2 from, {

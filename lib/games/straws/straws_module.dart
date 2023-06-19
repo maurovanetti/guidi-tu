@@ -7,12 +7,14 @@ import 'package:flutter/material.dart';
 import 'straws_straw.dart';
 
 class StrawsModule extends FlameGame {
-  static const strawsCount = 50;
+  static const strawsCount = 25;
+  static const minStrawLengthRatio = 0.4; // as fraction of game area width
 
   final void Function(bool) setReady;
 
-  late StrawsStraw _pickedStraw;
-  get pickedStraw => _pickedStraw;
+  final List<StrawsStraw> _straws = [];
+  int _pickedStrawIndex = 0;
+  StrawsStraw get pickedStraw => _straws[_pickedStrawIndex];
 
   StrawsModule({required this.setReady});
 
@@ -23,8 +25,25 @@ class StrawsModule extends FlameGame {
   Future<void> onLoad() async {
     var sprite = await loadSprite('straws/straw.png');
     for (int i = 0; i < strawsCount; i++) {
-      await add(_randomStraw(minLength: 100, sprite: sprite));
+      var straw = _randomStraw(
+        minLength: size.x * minStrawLengthRatio,
+        sprite: sprite,
+      );
+      _straws.add(straw);
+      if (i == 0) {
+        pick(straw);
+      }
+      add(straw);
     }
+  }
+
+  void pick([StrawsStraw? straw]) {
+    assert(_straws.isNotEmpty, "No straws to pick from");
+    pickedStraw.picked = false;
+    _pickedStrawIndex = straw == null
+        ? (_pickedStrawIndex + 1) % _straws.length
+        : _straws.indexOf(straw);
+    pickedStraw.picked = true;
   }
 
   StrawsStraw _randomStraw({

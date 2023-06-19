@@ -10,7 +10,7 @@ import 'straws/straws_straw.dart';
 
 class Straws extends TurnPlayScreen {
   @override
-  final bool isReadyAtStart = false;
+  final bool isReadyAtStart = true;
 
   Straws() : super(key: WidgetKeys.straws, gameFeatures: straws);
 
@@ -43,12 +43,27 @@ class StrawsGameAreaState extends GameAreaState<StrawsMove>
     super.initState();
   }
 
+  void _nextStraw() {
+    _gameModule.pick();
+  }
+
   @override
   StrawsMove getMove() => StrawsMove(straw: _gameModule.pickedStraw);
 
   @override
   Widget build(BuildContext context) {
-    return GameWidget(game: _gameModule);
+    return Column(
+      children: [
+        Expanded(
+          child: GameWidget(game: _gameModule),
+        ),
+        CustomButton(
+          text: "Prendine un altro",
+          important: false,
+          onPressed: _nextStraw,
+        ),
+      ],
+    );
   }
 }
 
@@ -86,5 +101,5 @@ class StrawsMove extends Move {
 
   @override
   int getPointsFor(Player player, Iterable<RecordedMove> allMoves) =>
-      straw.span;
+      straw.length;
 }
