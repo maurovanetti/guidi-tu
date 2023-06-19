@@ -35,4 +35,25 @@ class StrawsStraw extends NineTileBoxComponent
           anchor: Anchor.centerLeft,
           size: Vector2(length, 10),
         );
+
+  factory StrawsStraw.fromJson(Map<String, dynamic> json, Sprite sprite) {
+    return StrawsStraw(
+      Vector2(
+        json['from']['x'],
+        json['from']['y'],
+      ),
+      angle: json['angle'],
+      length: json['length'],
+      sprite: sprite,
+    );
+  }
+
+  Map<String, dynamic> toJson() => {
+        'from': {
+          'x': position.x,
+          'y': position.y,
+        },
+        'angle': angle,
+        'length': length,
+      };
 }

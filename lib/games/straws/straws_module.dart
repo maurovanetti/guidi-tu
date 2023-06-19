@@ -4,11 +4,13 @@ import 'package:flame/components.dart';
 import 'package:flame/game.dart';
 import 'package:flutter/material.dart';
 
+import '/common/common.dart';
 import 'straws_straw.dart';
 
 class StrawsModule extends FlameGame {
   static const strawsCount = 25;
   static const minStrawLengthRatio = 0.4; // as fraction of game area width
+  static const strawsSetupKey = "strawsSetup";
 
   final void Function(bool) setReady;
 
@@ -24,17 +26,29 @@ class StrawsModule extends FlameGame {
   @override
   Future<void> onLoad() async {
     var sprite = await loadSprite('straws/straw.png');
-    for (int i = 0; i < strawsCount; i++) {
-      var straw = _randomStraw(
-        minLength: size.x * minStrawLengthRatio,
-        sprite: sprite,
-      );
-      _straws.add(straw);
-      if (i == 0) {
-        pick(straw);
+    var sessionData = await TeamAware.retrieveSessionData();
+    if (sessionData.containsKey(strawsSetupKey)) {
+      debugPrint("Loading straws from session data");
+      var strawsSetup = sessionData[strawsSetupKey];
+      for (var strawSetup in strawsSetup) {
+        var straw = StrawsStraw.fromJson(strawSetup, sprite);
+        _straws.add(straw);
+        add(straw);
       }
-      add(straw);
+    } else {
+      List<Map<String, dynamic>> strawsSetup = [];
+      for (int i = 0; i < strawsCount; i++) {
+        var straw = _randomStraw(
+          minLength: size.x * minStrawLengthRatio,
+          sprite: sprite,
+        );
+        _straws.add(straw);
+        add(straw);
+        strawsSetup.add(straw.toJson());
+      }
+      TeamAware.storeSessionData({strawsSetupKey: strawsSetup});
     }
+    pick(_straws.first);
   }
 
   void pick([StrawsStraw? straw]) {
