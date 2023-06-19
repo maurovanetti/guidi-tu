@@ -25,7 +25,7 @@ mixin TurnAware<T extends Move> on TeamAware {
 
       return false;
     }
-    _currentPlayer = players[_currentTurn];
+    _currentPlayer = players[_turns[_currentTurn]];
     debugPrint("It's ${currentPlayer.name}'s turn");
 
     return true;
