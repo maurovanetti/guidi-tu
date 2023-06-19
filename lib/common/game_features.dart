@@ -15,6 +15,7 @@ import '/games/rps.dart';
 import '/games/small_shot.dart';
 import '/games/steady_hand.dart';
 import '/games/stopwatch.dart';
+import '/games/straws.dart';
 import '/screens/outcome_screen.dart';
 import '/screens/turn_play_screen.dart';
 import 'config.dart';
@@ -257,6 +258,25 @@ Ma attenzione: chi ne fa di più, paga.""",
   interstitialAnimationPath: "rps/interstitial/Morra",
 );
 
+final straws = GameFeatures(
+  name: "Bastoncino corto",
+  description: "Scegli un bastoncino.",
+  explanation: """
+Guidi tu se ti capita il più corto.
+
+Ma attenzione: chi sceglie il più lungo, paga.""",
+  secretPlay: true,
+  icon: Icons.format_align_left,
+  minPlayers: 2,
+  minSuggestedPlayers: 2,
+  buildGameArea: StrawsGameArea.new,
+  playWidget: Straws.new,
+  outcomeWidget: StrawsOutcome.new,
+  formatPoints: (p) => '${I18n.centimetersFormat.format(p.toDouble() / 10)} cm',
+  usesRigidGameArea: true,
+  interstitialAnimationPath: "",
+);
+
 final List<GameFeatures> allGameFeatures = [
   largeShot,
   smallShot,
@@ -266,4 +286,5 @@ final List<GameFeatures> allGameFeatures = [
   steadyHand,
   ouija,
   rps,
+  straws,
 ];
