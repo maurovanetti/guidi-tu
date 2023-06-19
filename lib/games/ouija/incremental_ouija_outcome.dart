@@ -47,6 +47,7 @@ class IncrementalOuijaOutcomeState extends State<IncrementalOuijaOutcome> {
     if (mounted) {
       for (var beingChecked in widget.incrementalScores) {
         var letter = beingChecked.letters[position];
+        letter.type = OuijaGuessType.none;
         for (var other in widget.incrementalScores) {
           if (beingChecked == other) continue;
           var positionInOther = other.positionOf(letter);
@@ -58,7 +59,6 @@ class IncrementalOuijaOutcomeState extends State<IncrementalOuijaOutcome> {
             letter.type = OuijaGuessType.miss;
             continue;
           }
-          letter.type = OuijaGuessType.none;
         }
         switch (letter.type) {
           case OuijaGuessType.guess:
