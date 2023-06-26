@@ -11,7 +11,7 @@ mixin TurnAware<T extends Move> on TeamAware {
 
   static int _currentTurn = -1;
 
-  static Player _currentPlayer = NoPlayer();
+  static Player _currentPlayer = Player.none;
 
   static Player get currentPlayer => _currentPlayer;
 
@@ -20,7 +20,7 @@ mixin TurnAware<T extends Move> on TeamAware {
   bool nextTurn() {
     _currentTurn++;
     if (_currentTurn >= turns.length) {
-      _currentPlayer = NoPlayer();
+      _currentPlayer = Player.none;
       debugPrint("All players have played");
 
       return false;
@@ -37,7 +37,7 @@ mixin TurnAware<T extends Move> on TeamAware {
     _turns = List<int>.generate(players.length, (i) => i);
     _turns.shuffle();
     _currentTurn = -1;
-    _currentPlayer = NoPlayer();
+    _currentPlayer = Player.none;
   }
 
   void recordMove(T move, double time) {

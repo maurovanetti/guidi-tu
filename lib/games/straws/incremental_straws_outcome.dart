@@ -21,7 +21,7 @@ class IncrementalStrawsOutcome extends StatefulWidget {
 }
 
 class IncrementalStrawsOutcomeState extends State<IncrementalStrawsOutcome> {
-  Player _player = NoPlayer();
+  Player _player = Player.none;
   late final StrawsReplay _replay;
   late final GameWidget _gameWidget = GameWidget(game: _replay);
   late final Timer _timer;

@@ -92,9 +92,7 @@ class BattleshipGameAreaState extends GameAreaState<BattleshipMove>
       );
 
   @override
-  Widget build(BuildContext context) {
-    return GameWidget(game: _gameModule);
-  }
+  Widget build(BuildContext context) => GameWidget(game: _gameModule);
 }
 
 class BattleshipOutcome extends OutcomeScreen {

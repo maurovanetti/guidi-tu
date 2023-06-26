@@ -62,6 +62,7 @@ flutter:
     - assets/images/battleship/duck/
     - assets/images/battleship/boat/
     - assets/images/battleship/buoy/
+    - assets/images/boules/
     - assets/images/morra/hands/
     - assets/images/morra/interstitial/
     - assets/images/ouija/

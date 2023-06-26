@@ -12,6 +12,8 @@ class Player with Gendered {
   int id;
   String name;
 
+  static final Player none = NoPlayer._internal();
+
   static const _icons = [
     'player_1',
     'player_2',
@@ -76,7 +78,7 @@ class NoPlayer extends Player {
   @override
   get foreground => Colors.transparent;
 
-  NoPlayer() : super(0, '', Gender.neuter);
+  NoPlayer._internal() : super(0, '', Gender.neuter);
 }
 
 class PlayerButton extends StatelessWidget {

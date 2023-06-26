@@ -55,4 +55,7 @@ mixin TeamAware on Gendered {
     var prefs = await SharedPreferences.getInstance();
     return jsonDecode(prefs.getString(Persistence.sessionKey) ?? '{}');
   }
+
+  static Player getPlayer(int? id) => _players
+      .firstWhere((player) => player.id == id, orElse: () => Player.none);
 }

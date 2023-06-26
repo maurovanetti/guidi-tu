@@ -2,10 +2,10 @@ import 'dart:async';
 
 import 'package:flame/components.dart';
 import 'package:flame_forge2d/flame_forge2d.dart';
-import 'package:guidi_tu/games/steady_hand/steady_hand_platform.dart';
 import 'package:sensors_plus/sensors_plus.dart';
 
 import '/games/flame/custom_sprite_component.dart';
+import 'steady_hand_platform.dart';
 
 class SteadyHandBall extends BodyComponent {
   static const radius = 3.0;

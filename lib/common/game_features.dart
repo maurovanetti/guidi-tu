@@ -7,6 +7,7 @@
 import 'package:flutter/material.dart';
 
 import '/games/battleship.dart';
+import '/games/boules.dart';
 import '/games/game_area.dart';
 import '/games/large_shot.dart';
 import '/games/morra.dart';
@@ -198,7 +199,7 @@ Guidi tu se resisti meno di tutti.
 
 Ma attenzione: chi resiste più a lungo, paga.""",
   secretPlay: true,
-  icon: Icons.balance_rounded,
+  icon: Icons.sports_gymnastics_rounded,
   minPlayers: 2,
   minSuggestedPlayers: 2,
   buildGameArea: SteadyHandGameArea.new,
@@ -224,7 +225,7 @@ Guida chi fa meno punti.
 
 Ma attenzione: chi ne fa di più, paga.""",
   secretPlay: true,
-  icon: Icons.wifi_rounded,
+  icon: Icons.transcribe_rounded,
   minPlayers: 3,
   minSuggestedPlayers: 4,
   buildGameArea: OuijaGameArea.new,
@@ -249,7 +250,7 @@ Guida chi fa meno punti.
 
 Ma attenzione: chi ne fa di più, paga.""",
   secretPlay: true,
-  icon: Icons.recycling_rounded,
+  icon: Icons.cut_rounded,
   minPlayers: 2,
   minSuggestedPlayers: 2,
   maxSuggestedPlayers: 3,
@@ -269,7 +270,7 @@ Guidi tu se ti capita il più corto.
 
 Ma attenzione: chi sceglie il più lungo, paga.""",
   secretPlay: true,
-  icon: Icons.format_align_left,
+  icon: Icons.equalizer_rounded,
   minPlayers: 2,
   minSuggestedPlayers: 2,
   buildGameArea: StrawsGameArea.new,
@@ -277,6 +278,30 @@ Ma attenzione: chi sceglie il più lungo, paga.""",
   outcomeWidget: StrawsOutcome.new,
   formatPoints: (p) => '${I18n.centimetersFormat.format(p.toDouble() / 10)} cm',
   usesRigidGameArea: true,
+  interstitialAnimationPath: "",
+);
+
+final boules = GameFeatures(
+  name: "Bocce",
+  description: "Avvicinati al boccino.",
+  explanation: """
+Due bocce a testa, conta solo il tiro migliore.
+Scegli la posizione di partenza, la direzione e la forza dei lanci. 
+  
+Guidi tu se alla fine la boccia più lontana dal boccino bianco è la tua.
+
+Ma attenzione: chi avrà la boccia più vicina al boccino, paga.""",
+  secretPlay: false,
+  icon: Icons.sports_baseball_rounded,
+  minPlayers: 2,
+  minSuggestedPlayers: 2,
+  buildGameArea: BoulesGameArea.new,
+  playWidget: Boules.new,
+  outcomeWidget: BoulesOutcome.new,
+  formatPoints: (p) => p.toString(),
+  lessIsMore: true,
+  usesRigidGameArea: true,
+  externalClock: false,
   interstitialAnimationPath: "",
 );
 
@@ -290,4 +315,5 @@ final List<GameFeatures> allGameFeatures = [
   ouija,
   rps,
   straws,
+  boules,
 ];

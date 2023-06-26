@@ -137,7 +137,7 @@ class HandImage extends StatelessWidget {
     this.padding = 0,
     Player? player,
   }) {
-    this.player = player ?? NoPlayer();
+    this.player = player ?? Player.none;
   }
 
   // The alignment details depend on the actual hand image features.

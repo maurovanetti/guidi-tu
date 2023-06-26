@@ -168,9 +168,10 @@ class CustomSpriteComponent<T extends Game> extends SpriteAnimationComponent
 
 class DraggableCustomSpriteComponent<T extends Game>
     extends CustomSpriteComponent<T> with DragCallbacks {
-  bool draggable = true;
+  bool draggable;
 
-  final double extraElevationWhileDragged = 15.0;
+  static const double defaultExtraElevationWhileDragged = 15.0;
+  final double extraElevationWhileDragged;
   late SnapRule? snapRule;
 
   bool Function()? onSnap; // If false, the snap is forbidden
@@ -186,6 +187,9 @@ class DraggableCustomSpriteComponent<T extends Game>
     super.size,
     super.anchor,
     super.fps,
+    super.color,
+    this.draggable = true,
+    this.extraElevationWhileDragged = defaultExtraElevationWhileDragged,
   }) : super(assetPath, position);
 
   @override

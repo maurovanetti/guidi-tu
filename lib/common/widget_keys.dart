@@ -13,6 +13,7 @@ class WidgetKeys {
   static const ouija = Key('ouija');
   static const rps = Key('rps');
   static const straws = Key('straws');
+  static const boules = Key('boules');
 
 // Content areas
   static const payer = Key('payer');
