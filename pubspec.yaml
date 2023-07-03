@@ -34,19 +34,19 @@ dependencies:
     sdk: flutter
   collection: ^1.17.1
   intl: ^0.18.1
-  shared_preferences: ^2.1.2
-  flame: ^1.8.0
-  flame_forge2d: ^0.14.0
+  shared_preferences: ^2.2.0
+  flame: ^1.8.1
+  flame_forge2d: ^0.14.1
   sensors_plus: ^3.0.2
   flutter_carousel_widget: ^2.0.4
-  flutter_markdown: ^0.6.15
+  flutter_markdown: ^0.6.15+1
 
 dev_dependencies:
   flutter_test:
     sdk: flutter
   dart_code_metrics: ^5.7.5
   dart_code_metrics_presets: ^1.8.0
-  flutter_lints: ^2.0.1
+  flutter_lints: ^2.0.2
   flutter_launcher_icons: ^0.13.1
   flutter_native_splash: ^2.3.1
 
@@ -71,6 +71,7 @@ flutter:
     - assets/images/shot/interstitial/
     - assets/images/steady_hand/
     - assets/images/stopwatch/
+    - assets/images/stopwatch/interstitial/
     - assets/images/straws/
     - assets/images/tutorial/
     - assets/images/rps/hands/
