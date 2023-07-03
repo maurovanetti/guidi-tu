@@ -46,7 +46,7 @@ class ShotGameAreaState<T extends ShotMove> extends GameAreaState<T>
 }
 
 class ArrowButton extends StatelessWidget {
-  final IconData icon;
+  final String assetPath;
   final int delta;
   final Color? color;
   final void Function(int) changeN;
@@ -56,7 +56,7 @@ class ArrowButton extends StatelessWidget {
 
   const ArrowButton({
     super.key,
-    required this.icon,
+    required this.assetPath,
     required this.delta,
     required this.color,
     required this.changeN,
@@ -70,10 +70,11 @@ class ArrowButton extends StatelessWidget {
     var actualColor = color ?? Theme.of(context).colorScheme.primary;
     return GestureDetector(
       child: IconButton(
-        icon: Icon(
-          icon,
+        constraints: const BoxConstraints.tightFor(height: 84),
+        icon: ImageIcon(
+          AssetImage('assets/images/$assetPath'),
           color: enabled ? actualColor : actualColor.withOpacity(0.1),
-          size: 100,
+          size: 250,
         ),
         onPressed: enabled ? () => changeN(delta) : null,
       ),
@@ -90,7 +91,7 @@ class _UpArrowButton extends ArrowButton {
     super.color, // ignore: unused_element
     required ShotGameAreaState shotState,
   }) : super(
-          icon: Icons.keyboard_arrow_up_rounded,
+          assetPath: 'ui/up.png',
           delta: 1,
           changeN: shotState.changeN,
           quickChangeNStart: shotState.longPressStart,
@@ -105,7 +106,7 @@ class _DownArrowButton extends ArrowButton {
     super.color, // ignore: unused_element
     required ShotGameAreaState shotState,
   }) : super(
-          icon: Icons.keyboard_arrow_down_rounded,
+          assetPath: 'ui/down.png',
           delta: -1,
           changeN: shotState.changeN,
           quickChangeNStart: shotState.longPressStart,
@@ -117,21 +118,24 @@ class ShotControls extends StatelessWidget with QuickMessage {
   final int n;
   final ShotGameAreaState shotState;
   final bool stretched;
+  final String caption;
 
   const ShotControls({
     super.key,
     required this.n,
     required this.shotState,
     required this.stretched,
+    this.caption = '',
   });
 
   @override
   build(context) {
     var theme = Theme.of(context);
+    var primaryColor = theme.colorScheme.primary;
     var displayButton = ElevatedButton(
       style: ElevatedButton.styleFrom(
         shape: ContinuousRectangleBorder(
-          side: BorderSide(color: theme.colorScheme.primary, width: 5),
+          side: BorderSide(color: primaryColor, width: 5),
         ),
       ),
       onLongPress: shotState.resetN,
@@ -151,6 +155,18 @@ class ShotControls extends StatelessWidget with QuickMessage {
             stretched ? CrossAxisAlignment.stretch : CrossAxisAlignment.center,
         children: [
           _UpArrowButton(shotState: shotState),
+          if (caption.isNotEmpty)
+            Padding(
+              padding: StyleGuide.narrowPadding,
+              child: Text(
+                caption,
+                style: theme.textTheme.headlineLarge!.copyWith(
+                  fontWeight: FontWeight.bold,
+                  color: primaryColor,
+                ),
+                textAlign: TextAlign.center,
+              ),
+            ),
           displayButton,
           _DownArrowButton(shotState: shotState),
         ],

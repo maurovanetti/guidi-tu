@@ -73,10 +73,10 @@ class MorraGameAreaState extends ShotGameAreaState<MorraMove> {
             Expanded(
               flex: 1,
               child: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
+                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                 children: [
                   ArrowButton(
-                    icon: Icons.keyboard_arrow_up_rounded,
+                    assetPath: 'ui/up.png',
                     delta: 1,
                     color: primaryColor,
                     changeN: _changeFingers,
@@ -86,7 +86,7 @@ class MorraGameAreaState extends ShotGameAreaState<MorraMove> {
                   ),
                   HandImage(_fingers, height: handImageHeight),
                   ArrowButton(
-                    icon: Icons.keyboard_arrow_down_rounded,
+                    assetPath: 'ui/down.png',
                     delta: -1,
                     color: primaryColor,
                     changeN: _changeFingers,
@@ -101,6 +101,7 @@ class MorraGameAreaState extends ShotGameAreaState<MorraMove> {
             Expanded(
               flex: 1,
               child: ShotControls(
+                caption: 'SOMMA =',
                 n: n,
                 stretched: false,
                 shotState: this,

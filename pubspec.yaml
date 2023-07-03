@@ -76,6 +76,7 @@ flutter:
     - assets/images/tutorial/
     - assets/images/rps/hands/
     - assets/images/rps/interstitial/
+    - assets/images/ui/
   fonts:
     - family: Signika
       fonts:
