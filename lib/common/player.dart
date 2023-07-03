@@ -187,15 +187,23 @@ enum PlayerIconVariant { white, color, inverted }
 class PlayerIcon extends StatelessWidget {
   final PlayerIconVariant variant;
   final Player player;
+  final Color? color;
+
+  const PlayerIcon.black(this.player, {super.key})
+      : variant = PlayerIconVariant.white,
+        color = Colors.black;
 
   const PlayerIcon.white(this.player, {super.key})
-      : variant = PlayerIconVariant.white;
+      : variant = PlayerIconVariant.white,
+        color = null;
 
   const PlayerIcon.color(this.player, {super.key})
-      : variant = PlayerIconVariant.color;
+      : variant = PlayerIconVariant.color,
+        color = null;
 
   const PlayerIcon.inverted(this.player, {super.key})
-      : variant = PlayerIconVariant.inverted;
+      : variant = PlayerIconVariant.inverted,
+        color = null;
 
   @override
   Widget build(BuildContext context) {
@@ -210,6 +218,7 @@ class PlayerIcon extends StatelessWidget {
         'assets/images/${player.iconAssetPath(variant)}',
       ),
       width: StyleGuide.iconSize,
+      color: color,
     );
   }
 }

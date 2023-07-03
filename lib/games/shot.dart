@@ -70,7 +70,7 @@ class ArrowButton extends StatelessWidget {
     var actualColor = color ?? Theme.of(context).colorScheme.primary;
     return GestureDetector(
       child: IconButton(
-        constraints: const BoxConstraints.tightFor(height: 84),
+        constraints: const BoxConstraints.tightFor(height: 63),
         icon: ImageIcon(
           AssetImage('assets/images/$assetPath'),
           color: enabled ? actualColor : actualColor.withOpacity(0.1),

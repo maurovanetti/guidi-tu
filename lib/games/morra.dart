@@ -31,15 +31,16 @@ class MorraGameArea extends GameArea<MorraMove> {
   createState() => MorraGameAreaState();
 }
 
-class MorraGameAreaState extends ShotGameAreaState<MorraMove> {
-  static const handImageHeight = 150.0;
+class MorraGameAreaState extends ShotGameAreaState<MorraMove>
+    with Gendered, TeamAware {
+  static const handImageHeight = 120.0;
 
-  int _fingers = 0;
+  int _fingers = 3;
 
   @override
   initState() {
     super.initState();
-    _fingers = 0;
+    n = _fingers;
   }
 
   void _changeFingers(int delta) {
@@ -52,7 +53,7 @@ class MorraGameAreaState extends ShotGameAreaState<MorraMove> {
 
   @override
   void didChangeDependencies() {
-    for (var hand in HandImage.hands) {
+    for (var hand in [...HandImage.hands, ...HandImage.outlinedHands]) {
       precacheImage(AssetImage(hand), context);
     }
     super.didChangeDependencies();
@@ -64,8 +65,25 @@ class MorraGameAreaState extends ShotGameAreaState<MorraMove> {
   @override
   Widget build(BuildContext context) {
     var primaryColor = Theme.of(context).colorScheme.primary;
+
     return ListView(
       children: [
+        GridView.count(
+          crossAxisCount: 4,
+          shrinkWrap: true,
+          children: players
+              .map((player) => HandImage(
+                    player == TurnAware.currentPlayer
+                        ? _fingers
+                        : HandImage.unknown,
+                    variant: player == TurnAware.currentPlayer
+                        ? HandImageVariant.definedWithIcon
+                        : HandImageVariant.undefinedWithIcon,
+                    padding: HandImage._handsPadding,
+                    player: player,
+                  ))
+              .toList(),
+        ),
         Row(
           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
           crossAxisAlignment: CrossAxisAlignment.center,
@@ -87,7 +105,7 @@ class MorraGameAreaState extends ShotGameAreaState<MorraMove> {
                   HandImage(
                     _fingers,
                     height: handImageHeight,
-                    displayNumber: true,
+                    variant: HandImageVariant.withNumber,
                   ),
                   ArrowButton(
                     assetPath: 'ui/down.png',
@@ -118,7 +136,15 @@ class MorraGameAreaState extends ShotGameAreaState<MorraMove> {
   }
 }
 
-class HandImage extends StatelessWidget {
+enum HandImageVariant {
+  withNumber,
+  definedWithIcon,
+  undefinedWithIcon,
+}
+
+class HandImage extends StatefulWidget {
+  static const unknown = -1;
+  static const _handsPadding = 10.0;
   static const _path = "assets/images/morra/hands";
 
   static const hands = [
@@ -130,55 +156,132 @@ class HandImage extends StatelessWidget {
     "$_path/five.png",
   ];
 
+  static const outlinedHands = [
+    "$_path/zero_outline.png",
+    "$_path/one_outline.png",
+    "$_path/two_outline.png",
+    "$_path/three_outline.png",
+    "$_path/four_outline.png",
+    "$_path/five_outline.png",
+  ];
+
   final int fingers;
   final double? height;
   final double padding;
-  final bool displayNumber;
+  final HandImageVariant variant;
   late final Player player;
+
+  bool get displayIcon => player != Player.none;
 
   HandImage(
     this.fingers, {
     super.key,
     this.height,
     this.padding = 0,
-    this.displayNumber = false,
+    required this.variant,
     Player? player,
   }) {
+    assert(player != null || variant == HandImageVariant.withNumber);
     this.player = player ?? Player.none;
   }
 
+  @override
+  createState() => HandImageState();
+}
+
+class HandImageState extends State<HandImage> with TickerProviderStateMixin {
+  // When the hand is unknown, the animation is a frenzy of hands.
+  static const int _millisecondsPerFrame = 200;
+
   // The alignment details depend on the actual hand image features.
   static final _iconAlignment = AlignmentGeometry.lerp(
-    Alignment.bottomCenter,
+    Alignment.bottomLeft,
     Alignment.bottomRight,
-    0.4,
+    0.55,
   )!;
 
+  AnimationController? _controller;
+
   @override
-  build(context) {
-    var raw = Image.asset(
-      hands[fingers],
+  initState() {
+    super.initState();
+    int n = HandImage.hands.length;
+    if (widget.fingers == HandImage.unknown) {
+      _controller = AnimationController(
+        duration: Duration(milliseconds: _millisecondsPerFrame * n),
+        lowerBound: 0,
+        upperBound: n.toDouble(),
+        vsync: this,
+      )..repeat();
+    }
+  }
+
+  Widget _build(BuildContext context) {
+    Color? color;
+    switch (widget.variant) {
+      case HandImageVariant.withNumber:
+        color = null;
+        break;
+      case HandImageVariant.definedWithIcon:
+        color = Colors.white;
+        break;
+      case HandImageVariant.undefinedWithIcon:
+        color = Colors.grey[600];
+        break;
+    }
+    var fingers = _controller?.value.floor() ?? widget.fingers;
+    var pictures = widget.variant == HandImageVariant.definedWithIcon
+        ? HandImage.outlinedHands
+        : HandImage.hands;
+    Widget raw = Image.asset(
+      pictures[fingers],
       alignment: Alignment.topCenter,
-      height: height,
+      height: widget.height,
+      color: color,
     );
+    var baseFontStyle = Theme.of(context).textTheme.bodyLarge;
     return Padding(
-      padding: EdgeInsets.all(padding),
+      padding: EdgeInsets.all(widget.padding),
       child: Stack(
         alignment: _iconAlignment,
         children: [
           raw,
-          PlayerIcon.color(player),
-          if (displayNumber)
+          if (widget.variant case HandImageVariant.definedWithIcon)
+            PlayerIcon.color(widget.player),
+          if (widget.variant case HandImageVariant.withNumber)
             Text(
-              fingers.toString(),
-              style: Theme.of(context).textTheme.bodyLarge?.copyWith(
-                    color: Colors.black.withOpacity(0.5),
-                    fontSize: (height != null) ? height! / 3 : null,
-                    fontWeight: FontWeight.bold,
-                  ),
+              widget.fingers.toString(),
+              style: baseFontStyle?.copyWith(
+                color: Colors.black.withOpacity(0.5),
+                fontSize: (widget.height != null) ? widget.height! / 3 : null,
+                fontWeight: FontWeight.bold,
+              ),
+            ),
+          if (widget.variant case HandImageVariant.undefinedWithIcon)
+            Text(
+              "?",
+              style: baseFontStyle?.copyWith(
+                color: Colors.white,
+                fontSize: StyleGuide.iconSize * 2,
+                fontWeight: FontWeight.bold,
+              ),
             ),
         ],
       ),
+    );
+  }
+
+  @override
+  dispose() {
+    _controller?.dispose();
+    super.dispose();
+  }
+
+  @override
+  build(context) {
+    return AnimatedBuilder(
+      animation: _controller ?? const AlwaysStoppedAnimation(0),
+      builder: (context, child) => _build(context),
     );
   }
 }
@@ -191,8 +294,6 @@ class MorraOutcome extends OutcomeScreen {
 }
 
 class MorraOutcomeState extends OutcomeScreenState<MorraMove> {
-  static const _handsPadding = 10.0;
-
   late final LinkedHashMap<Player, int> _fingers = LinkedHashMap<Player, int>();
   late final _playerPerformances = <PlayerPerformance>[];
 
@@ -222,8 +323,9 @@ class MorraOutcomeState extends OutcomeScreenState<MorraMove> {
           children: _fingers.entries
               .map((fingers) => HandImage(
                     fingers.value,
-                    padding: _handsPadding,
+                    variant: HandImageVariant.definedWithIcon,
                     player: fingers.key,
+                    padding: HandImage._handsPadding,
                   ))
               .toList(),
         ),
