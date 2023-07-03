@@ -182,7 +182,7 @@ Ma attenzione: chi la ferma più avanti di tutti, paga.""",
   formatPoints: (p) =>
       '${I18n.preciserSecondsFormat.format(p / Duration.microsecondsPerSecond)}"',
   externalClock: false,
-  interstitialAnimationPath: "",
+  interstitialAnimationPath: "stopwatch/interstitial/Game_Lancette",
 );
 
 final steadyHand = GameFeatures(
