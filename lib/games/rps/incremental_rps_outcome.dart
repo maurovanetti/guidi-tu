@@ -83,7 +83,9 @@ class IncrementalRockPaperScissorsOutcomeState
             imageFilter: ImageFilter.dilate(radiusX: 0.5, radiusY: 0.5),
             enabled: gesture.isThickByType,
             child: Image(
-              image: AssetImage('assets/images/${gesture.gesture.assetPath}'),
+              image: AssetImage(
+                'assets/images/${gesture.gesture.assetPaths.grey}',
+              ),
               width: StyleGuide.iconSize,
               color: gesture.colorByType,
             ),

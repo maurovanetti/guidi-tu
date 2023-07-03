@@ -92,7 +92,7 @@ class RockPaperScissorsOutcomeState
 
 sealed class RockPaperScissorsGesture {
   static const path = "rps/hands";
-  String get assetPath;
+  ({String color, String grey}) get assetPaths;
 
   bool beats(RockPaperScissorsGesture other);
 
@@ -121,7 +121,10 @@ class Rock extends RockPaperScissorsGesture {
   static final Rock _instance = Rock._internal();
 
   @override
-  String get assetPath => '${RockPaperScissorsGesture.path}/rock.png';
+  get assetPaths => (
+        color: '${RockPaperScissorsGesture.path}/rock.png',
+        grey: '${RockPaperScissorsGesture.path}/rock_grey.png'
+      );
 
   Rock._internal();
   factory Rock() => _instance;
@@ -136,7 +139,10 @@ class Paper extends RockPaperScissorsGesture {
   static final Paper _instance = Paper._internal();
 
   @override
-  String get assetPath => '${RockPaperScissorsGesture.path}/paper.png';
+  get assetPaths => (
+        color: '${RockPaperScissorsGesture.path}/paper.png',
+        grey: '${RockPaperScissorsGesture.path}/paper_grey.png'
+      );
 
   Paper._internal();
   factory Paper() => _instance;
@@ -151,7 +157,10 @@ class Scissors extends RockPaperScissorsGesture {
   static final Scissors _instance = Scissors._internal();
 
   @override
-  String get assetPath => '${RockPaperScissorsGesture.path}/scissors.png';
+  get assetPaths => (
+        color: '${RockPaperScissorsGesture.path}/scissors.png',
+        grey: '${RockPaperScissorsGesture.path}/scissors_grey.png'
+      );
 
   Scissors._internal();
   factory Scissors() => _instance;

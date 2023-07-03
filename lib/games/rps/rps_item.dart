@@ -34,7 +34,7 @@ class RockPaperScissorsIcon extends CustomSpriteComponent {
     required super.size,
     Color? color,
   }) : super(
-          gesture.assetPath,
+          color == null ? gesture.assetPaths.color : gesture.assetPaths.grey,
           position,
           keepAspectRatio: true,
           priority: Priorities.stickerPriority,
@@ -146,7 +146,7 @@ class RockPaperScissorsPassiveItem extends RockPaperScissorsItem {
     if (value == null) {
       setText(pending, color: color);
     } else {
-      setGesture(value, color: color);
+      setGesture(value);
     }
   }
 
@@ -157,7 +157,7 @@ class RockPaperScissorsPassiveItem extends RockPaperScissorsItem {
               Vector2(slot.toDouble(), 0) * board.slotWidth,
           size: board.slotSize,
         ) {
-    setText(pending, color: Colors.yellow[200]!);
+    setText(pending, color: color);
     board.registerSlotItem(slot, this);
   }
 }
