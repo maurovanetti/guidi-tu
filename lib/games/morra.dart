@@ -84,7 +84,11 @@ class MorraGameAreaState extends ShotGameAreaState<MorraMove> {
                     quickChangeNEnd: () {},
                     enabled: _fingers < 5,
                   ),
-                  HandImage(_fingers, height: handImageHeight),
+                  HandImage(
+                    _fingers,
+                    height: handImageHeight,
+                    displayNumber: true,
+                  ),
                   ArrowButton(
                     assetPath: 'ui/down.png',
                     delta: -1,
@@ -129,6 +133,7 @@ class HandImage extends StatelessWidget {
   final int fingers;
   final double? height;
   final double padding;
+  final bool displayNumber;
   late final Player player;
 
   HandImage(
@@ -136,6 +141,7 @@ class HandImage extends StatelessWidget {
     super.key,
     this.height,
     this.padding = 0,
+    this.displayNumber = false,
     Player? player,
   }) {
     this.player = player ?? Player.none;
@@ -155,18 +161,25 @@ class HandImage extends StatelessWidget {
       alignment: Alignment.topCenter,
       height: height,
     );
-    return (padding == 0)
-        ? raw
-        : Padding(
-            padding: EdgeInsets.all(padding),
-            child: Stack(
-              alignment: _iconAlignment,
-              children: [
-                raw,
-                PlayerIcon.color(player),
-              ],
+    return Padding(
+      padding: EdgeInsets.all(padding),
+      child: Stack(
+        alignment: _iconAlignment,
+        children: [
+          raw,
+          PlayerIcon.color(player),
+          if (displayNumber)
+            Text(
+              fingers.toString(),
+              style: Theme.of(context).textTheme.bodyLarge?.copyWith(
+                    color: Colors.black.withOpacity(0.5),
+                    fontSize: (height != null) ? height! / 3 : null,
+                    fontWeight: FontWeight.bold,
+                  ),
             ),
-          );
+        ],
+      ),
+    );
   }
 }
 
