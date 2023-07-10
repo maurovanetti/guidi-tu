@@ -165,11 +165,11 @@ final stopwatch = GameFeatures(
   name: "Cronometro",
   description: "Spacca il secondo.",
   explanation: """
-La lancetta gira velocemente.
+La lancetta gira velocemente. Puoi fermarla quando vuoi.
 
-Cerca di fermarla prima che arrivi allo zero, ma più vicino possibile.
-  
-Guidi tu se hai fermato la lancetta più indietro di tutti.
+Se supera il mezzogiorno, ricomincia da zero.
+
+Guidi tu se hai fermato la lancetta al valore più basso.
 
 Ma attenzione: chi la ferma più avanti di tutti, paga.""",
   secretPlay: true,
@@ -191,9 +191,7 @@ final steadyHand = GameFeatures(
   explanation: """
 Tieni il telefono in orizzontale sulla tua mano.
   
-Comparirà una biglia, appoggiata sullo schermo.
-
-Non farla cadere dalla piattaforma circolare per il tempo più lungo possibile.
+Non far cadere la biglia.
   
 Guidi tu se resisti meno di tutti.
 
@@ -240,11 +238,9 @@ final rps = GameFeatures(
   name: "Morra cinese",
   description: "Sasso, carta o forbici?",
   explanation: """
-Componi una sequenza di giocate. 
-Sasso batte forbici, forbici battono carta, carta batte sasso.
+Componi una sequenza di gesti.
 
-Per ogni turno, se non c'è un pareggio, una fazione vince e l'altra perde.
-Chi vince fa 1 punto.
+Ogni gesto che vince ti fa fare un punto.
   
 Guida chi fa meno punti.
 
@@ -266,7 +262,9 @@ final straws = GameFeatures(
   name: "Bastoncino corto",
   description: "Scegli un bastoncino.",
   explanation: """
-Guidi tu se ti capita il più corto.
+Puoi cambiare bastoncino finché non ne trovi uno che ti piace. 
+  
+Guidi tu se lo scegli più corto degli altri.
 
 Ma attenzione: chi sceglie il più lungo, paga.""",
   secretPlay: true,
@@ -315,5 +313,5 @@ final List<GameFeatures> allGameFeatures = [
   ouija,
   rps,
   straws,
-  boules,
+  // boules,
 ];

@@ -46,12 +46,6 @@ class IncrementalStrawsOutcomeState extends State<IncrementalStrawsOutcome> {
     });
   }
 
-  @override
-  dispose() {
-    _timer.cancel();
-    super.dispose();
-  }
-
   Future<void> _display(RecordedMove<StrawsMove> recordedMove) async {
     if (!mounted) {
       return;
@@ -60,6 +54,12 @@ class IncrementalStrawsOutcomeState extends State<IncrementalStrawsOutcome> {
     setState(() {
       _player = recordedMove.player;
     });
+  }
+
+  @override
+  dispose() {
+    _timer.cancel();
+    super.dispose();
   }
 
   @override
