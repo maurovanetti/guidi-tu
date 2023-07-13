@@ -13,9 +13,10 @@ class AnimationLoader {
     // lower-case pattern matching.
     path = path.toLowerCase();
     var frameImages = await Flame.images
-        .loadAllFromPattern(RegExp('${RegExp.escape(path)}_\\d+\\.png'));
+        .loadAllFromPattern(RegExp('${RegExp.escape(path)}[_\\-]\\d+\\.png'));
     if (frameImages.isEmpty) {
-      throw Exception('No animation frames found in ${path}_*.png');
+      throw Exception(
+          "No animation frames found in ${path}_*.png or $path-*.png");
     }
     var sprites = frameImages.map((image) => Sprite(image)).toList();
     return SpriteAnimation.spriteList(

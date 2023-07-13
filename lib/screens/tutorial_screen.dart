@@ -60,11 +60,12 @@ class TutorialCarousel extends StatelessWidget {
   static const length = 4;
 
   static const List<String> tutorialAnimations = [
-    'tutorial/Transition_mezzaria 2',
-    'tutorial/Transition_mezzaria 2',
-    'tutorial/Transition_mezzaria 2',
-    'tutorial/Transition_mezzaria 2',
+    'tutorial/Tutorial',
+    'tutorial/Tutorial',
+    'tutorial/Tutorial',
+    'tutorial/Tutorial',
   ];
+
   // in Markdown format
   static const List<String> tutorialTexts = [
     """
