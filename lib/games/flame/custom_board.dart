@@ -108,7 +108,7 @@ abstract class CustomBoardCell {
   CustomBoardCell(this.row, this.column);
 
   @override
-  operator ==(other) =>
+  operator ==(Object other) =>
       other is CustomBoardCell && row == other.row && column == other.column;
 
   CustomBoardCell below() {

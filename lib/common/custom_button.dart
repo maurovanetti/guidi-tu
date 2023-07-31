@@ -7,11 +7,6 @@ import 'fitted_text.dart';
 import 'style_guide.dart';
 
 class CustomButton extends StatefulWidget {
-  final VoidCallback? onPressed;
-  final String text;
-  final bool important;
-  final bool funny;
-
   const CustomButton({
     super.key,
     this.onPressed,
@@ -19,6 +14,11 @@ class CustomButton extends StatefulWidget {
     this.important = true,
     bool? funny,
   }) : funny = funny ?? important;
+
+  final VoidCallback? onPressed;
+  final String text;
+  final bool important;
+  final bool funny;
 
   @override
   CustomButtonState createState() => CustomButtonState();
@@ -108,17 +108,17 @@ class CustomButtonState extends State<CustomButton>
 }
 
 class _FunnyLabel extends StatelessWidget {
-  final Characters characters;
-  final double animationValue;
-  final List<double> phases;
-  final TextStyle? boringStyle;
-
   const _FunnyLabel(
     this.characters, {
     required this.animationValue,
     required this.boringStyle,
     required this.phases,
   });
+
+  final Characters characters;
+  final double animationValue;
+  final List<double> phases;
+  final TextStyle? boringStyle;
 
   TextStyle? funnyTextStyle(double x) =>
       boringStyle?.copyWith(fontSize: x + boringStyle!.fontSize!);

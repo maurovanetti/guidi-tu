@@ -86,7 +86,6 @@ class SteadyHandGameAreaState extends GameAreaState<SteadyHandMove>
 
   @override
   Widget build(BuildContext context) {
-    // ignore: no-magic-number
     var leftOffsetForLabel = MediaQuery.of(context).size.width / 2 - 35;
     var bottomOffsetForLabel = (_seconds ?? 0.0) / 10.0;
     return Column(

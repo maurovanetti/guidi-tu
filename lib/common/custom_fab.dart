@@ -3,16 +3,18 @@ import 'package:flutter/material.dart';
 import 'style_guide.dart';
 
 class CustomFloatingActionButton extends StatelessWidget {
-  final VoidCallback? onPressed;
-  final String tooltip;
-  final IconData icon;
-
   const CustomFloatingActionButton({
     super.key,
     this.onPressed,
     this.tooltip = '',
     this.icon = Icons.arrow_forward,
+    this.heroTag = 'hero',
   });
+
+  final VoidCallback? onPressed;
+  final String tooltip;
+  final IconData icon;
+  final String heroTag;
 
   @override
   Widget build(BuildContext context) {
@@ -20,17 +22,18 @@ class CustomFloatingActionButton extends StatelessWidget {
       tooltip: tooltip,
       onPressed: onPressed,
       shape: StyleGuide.getImportantBorder(context),
+      heroTag: heroTag,
       child: Icon(icon),
     );
   }
 }
 
 class SafeMarginForCustomFloatingActionButton extends SizedBox {
-  static const safeMarginHeight = 100.0;
-
   const SafeMarginForCustomFloatingActionButton({super.key})
       : super(
           width: double.infinity,
           height: safeMarginHeight,
         );
+
+  static const safeMarginHeight = 100.0;
 }

@@ -8,9 +8,9 @@ mixin GameAware {
 }
 
 abstract class GameSpecificStatefulWidget extends StatefulWidget {
-  final GameFeatures gameFeatures;
-
   const GameSpecificStatefulWidget({super.key, required this.gameFeatures});
+
+  final GameFeatures gameFeatures;
 }
 
 abstract class GameSpecificState<T extends GameSpecificStatefulWidget>

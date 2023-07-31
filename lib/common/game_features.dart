@@ -77,7 +77,7 @@ class GameFeatures {
     assert(this.maxSuggestedPlayers <= Config.maxPlayers);
   }
 
-  static String dontFormat(i) => i.toString();
+  static String dontFormat(int i) => i.toString();
 }
 
 final largeShot = GameFeatures(

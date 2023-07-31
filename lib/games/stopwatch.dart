@@ -14,6 +14,8 @@ class Stopwatch extends TurnPlayScreen {
   @override
   bool get isReadyAtStart => false;
 
+  Stopwatch() : super(key: WidgetKeys.stopwatch, gameFeatures: stopwatch);
+
   static const period = 6; // seconds
 
   static int microsecondsIntoPeriod(Duration total) =>
@@ -23,8 +25,6 @@ class Stopwatch extends TurnPlayScreen {
   static double fractionOfPeriod(Duration total) =>
       microsecondsIntoPeriod(total) /
       (Stopwatch.period * Duration.microsecondsPerSecond);
-
-  Stopwatch() : super(key: WidgetKeys.stopwatch, gameFeatures: stopwatch);
 
   @override
   createState() => StopwatchState();
@@ -107,7 +107,6 @@ class StopwatchGameAreaState extends GameAreaState<StopwatchMove>
 
   @override
   Widget build(BuildContext context) {
-    // ignore: no-magic-number
     var leftOffsetForLabel = MediaQuery.of(context).size.width / 2 - 35;
     var bottomOffsetForLabel = 20 + (_secondsIntoPeriod ?? 0) * 5;
     return Column(

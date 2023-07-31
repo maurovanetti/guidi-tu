@@ -59,7 +59,7 @@ class CustomSpriteComponent<T extends Game> extends SpriteAnimationComponent
   static set lightDirection(Vector2 value) =>
       _lightDirection = value.normalized();
 
-  set elevation(value) {
+  set elevation(double value) {
     // The shadow position must remain the same, so we need to update the
     // position of the sprite in the opposite direction of the light.
     position -= lightDirection * (value - elevation);

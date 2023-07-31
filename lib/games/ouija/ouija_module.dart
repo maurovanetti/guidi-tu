@@ -67,7 +67,6 @@ class OuijaModule extends FlameGame {
       alphabet = letters.join();
       TeamAware.storeSessionData({ouijaAlphabetKey: alphabet});
     }
-    // ignore: avoid-non-ascii-symbols
     String alphabetEtc = alphabet + OuijaActiveItem.backspace;
     for (int i = 0; i < alphabetEtc.length; i++) {
       int row = i ~/ gridColumns;

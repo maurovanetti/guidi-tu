@@ -7,12 +7,12 @@ import 'battleship_board.dart';
 import 'battleship_replay.dart';
 
 class IncrementalBattleshipOutcome extends StatefulWidget {
-  final List<IncrementalBattleshipScore> incrementalScores;
-
   const IncrementalBattleshipOutcome({
     super.key,
     required this.incrementalScores,
   });
+
+  final List<IncrementalBattleshipScore> incrementalScores;
 
   @override
   IncrementalBattleshipOutcomeState createState() =>

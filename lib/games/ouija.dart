@@ -9,13 +9,13 @@ import 'ouija/incremental_ouija_outcome.dart';
 import 'ouija/ouija_module.dart';
 
 class Ouija extends TurnPlayScreen {
+  Ouija() : super(key: WidgetKeys.ouija, gameFeatures: ouija);
+
   static const guessValue = 5; // points for each letter guessed in right place
   static const missValue = 1; // points for each letter guessed in wrong place
 
   @override
   final bool isReadyAtStart = false;
-
-  Ouija() : super(key: WidgetKeys.ouija, gameFeatures: ouija);
 
   @override
   createState() => TurnPlayState<OuijaMove>();

@@ -1,7 +1,6 @@
 // Tests should be compact and sometimes repetitive, even a little dumb. For
 // this reason, we ignore several elegance rules in tests.
 // ignore_for_file: avoid-ignoring-return-values
-// ignore_for_file: avoid-non-ascii-symbols
 // ignore_for_file: no-magic-number
 
 import 'package:flutter_test/flutter_test.dart';

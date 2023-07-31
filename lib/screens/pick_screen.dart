@@ -100,14 +100,6 @@ class _PickScreenState extends TrackedState<PickScreen>
 }
 
 class GameCard extends StatelessWidget {
-  final String name;
-  final String description;
-  final IconData icon;
-  final bool suggested;
-  final bool selected;
-  final void Function(GameCard) onTap;
-  final Widget gameStart;
-
   const GameCard({
     super.key,
     required this.name,
@@ -118,6 +110,14 @@ class GameCard extends StatelessWidget {
     this.suggested = false,
     this.selected = false,
   });
+
+  final String name;
+  final String description;
+  final IconData icon;
+  final bool suggested;
+  final bool selected;
+  final void Function(GameCard) onTap;
+  final Widget gameStart;
 
   GameCard copyWith({required bool selected}) {
     return GameCard(

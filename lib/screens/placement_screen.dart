@@ -100,9 +100,9 @@ class PlacementScreenState extends TrackedState<PlacementScreen>
 }
 
 class PlacementCard extends StatelessWidget {
-  final Award award;
-
   const PlacementCard(this.award, {super.key});
+
+  final Award award;
 
   @override
   Widget build(BuildContext context) {

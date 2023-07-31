@@ -61,7 +61,7 @@ class StrawsStraw extends NineTileBoxComponent
       };
 
   @override
-  operator ==(other) =>
+  operator ==(Object other) =>
       other is StrawsStraw &&
       other.position == position &&
       other.angle == angle &&

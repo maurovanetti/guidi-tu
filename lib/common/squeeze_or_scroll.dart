@@ -1,11 +1,6 @@
 import 'package:flutter/material.dart';
 
 class SqueezeOrScroll extends StatelessWidget {
-  final List<Widget> topChildren; // never squeezable
-  final Widget centralChild; // may be squeezable
-  final List<Widget> bottomChildren; // never squeezable
-  final bool squeeze;
-
   const SqueezeOrScroll({
     super.key,
     this.topChildren = const [],
@@ -13,6 +8,11 @@ class SqueezeOrScroll extends StatelessWidget {
     this.bottomChildren = const [],
     this.squeeze = false,
   });
+
+  final List<Widget> topChildren; // never squeezable
+  final Widget centralChild; // may be squeezable
+  final List<Widget> bottomChildren; // never squeezable
+  final bool squeeze;
 
   @override
   Widget build(BuildContext context) {

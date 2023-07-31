@@ -8,12 +8,12 @@ import '/games/straws.dart';
 import 'straws_replay.dart';
 
 class IncrementalStrawsOutcome extends StatefulWidget {
-  final List<RecordedMove<StrawsMove>> recordedMoves;
-
   const IncrementalStrawsOutcome({
     super.key,
     required this.recordedMoves,
   });
+
+  final List<RecordedMove<StrawsMove>> recordedMoves;
 
   @override
   IncrementalStrawsOutcomeState createState() =>

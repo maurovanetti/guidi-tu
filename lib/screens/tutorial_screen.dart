@@ -57,6 +57,8 @@ class _TutorialScreenState extends TrackedState<TutorialScreen> {
 }
 
 class TutorialCarousel extends StatelessWidget {
+  const TutorialCarousel(this.controller, this.onPageChanged, {super.key});
+
   static const length = 4;
 
   static const List<String> tutorialAnimations = [
@@ -93,8 +95,6 @@ Penalità possibili per chi arriva primo:
 
   final CarouselController controller;
   final void Function(int, CarouselPageChangedReason) onPageChanged;
-
-  const TutorialCarousel(this.controller, this.onPageChanged, {super.key});
 
   @override
   Widget build(BuildContext context) {

@@ -1,5 +1,3 @@
-// ignore_for_file: avoid-non-ascii-symbols
-
 import 'package:collection/collection.dart';
 import 'package:flame/game.dart';
 import 'package:flutter/material.dart';

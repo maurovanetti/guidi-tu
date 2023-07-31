@@ -10,10 +10,10 @@ import 'straws/straws_module.dart';
 import 'straws/straws_straw.dart';
 
 class Straws extends TurnPlayScreen {
+  Straws() : super(key: WidgetKeys.straws, gameFeatures: straws);
+
   @override
   final bool isReadyAtStart = true;
-
-  Straws() : super(key: WidgetKeys.straws, gameFeatures: straws);
 
   @override
   createState() => TurnPlayState<StrawsMove>();

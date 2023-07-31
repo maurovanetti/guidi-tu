@@ -5,18 +5,18 @@ import 'package:flutter/material.dart';
 import 'animation_loader.dart';
 
 class InterstitialAnimation extends StatefulWidget {
-  static const int fps = 20;
-
-  final String prefix;
-  final num repeat;
-  final VoidCallback? onComplete;
-
   const InterstitialAnimation({
     super.key,
     required this.prefix,
     this.repeat = 1,
     this.onComplete,
   });
+
+  static const int fps = 20;
+
+  final String prefix;
+  final num repeat;
+  final VoidCallback? onComplete;
 
   @override
   InterstitialAnimationState createState() => InterstitialAnimationState();

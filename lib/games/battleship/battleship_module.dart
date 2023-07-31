@@ -99,7 +99,6 @@ class BattleshipModule extends FlameGame {
     ];
     for (int i = 0; i + 3 < shipCount; i++) {
       var extraShip = BattleshipShip(
-        // ignore: no-equal-arguments
         extraPositions[i],
         cellSpan: 1,
         isVertical: false,

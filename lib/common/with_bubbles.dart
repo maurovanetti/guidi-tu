@@ -9,18 +9,18 @@ class WithBubbles extends StatelessWidget {
   static bool _enabled = true; // Disabled in tests.
   set enabled(bool value) => _enabled = value;
 
-  final Widget child;
-  final int n;
-  final bool behind;
-
-  get square => false;
-
   const WithBubbles({
     super.key,
     required this.child,
     this.n = 10,
     this.behind = false,
   });
+
+  final Widget child;
+  final int n;
+  final bool behind;
+
+  get square => false;
 
   @override
   Widget build(BuildContext context) {
@@ -49,12 +49,12 @@ class WithSquares extends WithBubbles {
 }
 
 class Bubble extends StatefulWidget {
+  Bubble({super.key, this.square = false});
+
   final phase = Random().nextDouble();
   final radius = Random().nextDouble() * 100 + 50;
   final xFactor = Random().nextDouble();
   final bool square;
-
-  Bubble({super.key, this.square = false});
 
   @override
   BubbleState createState() => BubbleState();

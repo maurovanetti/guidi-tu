@@ -6,12 +6,12 @@ import '/common/common.dart';
 import '/games/ouija.dart';
 
 class IncrementalOuijaOutcome extends StatefulWidget {
-  final List<IncrementalOuijaScore> incrementalScores;
-
   const IncrementalOuijaOutcome({
     super.key,
     required this.incrementalScores,
   });
+
+  final List<IncrementalOuijaScore> incrementalScores;
 
   @override
   IncrementalOuijaOutcomeState createState() => IncrementalOuijaOutcomeState();

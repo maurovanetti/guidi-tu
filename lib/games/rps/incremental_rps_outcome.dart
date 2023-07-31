@@ -6,12 +6,12 @@ import '/common/common.dart';
 import '/games/rps.dart';
 
 class IncrementalRockPaperScissorsOutcome extends StatefulWidget {
-  final List<IncrementalRockPaperScissorsScore> incrementalScores;
-
   const IncrementalRockPaperScissorsOutcome({
     super.key,
     required this.incrementalScores,
   });
+
+  final List<IncrementalRockPaperScissorsScore> incrementalScores;
 
   @override
   IncrementalRockPaperScissorsOutcomeState createState() =>

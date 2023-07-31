@@ -12,13 +12,13 @@ import 'battleship/incremental_battleship_outcome.dart';
 import 'game_area.dart';
 
 class Battleship extends TurnPlayScreen {
+  Battleship() : super(key: WidgetKeys.battleship, gameFeatures: battleship);
+
   static const saveValue = 5; // points for each own ship saved from enemy hits
   static const hitValue = 1; // points for each hit falling on an enemy ship
 
   @override
   final bool isReadyAtStart = false;
-
-  Battleship() : super(key: WidgetKeys.battleship, gameFeatures: battleship);
 
   @override
   createState() => TurnPlayState<BattleshipMove>();

@@ -46,14 +46,6 @@ class ShotGameAreaState<T extends ShotMove> extends GameAreaState<T>
 }
 
 class ArrowButton extends StatelessWidget {
-  final String assetPath;
-  final int delta;
-  final Color? color;
-  final void Function(int) changeN;
-  final void Function(int) quickChangeNStart;
-  final void Function() quickChangeNEnd;
-  final bool enabled;
-
   const ArrowButton({
     super.key,
     required this.assetPath,
@@ -65,8 +57,16 @@ class ArrowButton extends StatelessWidget {
     this.enabled = true,
   });
 
+  final String assetPath;
+  final int delta;
+  final Color? color;
+  final void Function(int) changeN;
+  final void Function(int) quickChangeNStart;
+  final void Function() quickChangeNEnd;
+  final bool enabled;
+
   @override
-  build(context) {
+  build(BuildContext context) {
     var actualColor = color ?? Theme.of(context).colorScheme.primary;
     return GestureDetector(
       child: IconButton(
@@ -115,11 +115,6 @@ class _DownArrowButton extends ArrowButton {
 }
 
 class ShotControls extends StatelessWidget with QuickMessage {
-  final int n;
-  final ShotGameAreaState shotState;
-  final bool stretched;
-  final String caption;
-
   const ShotControls({
     super.key,
     required this.n,
@@ -128,8 +123,13 @@ class ShotControls extends StatelessWidget with QuickMessage {
     this.caption = '',
   });
 
+  final int n;
+  final ShotGameAreaState shotState;
+  final bool stretched;
+  final String caption;
+
   @override
-  build(context) {
+  build(BuildContext context) {
     var theme = Theme.of(context);
     var primaryColor = theme.colorScheme.primary;
     var displayButton = ElevatedButton(

@@ -1,5 +1,6 @@
 // This version of the app is in Italian only.
 // ignore_for_file: avoid-non-ascii-symbols
+
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
@@ -7,11 +8,11 @@ import '/common/common.dart';
 import 'pick_screen.dart';
 
 class TeamScreen extends StatefulWidget {
+  const TeamScreen({super.key});
+
   static const duplicatesWarning =
       "Alcuni nomi sono uguali tra loro, per favore cambiali.";
   static const addPlayersWarning = "Aggiungi almeno 2 partecipanti per favore.";
-
-  const TeamScreen({super.key});
 
   @override
   State<TeamScreen> createState() => _TeamScreenState();
@@ -156,9 +157,9 @@ class _TeamScreenState extends TrackedState<TeamScreen>
 }
 
 class PlayerDialog extends StatefulWidget {
-  final Player player;
-
   const PlayerDialog(this.player, {super.key});
+
+  final Player player;
 
   @override
   State<PlayerDialog> createState() => PlayerDialogState();

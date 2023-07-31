@@ -4,9 +4,9 @@ import 'dart:ui';
 import 'package:flutter/material.dart';
 
 class Clock extends StatefulWidget {
-  final DateTime startTime;
-
   const Clock(this.startTime, {super.key});
+
+  final DateTime startTime;
 
   @override
   createState() => ClockState();

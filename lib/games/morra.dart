@@ -143,6 +143,18 @@ enum HandImageVariant {
 }
 
 class HandImage extends StatefulWidget {
+  HandImage(
+    this.fingers, {
+    super.key,
+    this.height,
+    this.padding = 0,
+    required this.variant,
+    Player? player,
+  }) {
+    assert(player != null || variant == HandImageVariant.withNumber);
+    this.player = player ?? Player.none;
+  }
+
   static const unknown = -1;
   static const _handsPadding = 10.0;
   static const _path = "assets/images/morra/hands";
@@ -170,20 +182,6 @@ class HandImage extends StatefulWidget {
   final double padding;
   final HandImageVariant variant;
   late final Player player;
-
-  bool get displayIcon => player != Player.none;
-
-  HandImage(
-    this.fingers, {
-    super.key,
-    this.height,
-    this.padding = 0,
-    required this.variant,
-    Player? player,
-  }) {
-    assert(player != null || variant == HandImageVariant.withNumber);
-    this.player = player ?? Player.none;
-  }
 
   @override
   createState() => HandImageState();
@@ -278,7 +276,7 @@ class HandImageState extends State<HandImage> with TickerProviderStateMixin {
   }
 
   @override
-  build(context) {
+  build(BuildContext context) {
     return AnimatedBuilder(
       animation: _controller ?? const AlwaysStoppedAnimation(0),
       builder: (context, child) => _build(context),

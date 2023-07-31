@@ -9,10 +9,10 @@ import 'rps/incremental_rps_outcome.dart';
 import 'rps/rps_module.dart';
 
 class RockPaperScissors extends TurnPlayScreen {
+  RockPaperScissors() : super(key: WidgetKeys.rps, gameFeatures: rps);
+
   @override
   final bool isReadyAtStart = false;
-
-  RockPaperScissors() : super(key: WidgetKeys.rps, gameFeatures: rps);
 
   @override
   createState() => TurnPlayState<RockPaperScissorsMove>();
@@ -123,7 +123,7 @@ class Rock extends RockPaperScissorsGesture {
   @override
   get assetPaths => (
         color: '${RockPaperScissorsGesture.path}/rock.png',
-        grey: '${RockPaperScissorsGesture.path}/rock_grey.png'
+        grey: '${RockPaperScissorsGesture.path}/rock_grey.png',
       );
 
   Rock._internal();
@@ -141,7 +141,7 @@ class Paper extends RockPaperScissorsGesture {
   @override
   get assetPaths => (
         color: '${RockPaperScissorsGesture.path}/paper.png',
-        grey: '${RockPaperScissorsGesture.path}/paper_grey.png'
+        grey: '${RockPaperScissorsGesture.path}/paper_grey.png',
       );
 
   Paper._internal();
@@ -159,7 +159,7 @@ class Scissors extends RockPaperScissorsGesture {
   @override
   get assetPaths => (
         color: '${RockPaperScissorsGesture.path}/scissors.png',
-        grey: '${RockPaperScissorsGesture.path}/scissors_grey.png'
+        grey: '${RockPaperScissorsGesture.path}/scissors_grey.png',
       );
 
   Scissors._internal();

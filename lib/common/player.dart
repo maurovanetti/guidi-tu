@@ -82,12 +82,6 @@ class NoPlayer extends Player {
 }
 
 class PlayerButton extends StatelessWidget {
-  static const _genderSymbolScale = 0.8;
-
-  final Player player;
-  final void Function(Player)? onRemove;
-  final void Function(Player)? onEdit;
-
   const PlayerButton(
     this.player, {
     super.key,
@@ -95,13 +89,19 @@ class PlayerButton extends StatelessWidget {
     this.onRemove,
   });
 
+  static const _genderSymbolScale = 0.8;
+
+  final Player player;
+  final void Function(Player)? onRemove;
+  final void Function(Player)? onEdit;
+
   get textColor => player.foreground;
 
   TextStyle textStyle(BuildContext context) =>
       Theme.of(context).textTheme.headlineLarge!.copyWith(
-            color: textColor,
-            fontWeight: FontWeight.bold,
-          );
+        color: textColor,
+        fontWeight: FontWeight.bold,
+      );
 
   _edit() {
     onEdit?.call(player);
@@ -145,13 +145,6 @@ class PlayerButton extends StatelessWidget {
 }
 
 class PlayerButtonStructure extends StatelessWidget {
-  // The useless click prevents the button from being disabled
-  static _uselessClick() {}
-
-  final Player player;
-  final Widget child;
-  final VoidCallback onEdit;
-
   const PlayerButtonStructure(
     this.player, {
     required this.child,
@@ -159,14 +152,21 @@ class PlayerButtonStructure extends StatelessWidget {
     super.key,
   });
 
+  // The useless click prevents the button from being disabled
+  static _uselessClick() {}
+
+  final Player player;
+  final Widget child;
+  final VoidCallback onEdit;
+
   get buttonStyle => ElevatedButton.styleFrom(
-        backgroundColor: player.background,
-        shape: RoundedRectangleBorder(
-          borderRadius: onEdit == _uselessClick
-              ? BorderRadius.zero
-              : StyleGuide.borderRadius,
-        ),
-      );
+    backgroundColor: player.background,
+    shape: RoundedRectangleBorder(
+      borderRadius: onEdit == _uselessClick
+          ? BorderRadius.zero
+          : StyleGuide.borderRadius,
+    ),
+  );
 
   @override
   Widget build(BuildContext context) {
@@ -185,10 +185,6 @@ class PlayerButtonStructure extends StatelessWidget {
 enum PlayerIconVariant { white, color, inverted }
 
 class PlayerIcon extends StatelessWidget {
-  final PlayerIconVariant variant;
-  final Player player;
-  final Color? color;
-
   const PlayerIcon.black(this.player, {super.key})
       : variant = PlayerIconVariant.white,
         color = Colors.black;
@@ -204,6 +200,10 @@ class PlayerIcon extends StatelessWidget {
   const PlayerIcon.inverted(this.player, {super.key})
       : variant = PlayerIconVariant.inverted,
         color = null;
+
+  final PlayerIconVariant variant;
+  final Player player;
+  final Color? color;
 
   @override
   Widget build(BuildContext context) {
@@ -244,17 +244,17 @@ class PlayerTag extends PlayerButton {
 }
 
 class PlayerPerformance extends PlayerButton {
-  static const _secondaryTextScale = 0.7;
-
-  final String primaryText;
-  final String secondaryText;
-
   const PlayerPerformance(
     Player player, {
     required this.primaryText,
     this.secondaryText = '',
     super.key,
   }) : super(player);
+
+  static const _secondaryTextScale = 0.7;
+
+  final String primaryText;
+  final String secondaryText;
 
   @override
   Widget build(BuildContext context) {

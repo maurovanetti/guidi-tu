@@ -16,7 +16,8 @@ class AnimationLoader {
         .loadAllFromPattern(RegExp('${RegExp.escape(path)}[_\\-]\\d+\\.png'));
     if (frameImages.isEmpty) {
       throw Exception(
-          "No animation frames found in ${path}_*.png or $path-*.png");
+        "No animation frames found in ${path}_*.png or $path-*.png",
+      );
     }
     var sprites = frameImages.map((image) => Sprite(image)).toList();
     return SpriteAnimation.spriteList(

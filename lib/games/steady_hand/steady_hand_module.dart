@@ -1,4 +1,3 @@
-import 'dart:async';
 import 'dart:ui';
 
 import 'package:flame/components.dart';
@@ -20,7 +19,7 @@ class SteadyHandModule extends Forge2DGame {
   Color backgroundColor() => const Color.fromRGBO(0, 0, 0, 1);
 
   @override
-  Future<void> onLoad() async {
+  void onLoad() {
     var platform = SteadyHandPlatform(
       size / 2,
       radius: size.x * (1 - 1 / 10) / 2,

@@ -65,7 +65,7 @@ class SteadyHandBall extends BodyComponent {
         (_gravityMultiplier + delta).clamp(0, finalGravityMultiplier);
     if (!_isFalling & !platform.isUnder(body)) {
       _isFalling = true;
-      body.linearVelocity = Vector2.zero();
+      body.linearVelocity.setZero();
       body.setAwake(false);
       sprite.flash();
       notifyFallen();

@@ -91,16 +91,16 @@ class _TitleScreenState extends TrackedState<TitleScreen> with ScoreAware {
 }
 
 class DriverOrPayerLabel extends StatelessWidget {
-  final String? name;
-  final Key labelKey;
-  final bool loading;
-
   const DriverOrPayerLabel(
     this.name, {
     super.key,
     required this.labelKey,
     required this.loading,
   });
+
+  final String? name;
+  final Key labelKey;
+  final bool loading;
 
   @override
   Widget build(BuildContext context) {

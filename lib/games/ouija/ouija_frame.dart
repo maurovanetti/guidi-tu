@@ -39,7 +39,6 @@ class OuijaFrame extends CustomSpriteComponent {
     } else if (_nextDestination != null) {
       var ds = speed * dt;
       var dp = _nextDestination! - position;
-      // ignore: prefer-conditional-expressions
       if (dp.length < ds) {
         position = _nextDestination!;
         double pauseDuration =

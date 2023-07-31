@@ -7,7 +7,7 @@ abstract class Move {
 
 class NoMove extends Move {
   @override
-  int getPointsFor(player, allMoves) => 0;
+  int getPointsFor(Player player, Iterable<RecordedMove> allMoves) => 0;
 }
 
 class RecordedMove<T extends Move> {
