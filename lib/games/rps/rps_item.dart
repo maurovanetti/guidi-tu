@@ -20,10 +20,7 @@ class RockPaperScissorsTextRenderer extends TextPaint {
         );
 
   static double? _fontSizeFor(double? height) {
-    if (height == null) {
-      return null;
-    }
-    return height * (7 / 10);
+    return height == null ? null : height * (7 / 10);
   }
 }
 

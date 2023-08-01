@@ -1,11 +1,15 @@
 import 'player.dart';
 
 abstract class Move {
+  const Move();
+
   // Override according to the specific game rules
   int getPointsFor(Player player, Iterable<RecordedMove> allMoves);
 }
 
 class NoMove extends Move {
+  const NoMove();
+
   @override
   int getPointsFor(Player player, Iterable<RecordedMove> allMoves) => 0;
 }
@@ -15,17 +19,19 @@ class RecordedMove<T extends Move> {
   final double time;
   final T move;
 
-  RecordedMove({
+  const RecordedMove({
     required this.player,
     required this.time,
     required this.move,
   });
 
   static Iterable<RecordedMove> otherMoves(
-    Player player,
+    Player thisPlayer,
     Iterable<RecordedMove> all,
   ) =>
-      all.cast<RecordedMove>().where((move) => move.player != player);
+      all
+          .cast<RecordedMove>()
+          .where((thisMove) => thisMove.player != thisPlayer);
 }
 
 mixin MoveReceiver<T extends Move> {
@@ -38,6 +44,7 @@ mixin MoveProvider<T extends Move> {
   T getMove();
 
   void addReceiver(MoveReceiver<T> receiver) {
+    // ignore: avoid-mutating-parameters
     receiver.moveProvider = this;
   }
 }

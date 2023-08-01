@@ -57,16 +57,11 @@ class _TutorialScreenState extends TrackedState<TutorialScreen> {
 }
 
 class TutorialCarousel extends StatelessWidget {
-  const TutorialCarousel(this.controller, this.onPageChanged, {super.key});
+  TutorialCarousel(this.controller, this.onPageChanged, {super.key});
 
   static const length = 4;
 
-  static const List<String> tutorialAnimations = [
-    'tutorial/Tutorial',
-    'tutorial/Tutorial',
-    'tutorial/Tutorial',
-    'tutorial/Tutorial',
-  ];
+  static const String tutorialAnimation = 'tutorial/Tutorial';
 
   // in Markdown format
   static const List<String> tutorialTexts = [
@@ -93,36 +88,51 @@ Penalità possibili per chi arriva primo:
 """,
   ];
 
+  static const indicatorRadius = 10.0;
+  static const indicatorSpacing = indicatorRadius * 2.5;
+
   final CarouselController controller;
   final void Function(int, CarouselPageChangedReason) onPageChanged;
+  final pageNotifier = ValueNotifier<int>(0);
+
+  _onInnerPageChange(int page, CarouselPageChangedReason reason) {
+    pageNotifier.value = page;
+    onPageChanged(page, reason);
+  }
 
   @override
   Widget build(BuildContext context) {
-    assert(tutorialAnimations.length == length);
     assert(tutorialTexts.length == length);
-    const carouselHeightFactor = 0.8;
     final colorScheme = Theme.of(context).colorScheme;
-    return FlutterCarousel.builder(
-      itemCount: length,
-      itemBuilder: (BuildContext context, int itemIndex, int pageViewIndex) {
-        var scrollController = ScrollController();
-        return Padding(
-          padding: StyleGuide.widePadding,
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              InterstitialAnimation(
-                prefix: tutorialAnimations.elementAt(itemIndex),
-                repeat: double.infinity,
-              ),
-              const Gap(),
-              Expanded(
-                child: Container(
+    return Padding(
+      padding: StyleGuide.widePadding,
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          Expanded(
+            child: SmoothSteppedAnimation(
+              prefix: tutorialAnimation,
+              // ignore: no-magic-number
+              transitions: const [(26, 82), (97, 132)],
+              page: pageNotifier,
+            ),
+          ),
+          const Gap(),
+          Expanded(
+            child: FlutterCarousel.builder(
+              itemCount: length,
+              itemBuilder:
+                  (BuildContext context, int itemIndex, int pageViewIndex) {
+                var scrollController = ScrollController();
+                return Container(
                   decoration: ShapeDecoration(
                     shape: StyleGuide.getImportantBorder(context),
                   ),
                   padding: StyleGuide.regularPadding,
-                  margin: StyleGuide.regularPadding,
+                  margin: StyleGuide.regularPadding.copyWith(
+                    top: 0,
+                    bottom: indicatorRadius * 4,
+                  ),
                   child: Scrollbar(
                     controller: scrollController,
                     thumbVisibility: true,
@@ -140,21 +150,23 @@ Penalità possibili per chi arriva primo:
                       ],
                     ),
                   ),
+                );
+              },
+              options: CarouselOptions(
+                onPageChanged: _onInnerPageChange,
+                controller: controller,
+                height: double.infinity,
+                enlargeCenterPage: true,
+                slideIndicator: CircularSlideIndicator(
+                  indicatorRadius: indicatorRadius,
+                  itemSpacing: indicatorSpacing,
+                  currentIndicatorColor: colorScheme.primaryContainer,
+                  indicatorBackgroundColor: colorScheme.secondaryContainer,
                 ),
               ),
-            ],
+            ),
           ),
-        );
-      },
-      options: CarouselOptions(
-        onPageChanged: onPageChanged,
-        controller: controller,
-        height: MediaQuery.of(context).size.height * carouselHeightFactor,
-        enlargeCenterPage: true,
-        slideIndicator: CircularSlideIndicator(
-          currentIndicatorColor: colorScheme.primaryContainer,
-          indicatorBackgroundColor: colorScheme.secondaryContainer,
-        ),
+        ],
       ),
     );
   }

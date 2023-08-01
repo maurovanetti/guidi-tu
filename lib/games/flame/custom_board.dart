@@ -11,10 +11,10 @@ abstract class CustomBoard<T extends CustomBoardCell>
   late final double cellHeight;
   late final List<List<T>> _cells;
 
-  final List<Offset> _leftNotches = [];
-  final List<Offset> _rightNotches = [];
-  final List<Offset> _topNotches = [];
-  final List<Offset> _bottomNotches = [];
+  final _leftNotches = <Offset>[];
+  final _rightNotches = <Offset>[];
+  final _topNotches = <Offset>[];
+  final _bottomNotches = <Offset>[];
 
   Vector2 get cellSize => Vector2(cellWidth, cellHeight);
 
@@ -80,10 +80,7 @@ abstract class CustomBoard<T extends CustomBoardCell>
           column < gridColumns - rightmostColumnsSkipped;
           column++) {
         var cellCenter = topLeftPosition +
-            Vector2(
-              cellWidth * (column + 0.5),
-              cellHeight * (row + 0.5),
-            );
+            Vector2(cellWidth * (column + 0.5), cellHeight * (row + 0.5));
         yield cellCenter;
       }
     }
@@ -105,7 +102,7 @@ abstract class CustomBoardCell {
   @override
   int get hashCode => row * 1000 + column;
 
-  CustomBoardCell(this.row, this.column);
+  const CustomBoardCell(this.row, this.column);
 
   @override
   operator ==(Object other) =>

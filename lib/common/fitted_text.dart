@@ -10,7 +10,7 @@ class FittedText extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return LayoutBuilder(
-      builder: (context, constraints) {
+      builder: (innerContext, constraints) {
         return FittedBox(
           fit: BoxFit.scaleDown,
           child: Text(

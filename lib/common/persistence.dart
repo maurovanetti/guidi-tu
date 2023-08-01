@@ -1,7 +1,7 @@
 class Persistence {
-  static const String playersKey = 'players';
-  static const String sessionKey = 'session';
-  static const String payerKey = 'payer';
-  static const String driverKey = 'driver';
-  static const String awardsTimeKey = 'awardsTime';
+  static const playersKey = 'players';
+  static const sessionKey = 'session';
+  static const payerKey = 'payer';
+  static const driverKey = 'driver';
+  static const awardsTimeKey = 'awardsTime';
 }

@@ -14,8 +14,8 @@ class OuijaModule extends FlameGame {
   static const ouijaAlphabetKey = 'ouijaAlphabet';
 
   late final OuijaBoard board;
-  late final int letterCount;
-  final void Function(bool) setReady;
+  final int letterCount;
+  final void Function(bool ready) setReady;
 
   String get currentWord => board.word;
   int get capacity => gridColumns * gridRows - 1; // -1 for the backspace

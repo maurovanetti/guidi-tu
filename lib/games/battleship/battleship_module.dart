@@ -15,10 +15,10 @@ class BattleshipModule extends FlameGame {
   static const gridRows = 5;
 
   late final BattleshipBoard board;
-  late final int shipCount;
-  late final int bombCount;
+  final int shipCount;
+  final int bombCount;
 
-  final void Function(bool) setReady;
+  final void Function(bool ready) setReady;
 
   BattleshipModule({
     required this.setReady,
@@ -34,6 +34,7 @@ class BattleshipModule extends FlameGame {
   Color backgroundColor() => Colors.blue.shade900;
 
   @override
+  // ignore: avoid-long-functions
   Future<void> onLoad() async {
     double padding = size.x * 0.02;
     // Same padding for left and top is not a mistake.

@@ -17,6 +17,7 @@ export 'move.dart';
 export 'navigation.dart';
 export 'player.dart';
 export 'score_aware.dart';
+export 'smooth_stepped_animation.dart';
 export 'snackbar.dart';
 export 'squeeze_or_scroll.dart';
 export 'style_guide.dart';

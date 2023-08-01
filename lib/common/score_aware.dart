@@ -6,10 +6,10 @@ import 'persistence.dart';
 import 'player.dart';
 
 mixin ScoreAware {
-  static const Duration awardsExpirationTime = Duration(hours: 20);
+  static const awardsExpirationTime = Duration(hours: 20);
 
-  static final Map<Player, Score> scores = {};
-  static final List<Award> _cachedAwards = [];
+  static final scores = <Player, Score>{};
+  static final _cachedAwards = <Award>[];
 
   static List<Award> get awards {
     if (_cachedAwards.isEmpty) {
@@ -30,11 +30,13 @@ mixin ScoreAware {
     return _cachedAwards;
   }
 
+  // Rarely modifies score's time.
   static void recordScore(Player player, Score score) {
     const tieBreakerDeltaTime = 0.01;
     for (var otherScore in scores.values) {
       if (score.compareTo(otherScore) == 0) {
         // This is to prevent the very unlikely case of exactly identical scores
+        // ignore: avoid-mutating-parameters
         score.time += tieBreakerDeltaTime;
       }
     }
@@ -86,7 +88,7 @@ class Score implements Comparable<Score> {
   double time;
   final bool lessIsMore;
   final bool longerIsBetter;
-  final String Function(int) formatPoints;
+  final String Function(int points) formatPoints;
 
   String get formattedPoints => formatPoints(points);
 
@@ -151,5 +153,5 @@ class DriverAndPayer {
   final String? driver;
   final String? payer;
 
-  DriverAndPayer(this.driver, this.payer);
+  const DriverAndPayer(this.driver, this.payer);
 }

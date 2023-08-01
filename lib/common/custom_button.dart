@@ -34,14 +34,15 @@ class CustomButtonState extends State<CustomButton>
 
   @override
   void initState() {
+    super.initState();
     _controller = AnimationController(
       duration: const Duration(seconds: 1),
       vsync: this,
     );
     _animation = CurvedAnimation(parent: _controller, curve: Curves.linear);
+    // ignore: avoid-empty-setstate
     _controller.addListener(() => setState(() {}));
     unawaited(_controller.repeat());
-    super.initState();
   }
 
   @override
@@ -120,7 +121,7 @@ class _FunnyLabel extends StatelessWidget {
   final List<double> phases;
   final TextStyle? boringStyle;
 
-  TextStyle? funnyTextStyle(double x) =>
+  TextStyle? _funnyTextStyle(double x) =>
       boringStyle?.copyWith(fontSize: x + boringStyle!.fontSize!);
 
   @override
@@ -140,7 +141,7 @@ class _FunnyLabel extends StatelessWidget {
         }
         x = sin(phases[i] + twoPi * animationValue);
       }
-      inlineSpans.add(TextSpan(text: char, style: funnyTextStyle(x)));
+      inlineSpans.add(TextSpan(text: char, style: _funnyTextStyle(x)));
     }
 
     return FittedBox(

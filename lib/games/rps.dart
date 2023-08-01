@@ -12,7 +12,7 @@ class RockPaperScissors extends TurnPlayScreen {
   RockPaperScissors() : super(key: WidgetKeys.rps, gameFeatures: rps);
 
   @override
-  final bool isReadyAtStart = false;
+  bool get isReadyAtStart => false;
 
   @override
   createState() => TurnPlayState<RockPaperScissorsMove>();
@@ -39,12 +39,12 @@ class RockPaperScissorsGameAreaState
 
   @override
   void initState() {
+    super.initState();
     int gestureCount = players.length + 2;
     _gameModule = RockPaperScissorsModule(
       setReady: widget.setReady,
       gestureCount: gestureCount,
     );
-    super.initState();
   }
 
   @override
@@ -67,7 +67,7 @@ class RockPaperScissorsOutcome extends OutcomeScreen {
 
 class RockPaperScissorsOutcomeState
     extends OutcomeScreenState<RockPaperScissorsMove> {
-  List<IncrementalRockPaperScissorsScore> incrementalScores = [];
+  final _incrementalScores = <IncrementalRockPaperScissorsScore>[];
 
   @override
   initState() {
@@ -75,7 +75,7 @@ class RockPaperScissorsOutcomeState
     for (var playerIndex in TurnAware.turns) {
       var player = players[playerIndex];
       var recordedMove = getRecordedMove(player);
-      incrementalScores.add(IncrementalRockPaperScissorsScore(
+      _incrementalScores.add(IncrementalRockPaperScissorsScore(
         recordedMove: recordedMove,
       ));
     }
@@ -85,7 +85,7 @@ class RockPaperScissorsOutcomeState
   void initOutcome() {
     repeatable = true;
     outcomeWidget = IncrementalRockPaperScissorsOutcome(
-      incrementalScores: incrementalScores,
+      incrementalScores: _incrementalScores,
     );
   }
 }
@@ -93,6 +93,8 @@ class RockPaperScissorsOutcomeState
 sealed class RockPaperScissorsGesture {
   static const path = "rps/hands";
   ({String color, String grey}) get assetPaths;
+
+  const RockPaperScissorsGesture();
 
   bool beats(RockPaperScissorsGesture other);
 
@@ -118,7 +120,7 @@ sealed class RockPaperScissorsGesture {
 }
 
 class Rock extends RockPaperScissorsGesture {
-  static final Rock _instance = Rock._internal();
+  static final _instance = Rock._internal();
 
   @override
   get assetPaths => (
@@ -126,7 +128,7 @@ class Rock extends RockPaperScissorsGesture {
         grey: '${RockPaperScissorsGesture.path}/rock_grey.png',
       );
 
-  Rock._internal();
+  const Rock._internal();
   factory Rock() => _instance;
 
   @override
@@ -136,7 +138,7 @@ class Rock extends RockPaperScissorsGesture {
 }
 
 class Paper extends RockPaperScissorsGesture {
-  static final Paper _instance = Paper._internal();
+  static final _instance = Paper._internal();
 
   @override
   get assetPaths => (
@@ -144,7 +146,7 @@ class Paper extends RockPaperScissorsGesture {
         grey: '${RockPaperScissorsGesture.path}/paper_grey.png',
       );
 
-  Paper._internal();
+  const Paper._internal();
   factory Paper() => _instance;
 
   @override
@@ -154,7 +156,7 @@ class Paper extends RockPaperScissorsGesture {
 }
 
 class Scissors extends RockPaperScissorsGesture {
-  static final Scissors _instance = Scissors._internal();
+  static final _instance = Scissors._internal();
 
   @override
   get assetPaths => (
@@ -162,7 +164,7 @@ class Scissors extends RockPaperScissorsGesture {
         grey: '${RockPaperScissorsGesture.path}/scissors_grey.png',
       );
 
-  Scissors._internal();
+  const Scissors._internal();
   factory Scissors() => _instance;
 
   @override
@@ -176,7 +178,7 @@ typedef RockPaperScissorsSequence = List<RockPaperScissorsGesture>;
 class RockPaperScissorsMove extends Move {
   final RockPaperScissorsSequence sequence;
 
-  RockPaperScissorsMove({
+  const RockPaperScissorsMove({
     required this.sequence,
   });
 
@@ -189,7 +191,7 @@ class RockPaperScissorsMove extends Move {
     for (int i = 0; i < sequence.length; i++) {
       var gesture = sequence[i];
       var otherGestures =
-          otherSequences.map((sequence) => sequence[i]).toList();
+          otherSequences.map((otherSequence) => otherSequence[i]).toList();
       if (gesture.winsOver(otherGestures)) {
         points++;
       }

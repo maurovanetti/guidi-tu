@@ -10,7 +10,7 @@ class BattleshipBoard extends CustomBoard<BattleshipBoardCell>
 
   // This is the same information as _cells, but in a different format more
   // suitable for registering the player's moves.
-  final Map<BattleshipItem, BattleshipBoardCell> placedItems = {};
+  final placedItems = <BattleshipItem, BattleshipBoardCell>{};
 
   bool get isEmpty => placedItems.isEmpty;
 
@@ -65,9 +65,9 @@ class BattleshipBoard extends CustomBoard<BattleshipBoardCell>
       var item = entry.key;
       var cell = entry.value;
       itemsAsList.add({
-        'row': cell.row,
         'column': cell.column,
         'item': item.toJson(),
+        'row': cell.row,
       });
     }
     return {

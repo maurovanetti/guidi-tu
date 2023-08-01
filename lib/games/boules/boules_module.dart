@@ -7,7 +7,7 @@ import 'boules_bowl.dart';
 
 class BoulesModule extends Forge2DGame {
   static const boulesSetupKey = "boulesSetup";
-  final void Function(bool) setReady;
+  final void Function(bool ready) setReady;
   late final List<BoulesBowl> _bowls;
   Vector2? _lastBowlPosition;
   Vector2? get lastBowlPosition => _lastBowlPosition;
@@ -48,7 +48,5 @@ class BoulesModule extends Forge2DGame {
     return bowls;
   }
 
-  void init() {
-
-  }
+  void init() {}
 }

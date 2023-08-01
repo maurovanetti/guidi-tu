@@ -15,7 +15,7 @@ class Ouija extends TurnPlayScreen {
   static const missValue = 1; // points for each letter guessed in wrong place
 
   @override
-  final bool isReadyAtStart = false;
+  bool get isReadyAtStart => false;
 
   @override
   createState() => TurnPlayState<OuijaMove>();
@@ -42,6 +42,7 @@ class OuijaGameAreaState extends GameAreaState<OuijaMove>
 
   @override
   void initState() {
+    super.initState();
     // Relative likelihood of guessing two letters in the right place:
     // 3 players: 8 chances for 2 rivals = 16
     // 4 players: 6 chances for 3 rivals = 18
@@ -70,7 +71,6 @@ class OuijaGameAreaState extends GameAreaState<OuijaMove>
       setReady: widget.setReady,
       letterCount: letterCount,
     );
-    super.initState();
   }
 
   @override
@@ -90,7 +90,7 @@ class OuijaOutcome extends OutcomeScreen {
 }
 
 class OuijaOutcomeState extends OutcomeScreenState<OuijaMove> {
-  List<IncrementalOuijaScore> incrementalScores = [];
+  final _incrementalScores = <IncrementalOuijaScore>[];
 
   @override
   initState() {
@@ -98,7 +98,7 @@ class OuijaOutcomeState extends OutcomeScreenState<OuijaMove> {
     for (var playerIndex in TurnAware.turns) {
       var player = players[playerIndex];
       var recordedMove = getRecordedMove(player);
-      incrementalScores.add(IncrementalOuijaScore(
+      _incrementalScores.add(IncrementalOuijaScore(
         recordedMove: recordedMove,
       ));
     }
@@ -108,16 +108,14 @@ class OuijaOutcomeState extends OutcomeScreenState<OuijaMove> {
   void initOutcome() {
     repeatable = true;
     outcomeWidget =
-        IncrementalOuijaOutcome(incrementalScores: incrementalScores);
+        IncrementalOuijaOutcome(incrementalScores: _incrementalScores);
   }
 }
 
 class OuijaMove extends Move {
   final String word;
 
-  OuijaMove({
-    required this.word,
-  });
+  const OuijaMove({required this.word});
 
   @override
   int getPointsFor(Player player, Iterable<RecordedMove> allMoves) {

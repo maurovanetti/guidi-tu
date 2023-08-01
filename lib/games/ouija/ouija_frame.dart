@@ -10,7 +10,7 @@ class OuijaFrame extends CustomSpriteComponent {
   static const speed = 500.0;
 
   final OuijaBoard board;
-  final List<Vector2> path = [];
+  final path = <Vector2>[];
   String _nextLetter = '';
   Vector2? _nextDestination;
   Timer? _timer;

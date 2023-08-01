@@ -17,7 +17,7 @@ class BoulesJack extends BoulesBowl {
 class BoulesBowl extends BodyComponent {
   final Vector2 position;
   late final BoulesBowlSprite sprite;
-  late final Player player;
+  final Player player;
 
   double get radius => 3.0;
 
@@ -29,13 +29,11 @@ class BoulesBowl extends BodyComponent {
   }
 
   factory BoulesBowl.fromJson(Map<String, dynamic> json) {
-    var position = Vector2(
-      json['position']['x'],
-      json['position']['y'],
-    );
+    var position = Vector2(json['position']['x'], json['position']['y']);
     if (json['player'] as int == Player.none.id) {
       return BoulesJack(position);
     }
+    // ignore: prefer-returning-conditional-expressions
     return BoulesBowl(
       position,
       player: TeamAware.getPlayer(json['player'] as int),
@@ -43,11 +41,8 @@ class BoulesBowl extends BodyComponent {
   }
 
   Map<String, dynamic> toJson() => {
-        'position': {
-          'x': position.x,
-          'y': position.y,
-        },
         'player': player.id,
+        'position': {'x': position.x, 'y': position.y},
       };
 
   @override

@@ -12,12 +12,12 @@ class CustomSpriteComponent<T extends Game> extends SpriteAnimationComponent
     with HasGameReference<T> {
   // Using BasicPalette.black or .white here makes no difference, it's the
   // colorFilter that does the magic.
-  static final Paint shadowPaint = BasicPalette.black.withAlpha(50).paint()
+  static final shadowPaint = BasicPalette.black.withAlpha(50).paint()
     ..colorFilter = const ColorFilter.mode(Colors.black, BlendMode.srcATop);
 
   // Defining a default size for all sprites in a game can make sense for
   // tile-based games.
-  static final Vector2 defaultSpriteSize = Vector2.all(128.0);
+  static final defaultSpriteSize = Vector2.all(128.0);
 
   // The assetPath can be a path to a single image or a path to a directory that
   // contains multiple frames of an animation. If the path ends with ".png" or
@@ -170,9 +170,9 @@ class DraggableCustomSpriteComponent<T extends Game>
     extends CustomSpriteComponent<T> with DragCallbacks {
   bool draggable;
 
-  static const double defaultExtraElevationWhileDragged = 15.0;
+  static const defaultExtraElevationWhileDragged = 15.0;
   final double extraElevationWhileDragged;
-  late SnapRule? snapRule;
+  SnapRule? snapRule;
 
   bool Function()? onSnap; // If false, the snap is forbidden
   void Function()? onFallbackSnap;

@@ -71,5 +71,5 @@ class RockPaperScissorsBoardCell extends CustomBoardCell {
   @override
   final RockPaperScissorsBoard board;
 
-  RockPaperScissorsBoardCell(this.board, super.row, super.column);
+  const RockPaperScissorsBoardCell(this.board, super.row, super.column);
 }

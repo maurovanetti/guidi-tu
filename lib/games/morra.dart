@@ -189,7 +189,7 @@ class HandImage extends StatefulWidget {
 
 class HandImageState extends State<HandImage> with TickerProviderStateMixin {
   // When the hand is unknown, the animation is a frenzy of hands.
-  static const int _millisecondsPerFrame = 200;
+  static const _millisecondsPerFrame = 200;
 
   // The alignment details depend on the actual hand image features.
   static final _iconAlignment = AlignmentGeometry.lerp(
@@ -214,6 +214,7 @@ class HandImageState extends State<HandImage> with TickerProviderStateMixin {
     }
   }
 
+  // ignore: avoid-long-functions
   Widget _build(BuildContext context) {
     Color? color;
     switch (widget.variant) {
@@ -236,6 +237,7 @@ class HandImageState extends State<HandImage> with TickerProviderStateMixin {
       alignment: Alignment.topCenter,
       height: widget.height,
       color: color,
+      semanticLabel: fingers.toString(),
     );
     var baseFontStyle = Theme.of(context).textTheme.bodyLarge;
     return Padding(
@@ -279,7 +281,7 @@ class HandImageState extends State<HandImage> with TickerProviderStateMixin {
   build(BuildContext context) {
     return AnimatedBuilder(
       animation: _controller ?? const AlwaysStoppedAnimation(0),
-      builder: (context, child) => _build(context),
+      builder: (innerContext, child) => _build(innerContext),
     );
   }
 }
@@ -292,11 +294,12 @@ class MorraOutcome extends OutcomeScreen {
 }
 
 class MorraOutcomeState extends OutcomeScreenState<MorraMove> {
-  late final LinkedHashMap<Player, int> _fingers = LinkedHashMap<Player, int>();
+  late final _fingers = LinkedHashMap<Player, int>();
   late final _playerPerformances = <PlayerPerformance>[];
 
   @override
   initState() {
+    super.initState();
     for (var playerIndex in TurnAware.turns) {
       var player = players[playerIndex];
       _fingers[player] = (getMove(player).fingers);
@@ -307,7 +310,6 @@ class MorraOutcomeState extends OutcomeScreenState<MorraMove> {
         ),
       );
     }
-    super.initState();
   }
 
   @override
@@ -354,7 +356,7 @@ class MorraOutcomeState extends OutcomeScreenState<MorraMove> {
 class MorraMove extends ShotMove {
   final int fingers;
 
-  MorraMove({required this.fingers, required super.n});
+  const MorraMove({required this.fingers, required super.n});
 
   static countFingers(Iterable<RecordedMove<MorraMove>> moves) =>
       moves.map((rm) => rm.move.fingers).sum;

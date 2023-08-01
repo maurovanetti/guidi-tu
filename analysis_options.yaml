@@ -38,6 +38,8 @@ dart_code_metrics:
     - arguments-ordering: false
     - avoid-non-null-assertion: false
     - avoid-late-keyword: false
+    - avoid-similar-names: false
+    - avoid-unsafe-collection-methods: false
     - format-comment: false
     - newline-before-return: false
     - no-empty-block: false
@@ -55,6 +57,13 @@ dart_code_metrics:
         allowed: [ -1, 0, 0.5, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 1000, 1000000 ]
     - prefer-commenting-analyzer-ignores: false
     - prefer-correct-identifier-length: false
+    - prefer-early-return: false
     - prefer-extracting-callbacks: false
     - prefer-match-file-name: false
     - prefer-single-widget-per-file: false
+    - prefer-type-over-var: false
+    - prefer-unwrapping-future-or: false
+    - prefer-widget-private-members:
+         ignore-static: true
+    - unnecessary-trailing-comma:
+        max-width: 40

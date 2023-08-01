@@ -12,7 +12,7 @@ class Player with Gendered {
   int id;
   String name;
 
-  static final Player none = NoPlayer._internal();
+  static final none = NoPlayer._internal();
 
   static const _icons = [
     'player_1',
@@ -56,8 +56,8 @@ class Player with Gendered {
 
   Map<String, dynamic> toJson() {
     return {
-      'name': name,
       'gender': gender.letter,
+      'name': name,
     };
   }
 
@@ -92,16 +92,16 @@ class PlayerButton extends StatelessWidget {
   static const _genderSymbolScale = 0.8;
 
   final Player player;
-  final void Function(Player)? onRemove;
-  final void Function(Player)? onEdit;
+  final void Function(Player playerToRemove)? onRemove;
+  final void Function(Player playerToEdit)? onEdit;
 
   get textColor => player.foreground;
 
-  TextStyle textStyle(BuildContext context) =>
+  TextStyle _textStyle(BuildContext context) =>
       Theme.of(context).textTheme.headlineLarge!.copyWith(
-        color: textColor,
-        fontWeight: FontWeight.bold,
-      );
+            color: textColor,
+            fontWeight: FontWeight.bold,
+          );
 
   _edit() {
     onEdit?.call(player);
@@ -113,7 +113,7 @@ class PlayerButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    var style = textStyle(context);
+    var style = _textStyle(context);
     return PlayerButtonStructure(
       player,
       onEdit: _edit,
@@ -160,13 +160,13 @@ class PlayerButtonStructure extends StatelessWidget {
   final VoidCallback onEdit;
 
   get buttonStyle => ElevatedButton.styleFrom(
-    backgroundColor: player.background,
-    shape: RoundedRectangleBorder(
-      borderRadius: onEdit == _uselessClick
-          ? BorderRadius.zero
-          : StyleGuide.borderRadius,
-    ),
-  );
+        backgroundColor: player.background,
+        shape: RoundedRectangleBorder(
+          borderRadius: onEdit == _uselessClick
+              ? BorderRadius.zero
+              : StyleGuide.borderRadius,
+        ),
+      );
 
   @override
   Widget build(BuildContext context) {
@@ -213,12 +213,14 @@ class PlayerIcon extends StatelessWidget {
         height: StyleGuide.iconSize,
       );
     }
+    // ignore: prefer-returning-conditional-expressions
     return Image(
       image: AssetImage(
         'assets/images/${player.iconAssetPath(variant)}',
       ),
       width: StyleGuide.iconSize,
       color: color,
+      semanticLabel: player.name,
     );
   }
 }
@@ -236,7 +238,7 @@ class PlayerTag extends PlayerButton {
         children: [
           PlayerIcon.color(player),
           const Gap(),
-          Text(player.name.toUpperCase(), style: textStyle(context)),
+          Text(player.name.toUpperCase(), style: _textStyle(context)),
         ],
       ),
     );
@@ -258,7 +260,7 @@ class PlayerPerformance extends PlayerButton {
 
   @override
   Widget build(BuildContext context) {
-    var style = textStyle(context);
+    var style = _textStyle(context);
     var horizontalGap = const Spacer(flex: 1);
     return PlayerButtonStructure(
       player,

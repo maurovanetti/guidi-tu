@@ -11,14 +11,6 @@ class InterstitialScreen extends GameSpecificStatefulWidget {
 }
 
 class TurnInterstitialState extends TrackedState<InterstitialScreen> {
-  late Player player;
-
-  @override
-  void initState() {
-    player = TurnAware.currentPlayer;
-    super.initState();
-  }
-
   void _play() {
     Navigation.replaceAll(
       context,

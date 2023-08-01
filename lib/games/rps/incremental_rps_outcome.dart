@@ -27,12 +27,12 @@ class IncrementalRockPaperScissorsOutcomeState
     Future.delayed(const Duration(milliseconds: 1000), () async {
       var gestureCount = widget.incrementalScores.first.gestures.length;
       for (int i = 0; i < gestureCount; i++) {
-        await schedule([_resolve(i)], 1.0);
+        await _schedule([_resolve(i)], 1.0);
       }
     });
   }
 
-  Future<void> schedule(Iterable<Future<void>> tasks, double seconds) async {
+  Future<void> _schedule(Iterable<Future<void>> tasks, double seconds) async {
     if (!mounted) return;
     var _ = await Future.wait(tasks);
     if (!mounted) return;
@@ -88,6 +88,7 @@ class IncrementalRockPaperScissorsOutcomeState
               ),
               width: StyleGuide.iconSize,
               color: gesture.colorByType,
+              semanticLabel: gesture.type.name,
             ),
           ),
         );
@@ -156,7 +157,7 @@ class RockPaperScissorsGestureOutcome {
   final RockPaperScissorsGesture gesture;
   RockPaperScissorsGestureOutcomeType type;
 
-  Color? get colorByType {
+  Color get colorByType {
     switch (type) {
       case RockPaperScissorsGestureOutcomeType.pending:
         return Colors.grey.shade500;

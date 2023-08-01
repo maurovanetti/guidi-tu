@@ -18,10 +18,7 @@ class OuijaItemTextRenderer extends TextPaint {
         );
 
   static double? _fontSizeFor(double? height) {
-    if (height == null) {
-      return null;
-    }
-    return height * (7 / 10);
+    return height == null ? null : height * (7 / 10);
   }
 }
 
@@ -123,11 +120,11 @@ class OuijaActiveItem extends OuijaItem with TapCallbacks {
 }
 
 class OuijaPassiveItem extends OuijaItem {
-  static const String pending = '_';
+  static const pending = '_';
 
   String get letter => text;
-  set letter(String letter) {
-    text = letter.isEmpty ? pending : letter.characters.first;
+  set letter(String value) {
+    text = value.isEmpty ? pending : value.characters.first;
   }
 
   OuijaPassiveItem(OuijaBoard board, int slot)

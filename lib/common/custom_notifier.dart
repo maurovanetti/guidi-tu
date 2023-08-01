@@ -1,5 +1,5 @@
 mixin CustomNotifier {
-  final List<void Function()> _listeners = [];
+  final _listeners = <void Function()>[];
 
   void addListener(void Function() notify) {
     _listeners.add(notify);

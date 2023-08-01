@@ -10,10 +10,12 @@ class InterstitialAnimation extends StatefulWidget {
     required this.prefix,
     this.repeat = 1,
     this.onComplete,
+    this.fps = defaultFps,
   });
 
-  static const int fps = 20;
+  static const defaultFps = 20;
 
+  final int fps;
   final String prefix;
   final num repeat;
   final VoidCallback? onComplete;
@@ -23,6 +25,7 @@ class InterstitialAnimation extends StatefulWidget {
 }
 
 class InterstitialAnimationState extends State<InterstitialAnimation> {
+  @protected
   SpriteAnimationTicker? animationTicker;
   late num _animationCount;
 
@@ -40,7 +43,7 @@ class InterstitialAnimationState extends State<InterstitialAnimation> {
     }
     SpriteAnimation animation = (await AnimationLoader.load(
       widget.prefix,
-      fps: InterstitialAnimation.fps,
+      fps: widget.fps,
       loop: true,
     ))!;
     debugPrint("Interstitial animation loaded: ${widget.prefix}_*.png");
@@ -48,11 +51,12 @@ class InterstitialAnimationState extends State<InterstitialAnimation> {
       setState(() {
         animationTicker = SpriteAnimationTicker(animation);
       });
-      _repeatAnimation();
+      repeatAnimation();
     }
   }
 
-  void _repeatAnimation() {
+  @protected
+  void repeatAnimation() {
     var a = animationTicker!;
     a.onFrame = (frame) {
       if (a.isLastFrame) {

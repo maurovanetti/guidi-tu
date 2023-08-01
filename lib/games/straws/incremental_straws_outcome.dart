@@ -23,7 +23,7 @@ class IncrementalStrawsOutcome extends StatefulWidget {
 class IncrementalStrawsOutcomeState extends State<IncrementalStrawsOutcome> {
   Player _player = Player.none;
   late final StrawsReplay _replay;
-  late final GameWidget _gameWidget = GameWidget(game: _replay);
+  late final _gameWidget = GameWidget(game: _replay);
   late final Timer _timer;
   int _moveIndex = 0;
 
@@ -46,7 +46,7 @@ class IncrementalStrawsOutcomeState extends State<IncrementalStrawsOutcome> {
     });
   }
 
-  Future<void> _display(RecordedMove<StrawsMove> recordedMove) async {
+  void _display(RecordedMove<StrawsMove> recordedMove) {
     if (!mounted) {
       return;
     }

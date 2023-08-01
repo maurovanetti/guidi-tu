@@ -22,14 +22,15 @@ class IncrementalOuijaOutcomeState extends State<IncrementalOuijaOutcome> {
   initState() {
     super.initState();
     Future.delayed(const Duration(milliseconds: 1000), () async {
-      var letterCount = widget.incrementalScores.first.letters.length;
+      int letterCount =
+          widget.incrementalScores.firstOrNull?.letters.length ?? 0;
       for (int i = 0; i < letterCount; i++) {
-        await schedule([_resolve(i)], 1.0);
+        await _schedule([_resolve(i)], 1.0);
       }
     });
   }
 
-  Future<void> schedule(Iterable<Future<void>> tasks, double seconds) async {
+  Future<void> _schedule(Iterable<Future<void>> tasks, double seconds) async {
     if (!mounted) return;
     var _ = await Future.wait(tasks);
     if (!mounted) return;
@@ -71,6 +72,7 @@ class IncrementalOuijaOutcomeState extends State<IncrementalOuijaOutcome> {
           case OuijaGuessType.none:
             break;
         }
+        // ignore: avoid-empty-setstate
         setState(() {});
         await _shortPause();
       }
@@ -190,7 +192,7 @@ class OuijaGuess {
     }
   }
 
-  FontWeight? get weightByType {
+  FontWeight get weightByType {
     switch (type) {
       case OuijaGuessType.pending:
       case OuijaGuessType.none:

@@ -34,7 +34,7 @@ class GameFeatures {
   final int minSuggestedPlayers;
   final int maxSuggestedPlayers;
   final GameArea Function({
-    required void Function(bool) setReady,
+    required void Function(bool ready) setReady,
     required MoveReceiver moveReceiver,
     required DateTime startTime,
   }) buildGameArea;
@@ -44,7 +44,7 @@ class GameFeatures {
   final bool longerIsBetter;
   final bool pointsMatter;
   final bool externalClock;
-  final String Function(int) formatPoints;
+  final String Function(int points) formatPoints;
   final bool usesRigidGameArea;
   final String interstitialAnimationPath; // Path below images with no extension
   final num interstitialAnimationRepeat;
@@ -303,7 +303,7 @@ Ma attenzione: chi avrà la boccia più vicina al boccino, paga.""",
   interstitialAnimationPath: "",
 );
 
-final List<GameFeatures> allGameFeatures = [
+final allGameFeatures = [
   largeShot,
   smallShot,
   morra,

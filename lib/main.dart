@@ -14,8 +14,7 @@ void main() async {
 class App extends StatelessWidget {
   const App({super.key});
 
-  static final RouteObserver<ModalRoute> routeObserver =
-      RouteObserver<ModalRoute>();
+  static final routeObserver = RouteObserver<ModalRoute>();
 
   // This widget is the root of your application.
   @override

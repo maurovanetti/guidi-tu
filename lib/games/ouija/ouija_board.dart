@@ -9,9 +9,9 @@ class OuijaBoard extends CustomBoard<OuijaBoardCell> {
   final int slots;
 
   late final List<OuijaPassiveItem?> _passiveItems;
-  final Map<String, OuijaActiveItem> _activeItems = {};
+  final _activeItems = <String, OuijaActiveItem>{};
 
-  final ValueNotifier<String> _wordNotifier = ValueNotifier('');
+  final _wordNotifier = ValueNotifier('');
   ValueListenable<String> get wordNotifier => _wordNotifier;
 
   @override
@@ -82,5 +82,5 @@ class OuijaBoardCell extends CustomBoardCell {
   @override
   final OuijaBoard board;
 
-  OuijaBoardCell(this.board, super.row, super.column);
+  const OuijaBoardCell(this.board, super.row, super.column);
 }

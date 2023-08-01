@@ -1,8 +1,11 @@
 // Tests should be compact and sometimes repetitive, even a little dumb. For
 // this reason, we ignore several elegance rules in tests.
-// ignore_for_file: avoid-ignoring-return-values
+// ignore_for_file: avoid-ignoring-return-values, prefer-test-matchers
+// ignore_for_file: avoid-long-functions
+// ignore_for_file: avoid-importing-entrypoint-exports
 // ignore_for_file: no-magic-number
 
+import 'package:flutter/widgets.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:guidi_tu/common/game_features.dart';
 import 'package:guidi_tu/common/widget_keys.dart';
@@ -175,7 +178,7 @@ void main() {
     testWidgets(
       "App shows driver + payer at start if not expired",
       (WidgetTester tester) async {
-        var prefs = await SharedPreferences.getInstance();
+        SharedPreferences prefs = await SharedPreferences.getInstance();
         await prefs.setInt('awardsTime', DateTime.now().millisecondsSinceEpoch);
         await prefs.setString('payer', 'PAGO');
         await prefs.setString('driver', 'GUIDO');
@@ -183,11 +186,13 @@ void main() {
         expect(WidgetKeys.driver.found(), findsNothing);
         expect(WidgetKeys.payer.found(), findsNothing);
         await tester.pump(const Duration(seconds: 4)); // End initial animation
-        var guido = "GUIDO".found().evaluate().single.widget;
-        var driver = WidgetKeys.driver.found().evaluate().single.widget;
+        Widget? guido = "GUIDO".found().evaluate().singleOrNull?.widget;
+        Widget? driver =
+            WidgetKeys.driver.found().evaluate().singleOrNull?.widget;
         expect(guido, driver);
-        var pago = "PAGO".found().evaluate().single.widget;
-        var payer = WidgetKeys.payer.found().evaluate().single.widget;
+        Widget? pago = "PAGO".found().evaluate().singleOrNull?.widget;
+        Widget? payer =
+            WidgetKeys.payer.found().evaluate().singleOrNull?.widget;
         expect(pago, payer);
       },
     );
@@ -195,7 +200,7 @@ void main() {
     testWidgets(
       "App hides driver + payer at start if expired",
       (WidgetTester tester) async {
-        var prefs = await SharedPreferences.getInstance();
+        SharedPreferences prefs = await SharedPreferences.getInstance();
         await prefs.setInt(
           'awardsTime',
           DateTime.now()

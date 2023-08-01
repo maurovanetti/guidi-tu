@@ -22,27 +22,27 @@ class IncrementalBattleshipOutcome extends StatefulWidget {
 class IncrementalBattleshipOutcomeState
     extends State<IncrementalBattleshipOutcome> {
   Player _player = Player.none;
-  final BattleshipReplay _replay = BattleshipReplay();
-  late final GameWidget _gameWidget = GameWidget(game: _replay);
+  final _replay = BattleshipReplay();
+  late final _gameWidget = GameWidget(game: _replay);
 
   @override
   initState() {
     super.initState();
     Future.delayed(Duration.zero, () async {
       for (var x in widget.incrementalScores) {
-        await schedule([_setUp(x)], 1.0);
+        await _schedule([_setUp(x)], 1.0);
         List<RecordedMove<BattleshipMove>> rivalMoves = [];
         for (var y in widget.incrementalScores) {
           if (x == y) continue;
-          await schedule([_hit(x, y)], 0.5);
+          await _schedule([_hit(x, y)], 0.5);
           rivalMoves.add(y.recordedMove);
         }
-        await schedule([_sink(x, rivalMoves)], 3.0);
+        await _schedule([_sink(x, rivalMoves)], 3.0);
       }
     });
   }
 
-  Future<void> schedule(Iterable<Future<void>> tasks, double seconds) async {
+  Future<void> _schedule(Iterable<Future<void>> tasks, double seconds) async {
     if (!mounted) return;
     var _ = await Future.wait(tasks);
     if (!mounted) return;
@@ -68,9 +68,9 @@ class IncrementalBattleshipOutcomeState
       // ignore: avoid-ignoring-return-values
       _replay.importShip(shipSpot.key, shipSpot.value);
     }
-    return;
   }
 
+  // Modifies the hitter's points.
   Future<void> _hit(
     IncrementalBattleshipScore target,
     IncrementalBattleshipScore hitter,
@@ -85,6 +85,7 @@ class IncrementalBattleshipOutcomeState
           hit = true;
           if (!mounted) return;
           setState(() {
+            // ignore: avoid-mutating-parameters
             hitter.pointsForHits += Battleship.hitValue;
           });
         }
@@ -92,13 +93,13 @@ class IncrementalBattleshipOutcomeState
       var bomb = _replay.importBomb(cell, hitter.recordedMove.player);
       bomb.opacity = hit ? 1.0 : missOpacity;
     }
-    return;
   }
 
+  // Modifies x's points.
   _sink(
     IncrementalBattleshipScore x,
     List<RecordedMove<BattleshipMove>> rivalMoves,
-  ) async {
+  ) {
     var shipSpots = x.recordedMove.move.placedShips();
     Set<BattleshipBoardCell> rivalBombCells = {};
     for (var rivalMove in rivalMoves) {
@@ -109,18 +110,18 @@ class IncrementalBattleshipOutcomeState
         if (!mounted) return;
         _replay.importSink(shipSpot.value);
         setState(() {
+          // ignore: avoid-mutating-parameters
           x.pointsForSaves -= Battleship.saveValue;
         });
       }
     }
-    return;
   }
 
   get _tableStyle => Theme.of(context).textTheme.headlineMedium;
 
   _buildTableRowFromStrings(
     String title,
-    String Function(IncrementalBattleshipScore) mapper,
+    String Function(IncrementalBattleshipScore score) mapper,
   ) {
     mapperWrapper(x) => Text(mapper(x), style: _tableStyle);
     return _buildTableRow(title, mapperWrapper);
@@ -128,7 +129,7 @@ class IncrementalBattleshipOutcomeState
 
   _buildTableRow(
     String title,
-    Widget Function(IncrementalBattleshipScore) mapper,
+    Widget Function(IncrementalBattleshipScore score) mapper,
   ) {
     var heightFactor = 1.1;
     return TableRow(children: [

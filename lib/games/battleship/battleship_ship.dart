@@ -9,18 +9,11 @@ class BattleshipShip extends BattleshipItem {
     required super.board,
     super.cellSpan = 1,
     super.isVertical = false,
-  }) : super(
-          BattleshipShip.getAssetPath(cellSpan, isVertical),
-          position,
-        );
+  }) : super(BattleshipShip.getAssetPath(cellSpan, isVertical), position);
 
   @override
   Map<String, dynamic> toJson() {
-    return {
-      'type': 'ship',
-      'cellSpan': cellSpan,
-      'isVertical': isVertical,
-    };
+    return {'cellSpan': cellSpan, 'isVertical': isVertical, 'type': 'ship'};
   }
 
   bool isHit({
@@ -52,6 +45,7 @@ class BattleshipShip extends BattleshipItem {
     if (isVertical) {
       return 'battleship/buoy/Navale_Faro';
     }
+    // ignore: prefer-returning-conditional-expressions
     return 'battleship/boat/Game_Naval_nave';
   }
 

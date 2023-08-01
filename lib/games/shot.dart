@@ -17,12 +17,16 @@ class ShotGameAreaState<T extends ShotMove> extends GameAreaState<T>
     with QuickMessage {
   Timer? _longPressTimer;
 
+  @protected
   int n = 0;
 
+  // ignore: prefer-widget-private-members
   void changeN(int delta) => setState(() => n += delta);
 
+  // ignore: prefer-widget-private-members
   void resetN() => setState(() => n = 0);
 
+  // ignore: prefer-widget-private-members
   void longPressStart(int delta) {
     _longPressTimer =
         Timer.periodic(const Duration(milliseconds: 100), (timer) {
@@ -30,12 +34,19 @@ class ShotGameAreaState<T extends ShotMove> extends GameAreaState<T>
     });
   }
 
+  // ignore: prefer-widget-private-members
   void longPressEnd() {
     _longPressTimer?.cancel();
   }
 
   @override
   T getMove() => ShotMove(n: n) as T;
+
+  @override
+  void dispose() {
+    _longPressTimer?.cancel();
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -60,8 +71,8 @@ class ArrowButton extends StatelessWidget {
   final String assetPath;
   final int delta;
   final Color? color;
-  final void Function(int) changeN;
-  final void Function(int) quickChangeNStart;
+  final void Function(int delta) changeN;
+  final void Function(int nStart) quickChangeNStart;
   final void Function() quickChangeNEnd;
   final bool enabled;
 
@@ -177,7 +188,7 @@ class ShotControls extends StatelessWidget with QuickMessage {
 
 class ShotOutcomeState extends StoriesScreenState<ShotMove> {
   // Folk dream interpretation for lottery prediction, revised
-  static const List<String> smorfia = [
+  static const smorfia = [
     "il neonato",
     "l'Italia",
     "la bambina",
@@ -322,7 +333,7 @@ class ShotOutcomeState extends StoriesScreenState<ShotMove> {
         story += " con molta calma";
       } else if (time > 20) {
         story += " in tempi geologici";
-      } else if (time > 20) {
+      } else if (time > 30) {
         story += " in tempi astronomici";
       }
       playerStories[playerIndex] = story;
@@ -343,7 +354,7 @@ class ShotOutcomeState extends StoriesScreenState<ShotMove> {
 class ShotMove extends Move {
   final int n;
 
-  ShotMove({required this.n});
+  const ShotMove({required this.n});
 
   @override
   int getPointsFor(Player player, Iterable<RecordedMove> allMoves) => n;

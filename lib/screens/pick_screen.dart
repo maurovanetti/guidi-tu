@@ -40,18 +40,18 @@ class _PickScreenState extends TrackedState<PickScreen>
           gameStart: InterstitialScreen(gameFeatures: gameFeatures),
           description: gameFeatures.description,
           icon: gameFeatures.icon,
-          onTap: select,
+          onTap: _select,
           suggested: _isSuggested(gameFeatures),
         );
         (gameCard.suggested ? suggestedCards : otherCards).add(gameCard);
       }
       suggestedCards.shuffle(Random(DateTime.now().second));
       _gameCards = [...suggestedCards, ...otherCards];
-      select(_gameCards.first);
+      _select(_gameCards.first);
     });
   }
 
-  void select(GameCard game) {
+  void _select(GameCard game) {
     debugPrint("Selecting ${game.name}");
     setState(() {
       if (_selectedGameIndex != null) {
@@ -116,9 +116,10 @@ class GameCard extends StatelessWidget {
   final IconData icon;
   final bool suggested;
   final bool selected;
-  final void Function(GameCard) onTap;
+  final void Function(GameCard card) onTap;
   final Widget gameStart;
 
+  // ignore: prefer-widget-private-members, avoid-incomplete-copy-with
   GameCard copyWith({required bool selected}) {
     return GameCard(
       name: name,

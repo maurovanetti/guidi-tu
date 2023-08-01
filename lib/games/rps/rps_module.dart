@@ -7,8 +7,8 @@ import 'rps_item.dart';
 
 class RockPaperScissorsModule extends FlameGame {
   late final RockPaperScissorsBoard board;
-  late final int gestureCount;
-  final void Function(bool) setReady;
+  final int gestureCount;
+  final void Function(bool ready) setReady;
 
   RockPaperScissorsSequence get currentSequence => board.sequence;
 

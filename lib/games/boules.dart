@@ -39,8 +39,8 @@ class BoulesGameAreaState extends GameAreaState<BoulesMove>
 
   @override
   void initState() {
-    _gameModule = BoulesModule(setReady: widget.setReady);
     super.initState();
+    _gameModule = BoulesModule(setReady: widget.setReady);
   }
 
   @override
@@ -63,7 +63,7 @@ class BoulesOutcomeState extends OutcomeScreenState<BoulesMove> {}
 class BoulesMove extends Move {
   final Vector2 bowlPosition;
 
-  BoulesMove({required this.bowlPosition});
+  const BoulesMove({required this.bowlPosition});
 
   double distanceFromJack() {
     Vector2 jackPosition = Vector2.zero(); // TODO

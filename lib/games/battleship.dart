@@ -18,7 +18,7 @@ class Battleship extends TurnPlayScreen {
   static const hitValue = 1; // points for each hit falling on an enemy ship
 
   @override
-  final bool isReadyAtStart = false;
+  bool get isReadyAtStart => false;
 
   @override
   createState() => TurnPlayState<BattleshipMove>();
@@ -45,6 +45,7 @@ class BattleshipGameAreaState extends GameAreaState<BattleshipMove>
 
   @override
   void initState() {
+    super.initState();
     // Relative likelihood of hitting a ship (not necessarily sinking it):
     // 2 players: 5 bombs for 10 target cells = 5 * 10 = 50
     // 3 players: 4 bombs for 8 target cells = 2 * 4 * 8 = 64
@@ -83,7 +84,6 @@ class BattleshipGameAreaState extends GameAreaState<BattleshipMove>
       shipCount: shipCount,
       bombCount: bombCount,
     );
-    super.initState();
   }
 
   @override
@@ -103,15 +103,15 @@ class BattleshipOutcome extends OutcomeScreen {
 }
 
 class BattleshipOutcomeState extends OutcomeScreenState<BattleshipMove> {
-  List<IncrementalBattleshipScore> incrementalScores = [];
+  final _incrementalScores = <IncrementalBattleshipScore>[];
 
   @override
   initState() {
     super.initState();
-    for (var playerIndex in TurnAware.turns) {
-      var player = players[playerIndex];
-      var recordedMove = getRecordedMove(player);
-      incrementalScores.add(IncrementalBattleshipScore(
+    for (int playerIndex in TurnAware.turns) {
+      Player player = players[playerIndex];
+      RecordedMove<BattleshipMove> recordedMove = getRecordedMove(player);
+      _incrementalScores.add(IncrementalBattleshipScore(
         recordedMove: recordedMove,
       ));
     }
@@ -121,16 +121,14 @@ class BattleshipOutcomeState extends OutcomeScreenState<BattleshipMove> {
   void initOutcome() {
     repeatable = true;
     outcomeWidget =
-        IncrementalBattleshipOutcome(incrementalScores: incrementalScores);
+        IncrementalBattleshipOutcome(incrementalScores: _incrementalScores);
   }
 }
 
 class BattleshipMove extends Move {
   final Map<BattleshipItem, BattleshipBoardCell> placedItems;
 
-  BattleshipMove({
-    required this.placedItems,
-  });
+  const BattleshipMove({required this.placedItems});
 
   // Not using a getter here to indicate that the computation is expensive
   Map<BattleshipShip, BattleshipBoardCell> placedShips() {
