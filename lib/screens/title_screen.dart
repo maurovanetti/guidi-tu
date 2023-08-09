@@ -18,6 +18,11 @@ class _TitleScreenState extends TrackedState<TitleScreen> with ScoreAware {
   @override
   void initState() {
     super.initState();
+    Future.delayed(Duration.zero, () {
+      debugPrint("Tutorial animation preloading…");
+      AnimationLoader.load(TutorialCarousel.tutorialAnimation);
+      debugPrint("Tutorial animation preloaded");
+    });
     Future.delayed(const Duration(seconds: 2), _revealRoles);
   }
 

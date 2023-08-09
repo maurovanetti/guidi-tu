@@ -6,11 +6,23 @@ import 'package:flame/flame.dart';
 class AnimationLoader {
   static const defaultFps = 10;
 
-  static Future<SpriteAnimation?> load(
+  static Future<SpriteAnimation?> make(
     String path, {
     int? fps,
     bool loop = true,
   }) async {
+    List<Image> frameImages = await load(path);
+    List<Sprite> sprites = frameImages.map((image) => Sprite(image)).toList();
+    return SpriteAnimation.spriteList(
+      sprites,
+      stepTime: 1 / (fps ?? defaultFps),
+      loop: loop,
+    );
+  }
+
+  // This exists as a separate method so that it can be used to precache long
+  // animations.
+  static Future<List<Image>> load(String path) async {
     // Lower case is required because Flame.images.loadAllFromPattern assumes
     // lower-case pattern matching.
     // ignore: avoid-mutating-parameters
@@ -22,11 +34,6 @@ class AnimationLoader {
         "No animation frames found in ${path}_*.png or $path-*.png",
       );
     }
-    List<Sprite> sprites = frameImages.map((image) => Sprite(image)).toList();
-    return SpriteAnimation.spriteList(
-      sprites,
-      stepTime: 1 / (fps ?? defaultFps),
-      loop: loop,
-    );
+    return frameImages;
   }
 }

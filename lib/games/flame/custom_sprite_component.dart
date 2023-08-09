@@ -138,7 +138,7 @@ class CustomSpriteComponent<T extends Game> extends SpriteAnimationComponent
       animation =
           SpriteAnimation.spriteList([sprite], stepTime: double.infinity);
     } else {
-      animation = await AnimationLoader.load(assetPath, fps: fps);
+      animation = await AnimationLoader.make(assetPath, fps: fps);
       referenceSize = animation!.frames.first.sprite.srcSize;
     }
     if (keepAspectRatio) {

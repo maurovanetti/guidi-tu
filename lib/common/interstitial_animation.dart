@@ -36,12 +36,18 @@ class InterstitialAnimationState extends State<InterstitialAnimation> {
     _loadAnimation();
   }
 
+  @override
+  dispose() {
+    animationTicker == null;
+    super.dispose();
+  }
+
   Future<void> _loadAnimation() async {
     if (widget.prefix.isEmpty) {
       debugPrint("No interstitial animation in ${widget.prefix}_*.png");
       return;
     }
-    SpriteAnimation animation = (await AnimationLoader.load(
+    SpriteAnimation animation = (await AnimationLoader.make(
       widget.prefix,
       fps: widget.fps,
       loop: true,
