@@ -69,9 +69,11 @@ flutter:
     - assets/images/shot/
     - assets/images/shot/interstitial/
     - assets/images/steady_hand/
+    - assets/images/steady_hand/interstitial/
     - assets/images/stopwatch/
     - assets/images/stopwatch/interstitial/
     - assets/images/straws/
+    - assets/images/straws/interstitial/
     - assets/images/tutorial/
     - assets/images/rps/hands/
     - assets/images/rps/interstitial/

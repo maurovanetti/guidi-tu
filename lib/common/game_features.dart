@@ -207,7 +207,7 @@ Ma attenzione: chi resiste più a lungo, paga.""",
       '${I18n.secondsFormat.format(p / Duration.microsecondsPerSecond)}"',
   externalClock: false,
   usesRigidGameArea: true,
-  interstitialAnimationPath: "",
+  interstitialAnimationPath: "steady_hand/interstitial/Steady_Hand",
 );
 
 final ouija = GameFeatures(
@@ -276,7 +276,7 @@ Ma attenzione: chi sceglie il più lungo, paga.""",
   outcomeWidget: StrawsOutcome.new,
   formatPoints: (p) => '${I18n.centimetersFormat.format(p.toDouble() / 10)} cm',
   usesRigidGameArea: true,
-  interstitialAnimationPath: "",
+  interstitialAnimationPath: "straws/interstitial/Game_Straws",
 );
 
 final boules = GameFeatures(
