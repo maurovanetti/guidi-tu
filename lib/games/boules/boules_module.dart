@@ -14,9 +14,8 @@ class BoulesModule extends Forge2DGameWithDragging {
   final void Function(bool ready) setReady;
   late final List<BoulesBowl> _bowls;
   late Vector2 _startPosition;
-  Vector2? _lastBowlPosition;
 
-  Vector2? get lastBowlPosition => _lastBowlPosition;
+  Vector2 get lastBowlPosition => _activeBowl.position;
 
   late final BoulesBowl _activeBowl;
   late final BoulesTarget _target;
@@ -29,6 +28,12 @@ class BoulesModule extends Forge2DGameWithDragging {
   @override
   backgroundColor() => Colors.green[900]!;
 
+  _onBowlChangedState() {
+    if (_beholdTheOutcome && _bowls.every((bowl) => bowl.isSleeping)) {
+      setReady(true);
+    }
+  }
+
   @override
   Future<void> onLoad() async {
     world.setGravity(Vector2.zero());
@@ -37,12 +42,13 @@ class BoulesModule extends Forge2DGameWithDragging {
     add(BoulesWall(Vector2(size.x, 0), Vector2(size.x, size.y)));
     add(BoulesWall(Vector2(0, size.y), Vector2(size.x, size.y)));
     _bowls = await retrieveBowls();
-    for (var bowl in _bowls) {
-      add(bowl);
-    }
     _startPosition = Vector2(size.x / 2, size.y - (BoulesBowl.radius * 1.5));
     _activeBowl = BoulesBowl(_startPosition, player: TurnAware.currentPlayer);
-    add(_activeBowl);
+    _bowls.add(_activeBowl);
+    for (var bowl in _bowls) {
+      add(bowl);
+      bowl.addListener(_onBowlChangedState);
+    }
     _target = BoulesTarget(
       _startPosition - Vector2(0, BoulesBowl.radius * 2),
       origin: _startPosition,
@@ -100,11 +106,17 @@ class BoulesModule extends Forge2DGameWithDragging {
     super.onDragStart(event);
   }
 
+  bool _beholdTheOutcome = false;
+
   @override
   void onRelevantDragEnd() {
     if (dragged != null) {
       _activeBowl.launchTowards(dragged!.position);
       remove(dragged!);
+      Future.delayed(const Duration(seconds: 3), () {
+        _beholdTheOutcome = true;
+        _onBowlChangedState();
+      });
     }
   }
 }

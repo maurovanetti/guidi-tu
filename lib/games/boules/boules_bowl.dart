@@ -13,10 +13,13 @@ class BoulesJack extends BoulesBowl {
   @override
   double get r => radius;
 
-  BoulesJack(Vector2 position) : super(position, player: Player.none);
+  BoulesJack(Vector2 position) : super(position, player: Player.none) {
+    // The jack should not be shadowing the larger bowls
+    priority--;
+  }
 }
 
-class BoulesBowl extends BodyComponent {
+class BoulesBowl extends BodyComponent with CustomNotifier {
   static const radius = 2.0;
   static const launchImpulseFactor = 20.0;
 
@@ -55,16 +58,18 @@ class BoulesBowl extends BodyComponent {
     final shape = CircleShape()..radius = r;
     final fixtureDef = FixtureDef(shape)
       ..density = 0.5
-      ..friction = 0.5
+      ..friction = 0.3
       ..restitution = 1.0;
     final bodyDef = BodyDef(
       userData: this,
-      linearDamping: 0.5,
-      angularDamping: 0.5,
+      linearDamping: 0.8,
+      angularDamping: 0.8,
       position: position,
       type: BodyType.dynamic,
     );
-    return world.createBody(bodyDef)..createFixture(fixtureDef);
+    return world.createBody(bodyDef)
+      ..createFixture(fixtureDef)
+      ..setSleepingAllowed(true);
   }
 
   @override
@@ -78,6 +83,18 @@ class BoulesBowl extends BodyComponent {
     final impulse = direction * launchImpulseFactor;
     body.applyLinearImpulse(impulse);
   }
+
+  bool isSleeping = true;
+
+  @override
+  void update(double dt) {
+    if (isSleeping != !body.isAwake) {
+      isSleeping = !body.isAwake;
+      // The bowl has started or stopped moving
+      notifyListeners();
+    }
+    super.update(dt);
+  }
 }
 
 class BoulesBowlSprite extends CustomSpriteComponent {
@@ -90,6 +107,6 @@ class BoulesBowlSprite extends CustomSpriteComponent {
           hasShadow: true,
           color: color,
         ) {
-    priority = 1;
+    priority = 10;
   }
 }
