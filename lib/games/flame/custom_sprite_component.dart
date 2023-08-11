@@ -4,6 +4,7 @@ import 'package:flame/experimental.dart';
 import 'package:flame/game.dart';
 import 'package:flame/palette.dart';
 import 'package:flame/rendering.dart';
+import 'package:flame_forge2d/body_component.dart';
 import 'package:flutter/material.dart';
 
 import '/common/common.dart';
@@ -101,6 +102,20 @@ class CustomSpriteComponent<T extends Game> extends SpriteAnimationComponent
     }
   }
 
+  // Replaces absoluteAngle that doesn't take BodyComponent ancestors into
+  // account.
+  double get realAngle {
+    double realAngle = angle;
+    for (var ancestor in ancestors(includeSelf: false)) {
+      if (ancestor is PositionComponent) {
+        realAngle += ancestor.angle;
+      } else if (ancestor is BodyComponent) {
+        realAngle += ancestor.angle;
+      }
+    }
+    return realAngle;
+  }
+
   @override
   void render(Canvas canvas) {
     if (!visible) return;
@@ -109,7 +124,7 @@ class CustomSpriteComponent<T extends Game> extends SpriteAnimationComponent
     if (hasShadow && opacity == 1.0) {
       animationTicker?.getSprite().render(
             canvas,
-            position: shadowOffset,
+            position: shadowOffset.clone()..rotate(-realAngle),
             size: size,
             overridePaint: shadowPaint,
           );

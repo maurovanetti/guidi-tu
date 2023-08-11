@@ -18,6 +18,7 @@ class BoulesJack extends BoulesBowl {
 
 class BoulesBowl extends BodyComponent {
   static const radius = 2.0;
+  static const launchImpulseFactor = 20.0;
 
   final Vector2 position;
   late final BoulesBowlSprite sprite;
@@ -54,7 +55,8 @@ class BoulesBowl extends BodyComponent {
     final shape = CircleShape()..radius = r;
     final fixtureDef = FixtureDef(shape)
       ..density = 0.5
-      ..friction = 0.5;
+      ..friction = 0.5
+      ..restitution = 1.0;
     final bodyDef = BodyDef(
       userData: this,
       linearDamping: 0.5,
@@ -69,6 +71,12 @@ class BoulesBowl extends BodyComponent {
   Future<void> onLoad() {
     add(sprite);
     return super.onLoad();
+  }
+
+  void launchTowards(Vector2 target) {
+    final direction = target - position;
+    final impulse = direction * launchImpulseFactor;
+    body.applyLinearImpulse(impulse);
   }
 }
 

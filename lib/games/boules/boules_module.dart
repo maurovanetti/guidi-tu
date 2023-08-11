@@ -7,6 +7,7 @@ import '/common/common.dart';
 import '/games/flame/forge2d_game_with_dragging.dart';
 import 'boules_bowl.dart';
 import 'boules_target.dart';
+import 'boules_wall.dart';
 
 class BoulesModule extends Forge2DGameWithDragging {
   static const boulesSetupKey = "boulesSetup";
@@ -17,10 +18,11 @@ class BoulesModule extends Forge2DGameWithDragging {
 
   Vector2? get lastBowlPosition => _lastBowlPosition;
 
+  late final BoulesBowl _activeBowl;
   late final BoulesTarget _target;
 
   @override
-  PositionComponent get dragged => _target;
+  PositionComponent? get dragged => _target.isMounted ? _target : null;
 
   BoulesModule({required this.setReady});
 
@@ -30,12 +32,17 @@ class BoulesModule extends Forge2DGameWithDragging {
   @override
   Future<void> onLoad() async {
     world.setGravity(Vector2.zero());
+    add(BoulesWall(Vector2.zero(), Vector2(size.x, 0)));
+    add(BoulesWall(Vector2.zero(), Vector2(0, size.y)));
+    add(BoulesWall(Vector2(size.x, 0), Vector2(size.x, size.y)));
+    add(BoulesWall(Vector2(0, size.y), Vector2(size.x, size.y)));
     _bowls = await retrieveBowls();
     for (var bowl in _bowls) {
       add(bowl);
     }
     _startPosition = Vector2(size.x / 2, size.y - (BoulesBowl.radius * 1.5));
-    add(BoulesBowl(_startPosition, player: TurnAware.currentPlayer));
+    _activeBowl = BoulesBowl(_startPosition, player: TurnAware.currentPlayer);
+    add(_activeBowl);
     _target = BoulesTarget(
       _startPosition - Vector2(0, BoulesBowl.radius * 2),
       origin: _startPosition,
@@ -91,5 +98,13 @@ class BoulesModule extends Forge2DGameWithDragging {
   void onDragStart(DragStartEvent event) {
     _hint?.dismiss();
     super.onDragStart(event);
+  }
+
+  @override
+  void onRelevantDragEnd() {
+    if (dragged != null) {
+      _activeBowl.launchTowards(dragged!.position);
+      remove(dragged!);
+    }
   }
 }
