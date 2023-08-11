@@ -53,7 +53,7 @@ class BattleshipModule extends FlameGame {
     var downwardOneCell = Vector2(0, 1) * board.cellHeight;
     var shipsHint = CustomTextBoxComponent(
       "Trascina i galleggianti nelle caselle",
-      rightwardOneCell + downwardOneCell,
+      rightwardOneCell * (gridColumns / 2) + downwardOneCell,
     );
     await add(shipsHint);
 
@@ -137,7 +137,7 @@ class BattleshipModule extends FlameGame {
         // A hint to place bombs is displayed.
         var bombsHint = CustomTextBoxComponent(
           "E ora decidi dove colpire",
-          rightwardOneCell + downwardOneCell,
+          rightwardOneCell * (gridColumns / 2) + downwardOneCell,
         );
         add(bombsHint);
 

@@ -17,6 +17,7 @@ class CustomTextBoxComponent extends TextBoxComponent {
     String text,
     Vector2 position, {
     bool autoDismiss = true,
+    double scale = 1,
   }) : super(
           text: text,
           textRenderer: TextPaint(
@@ -28,8 +29,10 @@ class CustomTextBoxComponent extends TextBoxComponent {
           ),
           boxConfig: _boxConfig,
           align: Anchor.center,
+          anchor: Anchor.topCenter,
           position: position,
           priority: Priorities.messagePriority,
+          scale: scale == 1 ? null : Vector2.all(scale),
         ) {
     if (autoDismiss) {
       Future.delayed(dismissDelay, dismiss);

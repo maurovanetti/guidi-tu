@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:flame/game.dart';
 import 'package:flutter/material.dart';
 
@@ -96,10 +98,10 @@ class IncrementalBattleshipOutcomeState
   }
 
   // Modifies x's points.
-  _sink(
+  Future<void> _sink(
     IncrementalBattleshipScore x,
     List<RecordedMove<BattleshipMove>> rivalMoves,
-  ) {
+  ) async {
     var shipSpots = x.recordedMove.move.placedShips();
     Set<BattleshipBoardCell> rivalBombCells = {};
     for (var rivalMove in rivalMoves) {

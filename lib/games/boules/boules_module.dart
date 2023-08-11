@@ -1,6 +1,8 @@
 import 'package:flame/components.dart';
+import 'package:flame/events.dart';
 import 'package:flutter/material.dart';
 
+import '../flame/custom_text_box_component.dart';
 import '/common/common.dart';
 import '/games/flame/forge2d_game_with_dragging.dart';
 import 'boules_bowl.dart';
@@ -35,7 +37,7 @@ class BoulesModule extends Forge2DGameWithDragging {
     _startPosition = Vector2(size.x / 2, size.y - (BoulesBowl.radius * 1.5));
     add(BoulesBowl(_startPosition, player: TurnAware.currentPlayer));
     _target = BoulesTarget(
-      _startPosition - Vector2(0, size.y / 3),
+      _startPosition - Vector2(0, BoulesBowl.radius * 2),
       origin: _startPosition,
       referenceColor: TurnAware.currentPlayer.color,
     );
@@ -54,8 +56,7 @@ class BoulesModule extends Forge2DGameWithDragging {
         bowls.add(bowl);
       }
     } else {
-      var jackPosition = Vector2(size.x / 2, size.y / 5);
-      var jack = BoulesJack(jackPosition);
+      var jack = BoulesJack(_jackPosition);
       bowls.add(jack);
       TeamAware.storeSessionData({
         boulesSetupKey: [jack.toJson()],
@@ -64,7 +65,19 @@ class BoulesModule extends Forge2DGameWithDragging {
     return bowls;
   }
 
-  void init() {}
+  Vector2 get _jackPosition => Vector2(size.x / 2, size.y / 5);
+
+  CustomTextBoxComponent? _hint;
+
+  void init() {
+    _hint = CustomTextBoxComponent(
+      "Trascina la freccia e poi lascia andare per lanciare la boccia",
+      _jackPosition + Vector2(0, BoulesJack.radius * 2),
+      autoDismiss: true,
+      scale: 1 / camera.zoom,
+    );
+    add(_hint!);
+  }
 
   @override
   bool containsLocalPoint(Vector2 p) {
@@ -72,5 +85,11 @@ class BoulesModule extends Forge2DGameWithDragging {
       return false;
     }
     return super.containsLocalPoint(p);
+  }
+
+  @override
+  void onDragStart(DragStartEvent event) {
+    _hint?.dismiss();
+    super.onDragStart(event);
   }
 }
