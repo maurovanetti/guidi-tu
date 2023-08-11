@@ -8,22 +8,26 @@ import '/common/common.dart';
 import '/games/flame/custom_sprite_component.dart';
 
 class BoulesJack extends BoulesBowl {
+  static const radius = 1.0;
+
   @override
-  double get radius => 1.0;
+  double get r => radius;
 
   BoulesJack(Vector2 position) : super(position, player: Player.none);
 }
 
 class BoulesBowl extends BodyComponent {
+  static const radius = 3.0;
+
   final Vector2 position;
   late final BoulesBowlSprite sprite;
   final Player player;
 
-  double get radius => 3.0;
+  double get r => radius;
 
   BoulesBowl(this.position, {required this.player}) : super(renderBody: false) {
     sprite = BoulesBowlSprite(
-      radius: radius,
+      radius: r,
       color: player is NoPlayer ? null : player.color,
     );
   }
@@ -40,14 +44,16 @@ class BoulesBowl extends BodyComponent {
     );
   }
 
-  Map<String, dynamic> toJson() => {
+  Map<String, dynamic> toJson() =>
+      {
         'player': player.id,
         'position': {'x': position.x, 'y': position.y},
       };
 
   @override
   Body createBody() {
-    final shape = CircleShape()..radius = radius;
+    final shape = CircleShape()
+      ..radius = r;
     final fixtureDef = FixtureDef(shape)
       ..density = 0.5
       ..friction = 0.5;
@@ -58,7 +64,8 @@ class BoulesBowl extends BodyComponent {
       position: position,
       type: BodyType.dynamic,
     );
-    return world.createBody(bodyDef)..createFixture(fixtureDef);
+    return world.createBody(bodyDef)
+      ..createFixture(fixtureDef);
   }
 
   @override
@@ -71,13 +78,13 @@ class BoulesBowl extends BodyComponent {
 class BoulesBowlSprite extends CustomSpriteComponent {
   BoulesBowlSprite({required double radius, Color? color})
       : super(
-          'boules/bowl.png',
-          Vector2.zero(),
-          anchor: Anchor.center,
-          size: Vector2.all(radius * 2),
-          hasShadow: true,
-          color: color,
-        ) {
+    'boules/bowl.png',
+    Vector2.zero(),
+    anchor: Anchor.center,
+    size: Vector2.all(radius * 2),
+    hasShadow: true,
+    color: color,
+  ) {
     priority = 1;
   }
 }

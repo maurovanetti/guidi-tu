@@ -67,6 +67,8 @@ class CustomSpriteComponent<T extends Game> extends SpriteAnimationComponent
     _shadowOffset = null; // Invalidates the cached value
   }
 
+  final Decorator _tintDecorator = Decorator(); // default no-op
+
   @override
   set angle(double a) {
     _shadowOffset = null; // Invalidates the cached value
@@ -95,7 +97,7 @@ class CustomSpriteComponent<T extends Game> extends SpriteAnimationComponent
     // from being rendered in a different initial position than expected.
     _elevation = elevation ?? (hasShadow ? 1.0 : 0.0);
     if (color != null) {
-      decorator.addLast(PaintDecorator.tint(color));
+      _tintDecorator.addLast(PaintDecorator.tint(color));
     }
   }
 
@@ -112,8 +114,14 @@ class CustomSpriteComponent<T extends Game> extends SpriteAnimationComponent
             overridePaint: shadowPaint,
           );
     }
+
     // Main sprite
-    super.render(canvas);
+    // The tint decorator should not be applied to the shadow
+    _tintDecorator.applyChain(
+      (Canvas c) => super.render(c),
+      canvas,
+    );
+
     // Stamp sprite
     if (_stampSprite != null) {
       Paint stampPaint = Paint()..color = Colors.white.withOpacity(opacity);

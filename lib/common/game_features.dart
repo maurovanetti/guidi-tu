@@ -313,5 +313,5 @@ final allGameFeatures = [
   ouija,
   rps,
   straws,
-  // boules,
+  boules,
 ];

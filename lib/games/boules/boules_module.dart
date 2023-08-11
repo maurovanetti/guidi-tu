@@ -10,6 +10,7 @@ class BoulesModule extends Forge2DGame {
   final void Function(bool ready) setReady;
   late final List<BoulesBowl> _bowls;
   Vector2? _lastBowlPosition;
+
   Vector2? get lastBowlPosition => _lastBowlPosition;
 
   BoulesModule({required this.setReady});
@@ -24,6 +25,8 @@ class BoulesModule extends Forge2DGame {
     for (var bowl in _bowls) {
       add(bowl);
     }
+    var startPosition = Vector2(size.x / 2, size.y - (BoulesBowl.radius * 1.5));
+    add(BoulesBowl(startPosition, player: TurnAware.currentPlayer));
     init();
   }
 
