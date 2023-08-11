@@ -78,7 +78,7 @@ class NoPlayer extends Player {
   @override
   get foreground => Colors.transparent;
 
-  NoPlayer._internal() : super(0, '', Gender.neuter);
+  NoPlayer._internal() : super(-1, '', Gender.neuter);
 }
 
 class PlayerButton extends StatelessWidget {

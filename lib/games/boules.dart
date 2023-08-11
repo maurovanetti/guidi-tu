@@ -45,7 +45,7 @@ class BoulesGameAreaState extends GameAreaState<BoulesMove>
 
   @override
   BoulesMove getMove() =>
-      BoulesMove(bowlPosition: _gameModule.lastBowlPosition!);
+      BoulesMove(bowlPosition: _gameModule.lastBowlPosition);
 
   @override
   Widget build(BuildContext context) => GameWidget(game: _gameModule);

@@ -23,13 +23,14 @@ class BoulesBowl extends BodyComponent with CustomNotifier {
   static const radius = 2.0;
   static const launchImpulseFactor = 20.0;
 
-  final Vector2 position;
+  final Vector2 initialPosition;
   late final BoulesBowlSprite sprite;
   final Player player;
 
   double get r => radius;
 
-  BoulesBowl(this.position, {required this.player}) : super(renderBody: false) {
+  BoulesBowl(this.initialPosition, {required this.player})
+      : super(renderBody: false) {
     sprite = BoulesBowlSprite(
       radius: r,
       color: player is NoPlayer ? null : player.color,
@@ -48,10 +49,13 @@ class BoulesBowl extends BodyComponent with CustomNotifier {
     );
   }
 
-  Map<String, dynamic> toJson() => {
-        'player': player.id,
-        'position': {'x': position.x, 'y': position.y},
-      };
+  Map<String, dynamic> toJson() {
+    Vector2 position = isLoaded ? body.position : initialPosition;
+    return {
+      'player': player.id,
+      'position': {'x': position.x, 'y': position.y},
+    };
+  }
 
   @override
   Body createBody() {
@@ -64,7 +68,7 @@ class BoulesBowl extends BodyComponent with CustomNotifier {
       userData: this,
       linearDamping: 0.8,
       angularDamping: 0.8,
-      position: position,
+      position: initialPosition,
       type: BodyType.dynamic,
     );
     return world.createBody(bodyDef)
@@ -79,7 +83,7 @@ class BoulesBowl extends BodyComponent with CustomNotifier {
   }
 
   void launchTowards(Vector2 target) {
-    final direction = target - position;
+    final direction = target - body.position;
     final impulse = direction * launchImpulseFactor;
     body.applyLinearImpulse(impulse);
   }

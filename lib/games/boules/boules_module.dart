@@ -15,7 +15,7 @@ class BoulesModule extends Forge2DGameWithDragging {
   late final List<BoulesBowl> _bowls;
   late Vector2 _startPosition;
 
-  Vector2 get lastBowlPosition => _activeBowl.position;
+  Vector2 get lastBowlPosition => _activeBowl.initialPosition;
 
   late final BoulesBowl _activeBowl;
   late final BoulesTarget _target;
@@ -28,8 +28,13 @@ class BoulesModule extends Forge2DGameWithDragging {
   @override
   backgroundColor() => Colors.green[900]!;
 
-  _onBowlChangedState() {
+  Future<void> _onBowlChangedState() async {
     if (_beholdTheOutcome && _bowls.every((bowl) => bowl.isSleeping)) {
+      debugPrint("Storing jack + bowls in session data: " +
+          _bowls.map((bowl) => bowl.toJson()).toList().toString());
+      await TeamAware.storeSessionData({
+        boulesSetupKey: _bowls.map((bowl) => bowl.toJson()).toList(),
+      });
       setReady(true);
     }
   }
