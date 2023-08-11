@@ -74,7 +74,7 @@ class BoulesModule extends Forge2DGameWithDragging {
       "Trascina la freccia e poi lascia andare per lanciare la boccia",
       _jackPosition + Vector2(0, BoulesJack.radius * 2),
       autoDismiss: true,
-      scale: 1 / camera.zoom,
+      scale: 1 / zoom,
     );
     add(_hint!);
   }

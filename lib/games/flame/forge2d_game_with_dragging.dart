@@ -5,6 +5,11 @@ import 'package:flame_forge2d/forge2d_game.dart';
 abstract class Forge2DGameWithDragging extends Forge2DGame with DragCallbacks {
   PositionComponent get dragged;
 
+  late final double zoom;
+
+  Forge2DGameWithDragging({this.zoom = Forge2DGame.defaultZoom})
+      : super(zoom: zoom);
+
   // Only one pointer is valid
   num _dragPointerId = double.nan;
 
