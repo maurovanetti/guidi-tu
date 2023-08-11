@@ -202,6 +202,7 @@ class DraggableCustomSpriteComponent<T extends Game>
 
   @override
   void onDragStart(DragStartEvent event) {
+    debugPrint("onDragStart");
     if (draggable) {
       super.onDragStart(event);
       if (onUnsnap?.call() ?? true) {

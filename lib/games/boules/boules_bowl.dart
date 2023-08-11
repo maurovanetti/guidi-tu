@@ -17,7 +17,7 @@ class BoulesJack extends BoulesBowl {
 }
 
 class BoulesBowl extends BodyComponent {
-  static const radius = 3.0;
+  static const radius = 2.0;
 
   final Vector2 position;
   late final BoulesBowlSprite sprite;
@@ -44,16 +44,14 @@ class BoulesBowl extends BodyComponent {
     );
   }
 
-  Map<String, dynamic> toJson() =>
-      {
+  Map<String, dynamic> toJson() => {
         'player': player.id,
         'position': {'x': position.x, 'y': position.y},
       };
 
   @override
   Body createBody() {
-    final shape = CircleShape()
-      ..radius = r;
+    final shape = CircleShape()..radius = r;
     final fixtureDef = FixtureDef(shape)
       ..density = 0.5
       ..friction = 0.5;
@@ -64,8 +62,7 @@ class BoulesBowl extends BodyComponent {
       position: position,
       type: BodyType.dynamic,
     );
-    return world.createBody(bodyDef)
-      ..createFixture(fixtureDef);
+    return world.createBody(bodyDef)..createFixture(fixtureDef);
   }
 
   @override
@@ -78,13 +75,13 @@ class BoulesBowl extends BodyComponent {
 class BoulesBowlSprite extends CustomSpriteComponent {
   BoulesBowlSprite({required double radius, Color? color})
       : super(
-    'boules/bowl.png',
-    Vector2.zero(),
-    anchor: Anchor.center,
-    size: Vector2.all(radius * 2),
-    hasShadow: true,
-    color: color,
-  ) {
+          'boules/bowl.png',
+          Vector2.zero(),
+          anchor: Anchor.center,
+          size: Vector2.all(radius * 2),
+          hasShadow: true,
+          color: color,
+        ) {
     priority = 1;
   }
 }
