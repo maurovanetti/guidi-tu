@@ -40,6 +40,7 @@ dependencies:
   sensors_plus: ^3.0.2
   flutter_carousel_widget: ^2.0.4
   flutter_markdown: ^0.6.15+1
+  equatable: ^2.0.5
 
 dev_dependencies:
   flutter_test:

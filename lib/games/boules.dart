@@ -1,4 +1,3 @@
-import 'package:collection/collection.dart';
 import 'package:flame/game.dart';
 import 'package:flutter/material.dart';
 
@@ -6,6 +5,7 @@ import '/common/common.dart';
 import '/screens/turn_play_screen.dart';
 import '../screens/outcome_screen.dart';
 import 'boules/boules_module.dart';
+import 'boules/final_boules_outcome.dart';
 import 'game_area.dart';
 
 class Boules extends TurnPlayScreen {
@@ -52,13 +52,19 @@ class BoulesGameAreaState extends GameAreaState<BoulesMove>
 }
 
 class BoulesOutcome extends OutcomeScreen {
-  BoulesOutcome({super.key}) : super(gameFeatures: ouija);
+  BoulesOutcome({super.key}) : super(gameFeatures: boules);
 
   @override
   BoulesOutcomeState createState() => BoulesOutcomeState();
 }
 
-class BoulesOutcomeState extends OutcomeScreenState<BoulesMove> {}
+class BoulesOutcomeState extends OutcomeScreenState<BoulesMove> {
+  @override
+  void initOutcome() {
+    repeatable = true;
+    outcomeWidget = const FinalBoulesOutcome();
+  }
+}
 
 class BoulesMove extends Move {
   final Vector2 bowlPosition;
@@ -72,10 +78,6 @@ class BoulesMove extends Move {
 
   @override
   int getPointsFor(Player player, Iterable<RecordedMove<Move>> allMoves) {
-    var sortedMoves = allMoves.sortedByCompare(
-      (rm) => (rm.move as BoulesMove).distanceFromJack(),
-      (a, b) => a.compareTo(b),
-    );
-    return sortedMoves.indexWhere((rm) => rm.player == player);
+    return (distanceFromJack() * 1000).toInt();
   }
 }

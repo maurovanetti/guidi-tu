@@ -92,6 +92,7 @@ class RockPaperScissorsOutcomeState
 
 sealed class RockPaperScissorsGesture {
   static const path = "rps/hands";
+
   ({String color, String grey}) get assetPaths;
 
   const RockPaperScissorsGesture();
@@ -120,7 +121,7 @@ sealed class RockPaperScissorsGesture {
 }
 
 class Rock extends RockPaperScissorsGesture {
-  static final _instance = Rock._internal();
+  static const _instance = Rock._internal();
 
   @override
   get assetPaths => (
@@ -129,6 +130,7 @@ class Rock extends RockPaperScissorsGesture {
       );
 
   const Rock._internal();
+
   factory Rock() => _instance;
 
   @override
@@ -138,7 +140,7 @@ class Rock extends RockPaperScissorsGesture {
 }
 
 class Paper extends RockPaperScissorsGesture {
-  static final _instance = Paper._internal();
+  static const _instance = Paper._internal();
 
   @override
   get assetPaths => (
@@ -147,6 +149,7 @@ class Paper extends RockPaperScissorsGesture {
       );
 
   const Paper._internal();
+
   factory Paper() => _instance;
 
   @override
@@ -156,7 +159,7 @@ class Paper extends RockPaperScissorsGesture {
 }
 
 class Scissors extends RockPaperScissorsGesture {
-  static final _instance = Scissors._internal();
+  static const _instance = Scissors._internal();
 
   @override
   get assetPaths => (
@@ -165,6 +168,7 @@ class Scissors extends RockPaperScissorsGesture {
       );
 
   const Scissors._internal();
+
   factory Scissors() => _instance;
 
   @override

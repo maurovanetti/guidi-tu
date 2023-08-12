@@ -1,3 +1,4 @@
+import 'package:equatable/equatable.dart';
 import 'package:flame/components.dart';
 import 'package:flame/experimental.dart';
 import 'package:flame/rendering.dart';
@@ -6,15 +7,13 @@ import 'package:flutter/material.dart';
 import 'straws_module.dart';
 
 class StrawsStraw extends NineTileBoxComponent
-    with HasGameReference<StrawsModule> {
+    with HasGameReference<StrawsModule>, EquatableMixin {
   bool _picked = false;
 
   int get length => size.x.toInt();
 
-  @override
-  int get hashCode => Object.hash(position, angle, length);
-
   bool get picked => _picked;
+
   set picked(bool value) {
     if (value && !_picked) {
       // --> on
@@ -61,9 +60,5 @@ class StrawsStraw extends NineTileBoxComponent
       };
 
   @override
-  operator ==(Object other) =>
-      other is StrawsStraw &&
-      other.position == position &&
-      other.angle == angle &&
-      other.length == length;
+  List<Object?> get props => [position, angle, length];
 }

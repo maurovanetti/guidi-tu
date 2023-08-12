@@ -72,7 +72,7 @@ mixin ScoreAware {
       if (awardsTimeInMilliseconds != null) {
         debugPrint("Awards expired ($awardsTime)");
       }
-      return DriverAndPayer(null, null);
+      return const DriverAndPayer(null, null);
     }
     return DriverAndPayer(
       prefs.getString(Persistence.driverKey),

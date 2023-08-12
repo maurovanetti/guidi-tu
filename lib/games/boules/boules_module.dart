@@ -15,7 +15,7 @@ class BoulesModule extends Forge2DGameWithDragging {
   late final List<BoulesBowl> _bowls;
   late Vector2 _startPosition;
 
-  Vector2 get lastBowlPosition => _activeBowl.initialPosition;
+  Vector2 get lastBowlPosition => _activeBowl.body.position;
 
   late final BoulesBowl _activeBowl;
   late final BoulesTarget _target;
@@ -30,8 +30,6 @@ class BoulesModule extends Forge2DGameWithDragging {
 
   Future<void> _onBowlChangedState() async {
     if (_beholdTheOutcome && _bowls.every((bowl) => bowl.isSleeping)) {
-      debugPrint("Storing jack + bowls in session data: " +
-          _bowls.map((bowl) => bowl.toJson()).toList().toString());
       await TeamAware.storeSessionData({
         boulesSetupKey: _bowls.map((bowl) => bowl.toJson()).toList(),
       });
@@ -47,27 +45,17 @@ class BoulesModule extends Forge2DGameWithDragging {
     add(BoulesWall(Vector2(size.x, 0), Vector2(size.x, size.y)));
     add(BoulesWall(Vector2(0, size.y), Vector2(size.x, size.y)));
     _bowls = await retrieveBowls();
-    _startPosition = Vector2(size.x / 2, size.y - (BoulesBowl.radius * 1.5));
-    _activeBowl = BoulesBowl(_startPosition, player: TurnAware.currentPlayer);
-    _bowls.add(_activeBowl);
+    init();
     for (var bowl in _bowls) {
       add(bowl);
       bowl.addListener(_onBowlChangedState);
     }
-    _target = BoulesTarget(
-      _startPosition - Vector2(0, BoulesBowl.radius * 2),
-      origin: _startPosition,
-      referenceColor: TurnAware.currentPlayer.color,
-    );
-    add(_target);
-    init();
   }
 
   Future<List<BoulesBowl>> retrieveBowls() async {
     List<BoulesBowl> bowls = [];
     var sessionData = await TeamAware.retrieveSessionData();
     if (sessionData.containsKey(boulesSetupKey)) {
-      debugPrint("Loading jack + bowls from session data");
       var boulesSetup = sessionData[boulesSetupKey];
       for (var bowlSetup in boulesSetup) {
         var bowl = BoulesBowl.fromJson(bowlSetup);
@@ -88,6 +76,15 @@ class BoulesModule extends Forge2DGameWithDragging {
   CustomTextBoxComponent? _hint;
 
   void init() {
+    _startPosition = Vector2(size.x / 2, size.y - (BoulesBowl.radius * 1.5));
+    _activeBowl = BoulesBowl(_startPosition, player: TurnAware.currentPlayer);
+    _bowls.add(_activeBowl);
+    _target = BoulesTarget(
+      _startPosition - Vector2(0, BoulesBowl.radius * 2),
+      origin: _startPosition,
+      referenceColor: TurnAware.currentPlayer.color,
+    );
+    add(_target);
     _hint = CustomTextBoxComponent(
       "Trascina la freccia e poi lascia andare per lanciare la boccia",
       _jackPosition + Vector2(0, BoulesJack.radius * 2),

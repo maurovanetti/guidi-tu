@@ -63,6 +63,10 @@ class _TeamScreenState extends TrackedState<TeamScreen>
 
   void _removePlayer(Player player) {
     debugPrint("Removing player $player from $players");
+    debugPrint(player.hashCode.toString());
+    for (var p in players) {
+      debugPrint(p.hashCode.toString());
+    }
     setState(() {
       assert(players.remove(player));
     });
