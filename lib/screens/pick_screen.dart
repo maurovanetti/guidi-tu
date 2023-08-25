@@ -29,7 +29,6 @@ class _PickScreenState extends TrackedState<PickScreen>
   initState() {
     super.initState();
     Future.delayed(Duration.zero, () async {
-      await resetTurn();
       ScoreAware.resetScores();
       _playerCount = players.length;
       var suggestedCards = [];
@@ -42,10 +41,13 @@ class _PickScreenState extends TrackedState<PickScreen>
           icon: gameFeatures.icon,
           onTap: _select,
           suggested: _isSuggested(gameFeatures),
+          rounds: gameFeatures.rounds,
         );
         (gameCard.suggested ? suggestedCards : otherCards).add(gameCard);
       }
-      suggestedCards.shuffle(Random(DateTime.now().second));
+      suggestedCards.shuffle(Random(DateTime
+          .now()
+          .second));
       _gameCards = [...suggestedCards, ...otherCards];
       _select(_gameCards.first);
     });
@@ -65,9 +67,10 @@ class _PickScreenState extends TrackedState<PickScreen>
 
   bool _isSuggested(GameFeatures gameFeatures) =>
       _playerCount >= gameFeatures.minSuggestedPlayers &&
-      _playerCount <= gameFeatures.maxSuggestedPlayers;
+          _playerCount <= gameFeatures.maxSuggestedPlayers;
 
-  void _startGame() {
+  Future<void> _startGame() async {
+    await resetTurn(rounds: _selectedGame.rounds);
     assert(nextTurn());
     if (mounted) {
       Navigation.replaceAll(context, () => _selectedGame.gameStart).go();
@@ -109,6 +112,7 @@ class GameCard extends StatelessWidget {
     required this.onTap,
     this.suggested = false,
     this.selected = false,
+    this.rounds = 1,
   });
 
   final String name;
@@ -118,6 +122,7 @@ class GameCard extends StatelessWidget {
   final bool selected;
   final void Function(GameCard card) onTap;
   final Widget gameStart;
+  final int rounds;
 
   // ignore: prefer-widget-private-members, avoid-incomplete-copy-with
   GameCard copyWith({required bool selected}) {
@@ -129,6 +134,7 @@ class GameCard extends StatelessWidget {
       onTap: onTap,
       suggested: suggested,
       selected: selected,
+      rounds: rounds,
     );
   }
 

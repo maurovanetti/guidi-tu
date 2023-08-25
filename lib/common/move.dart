@@ -3,8 +3,14 @@ import 'player.dart';
 abstract class Move {
   const Move();
 
-  // Override according to the specific game rules
+  // Override according to the specific game rules.
   int getPointsFor(Player player, Iterable<RecordedMove> allMoves);
+
+  // This is only relevant for games with multiple rounds. The first round is
+  // always random because there are no previous moves to base the decision on.
+  // Override according to the specific game rules.
+  int getTurnPriorityFor(Player player, Iterable<RecordedMove> allMoves) =>
+      getPointsFor(player, allMoves);
 }
 
 class NoMove extends Move {
@@ -32,6 +38,13 @@ class RecordedMove<T extends Move> {
       all
           .cast<RecordedMove>()
           .where((thisMove) => thisMove.player != thisPlayer);
+
+  // This is used to sort the turns in games with multiple rounds.
+  int compareTo(RecordedMove<T> other, Iterable<RecordedMove> all) {
+    final thisPriority = move.getTurnPriorityFor(player, all);
+    final otherPriority = other.move.getTurnPriorityFor(other.player, all);
+    return thisPriority - otherPriority;
+  }
 }
 
 mixin MoveReceiver<T extends Move> {

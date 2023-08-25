@@ -11,8 +11,6 @@ mixin TurnAware<T extends Move> on TeamAware {
 
   static int _currentTurn = -1;
 
-  int get _currentRound => _currentTurn ~/ players.length;
-
   static Player _currentPlayer = Player.none;
 
   static Player get currentPlayer => _currentPlayer;
@@ -27,43 +25,19 @@ mixin TurnAware<T extends Move> on TeamAware {
 
       return false;
     }
-
-    // Rounds after the first one are sorted
-    if (_currentTurn > players.length) {
-      sortCurrentRound();
-    }
-
     _currentPlayer = players[_turns[_currentTurn]];
     debugPrint("It's ${currentPlayer.name}'s turn");
 
     return true;
   }
 
-  Future<void> resetTurn({int rounds = 1}) async {
+  Future<void> resetTurn() async {
     _moves.clear();
     await retrieveTeam();
     _turns = List<int>.generate(players.length, (i) => i);
-    // Shuffles the first round
     _turns.shuffle();
-    for (var round = 1; round < rounds; round++) {
-      // Adds the next rounds (with the same order, initially)
-      _turns.addAll(_turns.sublist(0, players.length));
-    }
     _currentTurn = -1;
     _currentPlayer = Player.none;
-  }
-
-  bool get worstFirst => true;
-
-  Future<void> sortCurrentRound() async {
-    final roundEnd = (_currentRound + 1) * players.length;
-    final remainingTurnsInRound = _turns.sublist(_currentTurn, roundEnd);
-    remainingTurnsInRound.sort((a, b) {
-      final moveA = getRecordedMove(players[a]);
-      final moveB = getRecordedMove(players[b]);
-      return moveA.compareTo(moveB, _moves.values);
-    });
-    _turns.replaceRange(_currentTurn, roundEnd, remainingTurnsInRound);
   }
 
   void recordMove(T move, double time) {

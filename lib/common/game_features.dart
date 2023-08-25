@@ -33,6 +33,7 @@ class GameFeatures {
   final int maxPlayers;
   final int minSuggestedPlayers;
   final int maxSuggestedPlayers;
+  final int rounds;
   final GameArea Function({
     required void Function(bool ready) setReady,
     required MoveReceiver moveReceiver,
@@ -59,6 +60,7 @@ class GameFeatures {
     int? maxPlayers,
     required this.minSuggestedPlayers,
     int? maxSuggestedPlayers,
+    this.rounds = 1,
     required this.playWidget,
     required this.buildGameArea,
     required this.outcomeWidget,
@@ -293,6 +295,7 @@ Ma attenzione: chi avrà la boccia più vicina al boccino, paga.""",
   icon: Icons.sports_baseball_rounded,
   minPlayers: 2,
   minSuggestedPlayers: 2,
+  rounds: 2,
   buildGameArea: BoulesGameArea.new,
   playWidget: Boules.new,
   outcomeWidget: BoulesOutcome.new,
