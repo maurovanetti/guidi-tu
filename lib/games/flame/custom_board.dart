@@ -1,4 +1,3 @@
-import 'package:equatable/equatable.dart';
 import 'package:flame/components.dart';
 import 'package:flame/extensions.dart';
 import 'package:flutter/material.dart';
@@ -89,7 +88,7 @@ abstract class CustomBoard<T extends CustomBoardCell>
   }
 }
 
-abstract class CustomBoardCell extends Equatable {
+abstract class CustomBoardCell {
   final int row;
   final int column;
 
@@ -103,7 +102,11 @@ abstract class CustomBoardCell extends Equatable {
           );
 
   @override
-  List<Object?> get props => [row, column];
+  int get hashCode => row * 1000 + column;
+
+  @override
+  operator ==(Object other) =>
+      other is CustomBoardCell && row == other.row && column == other.column;
 
   const CustomBoardCell(this.row, this.column);
 

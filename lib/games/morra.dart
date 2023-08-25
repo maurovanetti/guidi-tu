@@ -1,5 +1,3 @@
-import 'dart:collection';
-
 import 'package:collection/collection.dart';
 import 'package:flutter/material.dart';
 
@@ -294,7 +292,7 @@ class MorraOutcome extends OutcomeScreen {
 }
 
 class MorraOutcomeState extends OutcomeScreenState<MorraMove> {
-  late final _fingers = LinkedHashMap<Player, int>();
+  late final _fingers = <Player, int>{};
   late final _playerPerformances = <PlayerPerformance>[];
 
   @override

@@ -104,6 +104,7 @@ class CustomSpriteComponent<T extends Game> extends SpriteAnimationComponent
 
   // Replaces absoluteAngle that doesn't take BodyComponent ancestors into
   // account.
+  // See https://github.com/flame-engine/flame/pull/2678
   double get realAngle {
     double realAngle = angle;
     for (var ancestor in ancestors(includeSelf: false)) {

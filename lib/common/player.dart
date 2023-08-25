@@ -1,4 +1,3 @@
-import 'package:equatable/equatable.dart';
 import 'package:flame/extensions.dart';
 import 'package:flutter/material.dart';
 
@@ -9,7 +8,7 @@ import 'score_aware.dart';
 import 'style_guide.dart';
 import 'widget_keys.dart';
 
-class Player extends Equatable with Gendered {
+class Player with Gendered {
   int id;
   String name;
 
@@ -67,9 +66,6 @@ class Player extends Equatable with Gendered {
 
   String iconAssetPath(PlayerIconVariant variant) =>
       'players/${variant.name}/$iconName.png';
-
-  @override
-  List<Object?> get props => [id, name];
 }
 
 class NoPlayer extends Player {
