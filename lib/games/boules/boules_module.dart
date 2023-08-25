@@ -13,9 +13,12 @@ class BoulesModule extends Forge2DGameWithDragging {
   static const boulesSetupKey = "boulesSetup";
   final void Function(bool ready) setReady;
   late final List<BoulesBowl> _bowls;
+  late final BoulesJack _jack;
   late Vector2 _startPosition;
 
   Vector2 get lastBowlPosition => _activeBowl.body.position;
+
+  Vector2 get updatedJackPosition => _jack.body.position;
 
   late final BoulesBowl _activeBowl;
   late final BoulesTarget _target;
@@ -60,18 +63,21 @@ class BoulesModule extends Forge2DGameWithDragging {
       for (var bowlSetup in boulesSetup) {
         var bowl = BoulesBowl.fromJson(bowlSetup);
         bowls.add(bowl);
+        if (bowl is BoulesJack) {
+          _jack = bowl;
+        }
       }
     } else {
-      var jack = BoulesJack(_jackPosition);
-      bowls.add(jack);
+      _jack = BoulesJack(_initialJackPosition);
+      bowls.add(_jack);
       TeamAware.storeSessionData({
-        boulesSetupKey: [jack.toJson()],
+        boulesSetupKey: [_jack.toJson()],
       });
     }
     return bowls;
   }
 
-  Vector2 get _jackPosition => Vector2(size.x / 2, size.y / 5);
+  Vector2 get _initialJackPosition => Vector2(size.x / 2, size.y / 5);
 
   CustomTextBoxComponent? _hint;
 
@@ -87,7 +93,7 @@ class BoulesModule extends Forge2DGameWithDragging {
     add(_target);
     _hint = CustomTextBoxComponent(
       "Trascina la freccia e poi lascia andare per lanciare la boccia",
-      _jackPosition + Vector2(0, BoulesJack.radius * 2),
+      _initialJackPosition + Vector2(0, BoulesJack.radius * 2),
       autoDismiss: true,
       scale: 1 / zoom,
     );

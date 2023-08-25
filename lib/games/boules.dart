@@ -44,8 +44,10 @@ class BoulesGameAreaState extends GameAreaState<BoulesMove>
   }
 
   @override
-  BoulesMove getMove() =>
-      BoulesMove(bowlPosition: _gameModule.lastBowlPosition);
+  BoulesMove getMove() => BoulesMove(
+        bowlPosition: _gameModule.lastBowlPosition,
+        jackPosition: _gameModule.updatedJackPosition,
+      );
 
   @override
   Widget build(BuildContext context) => GameWidget(game: _gameModule);
@@ -68,12 +70,14 @@ class BoulesOutcomeState extends OutcomeScreenState<BoulesMove> {
 
 class BoulesMove extends Move {
   final Vector2 bowlPosition;
+  static Vector2 finalJackPosition = Vector2.zero();
 
-  const BoulesMove({required this.bowlPosition});
+  BoulesMove({required this.bowlPosition, required Vector2 jackPosition}) {
+    BoulesMove.finalJackPosition = jackPosition;
+  }
 
   double distanceFromJack() {
-    Vector2 jackPosition = Vector2.zero(); // TODO
-    return bowlPosition.distanceTo(jackPosition);
+    return bowlPosition.distanceTo(finalJackPosition);
   }
 
   @override
