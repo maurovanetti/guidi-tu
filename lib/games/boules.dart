@@ -84,4 +84,15 @@ class BoulesMove extends Move {
   int getPointsFor(Player player, Iterable<RecordedMove<Move>> allMoves) {
     return (distanceFromJack() * 1000).toInt();
   }
+
+  @override
+  int getTurnPriorityFor(
+          Player player, Iterable<RecordedMove<Move>> allMoves) =>
+      -super.getTurnPriorityFor(player, allMoves);
+
+  @override
+  int samePlayerCompareTo(Move other) {
+    return distanceFromJack()
+        .compareTo((other as BoulesMove).distanceFromJack());
+  }
 }

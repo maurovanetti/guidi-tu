@@ -1,3 +1,4 @@
+import 'package:collection/collection.dart';
 import 'package:flutter/foundation.dart';
 
 import 'move.dart';
@@ -17,7 +18,7 @@ mixin TurnAware<T extends Move> on TeamAware {
 
   static Player get currentPlayer => _currentPlayer;
 
-  static final Map<Player, RecordedMove> _moves = {};
+  static final Map<Player, List<RecordedMove>> _moves = {};
 
   bool nextTurn() {
     _currentTurn++;
@@ -27,9 +28,10 @@ mixin TurnAware<T extends Move> on TeamAware {
 
       return false;
     }
+    debugPrint("Current turn: $_currentTurn (round $_currentRound)");
 
     // Rounds after the first one are sorted
-    if (_currentTurn > players.length) {
+    if (_currentTurn >= players.length) {
       sortCurrentRound();
     }
 
@@ -55,32 +57,48 @@ mixin TurnAware<T extends Move> on TeamAware {
 
   bool get worstFirst => true;
 
-  Future<void> sortCurrentRound() async {
+  void sortCurrentRound() {
     final roundEnd = (_currentRound + 1) * players.length;
     final remainingTurnsInRound = _turns.sublist(_currentTurn, roundEnd);
     remainingTurnsInRound.sort((a, b) {
-      final moveA = getRecordedMove(players[a]);
-      final moveB = getRecordedMove(players[b]);
-      return moveA.compareTo(moveB, _moves.values);
+      final moveA = getBestRecordedMove(players[a]);
+      final moveB = getBestRecordedMove(players[b]);
+      return moveA.compareTo(moveB, _moves.values.flattened);
     });
     _turns.replaceRange(_currentTurn, roundEnd, remainingTurnsInRound);
+    debugPrint("Sorted turns: $_turns");
   }
 
   void recordMove(T move, double time) {
-    _moves[_currentPlayer] = RecordedMove<T>(
+    final recordedMove = RecordedMove<T>(
       move: move,
       player: _currentPlayer,
       time: time,
     );
+    if (!_moves.containsKey(_currentPlayer)) {
+      _moves[_currentPlayer] = [recordedMove];
+    } else {
+      _moves[_currentPlayer]!.add(recordedMove);
+    }
   }
 
-  RecordedMove<T> getRecordedMove(Player player) =>
-      _moves[player] as RecordedMove<T>;
+  List<RecordedMove> getRecordedMoves(Player player) =>
+      _moves[player] as List<RecordedMove>;
 
-  T getMove(Player player) => getRecordedMove(player).move;
+  RecordedMove<T> getRecordedMove(Player player) {
+    return getRecordedMoves(player).single as RecordedMove<T>;
+  }
+
+  RecordedMove<T> getBestRecordedMove(Player player) {
+    final recordedMoves = getRecordedMoves(player);
+    recordedMoves.sort((a, b) => a.samePlayerCompareTo(b));
+    return recordedMoves.first as RecordedMove<T>;
+  }
+
+  T getBestMove(Player player) => getBestRecordedMove(player).move;
+
+  double getTime(Player player) => getBestRecordedMove(player).time;
 
   int getPoints(Player player) =>
-      getMove(player).getPointsFor(player, _moves.values);
-
-  double getTime(Player player) => getRecordedMove(player).time;
+      getBestMove(player).getPointsFor(player, _moves.values.flattened);
 }

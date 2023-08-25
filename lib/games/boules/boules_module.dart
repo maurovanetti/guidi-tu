@@ -18,7 +18,11 @@ class BoulesModule extends Forge2DGameWithDragging {
 
   Vector2 get lastBowlPosition => _activeBowl.body.position;
 
-  Vector2 get updatedJackPosition => _jack.body.position;
+  Vector2 get updatedJackPosition =>
+      _jack.isLoaded ? _jack.body.position : _jack.initialPosition;
+
+  Iterable<BoulesBowl> get playedBowls =>
+      _bowls.where((bowl) => bowl is! BoulesJack);
 
   late final BoulesBowl _activeBowl;
   late final BoulesTarget _target;

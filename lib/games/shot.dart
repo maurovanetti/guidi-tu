@@ -346,7 +346,7 @@ class ShotOutcomeState extends StoriesScreenState<ShotMove> {
   @override
   PlayerPerformance getPlayerPerformance(Player player) => PlayerPerformance(
         player,
-        primaryText: getMove(player).n.toString(),
+        primaryText: getBestMove(player).n.toString(),
         secondaryText: _playerNicknames[player]!,
       );
 }

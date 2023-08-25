@@ -1,3 +1,5 @@
+import 'package:flutter/foundation.dart';
+
 import 'player.dart';
 
 abstract class Move {
@@ -11,6 +13,10 @@ abstract class Move {
   // Override according to the specific game rules.
   int getTurnPriorityFor(Player player, Iterable<RecordedMove> allMoves) =>
       getPointsFor(player, allMoves);
+
+  // Override for games with multiple rounds.
+  @protected
+  int samePlayerCompareTo(Move other) => 0;
 }
 
 class NoMove extends Move {
@@ -44,6 +50,12 @@ class RecordedMove<T extends Move> {
     final thisPriority = move.getTurnPriorityFor(player, all);
     final otherPriority = other.move.getTurnPriorityFor(other.player, all);
     return thisPriority - otherPriority;
+  }
+
+  int samePlayerCompareTo(RecordedMove other) {
+    assert(player == other.player, "This method is only for same-player moves");
+    int comparison = move.samePlayerCompareTo(other.move);
+    return comparison == 0 ? -time.compareTo(other.time) : comparison;
   }
 }
 
