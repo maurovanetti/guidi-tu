@@ -40,6 +40,8 @@ class CustomSpriteComponent<T extends Game> extends SpriteAnimationComponent
   Vector2? _cachedLightDirection;
   Vector2? _shadowOffset; // Works like a cache
 
+  final _tintDecorator = Decorator(); // default no-op
+
   Vector2 get shadowOffset {
     if (_shadowOffset == null || _cachedLightDirection != lightDirection) {
       _cachedLightDirection = lightDirection;
@@ -57,6 +59,21 @@ class CustomSpriteComponent<T extends Game> extends SpriteAnimationComponent
 
   Vector2 get groundLevelPosition => position + shadowOffset;
 
+  // Replaces absoluteAngle that doesn't take BodyComponent ancestors into
+  // account.
+  // See https://github.com/flame-engine/flame/pull/2678
+  double get realAngle {
+    double theta = angle;
+    for (var ancestor in ancestors(includeSelf: false)) {
+      if (ancestor is PositionComponent) {
+        theta += ancestor.angle;
+      } else if (ancestor is BodyComponent) {
+        theta += ancestor.angle;
+      }
+    }
+    return theta;
+  }
+
   static set lightDirection(Vector2 value) =>
       _lightDirection = value.normalized();
 
@@ -67,8 +84,6 @@ class CustomSpriteComponent<T extends Game> extends SpriteAnimationComponent
     _elevation = value;
     _shadowOffset = null; // Invalidates the cached value
   }
-
-  final Decorator _tintDecorator = Decorator(); // default no-op
 
   @override
   set angle(double a) {
@@ -100,21 +115,6 @@ class CustomSpriteComponent<T extends Game> extends SpriteAnimationComponent
     if (color != null) {
       _tintDecorator.addLast(PaintDecorator.tint(color));
     }
-  }
-
-  // Replaces absoluteAngle that doesn't take BodyComponent ancestors into
-  // account.
-  // See https://github.com/flame-engine/flame/pull/2678
-  double get realAngle {
-    double realAngle = angle;
-    for (var ancestor in ancestors(includeSelf: false)) {
-      if (ancestor is PositionComponent) {
-        realAngle += ancestor.angle;
-      } else if (ancestor is BodyComponent) {
-        realAngle += ancestor.angle;
-      }
-    }
-    return realAngle;
   }
 
   @override
@@ -184,7 +184,7 @@ class CustomSpriteComponent<T extends Game> extends SpriteAnimationComponent
   Future<void> flash() async {
     for (var i = 0; i < 7; i++) {
       visible = !visible;
-      var _ = await Future.delayed(const Duration(milliseconds: 200));
+      await Delay.waitFor(1 / 5);
     }
     visible = false;
   }

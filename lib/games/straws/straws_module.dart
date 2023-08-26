@@ -12,7 +12,7 @@ class StrawsModule extends FlameGame {
   static const minStrawLengthRatio = 0.4; // as fraction of game area width
   static const strawsSetupKey = "strawsSetup";
 
-  final void Function(bool) setReady;
+  final void Function({bool ready}) setReady;
 
   late final List<StrawsStraw> _straws;
   int _pickedStrawIndex = 0;

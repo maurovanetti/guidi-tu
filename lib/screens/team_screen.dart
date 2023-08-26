@@ -25,7 +25,7 @@ class _TeamScreenState extends TrackedState<TeamScreen>
   @override
   initState() {
     super.initState();
-    Future.delayed(Duration.zero, () async {
+    Delay.atNextFrame(() async {
       await retrieveTeam();
       if (mounted) {
         setState(() {

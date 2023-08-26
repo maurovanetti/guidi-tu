@@ -42,9 +42,11 @@ class Navigation {
       case NavigationPushMode.push:
         unawaited(Navigator.push(context, route));
         break;
+
       case NavigationPushMode.replaceLast:
         unawaited(Navigator.pushReplacement(context, route));
         break;
+
       case NavigationPushMode.replaceAll:
         unawaited(
           Navigator.pushAndRemoveUntil(context, route, (anyRoute) => false),

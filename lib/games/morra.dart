@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:collection/collection.dart';
 import 'package:flutter/material.dart';
 
@@ -52,7 +54,7 @@ class MorraGameAreaState extends ShotGameAreaState<MorraMove>
   @override
   void didChangeDependencies() {
     for (var hand in [...HandImage.hands, ...HandImage.outlinedHands]) {
-      precacheImage(AssetImage(hand), context);
+      unawaited(precacheImage(AssetImage(hand), context));
     }
     super.didChangeDependencies();
   }
@@ -219,9 +221,11 @@ class HandImageState extends State<HandImage> with TickerProviderStateMixin {
       case HandImageVariant.withNumber:
         color = null;
         break;
+
       case HandImageVariant.definedWithIcon:
         color = Colors.white;
         break;
+
       case HandImageVariant.undefinedWithIcon:
         color = Colors.grey[600];
         break;

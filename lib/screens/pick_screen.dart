@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'dart:math';
 
 import 'package:flutter/material.dart';
@@ -28,7 +29,7 @@ class _PickScreenState extends TrackedState<PickScreen>
   @override
   initState() {
     super.initState();
-    Future.delayed(Duration.zero, () async {
+    Delay.atNextFrame(() {
       ScoreAware.resetScores();
       _playerCount = players.length;
       var suggestedCards = [];
@@ -45,9 +46,7 @@ class _PickScreenState extends TrackedState<PickScreen>
         );
         (gameCard.suggested ? suggestedCards : otherCards).add(gameCard);
       }
-      suggestedCards.shuffle(Random(DateTime
-          .now()
-          .second));
+      suggestedCards.shuffle(Random(DateTime.now().second));
       _gameCards = [...suggestedCards, ...otherCards];
       _select(_gameCards.first);
     });
@@ -67,7 +66,7 @@ class _PickScreenState extends TrackedState<PickScreen>
 
   bool _isSuggested(GameFeatures gameFeatures) =>
       _playerCount >= gameFeatures.minSuggestedPlayers &&
-          _playerCount <= gameFeatures.maxSuggestedPlayers;
+      _playerCount <= gameFeatures.maxSuggestedPlayers;
 
   Future<void> _startGame() async {
     await resetTurn(rounds: _selectedGame.rounds);
@@ -124,7 +123,7 @@ class GameCard extends StatelessWidget {
   final Widget gameStart;
   final int rounds;
 
-  // ignore: prefer-widget-private-members, avoid-incomplete-copy-with
+  // ignore: avoid-incomplete-copy-with
   GameCard copyWith({required bool selected}) {
     return GameCard(
       name: name,

@@ -35,7 +35,7 @@ class GameFeatures {
   final int maxSuggestedPlayers;
   final int rounds;
   final GameArea Function({
-    required void Function(bool ready) setReady,
+    required void Function({bool ready}) setReady,
     required MoveReceiver moveReceiver,
     required DateTime startTime,
   }) buildGameArea;

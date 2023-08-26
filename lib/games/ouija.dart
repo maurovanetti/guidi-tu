@@ -55,12 +55,15 @@ class OuijaGameAreaState extends GameAreaState<OuijaMove>
       case 3:
         letterCount = 8;
         break;
+
       case 4:
         letterCount = 6;
         break;
+
       case 5:
         letterCount = 5;
         break;
+
       case 6:
       case 7:
       default:

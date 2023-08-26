@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:flame/sprite.dart';
 import 'package:flame/widgets.dart';
 import 'package:flutter/material.dart';
@@ -33,13 +35,7 @@ class InterstitialAnimationState extends State<InterstitialAnimation> {
   void initState() {
     super.initState();
     _animationCount = widget.repeat;
-    _loadAnimation();
-  }
-
-  @override
-  dispose() {
-    animationTicker == null;
-    super.dispose();
+    unawaited(_loadAnimation());
   }
 
   Future<void> _loadAnimation() async {
@@ -59,6 +55,12 @@ class InterstitialAnimationState extends State<InterstitialAnimation> {
       });
       repeatAnimation();
     }
+  }
+
+  @override
+  dispose() {
+    animationTicker == null;
+    super.dispose();
   }
 
   @protected

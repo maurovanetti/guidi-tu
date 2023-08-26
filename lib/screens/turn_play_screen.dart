@@ -33,7 +33,7 @@ class TurnPlayState<T extends Move> extends GameSpecificState<TurnPlayScreen>
     ready = widget.isReadyAtStart;
   }
 
-  void setReady(bool ready) {
+  void setReady({bool ready = false}) {
     if (this.ready != ready) {
       debugPrint("Ready changed to $ready");
       setState(() {

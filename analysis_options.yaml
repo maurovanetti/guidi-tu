@@ -39,7 +39,9 @@ dart_code_metrics:
     - avoid-non-null-assertion: false
     - avoid-late-keyword: false
     - avoid-similar-names: false
+    - avoid-stateless-widget-initialized-fields: false # TODO: remove when fixed
     - avoid-unsafe-collection-methods: false
+    - enum-constants-ordering: false
     - format-comment: false
     - newline-before-return: false
     - no-empty-block: false
@@ -63,7 +65,6 @@ dart_code_metrics:
     - prefer-single-widget-per-file: false
     - prefer-type-over-var: false
     - prefer-unwrapping-future-or: false
-    - prefer-widget-private-members:
-         ignore-static: true
+    - prefer-widget-private-members: false
     - unnecessary-trailing-comma:
         max-width: 40

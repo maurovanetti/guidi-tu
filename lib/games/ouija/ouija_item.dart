@@ -71,12 +71,12 @@ class OuijaActiveItem extends OuijaItem with TapCallbacks {
     _clickable = value;
     textRenderer = OuijaItemTextRenderer(
       height: _boxSize.x,
-      color: color(clickable),
+      color: color(canBeClicked: clickable),
     );
   }
 
   OuijaActiveItem(String letter, OuijaBoardCell cell)
-      : super._onCell(letter, cell, color(true)) {
+      : super._onCell(letter, cell, color(canBeClicked: true)) {
     cell.board.registerLetterItem(this, letter);
     onSelect = letter == backspace
         ? () {
@@ -91,10 +91,11 @@ class OuijaActiveItem extends OuijaItem with TapCallbacks {
           };
   }
 
-  static Color color(bool canBeClicked) =>
+  static Color color({required bool canBeClicked}) =>
       canBeClicked ? Colors.white : Colors.black;
 
-  static Color backgroundColor(bool canBeClicked) => color(!canBeClicked);
+  static Color backgroundColor({required bool canBeClicked}) =>
+      color(canBeClicked: !canBeClicked);
 
   @override
   void render(Canvas canvas) {
@@ -109,7 +110,10 @@ class OuijaActiveItem extends OuijaItem with TapCallbacks {
       boxWidth,
       boxHeight,
     ));
-    canvas.drawRRect(rect, Paint()..color = backgroundColor(clickable));
+    canvas.drawRRect(
+      rect,
+      Paint()..color = backgroundColor(canBeClicked: clickable),
+    );
     super.render(canvas);
   }
 

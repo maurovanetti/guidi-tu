@@ -63,6 +63,7 @@ class StopwatchGameAreaState extends GameAreaState<StopwatchMove>
 
   @override
   void initState() {
+    super.initState();
     _ticker = createTicker((_) {
       var sinceStart = DateTime.now().difference(widget.startTime);
       var fractionOfPeriod = Stopwatch.fractionOfPeriod(sinceStart);
@@ -72,12 +73,11 @@ class StopwatchGameAreaState extends GameAreaState<StopwatchMove>
       });
     });
     unawaited(_ticker.start());
-    super.initState();
   }
 
   void _stop() {
     _ticker.stop();
-    widget.setReady(true);
+    widget.setReady(ready: true);
   }
 
   _trafficLightColor(double t) {
@@ -88,6 +88,8 @@ class StopwatchGameAreaState extends GameAreaState<StopwatchMove>
       return badColor;
     } else if (t < t2) {
       return Color.lerp(badColor, averageColor, (t - t1) / (t2 - t1));
+      // (False positive)
+      // ignore: avoid-redundant-else
     } else {
       return Color.lerp(averageColor, goodColor, (t - t2) / (t3 - t2));
     }

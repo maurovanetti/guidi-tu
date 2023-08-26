@@ -3,15 +3,15 @@ import 'package:flame/events.dart';
 import 'package:flame_forge2d/forge2d_game.dart';
 
 abstract class Forge2DGameWithDragging extends Forge2DGame with DragCallbacks {
-  PositionComponent? get dragged;
-
-  late final double zoom;
-
-  Forge2DGameWithDragging({this.zoom = Forge2DGame.defaultZoom})
-      : super(zoom: zoom);
+  final double zoom;
 
   // Only one pointer is valid
   num _dragPointerId = double.nan;
+
+  PositionComponent? get dragged;
+
+  Forge2DGameWithDragging({this.zoom = Forge2DGame.defaultZoom})
+      : super(zoom: zoom);
 
   @override
   void onDragStart(DragStartEvent event) {
@@ -33,7 +33,7 @@ abstract class Forge2DGameWithDragging extends Forge2DGame with DragCallbacks {
   @override
   bool containsLocalPoint(Vector2 p) =>
       // This fixes the mismatch between Forge2D and ordinary coordinate systems
-  super.containsLocalPoint(screenToWorld(p));
+      super.containsLocalPoint(screenToWorld(p));
 
   @override
   void onDragCancel(DragCancelEvent event) {

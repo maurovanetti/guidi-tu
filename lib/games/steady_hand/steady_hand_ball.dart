@@ -54,6 +54,7 @@ class SteadyHandBall extends BodyComponent {
 
   @override
   void onRemove() {
+    // ignore: avoid-async-call-in-sync-function
     _accelerations?.cancel();
     super.onRemove();
   }
@@ -67,7 +68,7 @@ class SteadyHandBall extends BodyComponent {
       _isFalling = true;
       body.linearVelocity.setZero();
       body.setAwake(false);
-      sprite.flash();
+      unawaited(sprite.flash());
       notifyFallen();
     }
     super.update(dt);

@@ -7,7 +7,8 @@ import 'straws_straw.dart';
 
 class StrawsReplay extends StrawsModule {
   final List<Map<String, dynamic>> strawsToDisplay;
-  StrawsReplay(this.strawsToDisplay) : super(setReady: (_) {});
+  StrawsReplay(this.strawsToDisplay)
+      : super(setReady: ({bool ready = true}) {});
 
   @override
   Future<List<StrawsStraw>> retrieveStraws({required Sprite sprite}) async {

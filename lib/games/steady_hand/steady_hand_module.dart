@@ -29,8 +29,11 @@ class SteadyHandModule extends Forge2DGame {
       platform,
       notifyFallen: notifyFallen,
     );
+    // ignore: avoid-async-call-in-sync-function
     add(platform);
+    // ignore: avoid-async-call-in-sync-function
     add(ball);
+    // ignore: avoid-async-call-in-sync-function
     super.onLoad();
   }
 }

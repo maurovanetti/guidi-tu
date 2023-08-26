@@ -56,6 +56,7 @@ class SteadyHandPlatform extends CustomSpriteComponent {
       ],
       onComplete: _cycle,
     );
+    // ignore: avoid-async-call-in-sync-function
     add(sequence);
   }
 }

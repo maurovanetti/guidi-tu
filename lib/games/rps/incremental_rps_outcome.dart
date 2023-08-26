@@ -24,7 +24,7 @@ class IncrementalRockPaperScissorsOutcomeState
   @override
   initState() {
     super.initState();
-    Future.delayed(const Duration(milliseconds: 1000), () async {
+    Delay.after(1, () async {
       var gestureCount = widget.incrementalScores.first.gestures.length;
       for (int i = 0; i < gestureCount; i++) {
         await _schedule([_resolve(i)], 1.0);
@@ -36,14 +36,11 @@ class IncrementalRockPaperScissorsOutcomeState
     if (!mounted) return;
     var _ = await Future.wait(tasks);
     if (!mounted) return;
-    return Future.delayed(Duration(
-      milliseconds: (Duration.millisecondsPerSecond * seconds).toInt(),
-    ));
+    return Delay.waitFor(seconds);
   }
 
   Future<void> _shortPause() async {
-    // ignore: avoid-ignoring-return-values
-    await Future.delayed(const Duration(milliseconds: 500));
+    await Delay.waitFor(1 / 2);
   }
 
   Future<void> _resolve(int position) async {
@@ -161,12 +158,16 @@ class RockPaperScissorsGestureOutcome {
     switch (type) {
       case RockPaperScissorsGestureOutcomeType.pending:
         return Colors.grey.shade500;
+
       case RockPaperScissorsGestureOutcomeType.tie:
         return Colors.grey.shade400;
+
       case RockPaperScissorsGestureOutcomeType.standoff:
         return Colors.orange.shade200;
+
       case RockPaperScissorsGestureOutcomeType.victory:
         return Colors.green.shade300;
+
       case RockPaperScissorsGestureOutcomeType.defeat:
         return Colors.red.shade800;
     }
@@ -179,6 +180,7 @@ class RockPaperScissorsGestureOutcome {
       case RockPaperScissorsGestureOutcomeType.standoff:
       case RockPaperScissorsGestureOutcomeType.defeat:
         return false;
+
       case RockPaperScissorsGestureOutcomeType.victory:
         return true;
     }

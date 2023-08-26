@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 
 import 'style_guide.dart';
@@ -11,7 +13,7 @@ class CustomFloatingActionButton extends StatelessWidget {
     this.heroTag = 'hero',
   });
 
-  final VoidCallback? onPressed;
+  final FutureOr<void> Function()? onPressed;
   final String tooltip;
   final IconData icon;
   final String heroTag;

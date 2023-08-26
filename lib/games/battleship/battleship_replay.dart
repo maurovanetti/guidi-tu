@@ -14,7 +14,7 @@ export 'battleship_item.dart';
 export 'battleship_ship.dart';
 
 class BattleshipReplay extends BattleshipModule {
-  BattleshipReplay() : super(setReady: (_) {});
+  BattleshipReplay() : super(setReady: ({bool ready = true}) {});
 
   @override
   Future<void> onLoad() async {
@@ -35,6 +35,7 @@ class BattleshipReplay extends BattleshipModule {
   BattleshipBomb importBomb(BattleshipBoardCell cell, Player player) {
     var bomb = BattleshipBomb.createOn(board, cell, player: player)
       ..draggable = false;
+    // ignore: avoid-async-call-in-sync-function
     add(bomb);
     // Bombs are not "placed" on the board, just displayed over it, because
     // their places are potentially occupied by rival ships
@@ -43,6 +44,7 @@ class BattleshipReplay extends BattleshipModule {
 
   BattleshipShip importShip(BattleshipShip ship, BattleshipBoardCell cell) {
     var shipClone = ship.copyOn(board, cell)..draggable = false;
+    // ignore: avoid-async-call-in-sync-function
     add(shipClone);
     assert(board.placeItem(shipClone), "Ship import failed");
     return shipClone;

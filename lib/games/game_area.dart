@@ -13,7 +13,7 @@ abstract class GameArea<T extends Move> extends StatefulWidget {
 
   final GameFeatures gameFeatures;
   final DateTime startTime; // Only used in "synchronized" games like Stopwatch
-  final void Function(bool ready) setReady;
+  final void Function({bool ready}) setReady;
   final MoveReceiver<T> moveReceiver;
 
   @override

@@ -70,6 +70,7 @@ class BoulesOutcomeState extends OutcomeScreenState<BoulesMove> {
 
 class BoulesMove extends Move {
   final Vector2 bowlPosition;
+  // ignore: avoid-global-state
   static Vector2 finalJackPosition = Vector2.zero();
 
   BoulesMove({required this.bowlPosition, required Vector2 jackPosition}) {
@@ -87,7 +88,9 @@ class BoulesMove extends Move {
 
   @override
   int getTurnPriorityFor(
-          Player player, Iterable<RecordedMove<Move>> allMoves) =>
+    Player player,
+    Iterable<RecordedMove<Move>> allMoves,
+  ) =>
       -super.getTurnPriorityFor(player, allMoves);
 
   @override

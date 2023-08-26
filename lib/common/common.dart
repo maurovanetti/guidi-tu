@@ -1,11 +1,10 @@
-// Configurations and standards
-// Graphic utilities
 export 'animation_loader.dart';
 export 'clock.dart';
 export 'config.dart';
 export 'custom_button.dart';
 export 'custom_fab.dart';
 export 'custom_notifier.dart';
+export 'delay.dart';
 export 'fitted_text.dart';
 export 'game_aware.dart';
 export 'game_features.dart';

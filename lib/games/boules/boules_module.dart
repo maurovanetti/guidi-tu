@@ -2,19 +2,26 @@ import 'package:flame/components.dart';
 import 'package:flame/events.dart';
 import 'package:flutter/material.dart';
 
-import '../flame/custom_text_box_component.dart';
 import '/common/common.dart';
 import '/games/flame/forge2d_game_with_dragging.dart';
+import '../flame/custom_text_box_component.dart';
 import 'boules_bowl.dart';
 import 'boules_target.dart';
 import 'boules_wall.dart';
 
 class BoulesModule extends Forge2DGameWithDragging {
   static const boulesSetupKey = "boulesSetup";
-  final void Function(bool ready) setReady;
+  final void Function({bool ready}) setReady;
   late final List<BoulesBowl> _bowls;
   late final BoulesJack _jack;
   late Vector2 _startPosition;
+
+  late final BoulesBowl _activeBowl;
+  late final BoulesTarget _target;
+
+  CustomTextBoxComponent? _hint;
+
+  bool _beholdTheOutcome = false;
 
   Vector2 get lastBowlPosition => _activeBowl.body.position;
 
@@ -24,25 +31,15 @@ class BoulesModule extends Forge2DGameWithDragging {
   Iterable<BoulesBowl> get playedBowls =>
       _bowls.where((bowl) => bowl is! BoulesJack);
 
-  late final BoulesBowl _activeBowl;
-  late final BoulesTarget _target;
-
   @override
   PositionComponent? get dragged => _target.isMounted ? _target : null;
+
+  Vector2 get _initialJackPosition => Vector2(size.x / 2, size.y / 5);
 
   BoulesModule({required this.setReady});
 
   @override
   backgroundColor() => Colors.green[900]!;
-
-  Future<void> _onBowlChangedState() async {
-    if (_beholdTheOutcome && _bowls.every((bowl) => bowl.isSleeping)) {
-      await TeamAware.storeSessionData({
-        boulesSetupKey: _bowls.map((bowl) => bowl.toJson()).toList(),
-      });
-      setReady(true);
-    }
-  }
 
   @override
   Future<void> onLoad() async {
@@ -81,12 +78,9 @@ class BoulesModule extends Forge2DGameWithDragging {
     return bowls;
   }
 
-  Vector2 get _initialJackPosition => Vector2(size.x / 2, size.y / 5);
-
-  CustomTextBoxComponent? _hint;
-
   void init() {
-    _startPosition = Vector2(size.x / 2, size.y - (BoulesBowl.radius * 1.5));
+    _startPosition =
+        Vector2(size.x / 2, size.y - (BoulesBowl.radius * (3 / 2)));
     _activeBowl = BoulesBowl(_startPosition, player: TurnAware.currentPlayer);
     _bowls.add(_activeBowl);
     _target = BoulesTarget(
@@ -94,6 +88,7 @@ class BoulesModule extends Forge2DGameWithDragging {
       origin: _startPosition,
       referenceColor: TurnAware.currentPlayer.color,
     );
+    // ignore: avoid-async-call-in-sync-function
     add(_target);
     _hint = CustomTextBoxComponent(
       "Trascina la freccia e poi lascia andare per lanciare la boccia",
@@ -101,15 +96,15 @@ class BoulesModule extends Forge2DGameWithDragging {
       autoDismiss: true,
       scale: 1 / zoom,
     );
+    // ignore: avoid-async-call-in-sync-function
     add(_hint!);
   }
 
   @override
   bool containsLocalPoint(Vector2 p) {
-    if (screenToWorld(p).y > _startPosition.y) {
-      return false;
-    }
-    return super.containsLocalPoint(p);
+    return (screenToWorld(p).y > _startPosition.y)
+        ? false
+        : super.containsLocalPoint(p);
   }
 
   @override
@@ -118,17 +113,25 @@ class BoulesModule extends Forge2DGameWithDragging {
     super.onDragStart(event);
   }
 
-  bool _beholdTheOutcome = false;
-
   @override
   void onRelevantDragEnd() {
     if (dragged != null) {
       _activeBowl.launchTowards(dragged!.position);
       remove(dragged!);
-      Future.delayed(const Duration(seconds: 3), () {
+      Delay.after(3, () {
         _beholdTheOutcome = true;
         _onBowlChangedState();
       });
+    }
+  }
+
+  void _onBowlChangedState() {
+    if (_beholdTheOutcome && _bowls.every((bowl) => bowl.isSleeping)) {
+      // ignore: avoid-async-call-in-sync-function
+      TeamAware.storeSessionData({
+        boulesSetupKey: _bowls.map((bowl) => bowl.toJson()).toList(),
+      });
+      setReady(ready: true);
     }
   }
 }

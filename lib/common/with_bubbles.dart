@@ -6,8 +6,9 @@ import 'package:flutter/material.dart';
 import '/main.dart';
 
 class WithBubbles extends StatelessWidget {
-  static bool _enabled = true; // Disabled in tests.
-  set enabled(bool value) => _enabled = value;
+  @visibleForTesting
+  // ignore: avoid-global-state
+  static bool enabled = true; // Disabled in tests.
 
   const WithBubbles({
     super.key,
@@ -24,7 +25,7 @@ class WithBubbles extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    if (!_enabled) return child;
+    if (!enabled) return child;
 
     return Stack(
       children: [
@@ -64,12 +65,12 @@ class BubbleState extends State<Bubble>
     with TickerProviderStateMixin, RouteAware {
   static const maxAlpha = 50;
 
-  late final AnimationController _floatingController = AnimationController(
+  late final _floatingController = AnimationController(
     value: widget.phase,
     duration: const Duration(seconds: 10),
     vsync: this,
   );
-  late final AnimationController _fadingController = AnimationController(
+  late final _fadingController = AnimationController(
     duration: const Duration(seconds: 4),
     vsync: this,
   );
@@ -78,6 +79,7 @@ class BubbleState extends State<Bubble>
 
   @override
   void initState() {
+    super.initState();
     unawaited(_floatingController.repeat());
     _fadeIn();
     _fadingController.addListener(() {
@@ -86,9 +88,9 @@ class BubbleState extends State<Bubble>
       });
     });
     WidgetsBinding.instance.addPostFrameCallback((_) {
+      // ignore: avoid-inherited-widget-in-initstate
       App.routeObserver.subscribe(this, ModalRoute.of(context)!);
     });
-    super.initState();
   }
 
   void _fadeIn() {
@@ -118,7 +120,7 @@ class BubbleState extends State<Bubble>
 
   @override
   Widget build(BuildContext context) {
-    var screen = MediaQuery.of(context).size;
+    var screen = MediaQuery.sizeOf(context);
     var randomX = widget.xFactor * screen.width;
     var radius = widget.radius * (widget.square ? 0.8 : 1);
 

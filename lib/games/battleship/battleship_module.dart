@@ -18,7 +18,7 @@ class BattleshipModule extends FlameGame {
   final int shipCount;
   final int bombCount;
 
-  final void Function(bool ready) setReady;
+  final void Function({bool ready}) setReady;
 
   BattleshipModule({
     required this.setReady,
@@ -132,6 +132,7 @@ class BattleshipModule extends FlameGame {
             bombPositions[i],
             board: board,
           );
+          // ignore: avoid-async-call-in-sync-function
           add(bomb);
         }
         // A hint to place bombs is displayed.
@@ -139,13 +140,14 @@ class BattleshipModule extends FlameGame {
           "E ora decidi dove colpire",
           rightwardOneCell * (gridColumns / 2) + downwardOneCell,
         );
+        // ignore: avoid-async-call-in-sync-function
         add(bombsHint);
 
         board.addListener(() {
           if (!board.isEmpty) {
             bombsHint.dismiss();
           }
-          setReady(board.isFull);
+          setReady(ready: board.isFull);
         });
       } else if (!board.isEmpty) {
         // After the first ship is placed, the first hint is removed.

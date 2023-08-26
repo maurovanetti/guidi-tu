@@ -21,7 +21,7 @@ class IncrementalOuijaOutcomeState extends State<IncrementalOuijaOutcome> {
   @override
   initState() {
     super.initState();
-    Future.delayed(const Duration(milliseconds: 1000), () async {
+    Delay.after(1, () async {
       int letterCount =
           widget.incrementalScores.firstOrNull?.letters.length ?? 0;
       for (int i = 0; i < letterCount; i++) {
@@ -34,14 +34,11 @@ class IncrementalOuijaOutcomeState extends State<IncrementalOuijaOutcome> {
     if (!mounted) return;
     var _ = await Future.wait(tasks);
     if (!mounted) return;
-    return Future.delayed(Duration(
-      milliseconds: (Duration.millisecondsPerSecond * seconds).toInt(),
-    ));
+    return Delay.waitFor(seconds);
   }
 
   Future<void> _shortPause() async {
-    // ignore: avoid-ignoring-return-values
-    await Future.delayed(const Duration(milliseconds: 500));
+    await Delay.waitFor(1 / 2);
   }
 
   Future<void> _resolve(int position) async {
@@ -65,9 +62,11 @@ class IncrementalOuijaOutcomeState extends State<IncrementalOuijaOutcome> {
           case OuijaGuessType.guess:
             beingChecked.pointsForGuesses += Ouija.guessValue;
             break;
+
           case OuijaGuessType.miss:
             beingChecked.pointsForMisses += Ouija.missValue;
             break;
+
           case OuijaGuessType.pending:
           case OuijaGuessType.none:
             break;
@@ -183,10 +182,13 @@ class OuijaGuess {
     switch (type) {
       case OuijaGuessType.pending:
         return null;
+
       case OuijaGuessType.none:
         return Colors.red.shade800;
+
       case OuijaGuessType.miss:
         return Colors.orange.shade200;
+
       case OuijaGuessType.guess:
         return Colors.green.shade300;
     }
@@ -197,6 +199,7 @@ class OuijaGuess {
       case OuijaGuessType.pending:
       case OuijaGuessType.none:
         return FontWeight.normal;
+
       case OuijaGuessType.miss:
       case OuijaGuessType.guess:
         return FontWeight.bold;

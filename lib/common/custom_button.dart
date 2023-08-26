@@ -146,7 +146,7 @@ class _FunnyLabel extends StatelessWidget {
 
     return FittedBox(
       fit: BoxFit.scaleDown,
-      child: RichText(text: TextSpan(children: inlineSpans)),
+      child: Text.rich(TextSpan(children: inlineSpans)),
     );
   }
 }

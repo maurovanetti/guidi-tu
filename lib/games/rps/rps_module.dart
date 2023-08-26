@@ -8,7 +8,7 @@ import 'rps_item.dart';
 class RockPaperScissorsModule extends FlameGame {
   late final RockPaperScissorsBoard board;
   final int gestureCount;
-  final void Function(bool ready) setReady;
+  final void Function({bool ready}) setReady;
 
   RockPaperScissorsSequence get currentSequence => board.sequence;
 
@@ -38,7 +38,7 @@ class RockPaperScissorsModule extends FlameGame {
     board = RockPaperScissorsBoard(rect: grid, slots: gestureCount);
     await add(board);
     board.addListener(() {
-      setReady(board.sequence.length >= gestureCount);
+      setReady(ready: board.sequence.length >= gestureCount);
     });
 
     await add(RockPaperScissorsActiveItem(Rock(), board.cellAt(0, 0)));

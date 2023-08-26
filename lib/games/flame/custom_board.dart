@@ -25,10 +25,10 @@ abstract class CustomBoard<T extends CustomBoardCell>
     required this.gridColumns,
     required this.gridRows,
   }) : super(
-    position: rect.center.toVector2(),
-    size: rect.size.toVector2(),
-    anchor: Anchor.center,
-  ) {
+          position: rect.center.toVector2(),
+          size: rect.size.toVector2(),
+          anchor: Anchor.center,
+        ) {
     cellWidth = rect.width / gridColumns;
     cellHeight = rect.height / gridRows;
     for (double y = 0; y <= rect.height; y += cellHeight) {
@@ -41,11 +41,10 @@ abstract class CustomBoard<T extends CustomBoardCell>
     }
     _cells = List.generate(
       gridRows,
-          (row) =>
-          List.generate(
-            gridColumns,
-                (column) => createCell(row, column),
-          ),
+      (row) => List.generate(
+        gridColumns,
+        (column) => createCell(row, column),
+      ),
     );
   }
 
@@ -78,8 +77,8 @@ abstract class CustomBoard<T extends CustomBoardCell>
   }) sync* {
     for (int row = topRowsSkipped; row < gridRows - bottomRowsSkipped; row++) {
       for (int column = leftmostColumnsSkipped;
-      column < gridColumns - rightmostColumnsSkipped;
-      column++) {
+          column < gridColumns - rightmostColumnsSkipped;
+          column++) {
         var cellCenter = topLeftPosition +
             Vector2(cellWidth * (column + 0.5), cellHeight * (row + 0.5));
         yield cellCenter;
@@ -96,19 +95,19 @@ abstract class CustomBoardCell {
 
   Vector2 get center =>
       board.topLeftPosition +
-          Vector2(
-            board.cellWidth * (column + 0.5),
-            board.cellHeight * (row + 0.5),
-          );
+      Vector2(
+        board.cellWidth * (column + 0.5),
+        board.cellHeight * (row + 0.5),
+      );
 
   @override
   int get hashCode => row * 1000 + column;
 
+  const CustomBoardCell(this.row, this.column);
+
   @override
   operator ==(Object other) =>
       other is CustomBoardCell && row == other.row && column == other.column;
-
-  const CustomBoardCell(this.row, this.column);
 
   CustomBoardCell below() {
     return board.cellAt(row + 1, column);

@@ -28,7 +28,7 @@ abstract class OutcomeScreenState<T extends Move>
         formatPoints: widget.gameFeatures.formatPoints,
       );
       ScoreAware.recordScore(player, score);
-      debugPrint("${player.name} scored ${ScoreAware.scores[player]} "
+      debugPrint("${player.name} scored ${ScoreAware.scores[player] ?? 'N/A'} "
           "at ${widget.gameFeatures.name}");
     }
     if (mounted) {

@@ -23,8 +23,10 @@ mixin Gendered {
     switch (gender) {
       case Gender.male:
         return masculine;
+
       case Gender.female:
         return feminine;
+
       default:
         return neutral ?? masculine; // Arguable
     }

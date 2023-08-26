@@ -92,7 +92,6 @@ class PlacementScreenState extends TrackedState<PlacementScreen>
         tooltip: "Fine",
         icon: Icons.stop_rounded,
         // On press, a short async computation is required
-        // ignore: avoid-passing-async-when-sync-expected
         onPressed: _endGame,
       ),
     );

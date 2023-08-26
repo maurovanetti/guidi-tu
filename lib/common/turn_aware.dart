@@ -18,7 +18,7 @@ mixin TurnAware<T extends Move> on TeamAware {
 
   static Player get currentPlayer => _currentPlayer;
 
-  static final Map<Player, List<RecordedMove>> _moves = {};
+  static final _moves = <Player, List<RecordedMove>>{};
 
   bool nextTurn() {
     _currentTurn++;
@@ -75,10 +75,10 @@ mixin TurnAware<T extends Move> on TeamAware {
       player: _currentPlayer,
       time: time,
     );
-    if (!_moves.containsKey(_currentPlayer)) {
-      _moves[_currentPlayer] = [recordedMove];
-    } else {
+    if (_moves.containsKey(_currentPlayer)) {
       _moves[_currentPlayer]!.add(recordedMove);
+    } else {
+      _moves[_currentPlayer] = [recordedMove];
     }
   }
 

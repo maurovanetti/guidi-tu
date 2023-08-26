@@ -73,6 +73,7 @@ class RockPaperScissorsItem extends PositionComponent {
     _clear();
     var iconSize = size.clone();
     iconSize.x *= 4 / 5;
+    // ignore: avoid-async-call-in-sync-function
     add(RockPaperScissorsIcon(
       gesture,
       size / 2,
@@ -83,6 +84,7 @@ class RockPaperScissorsItem extends PositionComponent {
 
   void setText(String text, {required Color color}) {
     _clear();
+    // ignore: avoid-async-call-in-sync-function
     add(RockPaperScissorsText(
       text,
       size / 2,

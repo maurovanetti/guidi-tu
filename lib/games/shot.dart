@@ -20,13 +20,10 @@ class ShotGameAreaState<T extends ShotMove> extends GameAreaState<T>
   @protected
   int n = 0;
 
-  // ignore: prefer-widget-private-members
   void changeN(int delta) => setState(() => n += delta);
 
-  // ignore: prefer-widget-private-members
   void resetN() => setState(() => n = 0);
 
-  // ignore: prefer-widget-private-members
   void longPressStart(int delta) {
     _longPressTimer =
         Timer.periodic(const Duration(milliseconds: 100), (timer) {
@@ -34,7 +31,6 @@ class ShotGameAreaState<T extends ShotMove> extends GameAreaState<T>
     });
   }
 
-  // ignore: prefer-widget-private-members
   void longPressEnd() {
     _longPressTimer?.cancel();
   }
@@ -303,9 +299,11 @@ class ShotOutcomeState extends StoriesScreenState<ShotMove> {
         case 0:
           story = " ha fatto del suo meglio";
           break;
+
         case 1:
           story = " ha giocato pulito";
           break;
+
         case 2:
           story = " ha fatto la sua mossa";
           break;

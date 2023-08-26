@@ -13,11 +13,15 @@ class BoulesTarget extends CustomSpriteComponent<BoulesModule> {
   final Vector2 origin;
   final Color referenceColor;
 
-  static getColor(Color referenceColor) => referenceColor.brighten(0.66);
+  late final BoulesArrowTrunk _trunk;
 
-  BoulesTarget(Vector2 position,
-      {required this.origin, required this.referenceColor})
-      : super(
+  static final _rightAxis = Vector2(1, 0);
+
+  BoulesTarget(
+    Vector2 position, {
+    required this.origin,
+    required this.referenceColor,
+  }) : super(
           'boules/target.png',
           position,
           hasShadow: false,
@@ -28,12 +32,12 @@ class BoulesTarget extends CustomSpriteComponent<BoulesModule> {
     priority = -1;
   }
 
-  late final BoulesArrowTrunk _trunk;
+  static getColor(Color c) => c.brighten(2 / 3);
 
   @override
   Future<void> onLoad() {
     _trunk = BoulesArrowTrunk(
-      Vector2(0.1, height / 2),
+      Vector2(1 / 10, height / 2),
       color: getColor(referenceColor),
     );
     add(_trunk);
@@ -43,8 +47,8 @@ class BoulesTarget extends CustomSpriteComponent<BoulesModule> {
   @override
   void update(double dt) {
     Vector2 delta = position - origin;
-    transform.angle = -delta.angleTo(Vector2(1, 0));
-    scale.x = clampDouble(delta.length / 10, 0.8, 1.5);
+    transform.angle = -delta.angleTo(_rightAxis);
+    scale.x = clampDouble(delta.length / 10, 4 / 5, 3 / 2);
     _trunk.resize(delta.length / scale.x);
     super.update(dt);
   }

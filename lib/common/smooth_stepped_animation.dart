@@ -1,4 +1,3 @@
-import 'package:flame/sprite.dart';
 import 'package:flutter/foundation.dart';
 
 import 'interstitial_animation.dart';
@@ -13,7 +12,7 @@ class SmoothSteppedAnimation extends InterstitialAnimation {
     required this.page,
   });
 
-  final List<(int, int)> transitions;
+  final List<({int start, int end})> transitions;
   final ValueListenable<int> page;
 
   @override
@@ -21,13 +20,6 @@ class SmoothSteppedAnimation extends InterstitialAnimation {
 }
 
 class SmoothSteppedAnimationState extends InterstitialAnimationState {
-  _changeFrame(SpriteAnimationTicker a, int frameIndex) {
-    a.currentIndex = frameIndex;
-    a.clock = a.spriteAnimation.frames[frameIndex].stepTime;
-    a.elapsed = a.totalDuration();
-    a.update(0);
-  }
-
   @override
   void repeatAnimation() {
     var a = animationTicker!;
@@ -37,17 +29,19 @@ class SmoothSteppedAnimationState extends InterstitialAnimationState {
       int loopStart, loopEnd;
       if (currentStep == 0) {
         loopStart = 0;
-        loopEnd = w.transitions.first.$1;
+        loopEnd = w.transitions.first.start;
       } else if (currentStep < w.transitions.length) {
-        loopStart = w.transitions[currentStep - 1].$2 + 1;
-        loopEnd = w.transitions[currentStep].$1;
+        loopStart = w.transitions[currentStep - 1].end + 1;
+        loopEnd = w.transitions[currentStep].start;
       } else {
-        loopStart = w.transitions.last.$2 + 1;
+        loopStart = w.transitions.last.end + 1;
         loopEnd = a.spriteAnimation.frames.length - 1;
       }
       if (frame >= loopEnd) {
-        // ignore: avoid-ignoring-return-values
-        _changeFrame(a, loopStart);
+        a.currentIndex = loopStart;
+        a.clock = a.spriteAnimation.frames[loopStart].stepTime;
+        a.elapsed = a.totalDuration();
+        a.update(0);
       }
     };
   }

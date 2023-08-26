@@ -27,6 +27,8 @@ class BoulesBowl extends BodyComponent with CustomNotifier {
   late final BoulesBowlSprite sprite;
   final Player player;
 
+  bool isSleeping = true;
+
   double get r => radius;
 
   BoulesBowl(this.initialPosition, {required this.player})
@@ -87,8 +89,6 @@ class BoulesBowl extends BodyComponent with CustomNotifier {
     final impulse = direction * launchImpulseFactor;
     body.applyLinearImpulse(impulse);
   }
-
-  bool isSleeping = true;
 
   @override
   void update(double dt) {

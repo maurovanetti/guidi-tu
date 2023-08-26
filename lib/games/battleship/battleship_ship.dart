@@ -9,7 +9,10 @@ class BattleshipShip extends BattleshipItem {
     required super.board,
     super.cellSpan = 1,
     super.isVertical = false,
-  }) : super(BattleshipShip.getAssetPath(cellSpan, isVertical), position);
+  }) : super(
+          BattleshipShip.getAssetPath(cellSpan, isVertical: isVertical),
+          position,
+        );
 
   @override
   Map<String, dynamic> toJson() {
@@ -38,7 +41,7 @@ class BattleshipShip extends BattleshipItem {
     return cells;
   }
 
-  static String getAssetPath(int cellSpan, bool isVertical) {
+  static String getAssetPath(int cellSpan, {required bool isVertical}) {
     if (cellSpan == 1) {
       return 'battleship/duck/Naval_Papera';
     }

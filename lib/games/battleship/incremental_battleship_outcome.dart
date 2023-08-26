@@ -30,7 +30,7 @@ class IncrementalBattleshipOutcomeState
   @override
   initState() {
     super.initState();
-    Future.delayed(Duration.zero, () async {
+    Delay.atNextFrame(() async {
       for (var x in widget.incrementalScores) {
         await _schedule([_setUp(x)], 1.0);
         List<RecordedMove<BattleshipMove>> rivalMoves = [];
@@ -48,9 +48,7 @@ class IncrementalBattleshipOutcomeState
     if (!mounted) return;
     var _ = await Future.wait(tasks);
     if (!mounted) return;
-    return Future.delayed(Duration(
-      milliseconds: (Duration.millisecondsPerSecond * seconds).toInt(),
-    ));
+    return Delay.waitFor(seconds);
   }
 
   Future<void> _setUp(IncrementalBattleshipScore score) async {
@@ -59,14 +57,12 @@ class IncrementalBattleshipOutcomeState
       setState(() {
         _player = score.recordedMove.player;
       });
-      // ignore: avoid-ignoring-return-values
-      await Future.delayed(const Duration(milliseconds: 500));
+      await Delay.waitFor(1 / 2);
     } else {
       return;
     }
     for (var shipSpot in score.recordedMove.move.placedShips().entries) {
-      // ignore: avoid-ignoring-return-values
-      await Future.delayed(const Duration(milliseconds: 200));
+      await Delay.waitFor(1 / 5);
       // ignore: avoid-ignoring-return-values
       _replay.importShip(shipSpot.key, shipSpot.value);
     }
@@ -80,7 +76,7 @@ class IncrementalBattleshipOutcomeState
     const missOpacity = 0.3;
     var shipCellGroups = target.recordedMove.move.placedShipCells();
     for (var cell in hitter.recordedMove.move.placedBombCells()) {
-      var _ = await Future.delayed(const Duration(milliseconds: 200));
+      await Delay.waitFor(1 / 5);
       bool hit = false;
       for (var shipCellGroup in shipCellGroups) {
         if (shipCellGroup.contains(cell)) {
@@ -98,6 +94,7 @@ class IncrementalBattleshipOutcomeState
   }
 
   // Modifies x's points.
+  // ignore: avoid-unnecessary-futures
   Future<void> _sink(
     IncrementalBattleshipScore x,
     List<RecordedMove<BattleshipMove>> rivalMoves,

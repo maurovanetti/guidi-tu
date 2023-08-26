@@ -21,13 +21,10 @@ mixin TeamAware on Gendered {
       for (var i = 0; i < team.length; i++) {
         var player = Player.fromJson(i, jsonDecode(team[i]));
         _players.add(player);
-        switch (player.gender) {
-          case Gender.male:
-            genderBalance--;
-            break;
-          case Gender.female:
-            genderBalance++;
-            break;
+        if (player.gender case Gender.male) {
+          genderBalance--;
+        } else if (player.gender case Gender.female) {
+          genderBalance++;
         }
       }
     }

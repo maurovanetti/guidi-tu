@@ -31,6 +31,7 @@ void main() {
       await tester.pumpWidget(const App());
       await tester
           .pump(const Duration(seconds: 4)); // Initial animation must complete
+      expect(WidgetKeys.toTutorial.found(), findsOneWidget);
     });
 
     testWidgets("App can complete a match", (WidgetTester tester) async {
@@ -43,7 +44,6 @@ void main() {
       await tester.pumpWidget(const App());
       await tester
           .pump(const Duration(seconds: 4)); // Initial animation must complete
-      expect(WidgetKeys.toTutorial.found(), findsOneWidget);
       await tester.tap(WidgetKeys.toTutorial.found());
       await tester.pumpForNavigation();
 

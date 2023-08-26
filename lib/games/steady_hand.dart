@@ -48,6 +48,7 @@ class SteadyHandGameAreaState extends GameAreaState<SteadyHandMove>
 
   @override
   void initState() {
+    super.initState();
     _gameModule = SteadyHandModule(notifyFallen: _stop);
     _ticker = createTicker((_) {
       var truncated = _updateSeconds().toInt();
@@ -58,7 +59,6 @@ class SteadyHandGameAreaState extends GameAreaState<SteadyHandMove>
       }
     });
     unawaited(_ticker.start());
-    super.initState();
   }
 
   _updateSeconds() {
@@ -70,7 +70,7 @@ class SteadyHandGameAreaState extends GameAreaState<SteadyHandMove>
   void _stop() {
     _ticker.stop();
     var _ = _updateSeconds();
-    widget.setReady(true);
+    widget.setReady(ready: true);
   }
 
   @override
@@ -86,7 +86,7 @@ class SteadyHandGameAreaState extends GameAreaState<SteadyHandMove>
 
   @override
   Widget build(BuildContext context) {
-    var leftOffsetForLabel = MediaQuery.of(context).size.width / 2 - 35;
+    var leftOffsetForLabel = MediaQuery.sizeOf(context).width / 2 - 35;
     var bottomOffsetForLabel = (_seconds ?? 0.0) / 10.0;
     return Column(
       children: [
@@ -142,9 +142,11 @@ class SteadyHandOutcomeState extends StoriesScreenState<SteadyHandMove> {
         case 0:
           story = " ha resistito";
           break;
+
         case 1:
           story = " ha tenuto duro";
           break;
+
         case 2:
           story = player.t(" è rimasto in sella", " è rimasta in sella");
           break;
@@ -180,7 +182,7 @@ class SteadyHandOutcomeState extends StoriesScreenState<SteadyHandMove> {
 class SteadyHandMove extends Move {
   final int microseconds;
 
-  SteadyHandMove({required this.microseconds});
+  const SteadyHandMove({required this.microseconds});
 
   @override
   int getPointsFor(Player player, Iterable<RecordedMove<Move>> allMoves) =>

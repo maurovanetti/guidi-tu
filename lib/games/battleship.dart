@@ -60,18 +60,22 @@ class BattleshipGameAreaState extends GameAreaState<BattleshipMove>
         shipCount = 7;
         bombCount = 5;
         break;
+
       case 3:
         shipCount = 5;
         bombCount = 4;
         break;
+
       case 4:
         shipCount = 4;
         bombCount = 3;
         break;
+
       case 5:
         shipCount = 3;
         bombCount = 3;
         break;
+
       case 6:
       case 7:
       default:
