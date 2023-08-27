@@ -109,7 +109,7 @@ class StopwatchGameAreaState extends GameAreaState<StopwatchMove>
 
   @override
   Widget build(BuildContext context) {
-    var leftOffsetForLabel = MediaQuery.of(context).size.width / 2 - 35;
+    var leftOffsetForLabel = MediaQuery.sizeOf(context).width / 2 - 35;
     var bottomOffsetForLabel = 20 + (_secondsIntoPeriod ?? 0) * 5;
     return Column(
       children: [
@@ -169,7 +169,7 @@ class StopwatchOutcomeState extends OutcomeScreenState<StopwatchMove> {}
 class StopwatchMove extends Move {
   final int microseconds;
 
-  StopwatchMove({required this.microseconds});
+  const StopwatchMove({required this.microseconds});
 
   @override
   int getPointsFor(Player player, Iterable<RecordedMove<Move>> allMoves) =>

@@ -14,6 +14,9 @@ class StrawsStraw extends NineTileBoxComponent
 
   bool get picked => _picked;
 
+  @override
+  List<Object?> get props => [position, angle, length];
+
   set picked(bool value) {
     if (value && !_picked) {
       // --> on
@@ -51,14 +54,11 @@ class StrawsStraw extends NineTileBoxComponent
   }
 
   Map<String, dynamic> toJson() => {
+        'angle': angle,
         'from': {
           'x': position.x,
           'y': position.y,
         },
-        'angle': angle,
         'length': length,
       };
-
-  @override
-  List<Object?> get props => [position, angle, length];
 }

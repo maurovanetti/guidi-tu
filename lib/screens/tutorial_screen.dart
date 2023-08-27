@@ -1,6 +1,8 @@
 // This version of the app is in Italian only.
 // ignore_for_file: avoid-non-ascii-symbols
 
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_carousel_widget/flutter_carousel_widget.dart';
 import 'package:flutter_markdown/flutter_markdown.dart';
@@ -16,15 +18,15 @@ class TutorialScreen extends StatefulWidget {
 }
 
 class _TutorialScreenState extends TrackedState<TutorialScreen> {
-  final CarouselController _carouselController = CarouselController();
+  final _carouselController = CarouselController();
   late final TutorialCarousel _carousel;
   late bool _lastPage;
 
   @override
   void initState() {
+    super.initState();
     _carousel = TutorialCarousel(_carouselController, _onPageChanged);
     _lastPage = (TutorialCarousel.length == 1);
-    super.initState();
   }
 
   void _onPageChanged(int page, CarouselPageChangedReason _) {
@@ -35,7 +37,7 @@ class _TutorialScreenState extends TrackedState<TutorialScreen> {
     if (_lastPage) {
       Navigation.replaceLast(context, () => const TeamScreen()).go();
     } else {
-      _carouselController.nextPage();
+      unawaited(_carouselController.nextPage());
     }
   }
 
@@ -61,10 +63,10 @@ class TutorialCarousel extends StatelessWidget {
 
   static const length = 4;
 
-  static const String tutorialAnimation = 'tutorial/Tutorial';
+  static const tutorialAnimation = 'tutorial/Tutorial';
 
   // in Markdown format
-  static const List<String> tutorialTexts = [
+  static const tutorialTexts = [
     """
 Chi beve alcolici non guida, **troppo pericoloso**.
 
@@ -92,7 +94,7 @@ Penalità possibili per chi arriva primo:
   static const indicatorSpacing = indicatorRadius * 2.5;
 
   final CarouselController controller;
-  final void Function(int, CarouselPageChangedReason) onPageChanged;
+  final void Function(int page, CarouselPageChangedReason reason) onPageChanged;
   final pageNotifier = ValueNotifier<int>(0);
 
   _onInnerPageChange(int page, CarouselPageChangedReason reason) {
@@ -121,12 +123,15 @@ Penalità possibili per chi arriva primo:
           Expanded(
             child: FlutterCarousel.builder(
               itemCount: length,
-              itemBuilder:
-                  (BuildContext context, int itemIndex, int pageViewIndex) {
+              itemBuilder: (
+                BuildContext innerContext,
+                int itemIndex,
+                int pageViewIndex,
+              ) {
                 var scrollController = ScrollController();
                 return Container(
                   decoration: ShapeDecoration(
-                    shape: StyleGuide.getImportantBorder(context),
+                    shape: StyleGuide.getImportantBorder(innerContext),
                   ),
                   padding: StyleGuide.regularPadding,
                   margin: StyleGuide.regularPadding.copyWith(
@@ -144,7 +149,7 @@ Penalità possibili per chi arriva primo:
                           data: tutorialTexts.elementAt(itemIndex),
                           shrinkWrap: false,
                           styleSheet: MarkdownStyleSheet(
-                            p: Theme.of(context).textTheme.bodyLarge,
+                            p: Theme.of(innerContext).textTheme.bodyLarge,
                           ),
                         ),
                       ],

@@ -28,8 +28,8 @@ class _TitleScreenState extends TrackedState<TitleScreen> with ScoreAware {
 
   _revealRoles() async {
     var driverAndPayer = await ScoreAware.retrieveCurrentDriverAndPayer();
-    debugPrint("Driver=${driverAndPayer.driver}, "
-        "Payer=${driverAndPayer.payer}");
+    debugPrint("Driver=${driverAndPayer.driver ?? 'N/A'}, "
+        "Payer=${driverAndPayer.payer ?? 'N/A'}");
     if (mounted) {
       setState(() {
         _driverAndPayer = driverAndPayer;
@@ -109,24 +109,20 @@ class DriverOrPayerLabel extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    var style = Theme.of(context).textTheme.headlineLarge!;
+    final style = Theme.of(context).textTheme.headlineLarge!;
     if (loading) {
       return SizedBox(
         height: style.fontSize! * style.height!,
         child: const LinearProgressIndicator(),
       );
     }
-    if (name == null) {
-      return FittedText(
-        'Decidetelo giocando!',
-        key: labelKey,
-        style: style.copyWith(fontStyle: FontStyle.italic),
-      );
-    }
+    // ignore: prefer-returning-conditional-expressions
     return FittedText(
-      name!,
+      name ?? 'Decidetelo giocando!',
       key: labelKey,
-      style: style.copyWith(fontWeight: FontWeight.bold),
+      style: name == null
+          ? style.copyWith(fontStyle: FontStyle.italic)
+          : style.copyWith(fontWeight: FontWeight.bold),
     );
   }
 }

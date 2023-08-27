@@ -38,11 +38,9 @@ class TestUtils {
           skipOffstage: skipOffstage,
         )
         .evaluate()
-        .forEach(
-      (element) {
-        debugPrint(element.widget.toString());
-      },
-    );
+        .forEach((element) {
+      debugPrint(element.widget.toString());
+    });
     debugPrint("======== Text in widgets ========");
     find
         .byWidgetPredicate(
@@ -50,11 +48,9 @@ class TestUtils {
           skipOffstage: skipOffstage,
         )
         .evaluate()
-        .forEach(
-      (element) {
-        debugPrint((element.widget as Text).data);
-      },
-    );
+        .forEach((element) {
+      debugPrint((element.widget as Text).data);
+    });
     debugPrint("=====================================");
   }
 }

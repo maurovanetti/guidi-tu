@@ -1,6 +1,8 @@
 // This version of the app is in Italian only.
 // ignore_for_file: avoid-non-ascii-symbols
 
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
@@ -37,12 +39,12 @@ class _TeamScreenState extends TrackedState<TeamScreen>
 
   void _editPlayer(Player player) async {
     debugPrint("Editing player $player");
-    var editedPlayer = await showDialog<Player>(
+    Player? editedPlayer = await showDialog<Player>(
       context: context,
       builder: (context) => PlayerDialog(player),
     );
-    debugPrint("Edited player $editedPlayer");
     if (editedPlayer != null && mounted) {
+      debugPrint("Edited player $editedPlayer");
       setState(() {
         players[players.indexOf(player)] = editedPlayer;
       });
@@ -51,8 +53,7 @@ class _TeamScreenState extends TrackedState<TeamScreen>
 
   void _addNewPlayer() {
     debugPrint("Adding new player");
-    Player newPlayer;
-    newPlayer = players.length % 2 == 0
+    Player newPlayer = players.length % 2 == 0
         ? Player(players.length, 'COSO', Gender.male)
         : Player(players.length, 'COSA', Gender.female);
     setState(() {
@@ -74,7 +75,7 @@ class _TeamScreenState extends TrackedState<TeamScreen>
   }
 
   void _showDuplicatesAlert() {
-    showDialog<void>(
+    unawaited(showDialog<void>(
       context: context,
       builder: (context) => AlertDialog(
         title: const Text("Nomi duplicati"),
@@ -86,7 +87,7 @@ class _TeamScreenState extends TrackedState<TeamScreen>
           ),
         ],
       ),
-    );
+    ));
   }
 
   Future<void> _proceedToPickPage() async {
@@ -173,11 +174,11 @@ class PlayerDialogState extends State<PlayerDialog> {
 
   @override
   void initState() {
+    super.initState();
     _player = widget.player;
     _nameController = TextEditingController(text: _player.name);
     _gender = _player.gender;
     _setReadyToConfirm(_player.name);
-    super.initState();
   }
 
   void _setReadyToConfirm(String name) {
@@ -188,6 +189,12 @@ class PlayerDialogState extends State<PlayerDialog> {
     setState(() {
       _setReadyToConfirm(name);
     });
+  }
+
+  @override
+  void dispose() {
+    _nameController.dispose();
+    super.dispose();
   }
 
   @override
@@ -203,7 +210,7 @@ class PlayerDialogState extends State<PlayerDialog> {
             key: WidgetKeys.editPlayerName,
             controller: _nameController,
             decoration: const InputDecoration(counterText: 'max 5 lettere'),
-            inputFormatters: [UpperCaseTextFormatter(5)],
+            inputFormatters: const [UpperCaseTextFormatter(5)],
             textCapitalization: TextCapitalization.characters,
             style: Theme.of(context).textTheme.headlineLarge,
             onChanged: _updateReadyToConfirm,
@@ -260,20 +267,19 @@ class PlayerDialogState extends State<PlayerDialog> {
 class UpperCaseTextFormatter extends TextInputFormatter {
   final int maxLength;
 
-  UpperCaseTextFormatter(this.maxLength);
+  const UpperCaseTextFormatter(this.maxLength);
 
   @override
   TextEditingValue formatEditUpdate(
     TextEditingValue oldValue,
     TextEditingValue newValue,
   ) {
-    if (newValue.text.length > maxLength) {
-      return oldValue;
-    }
-    return TextEditingValue(
-      text: newValue.text.toUpperCase(),
-      selection: newValue.selection,
-      composing: newValue.composing,
-    );
+    return (newValue.text.length > maxLength)
+        ? oldValue
+        : TextEditingValue(
+            text: newValue.text.toUpperCase(),
+            selection: newValue.selection,
+            composing: newValue.composing,
+          );
   }
 }

@@ -13,7 +13,7 @@ class Straws extends TurnPlayScreen {
   Straws() : super(key: WidgetKeys.straws, gameFeatures: straws);
 
   @override
-  final bool isReadyAtStart = true;
+  final isReadyAtStart = true;
 
   @override
   createState() => TurnPlayState<StrawsMove>();
@@ -40,8 +40,8 @@ class StrawsGameAreaState extends GameAreaState<StrawsMove>
 
   @override
   void initState() {
-    _gameModule = StrawsModule(setReady: widget.setReady);
     super.initState();
+    _gameModule = StrawsModule(setReady: widget.setReady);
   }
 
   void _nextStraw() {
