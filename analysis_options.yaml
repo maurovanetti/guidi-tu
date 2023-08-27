@@ -38,6 +38,9 @@ dart_code_metrics:
     - arguments-ordering: false
     - avoid-non-null-assertion: false
     - avoid-late-keyword: false
+      # Semantic labels are important, but this game is unplayable without images and is meant to be
+      # for people who can drive a car. People with serious sight impairments should never drive.
+    - avoid-missing-image-alt: false
     - avoid-similar-names: false
     - avoid-stateless-widget-initialized-fields: false # TODO: remove when fixed
     - avoid-unsafe-collection-methods: false

@@ -1,6 +1,8 @@
 // This version of the app is in Italian only.
 // ignore_for_file: avoid-non-ascii-symbols
 
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 
 import '/common/common.dart';
@@ -19,12 +21,12 @@ class TurnInstructionsScreenState extends TrackedState<TurnInstructionsScreen>
 
   @override
   void initState() {
-    player = TurnAware.currentPlayer;
     super.initState();
+    player = TurnAware.currentPlayer;
   }
 
   void _showSecretPlayAlert() {
-    showDialog<void>(
+    unawaited(showDialog<void>(
       context: context,
       builder: (context) => AlertDialog(
         key: WidgetKeys.hiddenPlayAlert,
@@ -40,7 +42,7 @@ class TurnInstructionsScreenState extends TrackedState<TurnInstructionsScreen>
           ),
         ],
       ),
-    );
+    ));
   }
 
   void _play() {
@@ -57,27 +59,29 @@ class TurnInstructionsScreenState extends TrackedState<TurnInstructionsScreen>
         actions: [
           IconButton(
             icon: const Icon(Icons.cancel_rounded),
-            onPressed: () => showDialog(
-              context: context,
-              builder: (context) => AlertDialog(
-                title: const Text("Interruzione del gioco"),
-                content: const Text(
-                  "Vuoi davvero interrompere il gioco?\n"
-                  "Farai una figura da guastafeste!",
+            onPressed: () => unawaited(
+              showDialog(
+                context: context,
+                builder: (innerContext) => AlertDialog(
+                  title: const Text("Interruzione del gioco"),
+                  content: const Text(
+                    "Vuoi davvero interrompere il gioco?\n"
+                    "Farai una figura da guastafeste!",
+                  ),
+                  actions: [
+                    TextButton(
+                      onPressed: () => Navigator.of(innerContext).pop(),
+                      child: const Text("Continua a giocare"),
+                    ),
+                    TextButton(
+                      onPressed: Navigation.replaceAll(
+                        innerContext,
+                        () => const TitleScreen(),
+                      ).go,
+                      child: const Text("Ferma tutto"),
+                    ),
+                  ],
                 ),
-                actions: [
-                  TextButton(
-                    onPressed: () => Navigator.of(context).pop(),
-                    child: const Text("Continua a giocare"),
-                  ),
-                  TextButton(
-                    onPressed: Navigation.replaceAll(
-                      context,
-                      () => const TitleScreen(),
-                    ).go,
-                    child: const Text("Ferma tutto"),
-                  ),
-                ],
               ),
             ),
           ),
