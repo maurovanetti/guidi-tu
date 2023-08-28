@@ -34,7 +34,9 @@ class _PickScreenState extends TrackedState<PickScreen>
       _playerCount = players.length;
       var suggestedCards = [];
       var otherCards = [];
-      for (var gameFeatures in allGameFeatures) {
+      var availableGames = allGameFeatures.where((game) =>
+          game.minPlayers <= _playerCount && game.maxPlayers >= _playerCount);
+      for (var gameFeatures in availableGames) {
         var gameCard = GameCard(
           name: gameFeatures.name,
           gameStart: InterstitialScreen(gameFeatures: gameFeatures),
