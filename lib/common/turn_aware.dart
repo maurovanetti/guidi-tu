@@ -82,17 +82,30 @@ mixin TurnAware<T extends Move> on TeamAware {
     }
   }
 
+  void updateOldMoves(Player player, List<T> moves) {
+    for (int i = 0; i < moves.length; i++) {
+      var recordedMove = _moves[player]?[i];
+      if (recordedMove != null) {
+        _moves[player]?[i] = RecordedMove(
+          player: player,
+          time: recordedMove.time,
+          move: moves[i],
+        );
+      }
+    }
+  }
+
   List<RecordedMove> getRecordedMoves(Player player) =>
       _moves[player] as List<RecordedMove>;
 
   RecordedMove<T> getRecordedMove(Player player) {
-    return getRecordedMoves(player).single as RecordedMove<T>;
+    return getRecordedMoves(player).single.castContentAs<T>();
   }
 
   RecordedMove<T> getBestRecordedMove(Player player) {
     final recordedMoves = getRecordedMoves(player);
     recordedMoves.sort((a, b) => a.samePlayerCompareTo(b));
-    return recordedMoves.first as RecordedMove<T>;
+    return recordedMoves.first.castContentAs<T>();
   }
 
   T getBestMove(Player player) => getBestRecordedMove(player).move;

@@ -45,6 +45,10 @@ class RecordedMove<T extends Move> {
           .cast<RecordedMove>()
           .where((thisMove) => thisMove.player != thisPlayer);
 
+  RecordedMove<U> castContentAs<U extends Move>() {
+    return RecordedMove<U>(player: player, time: time, move: move as U);
+  }
+
   // This is used to sort the turns in games with multiple rounds.
   int compareTo(RecordedMove<T> other, Iterable<RecordedMove> all) {
     final thisPriority = move.getTurnPriorityFor(player, all);
@@ -62,14 +66,14 @@ class RecordedMove<T extends Move> {
 mixin MoveReceiver<T extends Move> {
   MoveProvider<T>? moveProvider;
 
-  T receiveMove() => moveProvider!.getMoveUpdate().newMove;
+  //T receiveMove() => moveProvider!.getMoveUpdate().newMove;
 
   MoveUpdate<T> receiveMoves() => moveProvider!.getMoveUpdate();
 }
 
 typedef MoveUpdate<T extends Move> = ({
   T newMove,
-  Map<Player, T> updatedOldMoves
+  Map<Player, List<T>> updatedOldMoves
 });
 
 mixin MoveProvider<T extends Move> {

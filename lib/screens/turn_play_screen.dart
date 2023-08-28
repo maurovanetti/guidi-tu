@@ -45,12 +45,20 @@ class TurnPlayState<T extends Move> extends GameSpecificState<TurnPlayScreen>
 
   void recordCurrentMove(Duration duration) {
     recordMove(
-      receiveMove(),
+      receiveMoves().newMove,
       duration.inMicroseconds / Duration.microsecondsPerSecond,
     );
   }
 
   void completeTurn(Duration duration) {
+    final moveUpdates = receiveMoves();
+    recordMove(
+      moveUpdates.newMove,
+      duration.inMicroseconds / Duration.microsecondsPerSecond,
+    );
+    for (var entry in moveUpdates.updatedOldMoves.entries) {
+      updateOldMoves(entry.key, entry.value);
+    }
     recordCurrentMove(duration);
     var hasEveryonePlayed = !nextTurn();
     if (mounted) {

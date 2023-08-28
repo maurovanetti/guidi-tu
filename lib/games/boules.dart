@@ -18,17 +18,7 @@ class Boules extends TurnPlayScreen {
   createState() => BoulesState();
 }
 
-class BoulesState extends TurnPlayState<BoulesMove> {
-  /// All moves must be re-recorded because every move can modify the positions
-  /// of other bowls (and the jack).
-  @override
-  recordCurrentMove(Duration duration) {
-    recordMove(
-      receiveMove(),
-      duration.inMicroseconds / Duration.microsecondsPerSecond,
-    );
-  }
-}
+class BoulesState extends TurnPlayState<BoulesMove> {}
 
 class BoulesGameArea extends GameArea<BoulesMove> {
   BoulesGameArea({
@@ -61,14 +51,27 @@ class BoulesGameAreaState extends GameAreaState<BoulesMove>
     );
   }
 
+  /// All moves must be re-recorded because every move can modify the positions
+  /// of other bowls (and the jack).
   @override
-  MoveUpdate<BoulesMove> getMoveUpdate() => (
-        newMove: BoulesMove(
-          bowlPosition: _gameModule.lastBowlPosition,
-          jackPosition: _gameModule.updatedJackPosition,
-        ),
-        updatedOldMoves: {},
+  MoveUpdate<BoulesMove> getMoveUpdate() {
+    final newMove = BoulesMove(
+      bowlPosition: _gameModule.lastBowlPosition,
+      jackPosition: _gameModule.updatedJackPosition,
+    );
+    final updatedOldMoves = <Player, List<BoulesMove>>{};
+    for (var bowl in _gameModule.playedBowls) {
+      final playerMoves = updatedOldMoves.putIfAbsent(
+        bowl.player,
+        () => List<BoulesMove>.empty(growable: true),
       );
+      playerMoves.add(BoulesMove(
+        bowlPosition: bowl.body.position,
+        jackPosition: _gameModule.updatedJackPosition,
+      ));
+    }
+    return (newMove: newMove, updatedOldMoves: updatedOldMoves);
+  }
 
   void displayMessage(String message) =>
       QuickMessage().showQuickMessage(message, context: context, longer: true);
