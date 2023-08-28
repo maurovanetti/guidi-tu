@@ -25,6 +25,7 @@ class SqueezeOrScroll extends StatelessWidget {
         : Scrollbar(
             thumbVisibility: true,
             child: ListView(
+              primary: true,
               shrinkWrap: true,
               children: [
                 ...topChildren,

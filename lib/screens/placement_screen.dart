@@ -49,6 +49,7 @@ class PlacementScreenState extends TrackedState<PlacementScreen>
       body: Scrollbar(
         thumbVisibility: true,
         child: ListView(
+          primary: true,
           shrinkWrap: true,
           padding: StyleGuide.regularPadding,
           children: [
