@@ -159,7 +159,6 @@ class StopwatchGameAreaState extends GameAreaState<StopwatchMove>
   }
 }
 
-// TODO Take a chance to give some advice
 class StopwatchOutcome extends OutcomeScreen {
   StopwatchOutcome({super.key}) : super(gameFeatures: stopwatch);
 
@@ -167,7 +166,36 @@ class StopwatchOutcome extends OutcomeScreen {
   OutcomeScreenState<StopwatchMove> createState() => StopwatchOutcomeState();
 }
 
-class StopwatchOutcomeState extends OutcomeScreenState<StopwatchMove> {}
+class StopwatchOutcomeState extends OutcomeScreenState<StopwatchMove> {
+  @override
+  void initOutcome() {
+    outcomeWidget = Padding(
+      padding: StyleGuide.widePadding,
+      child: Center(
+        child: Text.rich(
+          const TextSpan(
+            children: [
+              TextSpan(
+                text: "Ricordate:\n",
+                style: TextStyle(inherit: true, fontWeight: FontWeight.bold),
+              ),
+              TextSpan(
+                text: "L'orologio non deve per forza essere fermato al primo "
+                    "giro! ",
+              ),
+              TextSpan(
+                text: "Se avete superato lo zero, conviene aspettare il giro "
+                    "successivo.\n",
+              ),
+            ],
+          ),
+          style: Theme.of(context).textTheme.headlineMedium,
+          textAlign: TextAlign.center,
+        ),
+      ),
+    );
+  }
+}
 
 class StopwatchMove extends Move {
   final int microseconds;
