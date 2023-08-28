@@ -17,7 +17,7 @@ publish_to: 'none' # Remove this line if you wish to publish to pub.dev
 # https://developer.apple.com/library/archive/documentation/General/Reference/InfoPlistKeyReference/Articles/CoreFoundationKeys.html
 # In Windows, build-name is used as the major, minor, and patch parts
 # of the product and file versions while build-number is used as the build suffix.
-version: 0.9.0+18
+version: 0.9.1+19
 
 environment:
   sdk: '>=3.0.0 <4.0.0'
@@ -32,14 +32,14 @@ environment:
 dependencies:
   flutter:
     sdk: flutter
-  collection: ^1.17.1
+  collection: ^1.17.2 # pinned
   intl: ^0.18.1
   shared_preferences: ^2.2.0
-  flame: ^1.8.1
-  flame_forge2d: ^0.14.1
-  sensors_plus: ^3.0.2
-  flutter_carousel_widget: ^2.0.4
-  flutter_markdown: ^0.6.15+1
+  flame: ^1.8.2
+  flame_forge2d: ^0.14.1+1
+  sensors_plus: ^3.0.3
+  flutter_carousel_widget: ^2.1.0
+  flutter_markdown: ^0.6.17+1
   equatable: ^2.0.5
 
 dev_dependencies:
@@ -48,7 +48,7 @@ dev_dependencies:
   dart_code_metrics_presets: ^2.3.0
   flutter_lints: ^2.0.2
   flutter_launcher_icons: ^0.13.1
-  flutter_native_splash: ^2.3.1
+  flutter_native_splash: ^2.3.2
 
 flutter:
   uses-material-design: true
