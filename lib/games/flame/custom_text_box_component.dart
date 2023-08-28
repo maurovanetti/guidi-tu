@@ -5,7 +5,7 @@ import '/common/common.dart';
 import 'priorities.dart';
 
 class CustomTextBoxComponent extends TextBoxComponent {
-  static const dismissDelay = 4;
+  static const dismissDelay = 3;
 
   final _backgroundPaint = Paint()..color = Colors.white;
 

@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:flame/components.dart';
 import 'package:flame/events.dart';
 import 'package:flutter/material.dart';
@@ -12,12 +14,14 @@ import 'boules_wall.dart';
 class BoulesModule extends Forge2DGameWithDragging {
   static const boulesSetupKey = "boulesSetup";
   final void Function({bool ready}) setReady;
+  static const _minDragDuration = Duration(milliseconds: 500);
   late final List<BoulesBowl> _bowls;
   late final BoulesJack _jack;
   late Vector2 _startPosition;
 
   late final BoulesBowl _activeBowl;
-  late final BoulesTarget _target;
+  late final PositionComponent _target;
+  late final BoulesArrowHead _arrowHead;
 
   CustomTextBoxComponent? _hint;
 
@@ -36,7 +40,8 @@ class BoulesModule extends Forge2DGameWithDragging {
 
   Vector2 get _initialJackPosition => Vector2(size.x / 2, size.y / 5);
 
-  BoulesModule({required this.setReady});
+  BoulesModule({required this.setReady})
+      : super(minDragDuration: _minDragDuration);
 
   @override
   backgroundColor() => Colors.green[900]!;
@@ -79,19 +84,23 @@ class BoulesModule extends Forge2DGameWithDragging {
   }
 
   void init() {
-    _startPosition =
-        Vector2(size.x / 2, size.y - (BoulesBowl.radius * (3 / 2)));
+    _startPosition = Vector2(size.x / 2, size.y - BoulesBowl.radius * (3 / 2));
     _activeBowl = BoulesBowl(_startPosition, player: TurnAware.currentPlayer);
     _bowls.add(_activeBowl);
-    _target = BoulesTarget(
-      _startPosition - Vector2(0, BoulesBowl.radius * 2),
-      origin: _startPosition,
-      referenceColor: TurnAware.currentPlayer.color,
+    _target = PositionComponent(
+      position: _startPosition - Vector2(0, BoulesBowl.radius * 4),
     );
     // ignore: avoid-async-call-in-sync-function
     add(_target);
+    _arrowHead = BoulesArrowHead(
+      origin: _startPosition,
+      target: _target,
+      referenceColor: TurnAware.currentPlayer.color,
+    );
+    // ignore: avoid-async-call-in-sync-function
+    add(_arrowHead);
     _hint = CustomTextBoxComponent(
-      "Trascina la freccia e poi lascia andare per lanciare la boccia",
+      "Trascina la freccia e poi lascia andare",
       _initialJackPosition + Vector2(0, BoulesJack.radius * 2),
       autoDismiss: true,
       scale: 1 / zoom,
@@ -109,8 +118,11 @@ class BoulesModule extends Forge2DGameWithDragging {
 
   @override
   void onDragStart(DragStartEvent event) {
-    _hint?.dismiss();
-    super.onDragStart(event);
+    if (_hint?.isRemoved ?? true) {
+      super.onDragStart(event);
+    } else {
+      _hint?.dismiss();
+    }
   }
 
   @override
@@ -118,6 +130,7 @@ class BoulesModule extends Forge2DGameWithDragging {
     if (dragged != null) {
       _activeBowl.launchTowards(dragged!.position);
       remove(dragged!);
+      remove(_arrowHead);
       Delay.after(3, () {
         _beholdTheOutcome = true;
         _onBowlChangedState();
@@ -127,10 +140,9 @@ class BoulesModule extends Forge2DGameWithDragging {
 
   void _onBowlChangedState() {
     if (_beholdTheOutcome && _bowls.every((bowl) => bowl.isSleeping)) {
-      // ignore: avoid-async-call-in-sync-function
-      TeamAware.storeSessionData({
+      unawaited(TeamAware.storeSessionData({
         boulesSetupKey: _bowls.map((bowl) => bowl.toJson()).toList(),
-      });
+      }));
       setReady(ready: true);
     }
   }

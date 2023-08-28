@@ -9,21 +9,22 @@ import '/games/flame/custom_sprite_component.dart';
 import 'boules_bowl.dart';
 import 'boules_module.dart';
 
-class BoulesTarget extends CustomSpriteComponent<BoulesModule> {
+class BoulesArrowHead extends CustomSpriteComponent<BoulesModule> {
   final Vector2 origin;
+  final PositionComponent target;
   final Color referenceColor;
 
   late final BoulesArrowTrunk _trunk;
 
   static final _rightAxis = Vector2(1, 0);
 
-  BoulesTarget(
-    Vector2 position, {
+  BoulesArrowHead({
     required this.origin,
+    required this.target,
     required this.referenceColor,
   }) : super(
           'boules/target.png',
-          position,
+          target.position,
           hasShadow: false,
           elevation: 0,
           size: Vector2(2, 3),
@@ -41,16 +42,21 @@ class BoulesTarget extends CustomSpriteComponent<BoulesModule> {
       color: getColor(referenceColor),
     );
     add(_trunk);
+    target.position.addListener(_onTargetMoved);
+    _onTargetMoved();
     return super.onLoad();
   }
 
-  @override
-  void update(double dt) {
-    Vector2 delta = position - origin;
-    transform.angle = -delta.angleTo(_rightAxis);
-    scale.x = clampDouble(delta.length / 10, 4 / 5, 3 / 2);
-    _trunk.resize(delta.length / scale.x);
-    super.update(dt);
+  void _onTargetMoved() {
+    if (target.position.isNaN) {
+      return;
+    }
+    Vector2 delta = target.position - origin;
+    position = origin + (delta * 2 / 3);
+    Vector2 arrow = position - origin;
+    transform.angle = -arrow.angleTo(_rightAxis);
+    scale.x = clampDouble(arrow.length / 10, 4 / 5, 3 / 2);
+    _trunk.resize(arrow.length / scale.x);
   }
 }
 

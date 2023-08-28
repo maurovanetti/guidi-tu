@@ -5,13 +5,19 @@ import 'package:flame_forge2d/forge2d_game.dart';
 abstract class Forge2DGameWithDragging extends Forge2DGame with DragCallbacks {
   final double zoom;
 
+  final Duration minDragDuration;
+
+  DateTime? _dragStartTime;
+
   // Only one pointer is valid
   num _dragPointerId = double.nan;
 
   PositionComponent? get dragged;
 
-  Forge2DGameWithDragging({this.zoom = Forge2DGame.defaultZoom})
-      : super(zoom: zoom);
+  Forge2DGameWithDragging({
+    this.zoom = Forge2DGame.defaultZoom,
+    this.minDragDuration = Duration.zero,
+  }) : super(zoom: zoom);
 
   @override
   void onDragStart(DragStartEvent event) {
@@ -19,6 +25,7 @@ abstract class Forge2DGameWithDragging extends Forge2DGame with DragCallbacks {
     if (_dragPointerId.isNaN) {
       _dragPointerId = event.pointerId;
     }
+    _dragStartTime = DateTime.now();
     super.onDragStart(event);
   }
 
@@ -40,6 +47,7 @@ abstract class Forge2DGameWithDragging extends Forge2DGame with DragCallbacks {
     if (event.pointerId == _dragPointerId) {
       _dragPointerId = double.nan;
     }
+    _dragStartTime = null;
     super.onDragCancel(event);
   }
 
@@ -47,7 +55,10 @@ abstract class Forge2DGameWithDragging extends Forge2DGame with DragCallbacks {
   void onDragEnd(DragEndEvent event) {
     if (event.pointerId == _dragPointerId) {
       _dragPointerId = double.nan;
-      onRelevantDragEnd();
+      if (_dragStartTime != null &&
+          DateTime.now().difference(_dragStartTime!) > minDragDuration) {
+        onRelevantDragEnd();
+      }
     }
     super.onDragEnd(event);
   }
