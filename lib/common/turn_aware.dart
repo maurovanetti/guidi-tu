@@ -82,15 +82,19 @@ mixin TurnAware<T extends Move> on TeamAware {
     }
   }
 
+  /// New moves are ignored (use [recordMove] for it).
   void updateOldMoves(Player player, List<T> moves) {
-    for (int i = 0; i < moves.length; i++) {
-      var recordedMove = _moves[player]?[i];
-      if (recordedMove != null) {
-        _moves[player]?[i] = RecordedMove(
-          player: player,
-          time: recordedMove.time,
-          move: moves[i],
-        );
+    var oldPlayerMoves = _moves[player];
+    if (oldPlayerMoves != null) {
+      for (int i = 0; i < moves.length && i < oldPlayerMoves.length; i++) {
+        var recordedMove = _moves[player]?[i];
+        if (recordedMove != null) {
+          _moves[player]?[i] = RecordedMove(
+            player: player,
+            time: recordedMove.time,
+            move: moves[i],
+          );
+        }
       }
     }
   }
