@@ -101,7 +101,6 @@ class BoulesMove extends Move {
   static Vector2 finalJackPosition = Vector2.zero();
 
   BoulesMove({required this.bowlPosition, required Vector2 jackPosition}) {
-    debugPrint("Updating jack position to $jackPosition");
     BoulesMove.finalJackPosition = jackPosition;
   }
 
