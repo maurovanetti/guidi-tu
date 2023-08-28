@@ -48,8 +48,10 @@ class RockPaperScissorsGameAreaState
   }
 
   @override
-  RockPaperScissorsMove getMove() =>
-      RockPaperScissorsMove(sequence: _gameModule.currentSequence);
+  MoveUpdate<RockPaperScissorsMove> getMoveUpdate() => (
+        newMove: RockPaperScissorsMove(sequence: _gameModule.currentSequence),
+        updatedOldMoves: {},
+      );
 
   @override
   Widget build(BuildContext context) {

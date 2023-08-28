@@ -80,8 +80,11 @@ class SteadyHandGameAreaState extends GameAreaState<SteadyHandMove>
   }
 
   @override
-  SteadyHandMove getMove() => SteadyHandMove(
-        microseconds: (_seconds! * Duration.microsecondsPerSecond).toInt(),
+  MoveUpdate<SteadyHandMove> getMoveUpdate() => (
+        newMove: SteadyHandMove(
+          microseconds: (_seconds! * Duration.microsecondsPerSecond).toInt(),
+        ),
+        updatedOldMoves: {},
       );
 
   @override

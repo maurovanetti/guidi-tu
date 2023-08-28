@@ -59,7 +59,7 @@ dart_code_metrics:
           - padding
           - margin
     - no-magic-number:
-        allowed: [ -1, 0, 0.5, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 1000, 1000000 ]
+        allowed: [ -1, 0, 0.5, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 100, 1000]
     - prefer-commenting-analyzer-ignores: false
     - prefer-correct-identifier-length: false
     - prefer-early-return: false

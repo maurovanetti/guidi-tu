@@ -35,7 +35,8 @@ class ShotGameAreaState<T extends ShotMove> extends GameAreaState<T> {
   }
 
   @override
-  T getMove() => ShotMove(n: n) as T;
+  MoveUpdate<T> getMoveUpdate() =>
+      (newMove: ShotMove(n: n) as T, updatedOldMoves: {});
 
   @override
   void dispose() {

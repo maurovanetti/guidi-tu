@@ -25,13 +25,13 @@ class QuickMessage {
     unawaited(_resetSnackBarController());
   }
 
-  Future<void> _resetSnackBarController() async {
-    var _ = await _snackBarController?.closed;
+  void hideQuickMessage() {
+    _snackBarController?.close();
     _snackBarController = null;
   }
 
-  void hideQuickMessage() {
-    _snackBarController?.close();
+  Future<void> _resetSnackBarController() async {
+    var _ = await _snackBarController?.closed;
     _snackBarController = null;
   }
 }

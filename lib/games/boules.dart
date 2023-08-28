@@ -15,7 +15,19 @@ class Boules extends TurnPlayScreen {
   Boules() : super(key: WidgetKeys.boules, gameFeatures: boules);
 
   @override
-  createState() => TurnPlayState<BoulesMove>();
+  createState() => BoulesState();
+}
+
+class BoulesState extends TurnPlayState<BoulesMove> {
+  /// All moves must be re-recorded because every move can modify the positions
+  /// of other bowls (and the jack).
+  @override
+  recordCurrentMove(Duration duration) {
+    recordMove(
+      receiveMove(),
+      duration.inMicroseconds / Duration.microsecondsPerSecond,
+    );
+  }
 }
 
 class BoulesGameArea extends GameArea<BoulesMove> {
@@ -50,9 +62,12 @@ class BoulesGameAreaState extends GameAreaState<BoulesMove>
   }
 
   @override
-  BoulesMove getMove() => BoulesMove(
-        bowlPosition: _gameModule.lastBowlPosition,
-        jackPosition: _gameModule.updatedJackPosition,
+  MoveUpdate<BoulesMove> getMoveUpdate() => (
+        newMove: BoulesMove(
+          bowlPosition: _gameModule.lastBowlPosition,
+          jackPosition: _gameModule.updatedJackPosition,
+        ),
+        updatedOldMoves: {},
       );
 
   void displayMessage(String message) =>
@@ -83,6 +98,7 @@ class BoulesMove extends Move {
   static Vector2 finalJackPosition = Vector2.zero();
 
   BoulesMove({required this.bowlPosition, required Vector2 jackPosition}) {
+    debugPrint("Updating jack position to $jackPosition");
     BoulesMove.finalJackPosition = jackPosition;
   }
 
@@ -92,7 +108,7 @@ class BoulesMove extends Move {
 
   @override
   int getPointsFor(Player player, Iterable<RecordedMove<Move>> allMoves) {
-    return (distanceFromJack() * 1000).toInt();
+    return (distanceFromJack() * 100).toInt();
   }
 
   @override

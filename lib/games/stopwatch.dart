@@ -102,9 +102,12 @@ class StopwatchGameAreaState extends GameAreaState<StopwatchMove>
   }
 
   @override
-  StopwatchMove getMove() => StopwatchMove(
-        microseconds:
-            (_secondsIntoPeriod! * Duration.microsecondsPerSecond).toInt(),
+  MoveUpdate<StopwatchMove> getMoveUpdate() => (
+        newMove: StopwatchMove(
+          microseconds:
+              (_secondsIntoPeriod! * Duration.microsecondsPerSecond).toInt(),
+        ),
+        updatedOldMoves: {},
       );
 
   @override

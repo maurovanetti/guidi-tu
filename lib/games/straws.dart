@@ -49,7 +49,10 @@ class StrawsGameAreaState extends GameAreaState<StrawsMove>
   }
 
   @override
-  StrawsMove getMove() => StrawsMove(straw: _gameModule.pickedStraw);
+  MoveUpdate<StrawsMove> getMoveUpdate() => (
+        newMove: StrawsMove(straw: _gameModule.pickedStraw),
+        updatedOldMoves: {},
+      );
 
   @override
   Widget build(BuildContext context) {

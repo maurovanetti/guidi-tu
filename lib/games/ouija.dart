@@ -77,7 +77,10 @@ class OuijaGameAreaState extends GameAreaState<OuijaMove>
   }
 
   @override
-  OuijaMove getMove() => OuijaMove(word: _gameModule.currentWord);
+  MoveUpdate<OuijaMove> getMoveUpdate() => (
+        newMove: OuijaMove(word: _gameModule.currentWord),
+        updatedOldMoves: {},
+      );
 
   @override
   Widget build(BuildContext context) {

@@ -60,7 +60,10 @@ class MorraGameAreaState extends ShotGameAreaState<MorraMove>
   }
 
   @override
-  MorraMove getMove() => MorraMove(fingers: _fingers, n: n);
+  MoveUpdate<MorraMove> getMoveUpdate() => (
+        newMove: MorraMove(fingers: _fingers, n: n),
+        updatedOldMoves: {},
+      );
 
   @override
   Widget build(BuildContext context) {

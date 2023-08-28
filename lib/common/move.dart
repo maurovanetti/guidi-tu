@@ -62,11 +62,18 @@ class RecordedMove<T extends Move> {
 mixin MoveReceiver<T extends Move> {
   MoveProvider<T>? moveProvider;
 
-  T receiveMove() => moveProvider!.getMove();
+  T receiveMove() => moveProvider!.getMoveUpdate().newMove;
+
+  MoveUpdate<T> receiveMoves() => moveProvider!.getMoveUpdate();
 }
 
+typedef MoveUpdate<T extends Move> = ({
+  T newMove,
+  Map<Player, T> updatedOldMoves
+});
+
 mixin MoveProvider<T extends Move> {
-  T getMove();
+  MoveUpdate<T> getMoveUpdate();
 
   void addReceiver(MoveReceiver<T> receiver) {
     // ignore: avoid-mutating-parameters

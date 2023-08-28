@@ -91,8 +91,11 @@ class BattleshipGameAreaState extends GameAreaState<BattleshipMove>
   }
 
   @override
-  BattleshipMove getMove() => BattleshipMove(
-        placedItems: _gameModule.board.placedItems,
+  MoveUpdate<BattleshipMove> getMoveUpdate() => (
+        newMove: BattleshipMove(
+          placedItems: _gameModule.board.placedItems,
+        ),
+        updatedOldMoves: {},
       );
 
   @override
