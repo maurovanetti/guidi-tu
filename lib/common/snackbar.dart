@@ -1,11 +1,37 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 
-mixin QuickMessage {
-  void showQuickMessage(String message, {required BuildContext context}) {
+class QuickMessage {
+  static final _instance = QuickMessage._internal();
+  ScaffoldFeatureController<SnackBar, SnackBarClosedReason>?
+      _snackBarController;
+
+  QuickMessage._internal();
+  factory QuickMessage() => _instance;
+
+  void showQuickMessage(
+    String message, {
+    required BuildContext context,
+    bool longer = false,
+  }) {
     // The quick message does not require any feedback.
-    // ignore: avoid-ignoring-return-values
-    ScaffoldMessenger.of(context).showSnackBar(
-      SnackBar(content: Text(message), duration: const Duration(seconds: 2)),
+    _snackBarController = ScaffoldMessenger.of(context).showSnackBar(
+      SnackBar(
+        content: Text(message),
+        duration: Duration(seconds: longer ? 5 : 2),
+      ),
     );
+    unawaited(_resetSnackBarController());
+  }
+
+  Future<void> _resetSnackBarController() async {
+    var _ = await _snackBarController?.closed;
+    _snackBarController = null;
+  }
+
+  void hideQuickMessage() {
+    _snackBarController?.close();
+    _snackBarController = null;
   }
 }

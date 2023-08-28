@@ -21,13 +21,14 @@ class BoulesJack extends BoulesBowl {
 
 class BoulesBowl extends BodyComponent with CustomNotifier {
   static const radius = 2.0;
-  static const launchImpulseFactor = 20.0;
+  static const launchImpulseFactor = 30.0;
+  static const stopVelocity = 1;
 
   final Vector2 initialPosition;
   late final BoulesBowlSprite sprite;
   final Player player;
-
-  bool isSleeping = true;
+  bool sleeping = true;
+  bool readyToStop = false;
 
   double get r => radius;
 
@@ -87,17 +88,25 @@ class BoulesBowl extends BodyComponent with CustomNotifier {
   void launchTowards(Vector2 target) {
     final direction = target - body.position;
     final impulse = direction * launchImpulseFactor;
+    debugPrint('Launching $this towards $target with impulse $impulse');
     body.applyLinearImpulse(impulse);
   }
 
   @override
   void update(double dt) {
-    if (isSleeping != !body.isAwake) {
-      isSleeping = !body.isAwake;
+    if (body.linearVelocity.length2 < stopVelocity) {
+      body.linearVelocity.setZero();
+    }
+    if (sleeping != !body.isAwake) {
+      sleeping = !body.isAwake;
       // The bowl has started or stopped moving
       notifyListeners();
     }
     super.update(dt);
+  }
+
+  void prepareToStop() {
+    readyToStop = true;
   }
 }
 

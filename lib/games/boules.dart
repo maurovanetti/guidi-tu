@@ -40,7 +40,13 @@ class BoulesGameAreaState extends GameAreaState<BoulesMove>
   @override
   void initState() {
     super.initState();
-    _gameModule = BoulesModule(setReady: widget.setReady);
+    _gameModule = BoulesModule(
+      setReady: ({bool ready = true}) {
+        QuickMessage().hideQuickMessage();
+        widget.setReady(ready: ready);
+      },
+      displayMessage: displayMessage,
+    );
   }
 
   @override
@@ -48,6 +54,9 @@ class BoulesGameAreaState extends GameAreaState<BoulesMove>
         bowlPosition: _gameModule.lastBowlPosition,
         jackPosition: _gameModule.updatedJackPosition,
       );
+
+  void displayMessage(String message) =>
+      QuickMessage().showQuickMessage(message, context: context, longer: true);
 
   @override
   Widget build(BuildContext context) => GameWidget(game: _gameModule);

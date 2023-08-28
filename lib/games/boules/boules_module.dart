@@ -14,6 +14,7 @@ import 'boules_wall.dart';
 class BoulesModule extends Forge2DGameWithDragging {
   static const boulesSetupKey = "boulesSetup";
   final void Function({bool ready}) setReady;
+  final void Function(String message)? displayMessage;
   static const _minDragDuration = Duration(milliseconds: 500);
   late final List<BoulesBowl> _bowls;
   late final BoulesJack _jack;
@@ -40,7 +41,7 @@ class BoulesModule extends Forge2DGameWithDragging {
 
   Vector2 get _initialJackPosition => Vector2(size.x / 2, size.y / 5);
 
-  BoulesModule({required this.setReady})
+  BoulesModule({required this.setReady, this.displayMessage})
       : super(minDragDuration: _minDragDuration);
 
   @override
@@ -133,13 +134,18 @@ class BoulesModule extends Forge2DGameWithDragging {
       remove(_arrowHead);
       Delay.after(3, () {
         _beholdTheOutcome = true;
+        for (var bowl in _bowls) {
+          bowl.prepareToStop();
+        }
+        // ignore: avoid-non-ascii-symbols
+        displayMessage?.call("Aspettiamo che le bocce si fermino…");
         _onBowlChangedState();
       });
     }
   }
 
   void _onBowlChangedState() {
-    if (_beholdTheOutcome && _bowls.every((bowl) => bowl.isSleeping)) {
+    if (_beholdTheOutcome && _bowls.every((bowl) => bowl.sleeping)) {
       unawaited(TeamAware.storeSessionData({
         boulesSetupKey: _bowls.map((bowl) => bowl.toJson()).toList(),
       }));

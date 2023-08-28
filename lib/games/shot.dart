@@ -13,8 +13,7 @@ import '/common/common.dart';
 import '/screens/stories_screen.dart';
 import 'game_area.dart';
 
-class ShotGameAreaState<T extends ShotMove> extends GameAreaState<T>
-    with QuickMessage {
+class ShotGameAreaState<T extends ShotMove> extends GameAreaState<T> {
   Timer? _longPressTimer;
 
   @protected
@@ -121,7 +120,7 @@ class _DownArrowButton extends ArrowButton {
         );
 }
 
-class ShotControls extends StatelessWidget with QuickMessage {
+class ShotControls extends StatelessWidget {
   const ShotControls({
     super.key,
     required this.n,
@@ -147,7 +146,8 @@ class ShotControls extends StatelessWidget with QuickMessage {
       ),
       onLongPress: shotState.resetN,
       onPressed: () {
-        showQuickMessage("Tieni premuto per azzerare", context: context);
+        QuickMessage()
+            .showQuickMessage("Tieni premuto per azzerare", context: context);
       },
       child: FittedText(
         n.toString(),

@@ -22,6 +22,7 @@ class FinalBoulesOutcome extends StatelessWidget {
         bottomChildren: const [
           Text(
             "Contano solo le bocce migliori di ogni partecipante",
+            textAlign: TextAlign.center,
           ),
         ],
       ),
