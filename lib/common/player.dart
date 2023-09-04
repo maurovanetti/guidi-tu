@@ -50,6 +50,9 @@ class Player with Gendered {
     this.gender = gender;
   }
 
+  static const drunkPlayerId = 1;
+  static const soberPlayerId = 2;
+
   Player.fromJson(this.id, Map<String, dynamic> json) : name = json['name'] {
     gender = json['gender'] == Gender.male.letter ? Gender.male : Gender.female;
   }
