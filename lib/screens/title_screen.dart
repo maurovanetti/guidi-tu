@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 import '/common/common.dart';
+import 'challenge/challenge_setup_screen.dart';
 import 'tutorial_screen.dart';
 
 class TitleScreen extends StatefulWidget {
@@ -78,6 +79,14 @@ class _TitleScreenState extends TrackedState<TitleScreen> with ScoreAware {
                     : 'Gioca di nuovo',
                 onPressed:
                     Navigation.push(context, () => const TutorialScreen()).go,
+              ),
+              CustomButton(
+                key: WidgetKeys.toChallengeSetup,
+                text: 'Prova di abilità',
+                onPressed:
+                    Navigation.push(context, () => const ChallengeSetupScreen())
+                        .go,
+                important: false,
               ),
               CustomButton(
                 text: 'Informazioni',

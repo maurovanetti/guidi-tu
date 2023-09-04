@@ -30,6 +30,9 @@ class WidgetKeys {
   static const toOutcome = Key('to-outcome');
   static const toPlacement = Key('to-placement');
   static const toHome = Key('to-home');
+  static const toChallengeSetup = Key('to-challenge-setup');
+  static const toChallenge = Key('to-challenge');
+  static const toChallengeScores = Key('to-challenge-scores');
 
 // Team page controls
   static const addPlayer = Key('add-player');

@@ -4,7 +4,6 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 
 import '/common/common.dart';
 import 'pick_screen.dart';
@@ -206,13 +205,10 @@ class PlayerDialogState extends State<PlayerDialog> {
       content: Column(
         children: [
           // Edit name
-          TextField(
+          PlayerNameField(
             key: WidgetKeys.editPlayerName,
             controller: _nameController,
-            decoration: const InputDecoration(counterText: 'max 5 lettere'),
-            inputFormatters: const [UpperCaseTextFormatter(5)],
-            textCapitalization: TextCapitalization.characters,
-            style: Theme.of(context).textTheme.headlineLarge,
+            themeData: Theme.of(context),
             onChanged: _updateReadyToConfirm,
           ),
           const Gap(),
@@ -261,25 +257,5 @@ class PlayerDialogState extends State<PlayerDialog> {
         ),
       ],
     );
-  }
-}
-
-class UpperCaseTextFormatter extends TextInputFormatter {
-  final int maxLength;
-
-  const UpperCaseTextFormatter(this.maxLength);
-
-  @override
-  TextEditingValue formatEditUpdate(
-    TextEditingValue oldValue,
-    TextEditingValue newValue,
-  ) {
-    return (newValue.text.length > maxLength)
-        ? oldValue
-        : TextEditingValue(
-            text: newValue.text.toUpperCase(),
-            selection: newValue.selection,
-            composing: newValue.composing,
-          );
   }
 }

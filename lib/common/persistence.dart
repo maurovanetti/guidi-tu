@@ -4,4 +4,5 @@ class Persistence {
   static const payerKey = 'payer';
   static const driverKey = 'driver';
   static const awardsTimeKey = 'awardsTime';
+  static const challengerKey = 'challenger';
 }
