@@ -1,29 +1,49 @@
 import 'dart:async';
+import 'dart:io';
 
 import 'package:flame/components.dart';
 import 'package:flame_forge2d/flame_forge2d.dart';
+import 'package:flutter/foundation.dart';
+import 'package:flutter/services.dart';
 import 'package:sensors_plus/sensors_plus.dart';
 
 import '/games/flame/custom_sprite_component.dart';
-import 'steady_hand_platform.dart';
 
-class SteadyHandBall extends BodyComponent {
-  static const radius = 3.0;
+class SteadyHandBall extends BodyComponent with KeyboardHandler {
   static const finalGravityMultiplier = 200.0;
   static const gravityMultiplierIncreasePerSecond = 40.0;
 
   final Vector2 position;
-  final SteadyHandPlatform platform;
+  final Component platform;
+  final double radius;
   final void Function() notifyFallen;
-  final sprite = SteadyHandBallSprite();
+  late final SteadyHandBallSprite sprite;
 
   double _gravityMultiplier = 0;
   bool _isFalling = false;
 
   StreamSubscription<AccelerometerEvent>? _accelerations;
 
-  SteadyHandBall(this.position, this.platform, {required this.notifyFallen})
-      : super(renderBody: false);
+  SteadyHandBall(
+    this.position,
+    this.platform, {
+    required this.radius,
+    required this.notifyFallen,
+  }) : super(renderBody: false) {
+    sprite = SteadyHandBallSprite(radius: radius);
+  }
+
+  void applyForce(Vector2 force) {
+    if (!_isFalling) {
+      body.applyForce(force * _gravityMultiplier);
+    }
+  }
+
+  void applyImpulse(Vector2 impulse) {
+    if (!_isFalling) {
+      body.applyLinearImpulse(impulse * _gravityMultiplier);
+    }
+  }
 
   @override
   Body createBody() {
@@ -41,14 +61,19 @@ class SteadyHandBall extends BodyComponent {
     return world.createBody(bodyDef)..createFixture(fixtureDef);
   }
 
+  bool get isMobile => Platform.isAndroid || Platform.isIOS;
+
   @override
   Future<void> onLoad() {
     add(sprite);
-    _accelerations = accelerometerEvents.listen((AccelerometerEvent event) {
-      if (!_isFalling) {
-        body.applyForce(Vector2(-event.x, event.y) * _gravityMultiplier);
-      }
-    });
+    if (isMobile) {
+      _accelerations = accelerometerEvents.listen((AccelerometerEvent event) {
+        applyForce(Vector2(-event.x, event.y));
+      });
+    } else {
+      debugPrint("This is not a mobile device. "
+          "The accelerometer will be emulated by arrow keys.");
+    }
     return super.onLoad();
   }
 
@@ -60,11 +85,29 @@ class SteadyHandBall extends BodyComponent {
   }
 
   @override
+  bool onKeyEvent(RawKeyEvent event, Set<LogicalKeyboardKey> keysPressed) {
+    debugPrint("onKeyEvent: $event");
+    if (keysPressed.contains(LogicalKeyboardKey.arrowLeft)) {
+      applyImpulse(Vector2(-1, 0));
+    }
+    if (keysPressed.contains(LogicalKeyboardKey.arrowRight)) {
+      applyImpulse(Vector2(1, 0));
+    }
+    if (keysPressed.contains(LogicalKeyboardKey.arrowUp)) {
+      applyImpulse(Vector2(0, -1));
+    }
+    if (keysPressed.contains(LogicalKeyboardKey.arrowDown)) {
+      applyImpulse(Vector2(0, 1));
+    }
+    return true;
+  }
+
+  @override
   void update(double dt) {
     var delta = gravityMultiplierIncreasePerSecond * dt;
     _gravityMultiplier =
         (_gravityMultiplier + delta).clamp(0, finalGravityMultiplier);
-    if (!_isFalling & !platform.isUnder(body)) {
+    if (!_isFalling & !platform.containsPoint(body.position)) {
       _isFalling = true;
       body.linearVelocity.setZero();
       body.setAwake(false);
@@ -76,13 +119,14 @@ class SteadyHandBall extends BodyComponent {
 }
 
 class SteadyHandBallSprite extends CustomSpriteComponent {
-  SteadyHandBallSprite()
+  SteadyHandBallSprite({required double radius})
       : super(
           'steady_hand/ball.png',
           Vector2.zero(),
           anchor: Anchor.center,
-          size: Vector2.all(SteadyHandBall.radius * 2),
+          size: Vector2.all(radius * 2),
           hasShadow: true,
+          elevation: radius / 3,
         ) {
     priority = 1;
   }

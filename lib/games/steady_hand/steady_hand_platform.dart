@@ -1,8 +1,7 @@
 import 'package:flame/components.dart';
 import 'package:flame/effects.dart';
-import 'package:flame_forge2d/flame_forge2d.dart';
 
-import '/games/flame/custom_sprite_component.dart';
+import '../flame/custom_sprite_component.dart';
 
 class SteadyHandPlatform extends CustomSpriteComponent {
   final double radius;
@@ -10,6 +9,7 @@ class SteadyHandPlatform extends CustomSpriteComponent {
   static const shortStepDurationInSeconds = 3.0;
 
   get shortStep => LinearEffectController(shortStepDurationInSeconds);
+
   get longStep => LinearEffectController(shortStepDurationInSeconds * 2);
 
   SteadyHandPlatform(Vector2 position, {required this.radius})
@@ -21,12 +21,6 @@ class SteadyHandPlatform extends CustomSpriteComponent {
           hasShadow: false,
         ) {
     priority = 0;
-  }
-
-  bool isUnder(Body item) {
-    final distance = position.distanceTo(item.position);
-    // This works because the platform is a circle
-    return distance < radius * scale.x;
   }
 
   @override

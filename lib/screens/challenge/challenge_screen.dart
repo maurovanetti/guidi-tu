@@ -1,8 +1,9 @@
 import 'package:flame/game.dart';
 import 'package:flutter/material.dart';
-import 'package:guidi_tu/games/steady_hand/steady_hand_module.dart';
 
 import '/common/common.dart';
+import '/games/steady_hand/challenge_module.dart';
+import 'challenge_scores_screen.dart';
 
 class ChallengeScreen extends StatefulWidget {
   final String name;
@@ -19,6 +20,28 @@ class ChallengeScreen extends StatefulWidget {
 }
 
 class ChallengeScreenState extends State<ChallengeScreen> {
+  bool _ended = false;
+
+  void _notifyFallen() {
+    setState(() {
+      _ended = true;
+    });
+  }
+
+  ChallengeModule? _gameModule;
+
+  @override
+  void initState() {
+    super.initState();
+    // This is a workaround to avoid rendering the maze before the GameWidget is
+    // resized at its final size.
+    Delay.waitFor(1, () {
+      setState(() {
+        _gameModule = ChallengeModule(notifyFallen: _notifyFallen);
+      });
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     const color = Colors.white;
@@ -65,12 +88,23 @@ class ChallengeScreenState extends State<ChallengeScreen> {
               child: AspectRatio(
                 key: WidgetKeys.gameArea,
                 aspectRatio: 1.0, // It's a square
-                child: GameWidget(game: SteadyHandModule(notifyFallen: () {})),
+                child: _gameModule == null
+                    ? const Center(child: CircularProgressIndicator())
+                    : GameWidget(game: _gameModule!),
               ),
             ),
           ),
         ),
       ),
+      floatingActionButton: _ended
+          ? CustomFloatingActionButton(
+              key: WidgetKeys.toChallengeScores,
+              onPressed:
+                  Navigation.replaceLast(context, () => ChallengeScoresScreen())
+                      .go,
+              icon: Icons.stop_rounded,
+            )
+          : null,
     );
   }
 }

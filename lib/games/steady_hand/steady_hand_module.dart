@@ -2,13 +2,12 @@ import 'dart:ui';
 
 import 'package:flame/components.dart';
 import 'package:flame_forge2d/forge2d_game.dart';
+import 'package:flutter/foundation.dart';
 
 import 'steady_hand_ball.dart';
 import 'steady_hand_platform.dart';
 
 class SteadyHandModule extends Forge2DGame {
-  static const ballOffset = 0;
-
   final void Function() notifyFallen;
 
   SteadyHandModule({
@@ -18,15 +17,26 @@ class SteadyHandModule extends Forge2DGame {
   @override
   Color backgroundColor() => const Color.fromRGBO(0, 0, 0, 1);
 
+  Component createPlatform() => SteadyHandPlatform(
+        size / 2,
+        radius: size.x * (1 - 1 / 10) / 2,
+      );
+
+  Vector2 ballInitialPosition() {
+    const ballOffset = 0;
+    return size * ((ballOffset + 1) / 2);
+  }
+
+  double get ballRadius => 3.0;
+
   @override
   void onLoad() {
-    var platform = SteadyHandPlatform(
-      size / 2,
-      radius: size.x * (1 - 1 / 10) / 2,
-    );
+    super.onLoad();
+    var platform = createPlatform();
     var ball = SteadyHandBall(
-      size * ((ballOffset + 1) / 2),
+      ballInitialPosition(),
       platform,
+      radius: ballRadius,
       notifyFallen: notifyFallen,
     );
     // ignore: avoid-async-call-in-sync-function
@@ -34,6 +44,11 @@ class SteadyHandModule extends Forge2DGame {
     // ignore: avoid-async-call-in-sync-function
     add(ball);
     // ignore: avoid-async-call-in-sync-function
-    super.onLoad();
+  }
+
+  @override
+  void onGameResize(Vector2 size) {
+    debugPrint("onGameResize: $size");
+    super.onGameResize(size);
   }
 }
