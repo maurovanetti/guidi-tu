@@ -1,4 +1,6 @@
+import 'package:flame/game.dart';
 import 'package:flutter/material.dart';
+import 'package:guidi_tu/games/steady_hand/steady_hand_module.dart';
 
 import '/common/common.dart';
 
@@ -21,6 +23,7 @@ class ChallengeScreenState extends State<ChallengeScreen> {
   Widget build(BuildContext context) {
     const color = Colors.white;
     return Scaffold(
+      backgroundColor: Colors.black,
       appBar: AppBar(
         title: const Text('Sfida di abilità'),
       ),
@@ -30,6 +33,7 @@ class ChallengeScreenState extends State<ChallengeScreen> {
           child: SqueezeOrScroll(
             squeeze: true,
             topChildren: [
+              const Gap(),
               PlayerButtonStructure(
                 Player(
                   widget.sober ? Player.soberPlayerId : Player.drunkPlayerId,
@@ -56,12 +60,12 @@ class ChallengeScreenState extends State<ChallengeScreen> {
               ),
               const Gap(),
             ],
-            centralChild: const Padding(
+            centralChild: Padding(
               padding: StyleGuide.regularPadding,
               child: AspectRatio(
                 key: WidgetKeys.gameArea,
                 aspectRatio: 1.0, // It's a square
-                child: Text('GAME AREA'),
+                child: GameWidget(game: SteadyHandModule(notifyFallen: () {})),
               ),
             ),
           ),

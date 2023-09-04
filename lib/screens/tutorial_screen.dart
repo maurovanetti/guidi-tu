@@ -30,7 +30,9 @@ class _TutorialScreenState extends TrackedState<TutorialScreen> {
   }
 
   void _onPageChanged(int page, CarouselPageChangedReason _) {
-    _lastPage = (page == TutorialCarousel.length - 1);
+    setState(() {
+      _lastPage = (page == TutorialCarousel.length - 1);
+    });
   }
 
   void _moveOn() {
@@ -52,7 +54,7 @@ class _TutorialScreenState extends TrackedState<TutorialScreen> {
         key: WidgetKeys.toTeam,
         onPressed: _moveOn,
         tooltip: 'Avanti',
-        icon: Icons.arrow_forward,
+        icon: _lastPage ? Icons.check_circle_rounded : Icons.skip_next_rounded,
       ),
     );
   }

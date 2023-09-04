@@ -32,7 +32,7 @@ class TurnInterstitialState extends TrackedState<InterstitialScreen> {
       floatingActionButton: CustomFloatingActionButton(
         key: WidgetKeys.toTurnInstructions,
         tooltip: 'Gioca',
-        icon: Icons.play_arrow_rounded,
+        icon: Icons.skip_next_rounded,
         onPressed: _play,
       ),
     );
