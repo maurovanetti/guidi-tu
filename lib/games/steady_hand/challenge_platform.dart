@@ -3,6 +3,8 @@ import 'package:flame/extensions.dart';
 import 'package:flame_forge2d/flame_forge2d.dart';
 import 'package:flutter/material.dart';
 
+import 'challenge_goal.dart';
+
 class ChallengePlatform extends PositionComponent {
   Vector2 boardSize;
   final double breadth = 1 / 10;
@@ -13,14 +15,13 @@ class ChallengePlatform extends PositionComponent {
           position: Vector2.zero(),
           anchor: Anchor.topLeft,
           size: boardSize,
-        ) {
-    priority = 0;
-  }
+        ) {}
 
-  final Paint paint = Paint()..color = Colors.grey;
+  final Paint paint = Paint()..color = Colors.grey.withBlue(200);
 
-  void _addCorridor(
-    Vector2 relativePosition, // of top-left corner
+  RectangleComponent _addCorridor(
+    Vector2 relativePosition,
+    // of top-left corner
     {
     double? relativeWidth,
     double? relativeHeight,
@@ -41,32 +42,47 @@ class ChallengePlatform extends PositionComponent {
     rectangle.size += Vector2.all(1 / Forge2DGame.defaultZoom);
     // ignore: avoid-async-call-in-sync-function
     add(rectangle);
+    return rectangle;
+  }
+
+  void _addGoal(Vector2 absolutePosition, Anchor anchor) {
+    final goal = ChallengeGoal(
+      absolutePosition,
+      anchor: anchor,
+      size: Vector2.all(breadth)..multiply(boardSize),
+    );
+    add(goal);
+    debugPrint("Added goal at $absolutePosition");
   }
 
   Rect _addSpiral(Rect rect) {
     // Rightward branch
-    _addCorridor(
+    var corridor = _addCorridor(
       Vector2(rect.left, rect.top),
       relativeWidth: rect.width,
     );
+    _addGoal(corridor.topLeftPosition + corridor.size, Anchor.bottomRight);
     if (rect.height < breadth) {
       return Rect.zero;
     }
     // Downward branch
-    _addCorridor(
+    corridor = _addCorridor(
       Vector2(rect.right - breadth, rect.top + breadth),
       relativeHeight: rect.height - breadth,
     );
+    _addGoal(corridor.topLeftPosition + corridor.size, Anchor.bottomRight);
     // Leftward branch
-    _addCorridor(
+    corridor = _addCorridor(
       Vector2(rect.left, rect.bottom - breadth),
       relativeWidth: rect.width - breadth,
     );
+    _addGoal(corridor.topLeftPosition, Anchor.topLeft);
     // Upward branch
-    _addCorridor(
+    corridor = _addCorridor(
       Vector2(rect.left, rect.top + breadth + gap),
       relativeHeight: rect.height - breadth - gap - breadth,
     );
+    _addGoal(corridor.topLeftPosition, Anchor.topLeft);
     // Short rightward connector to the next spiral
     _addCorridor(
       Vector2(rect.left + breadth, rect.top + breadth + gap),
@@ -88,5 +104,15 @@ class ChallengePlatform extends PositionComponent {
         rect = _addSpiral(rect)) {
       debugPrint("New loop of the spiral");
     }
+  }
+
+  @override
+  bool containsPoint(Vector2 point) {
+    for (Component component in children.whereType<RectangleComponent>()) {
+      if (component.containsPoint(point)) {
+        return true;
+      }
+    }
+    return false;
   }
 }

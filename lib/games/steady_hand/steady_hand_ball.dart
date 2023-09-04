@@ -1,6 +1,7 @@
 import 'dart:async';
 import 'dart:io';
 
+import 'package:flame/collisions.dart';
 import 'package:flame/components.dart';
 import 'package:flame_forge2d/flame_forge2d.dart';
 import 'package:flutter/foundation.dart';
@@ -118,7 +119,8 @@ class SteadyHandBall extends BodyComponent with KeyboardHandler {
   }
 }
 
-class SteadyHandBallSprite extends CustomSpriteComponent {
+class SteadyHandBallSprite extends CustomSpriteComponent
+    with CollisionCallbacks {
   SteadyHandBallSprite({required double radius})
       : super(
           'steady_hand/ball.png',

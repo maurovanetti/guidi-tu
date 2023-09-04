@@ -67,6 +67,8 @@ flutter:
     - assets/images/morra/interstitial/
     - assets/images/ouija/
     - assets/images/ouija/interstitial/
+    - assets/images/rps/hands/
+    - assets/images/rps/interstitial/
     - assets/images/shot/
     - assets/images/shot/interstitial/
     - assets/images/steady_hand/
@@ -75,9 +77,8 @@ flutter:
     - assets/images/stopwatch/interstitial/
     - assets/images/straws/
     - assets/images/straws/interstitial/
+    - assets/images/challenge/
     - assets/images/tutorial/
-    - assets/images/rps/hands/
-    - assets/images/rps/interstitial/
     - assets/images/ui/
   fonts:
     - family: Signika

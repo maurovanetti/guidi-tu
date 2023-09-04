@@ -2,7 +2,6 @@ import 'dart:ui';
 
 import 'package:flame/components.dart';
 import 'package:flame_forge2d/forge2d_game.dart';
-import 'package:flutter/foundation.dart';
 
 import 'steady_hand_ball.dart';
 import 'steady_hand_platform.dart';
@@ -44,11 +43,5 @@ class SteadyHandModule extends Forge2DGame {
     // ignore: avoid-async-call-in-sync-function
     add(ball);
     // ignore: avoid-async-call-in-sync-function
-  }
-
-  @override
-  void onGameResize(Vector2 size) {
-    debugPrint("onGameResize: $size");
-    super.onGameResize(size);
   }
 }
