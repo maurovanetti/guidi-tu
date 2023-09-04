@@ -44,6 +44,7 @@ class ChallengeSetupScreenState extends State<ChallengeSetupScreen> {
         title: const Text("Preparazione alla sfida"),
       ),
       body: WithBubbles(
+        key: const Key('bubbles'),
         behind: true,
         child: Padding(
           padding: StyleGuide.widePadding,
@@ -90,8 +91,12 @@ class ChallengeSetupScreenState extends State<ChallengeSetupScreen> {
       floatingActionButton: _readyToConfirm && _sober != null
           ? CustomFloatingActionButton(
               key: WidgetKeys.toChallenge,
-              onPressed:
-                  Navigation.push(context, () => const ChallengeScreen()).go,
+              onPressed: Navigation.push(
+                  context,
+                  () => ChallengeScreen(
+                        name: _nameController.text,
+                        sober: _sober!,
+                      )).go,
               tooltip: 'Si può iniziare',
               icon: Icons.check_circle_rounded,
             )
