@@ -50,11 +50,8 @@ class WithSquares extends WithBubbles {
 }
 
 class Bubble extends StatefulWidget {
-  Bubble({super.key, this.square = false});
+  const Bubble({super.key, this.square = false});
 
-  final phase = Random().nextDouble();
-  final radius = Random().nextDouble() * 100 + 50;
-  final xFactor = Random().nextDouble();
   final bool square;
 
   @override
@@ -64,9 +61,12 @@ class Bubble extends StatefulWidget {
 class BubbleState extends State<Bubble>
     with TickerProviderStateMixin, RouteAware {
   static const maxAlpha = 50;
+  final phase = Random().nextDouble();
+  final radius = Random().nextDouble() * 100 + 50;
+  final xFactor = Random().nextDouble();
 
   late final _floatingController = AnimationController(
-    value: widget.phase,
+    value: phase,
     duration: const Duration(seconds: 10),
     vsync: this,
   );
@@ -121,27 +121,28 @@ class BubbleState extends State<Bubble>
   @override
   Widget build(BuildContext context) {
     var screen = MediaQuery.sizeOf(context);
-    var randomX = widget.xFactor * screen.width;
-    var radius = widget.radius * (widget.square ? 0.8 : 1);
+    var randomX = xFactor * screen.width;
+    var adjustedRadius = radius * (widget.square ? 0.8 : 1);
 
     return PositionedTransition(
       rect: RelativeRectTween(
         begin: RelativeRect.fromSize(
           Rect.fromCircle(
-            center: Offset(randomX, screen.height + radius),
-            radius: radius,
+            center: Offset(randomX, screen.height + adjustedRadius),
+            radius: adjustedRadius,
           ),
           screen,
         ),
         end: RelativeRect.fromSize(
-          Rect.fromCircle(center: Offset(randomX, -radius), radius: radius),
+          Rect.fromCircle(
+              center: Offset(randomX, -adjustedRadius), radius: adjustedRadius),
           screen,
         ),
       ).animate(_floatingController),
       child: IgnorePointer(
         child: Container(
-          width: radius,
-          height: radius,
+          width: adjustedRadius,
+          height: adjustedRadius,
           decoration: BoxDecoration(
             color:
                 Theme.of(context).colorScheme.inversePrimary.withAlpha(_alpha),
