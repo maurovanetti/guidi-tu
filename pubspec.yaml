@@ -32,21 +32,21 @@ environment:
 dependencies:
   flutter:
     sdk: flutter
-  collection: ^1.17.2 # pinned
+  collection: ^1.17.2 # pinned by flutter_test:sdk
   intl: ^0.18.1
-  shared_preferences: ^2.2.0
+  shared_preferences: ^2.2.1
   flame: ^1.8.2
   flame_forge2d: ^0.14.1+1
   sensors_plus: ^3.0.3
   flutter_carousel_widget: ^2.1.0
-  flutter_markdown: ^0.6.17+1
+  flutter_markdown: ^0.6.17+2
   equatable: ^2.0.5
 
 dev_dependencies:
   flutter_test:
     sdk: flutter
   dart_code_metrics_presets: ^2.3.0
-  flutter_lints: ^2.0.2
+  flutter_lints: ^2.0.3
   flutter_launcher_icons: ^0.13.1
   flutter_native_splash: ^2.3.2
 

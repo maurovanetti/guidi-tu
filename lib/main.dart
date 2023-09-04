@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:guidi_tu/common/common.dart';
 
+import 'common/common.dart';
 import 'screens/title_screen.dart';
 
 void main() async {
