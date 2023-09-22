@@ -5,4 +5,6 @@ class I18n {
   static final centimetersFormat = NumberFormat('0.0', locale);
   static final secondsFormat = NumberFormat('0.00', locale);
   static final preciserSecondsFormat = NumberFormat('0.0000', locale);
+
+  static final dateTimeFormat = DateFormat('dd/MM HH:mm', locale);
 }

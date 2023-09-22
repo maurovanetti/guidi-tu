@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:intl/date_symbol_data_local.dart';
 
 import 'common/common.dart';
 import 'screens/title_screen.dart';
@@ -8,6 +9,7 @@ void main() async {
   // ignore: avoid-ignoring-return-values
   WidgetsFlutterBinding.ensureInitialized();
   await SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp]);
+  await initializeDateFormatting(I18n.locale, null);
   runApp(const App());
 }
 

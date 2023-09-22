@@ -11,27 +11,26 @@ import 'package:sensors_plus/sensors_plus.dart';
 import '/games/flame/custom_sprite_component.dart';
 
 class SteadyHandBall extends BodyComponent with KeyboardHandler {
-  static const finalGravityMultiplier = 200.0;
-  static const gravityMultiplierIncreasePerSecond = 40.0;
-
   final Vector2 position;
   final Component platform;
   final double radius;
   final void Function() notifyFallen;
   late final SteadyHandBallSprite sprite;
-
+  double finalGravityMultiplier;
   double _gravityMultiplier = 0;
   bool _isFalling = false;
 
   StreamSubscription<AccelerometerEvent>? _accelerations;
-
   bool get isMobile => Platform.isAndroid || Platform.isIOS;
+
+  double get _gravityMultiplierIncreasePerSecond => finalGravityMultiplier / 5;
 
   SteadyHandBall(
     this.position,
     this.platform, {
     required this.radius,
     required this.notifyFallen,
+    required this.finalGravityMultiplier,
   }) : super(renderBody: false) {
     sprite = SteadyHandBallSprite(radius: radius);
   }
@@ -105,7 +104,7 @@ class SteadyHandBall extends BodyComponent with KeyboardHandler {
 
   @override
   void update(double dt) {
-    var delta = gravityMultiplierIncreasePerSecond * dt;
+    var delta = _gravityMultiplierIncreasePerSecond * dt;
     _gravityMultiplier =
         (_gravityMultiplier + delta).clamp(0, finalGravityMultiplier);
     if (!_isFalling & !platform.containsPoint(body.position)) {

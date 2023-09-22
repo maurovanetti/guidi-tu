@@ -1,5 +1,7 @@
 // ignore_for_file: avoid-non-ascii-symbols
 
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -37,6 +39,20 @@ class ChallengeSetupScreenState extends State<ChallengeSetupScreen> {
     setState(() {
       _readyToConfirm = name.isNotEmpty;
     });
+  }
+
+  Future<void> _startChallenge() async {
+    final prefs = await SharedPreferences.getInstance();
+    var _ = prefs.setString(Persistence.challengerKey, _nameController.text);
+    if (mounted) {
+      Navigation.push(
+        context,
+        () => ChallengeScreen(
+          name: _nameController.text,
+          sober: _sober!,
+        ),
+      ).go();
+    }
   }
 
   @override
@@ -99,13 +115,7 @@ class ChallengeSetupScreenState extends State<ChallengeSetupScreen> {
       floatingActionButton: _readyToConfirm && _sober != null
           ? CustomFloatingActionButton(
               key: WidgetKeys.toChallenge,
-              onPressed: Navigation.push(
-                context,
-                () => ChallengeScreen(
-                  name: _nameController.text,
-                  sober: _sober!,
-                ),
-              ).go,
+              onPressed: _startChallenge,
               tooltip: 'Si può iniziare',
               icon: Icons.check_circle_rounded,
             )

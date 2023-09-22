@@ -44,6 +44,16 @@ class ChallengeScreenState extends State<ChallengeScreen> {
     });
   }
 
+  void _displayScores() {
+    Navigation.replaceLast(
+      context,
+      () => ChallengeScoresScreen(
+        score: _gameModule?.score ?? 0,
+        sober: widget.sober,
+      ),
+    ).go();
+  }
+
   ChallengeModule? _gameModule;
 
   @override
@@ -62,11 +72,7 @@ class ChallengeScreenState extends State<ChallengeScreen> {
             topChildren: [
               const Gap(),
               PlayerButtonStructure(
-                Player(
-                  widget.sober ? Player.soberPlayerId : Player.drunkPlayerId,
-                  widget.name,
-                  Gender.neuter,
-                ),
+                Player.forChallenge(widget.name, sober: widget.sober),
                 child: DefaultTextStyle(
                   style: Theme.of(context).textTheme.headlineLarge!.copyWith(
                         color: color,
@@ -103,9 +109,7 @@ class ChallengeScreenState extends State<ChallengeScreen> {
       floatingActionButton: _ended
           ? CustomFloatingActionButton(
               key: WidgetKeys.toChallengeScores,
-              onPressed:
-                  Navigation.replaceLast(context, () => ChallengeScoresScreen())
-                      .go,
+              onPressed: _displayScores,
               icon: Icons.stop_rounded,
             )
           : null,

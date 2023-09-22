@@ -1,14 +1,18 @@
+import 'dart:async';
+
 import 'package:flame/components.dart';
 import 'package:flame_forge2d/flame_forge2d.dart';
 
 import '/games/flame/custom_sprite_component.dart';
 
-class ChallengeGoal extends BodyComponent {
+class ChallengeGoal extends BodyComponent with ContactCallbacks {
   late ChallengeGoalSprite sprite;
 
   final Vector2 position;
   final Vector2 size;
   final Anchor anchor;
+
+  bool _hit = false;
 
   ChallengeGoal(
     this.position, {
@@ -34,7 +38,6 @@ class ChallengeGoal extends BodyComponent {
     final fixtureDef = FixtureDef(
       shape,
       isSensor: true,
-      userData: this,
     );
     final bodyDef = BodyDef(
       userData: this,
@@ -54,6 +57,16 @@ class ChallengeGoal extends BodyComponent {
         throw UnimplementedError("Other anchors are not expected here");
     }
     return world.createBody(bodyDef)..createFixture(fixtureDef);
+  }
+
+  @override
+  void beginContact(Object other, Contact contact) {
+    if (!_hit) {
+      unawaited(sprite.flash());
+      super.beginContact(other, contact);
+      _hit = true;
+      // Can be hit only once
+    }
   }
 }
 

@@ -10,6 +10,7 @@ class StyleGuide {
   static const regularPadding = EdgeInsets.all(10.0);
   static const widePadding = EdgeInsets.all(20.0);
   static const scrollbarPadding = EdgeInsets.only(right: 10.0);
+  static const separationMargin = EdgeInsets.only(bottom: 5.0);
 
   static const iconSize = 30.0;
 

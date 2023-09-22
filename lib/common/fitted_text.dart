@@ -11,10 +11,11 @@ class FittedText extends StatelessWidget {
   Widget build(BuildContext context) {
     return LayoutBuilder(
       builder: (innerContext, constraints) {
+        var someText = text.isNotEmpty ? text : " ";
         return FittedBox(
           fit: BoxFit.scaleDown,
           child: Text(
-            text,
+            someText,
             textAlign: textAlign,
             style: style,
           ),

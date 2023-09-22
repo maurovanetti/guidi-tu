@@ -8,8 +8,8 @@ import 'steady_hand_platform.dart';
 
 class SteadyHandModule extends Forge2DGame {
   final void Function() notifyFallen;
-
-  double get ballRadius => 3.0;
+  final ballGravityMultiplier = 50.0;
+  final ballRadius = 3.0;
 
   SteadyHandModule({
     required this.notifyFallen,
@@ -35,6 +35,7 @@ class SteadyHandModule extends Forge2DGame {
       ballInitialPosition(),
       platform,
       radius: ballRadius,
+      finalGravityMultiplier: ballGravityMultiplier,
       notifyFallen: notifyFallen,
     );
     // ignore: avoid-async-call-in-sync-function

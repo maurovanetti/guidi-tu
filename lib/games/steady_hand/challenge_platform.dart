@@ -4,20 +4,23 @@ import 'package:flame_forge2d/flame_forge2d.dart';
 import 'package:flutter/material.dart';
 
 import 'challenge_goal.dart';
+import 'steady_hand_ball.dart';
 
 class ChallengePlatform extends PositionComponent {
   Vector2 boardSize;
+  void Function(int score) onScoreChange;
   final breadth = 1 / 10;
   final gap = 1 / 20;
-
   final paint = Paint()..color = Colors.grey.withBlue(200);
 
-  ChallengePlatform(this.boardSize)
+  int _score = 0;
+
+  ChallengePlatform(this.boardSize, this.onScoreChange)
       : super(
           position: Vector2.zero(),
           anchor: Anchor.topLeft,
           size: boardSize,
-        ) {}
+        );
 
   @override
   void onLoad() {
@@ -68,6 +71,7 @@ class ChallengePlatform extends PositionComponent {
       anchor: anchor,
       size: Vector2.all(breadth)..multiply(boardSize),
     );
+    goal.onBeginContact = _onHitGoal;
     // ignore: avoid-async-call-in-sync-function
     add(goal);
     debugPrint("Added goal at $absolutePosition");
@@ -113,5 +117,12 @@ class ChallengePlatform extends PositionComponent {
       rect.width - delta - delta,
       rect.height - delta - delta,
     );
+  }
+
+  void _onHitGoal(Object other, Contact _) {
+    if (other is SteadyHandBall) {
+      _score++;
+      onScoreChange(_score);
+    }
   }
 }
