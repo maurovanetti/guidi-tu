@@ -73,7 +73,7 @@ mixin MoveReceiver<T extends Move> {
 
 typedef MoveUpdate<T extends Move> = ({
   T newMove,
-  Map<Player, List<T>> updatedOldMoves
+  Map<Player, List<T>> updatedOldMoves,
 });
 
 mixin MoveProvider<T extends Move> {

@@ -1,3 +1,5 @@
+// ignore_for_file: avoid-non-ascii-symbols
+
 import 'package:flutter/material.dart';
 
 import '/common/common.dart';

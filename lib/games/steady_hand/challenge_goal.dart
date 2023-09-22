@@ -45,9 +45,11 @@ class ChallengeGoal extends BodyComponent {
       case Anchor.topLeft:
         bodyDef.position += size / 2;
         break;
+
       case Anchor.bottomRight:
         bodyDef.position -= size / 2;
         break;
+
       default:
         throw UnimplementedError("Other anchors are not expected here");
     }

@@ -7,8 +7,10 @@ import 'challenge_goal.dart';
 
 class ChallengePlatform extends PositionComponent {
   Vector2 boardSize;
-  final double breadth = 1 / 10;
-  final double gap = 1 / 20;
+  final breadth = 1 / 10;
+  final gap = 1 / 20;
+
+  final paint = Paint()..color = Colors.grey.withBlue(200);
 
   ChallengePlatform(this.boardSize)
       : super(
@@ -17,12 +19,27 @@ class ChallengePlatform extends PositionComponent {
           size: boardSize,
         ) {}
 
-  final Paint paint = Paint()..color = Colors.grey.withBlue(200);
+  @override
+  void onLoad() {
+    for (Rect rect = const Rect.fromLTWH(0, 0, 1, 1);
+        rect.width > 0 && rect.height > 0;
+        rect = _addSpiral(rect)) {
+      debugPrint("New loop of the spiral");
+    }
+  }
+
+  @override
+  bool containsPoint(Vector2 point) {
+    for (Component component in children.whereType<RectangleComponent>()) {
+      if (component.containsPoint(point)) {
+        return true;
+      }
+    }
+    return false;
+  }
 
   RectangleComponent _addCorridor(
-    Vector2 relativePosition,
-    // of top-left corner
-    {
+    Vector2 relativePosition, {
     double? relativeWidth,
     double? relativeHeight,
   }) {
@@ -51,6 +68,7 @@ class ChallengePlatform extends PositionComponent {
       anchor: anchor,
       size: Vector2.all(breadth)..multiply(boardSize),
     );
+    // ignore: avoid-async-call-in-sync-function
     add(goal);
     debugPrint("Added goal at $absolutePosition");
   }
@@ -84,7 +102,7 @@ class ChallengePlatform extends PositionComponent {
     );
     _addGoal(corridor.topLeftPosition, Anchor.topLeft);
     // Short rightward connector to the next spiral
-    _addCorridor(
+    var _ = _addCorridor(
       Vector2(rect.left + breadth, rect.top + breadth + gap),
       relativeWidth: gap,
     );
@@ -95,24 +113,5 @@ class ChallengePlatform extends PositionComponent {
       rect.width - delta - delta,
       rect.height - delta - delta,
     );
-  }
-
-  @override
-  void onLoad() {
-    for (Rect rect = const Rect.fromLTWH(0, 0, 1, 1);
-        rect.width > 0 && rect.height > 0;
-        rect = _addSpiral(rect)) {
-      debugPrint("New loop of the spiral");
-    }
-  }
-
-  @override
-  bool containsPoint(Vector2 point) {
-    for (Component component in children.whereType<RectangleComponent>()) {
-      if (component.containsPoint(point)) {
-        return true;
-      }
-    }
-    return false;
   }
 }

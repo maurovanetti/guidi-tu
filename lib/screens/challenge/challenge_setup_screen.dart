@@ -1,3 +1,5 @@
+// ignore_for_file: avoid-non-ascii-symbols
+
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -12,7 +14,7 @@ class ChallengeSetupScreen extends StatefulWidget {
 }
 
 class ChallengeSetupScreenState extends State<ChallengeSetupScreen> {
-  final TextEditingController _nameController = TextEditingController();
+  final _nameController = TextEditingController();
 
   bool _readyToConfirm = false;
 
@@ -35,6 +37,12 @@ class ChallengeSetupScreenState extends State<ChallengeSetupScreen> {
     setState(() {
       _readyToConfirm = name.isNotEmpty;
     });
+  }
+
+  @override
+  void dispose() {
+    _nameController.dispose();
+    super.dispose();
   }
 
   @override
@@ -92,11 +100,12 @@ class ChallengeSetupScreenState extends State<ChallengeSetupScreen> {
           ? CustomFloatingActionButton(
               key: WidgetKeys.toChallenge,
               onPressed: Navigation.push(
-                  context,
-                  () => ChallengeScreen(
-                        name: _nameController.text,
-                        sober: _sober!,
-                      )).go,
+                context,
+                () => ChallengeScreen(
+                  name: _nameController.text,
+                  sober: _sober!,
+                ),
+              ).go,
               tooltip: 'Si può iniziare',
               icon: Icons.check_circle_rounded,
             )

@@ -14,6 +14,9 @@ class Player with Gendered {
 
   static final none = NoPlayer._internal();
 
+  static const drunkPlayerId = 4;
+  static const soberPlayerId = 2;
+
   static const _icons = [
     'player_1',
     'player_2',
@@ -49,9 +52,6 @@ class Player with Gendered {
   Player(this.id, this.name, gender) {
     this.gender = gender;
   }
-
-  static const drunkPlayerId = 4;
-  static const soberPlayerId = 2;
 
   Player.fromJson(this.id, Map<String, dynamic> json) : name = json['name'] {
     gender = json['gender'] == Gender.male.letter ? Gender.male : Gender.female;

@@ -25,6 +25,8 @@ class SteadyHandBall extends BodyComponent with KeyboardHandler {
 
   StreamSubscription<AccelerometerEvent>? _accelerations;
 
+  bool get isMobile => Platform.isAndroid || Platform.isIOS;
+
   SteadyHandBall(
     this.position,
     this.platform, {
@@ -61,8 +63,6 @@ class SteadyHandBall extends BodyComponent with KeyboardHandler {
     );
     return world.createBody(bodyDef)..createFixture(fixtureDef);
   }
-
-  bool get isMobile => Platform.isAndroid || Platform.isIOS;
 
   @override
   Future<void> onLoad() {

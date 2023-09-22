@@ -1,3 +1,7 @@
+// ignore_for_file: avoid-non-ascii-symbols
+
+import 'dart:async';
+
 import 'package:flame/game.dart';
 import 'package:flutter/material.dart';
 
@@ -6,14 +10,14 @@ import '/games/steady_hand/challenge_module.dart';
 import 'challenge_scores_screen.dart';
 
 class ChallengeScreen extends StatefulWidget {
-  final String name;
-  final bool sober;
-
   const ChallengeScreen({
     Key? key,
     required this.name,
     required this.sober,
   }) : super(key: key);
+
+  final String name;
+  final bool sober;
 
   @override
   ChallengeScreenState createState() => ChallengeScreenState();
@@ -22,6 +26,18 @@ class ChallengeScreen extends StatefulWidget {
 class ChallengeScreenState extends State<ChallengeScreen> {
   bool _ended = false;
 
+  @override
+  void initState() {
+    super.initState();
+    // This is a workaround to avoid rendering the maze before the GameWidget is
+    // resized at its final size.
+    unawaited(Delay.waitFor(1, () {
+      setState(() {
+        _gameModule = ChallengeModule(notifyFallen: _notifyFallen);
+      });
+    }));
+  }
+
   void _notifyFallen() {
     setState(() {
       _ended = true;
@@ -29,18 +45,6 @@ class ChallengeScreenState extends State<ChallengeScreen> {
   }
 
   ChallengeModule? _gameModule;
-
-  @override
-  void initState() {
-    super.initState();
-    // This is a workaround to avoid rendering the maze before the GameWidget is
-    // resized at its final size.
-    Delay.waitFor(1, () {
-      setState(() {
-        _gameModule = ChallengeModule(notifyFallen: _notifyFallen);
-      });
-    });
-  }
 
   @override
   Widget build(BuildContext context) {

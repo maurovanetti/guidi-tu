@@ -135,7 +135,9 @@ class BubbleState extends State<Bubble>
         ),
         end: RelativeRect.fromSize(
           Rect.fromCircle(
-              center: Offset(randomX, -adjustedRadius), radius: adjustedRadius),
+            center: Offset(randomX, -adjustedRadius),
+            radius: adjustedRadius,
+          ),
           screen,
         ),
       ).animate(_floatingController),

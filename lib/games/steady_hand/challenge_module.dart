@@ -6,6 +6,9 @@ import 'steady_hand_module.dart';
 /// This module is a modified version of Steady Hand used in the individual
 /// dexterity challenge, out of the mini-game system.
 class ChallengeModule extends SteadyHandModule {
+  @override
+  double get ballRadius => 1.0;
+
   ChallengeModule({required super.notifyFallen});
 
   @override
@@ -15,7 +18,4 @@ class ChallengeModule extends SteadyHandModule {
   Vector2 ballInitialPosition() {
     return Vector2(1, 1) * ballRadius;
   }
-
-  @override
-  double get ballRadius => 1.0;
 }
