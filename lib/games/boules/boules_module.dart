@@ -5,9 +5,10 @@ import 'package:flame/events.dart';
 import 'package:flutter/material.dart';
 
 import '/common/common.dart';
+import '/games/flame/custom_text_box_component.dart';
 import '/games/flame/forge2d_game_with_dragging.dart';
-import '../flame/custom_text_box_component.dart';
 import 'boules_bowl.dart';
+import 'boules_drag_projection.dart';
 import 'boules_target.dart';
 import 'boules_wall.dart';
 
@@ -22,6 +23,7 @@ class BoulesModule extends Forge2DGameWithDragging {
 
   late final BoulesBowl _activeBowl;
   late final PositionComponent _target;
+  late final BoulesDragProjection _dragProjection;
   late final BoulesArrowHead _arrowHead;
 
   CustomTextBoxComponent? _hint;
@@ -93,6 +95,15 @@ class BoulesModule extends Forge2DGameWithDragging {
     );
     // ignore: avoid-async-call-in-sync-function
     add(_target);
+    _dragProjection = BoulesDragProjection(
+      origin: _startPosition,
+      target: _target,
+    );
+    // ignore: avoid-async-call-in-sync-function
+    add(ClipComponent.rectangle(
+      size: Vector2(size.x, size.y),
+      children: [_dragProjection],
+    ));
     _arrowHead = BoulesArrowHead(
       origin: _startPosition,
       target: _target,
