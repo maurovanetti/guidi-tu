@@ -24,9 +24,18 @@ class BoulesDragProjection extends RectangleComponent {
         );
 
   @override
-  void update(double dt) {
+  onLoad() {
+    target.position.addListener(_onTargetMoved);
+    _onTargetMoved();
+    // ignore: avoid-async-call-in-sync-function
+    super.onLoad();
+  }
+
+  void _onTargetMoved() {
+    if (target.position.isNaN) {
+      return;
+    }
     position = target.position;
-    angle = _rotationOffset - (target.position - origin).angleToSigned(_axis);
-    super.update(dt);
+    angle = _rotationOffset - (position - origin).angleToSigned(_axis);
   }
 }

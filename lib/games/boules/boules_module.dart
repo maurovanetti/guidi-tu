@@ -24,7 +24,7 @@ class BoulesModule extends Forge2DGameWithDragging {
 
   late final BoulesBowl _activeBowl;
   late final PositionComponent _target;
-  late final BoulesDragProjection _dragProjection;
+  late final ClipComponent _dragProjection;
   late final BoulesArrowHead _arrowHead;
 
   CustomTextBoxComponent? _hint;
@@ -97,7 +97,6 @@ class BoulesModule extends Forge2DGameWithDragging {
         }
       }
     } else {
-      debugPrint("initial jack position: $_initialJackPosition");
       _jack = BoulesJack(_initialJackPosition);
       bowls.add(_jack);
       TeamAware.storeSessionData({
@@ -118,15 +117,14 @@ class BoulesModule extends Forge2DGameWithDragging {
     );
     // ignore: avoid-async-call-in-sync-function
     world.add(_target);
-    _dragProjection = BoulesDragProjection(
+    final wholeDragProjection = BoulesDragProjection(
       origin: _startPosition,
       target: _target,
     );
-    // ignore: avoid-async-call-in-sync-function
-    world.add(ClipComponent.rectangle(
+    _dragProjection = ClipComponent.rectangle(
       size: view.toVector2(),
-      children: [_dragProjection],
-    ));
+      children: [wholeDragProjection],
+    );
     _arrowHead = BoulesArrowHead(
       origin: _startPosition,
       target: _target,
@@ -152,8 +150,21 @@ class BoulesModule extends Forge2DGameWithDragging {
   }
 
   @override
+  void onDragEnd(DragEndEvent event) {
+    _projectDrag(false);
+    super.onDragEnd(event);
+  }
+
+  @override
+  void onDragCancel(DragCancelEvent event) {
+    _projectDrag(false);
+    super.onDragCancel(event);
+  }
+
+  @override
   void onDragStart(DragStartEvent event) {
     if (_hint?.isRemoved ?? true) {
+      _projectDrag(true);
       super.onDragStart(event);
     } else {
       _hint?.dismiss();
@@ -175,6 +186,15 @@ class BoulesModule extends Forge2DGameWithDragging {
         displayMessage?.call("Aspettiamo che le bocce si fermino…");
         _onBowlChangedState();
       });
+    }
+  }
+
+  void _projectDrag(bool visible) {
+    if (visible) {
+      // ignore: avoid-async-call-in-sync-function
+      world.add(_dragProjection);
+    } else if (world.children.contains(_dragProjection)) {
+      world.remove(_dragProjection);
     }
   }
 
