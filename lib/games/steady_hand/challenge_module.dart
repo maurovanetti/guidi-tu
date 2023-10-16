@@ -9,7 +9,7 @@ class ChallengeModule extends SteadyHandModule {
   int _score = 0;
 
   @override
-  get ballGravityMultiplier => super.ballGravityMultiplier / 3;
+  get ballGravityMultiplier => super.ballGravityMultiplier / 5;
   @override
   get ballRadius => super.ballRadius / 3;
   int get score => _score;
