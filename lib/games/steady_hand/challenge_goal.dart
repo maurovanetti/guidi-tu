@@ -8,14 +8,14 @@ import '/games/flame/custom_sprite_component.dart';
 class ChallengeGoal extends BodyComponent with ContactCallbacks {
   late ChallengeGoalSprite sprite;
 
-  final Vector2 position;
+  final Vector2 initialPosition;
   final Vector2 size;
   final Anchor anchor;
 
   bool _hit = false;
 
   ChallengeGoal(
-    this.position, {
+    this.initialPosition, {
     required this.anchor,
     required this.size,
   }) : super(renderBody: false) {
@@ -41,7 +41,7 @@ class ChallengeGoal extends BodyComponent with ContactCallbacks {
     );
     final bodyDef = BodyDef(
       userData: this,
-      position: position,
+      position: initialPosition,
       type: BodyType.static,
     );
     switch (anchor) {

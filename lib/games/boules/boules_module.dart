@@ -144,10 +144,10 @@ class BoulesModule extends Forge2DGameWithDragging {
   }
 
   @override
-  bool containsLocalPoint(Vector2 p) {
-    return (screenToWorld(p).y > _startPosition.y)
+  bool containsLocalPoint(Vector2 point) {
+    return (screenToWorld(point).y > _startPosition.y)
         ? false
-        : super.containsLocalPoint(p);
+        : super.containsLocalPoint(point);
   }
 
   @override

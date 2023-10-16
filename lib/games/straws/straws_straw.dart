@@ -1,6 +1,5 @@
 import 'package:equatable/equatable.dart';
 import 'package:flame/components.dart';
-import 'package:flame/experimental.dart';
 import 'package:flame/rendering.dart';
 import 'package:flutter/material.dart';
 

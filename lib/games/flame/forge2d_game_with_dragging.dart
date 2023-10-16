@@ -35,9 +35,9 @@ abstract class Forge2DGameWithDragging extends Forge2DGame with DragCallbacks {
   }
 
   @override
-  bool containsLocalPoint(Vector2 p) =>
+  bool containsLocalPoint(Vector2 point) =>
       // This fixes the mismatch between Forge2D and ordinary coordinate systems
-      super.containsLocalPoint(screenToWorld(p));
+      super.containsLocalPoint(screenToWorld(point));
 
   @override
   void onDragCancel(DragCancelEvent event) {

@@ -11,7 +11,7 @@ import 'package:sensors_plus/sensors_plus.dart';
 import '/games/flame/custom_sprite_component.dart';
 
 class SteadyHandBall extends BodyComponent with KeyboardHandler {
-  final Vector2 position;
+  final Vector2 initialPosition;
   final Component platform;
   final double radius;
   final void Function() notifyFallen;
@@ -26,7 +26,7 @@ class SteadyHandBall extends BodyComponent with KeyboardHandler {
   double get _gravityMultiplierIncreasePerSecond => finalGravityMultiplier / 5;
 
   SteadyHandBall(
-    this.position,
+    this.initialPosition,
     this.platform, {
     required this.radius,
     required this.notifyFallen,
