@@ -1,16 +1,14 @@
 import 'package:flame/components.dart';
 import 'package:flame/events.dart';
-import 'package:flame/experimental.dart';
 import 'package:flame/game.dart';
 import 'package:flame/palette.dart';
 import 'package:flame/rendering.dart';
-import 'package:flame_forge2d/body_component.dart';
 import 'package:flutter/material.dart';
 
 import '/common/common.dart';
 
-class CustomSpriteComponent<T extends Game> extends SpriteAnimationComponent
-    with HasGameReference<T> {
+class CustomSpriteComponent<T extends FlameGame>
+    extends SpriteAnimationComponent with HasGameReference<T> {
   // Using BasicPalette.black or .white here makes no difference, it's the
   // colorFilter that does the magic.
   static final shadowPaint = BasicPalette.black.withAlpha(50).paint()
@@ -58,21 +56,6 @@ class CustomSpriteComponent<T extends Game> extends SpriteAnimationComponent
   double get elevation => _elevation;
 
   Vector2 get groundLevelPosition => position + shadowOffset;
-
-  // Replaces absoluteAngle that doesn't take BodyComponent ancestors into
-  // account.
-  // See https://github.com/flame-engine/flame/pull/2678
-  double get realAngle {
-    double theta = angle;
-    for (var ancestor in ancestors(includeSelf: false)) {
-      if (ancestor is PositionComponent) {
-        theta += ancestor.angle;
-      } else if (ancestor is BodyComponent) {
-        theta += ancestor.angle;
-      }
-    }
-    return theta;
-  }
 
   static set lightDirection(Vector2 value) =>
       _lightDirection = value.normalized();
@@ -125,7 +108,7 @@ class CustomSpriteComponent<T extends Game> extends SpriteAnimationComponent
     if (hasShadow && opacity == 1.0) {
       animationTicker?.getSprite().render(
             canvas,
-            position: shadowOffset.clone()..rotate(-realAngle),
+            position: shadowOffset.clone()..rotate(-absoluteAngle),
             size: size,
             overridePaint: shadowPaint,
           );
@@ -190,7 +173,7 @@ class CustomSpriteComponent<T extends Game> extends SpriteAnimationComponent
   }
 }
 
-class DraggableCustomSpriteComponent<T extends Game>
+class DraggableCustomSpriteComponent<T extends FlameGame>
     extends CustomSpriteComponent<T> with DragCallbacks {
   bool draggable;
 

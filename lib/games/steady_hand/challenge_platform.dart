@@ -6,7 +6,7 @@ import 'package:flutter/material.dart';
 import 'challenge_goal.dart';
 import 'steady_hand_ball.dart';
 
-class ChallengePlatform extends PositionComponent {
+class ChallengePlatform extends PositionComponent with HasGameRef {
   Vector2 boardSize;
   void Function(int score) onScoreChange;
   final breadth = 1 / 10;
@@ -59,7 +59,7 @@ class ChallengePlatform extends PositionComponent {
       paint: paint,
     );
     // Adds 1 pixel to each side to avoid graphic artefacts at the edges
-    rectangle.size += Vector2.all(1 / Forge2DGame.defaultZoom);
+    rectangle.size += Vector2.all(1 / gameRef.camera.viewfinder.zoom);
     // ignore: avoid-async-call-in-sync-function
     add(rectangle);
     return rectangle;

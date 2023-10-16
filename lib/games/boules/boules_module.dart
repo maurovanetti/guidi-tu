@@ -52,14 +52,14 @@ class BoulesModule extends Forge2DGameWithDragging {
   @override
   Future<void> onLoad() async {
     world.setGravity(Vector2.zero());
-    add(BoulesWall(Vector2.zero(), Vector2(size.x, 0)));
-    add(BoulesWall(Vector2.zero(), Vector2(0, size.y)));
-    add(BoulesWall(Vector2(size.x, 0), Vector2(size.x, size.y)));
-    add(BoulesWall(Vector2(0, size.y), Vector2(size.x, size.y)));
+    world.add(BoulesWall(Vector2.zero(), Vector2(size.x, 0)));
+    world.add(BoulesWall(Vector2.zero(), Vector2(0, size.y)));
+    world.add(BoulesWall(Vector2(size.x, 0), Vector2(size.x, size.y)));
+    world.add(BoulesWall(Vector2(0, size.y), Vector2(size.x, size.y)));
     _bowls = await retrieveBowls();
     init();
     for (var bowl in _bowls) {
-      add(bowl);
+      world.add(bowl);
       bowl.addListener(_onBowlChangedState);
     }
   }
@@ -94,13 +94,13 @@ class BoulesModule extends Forge2DGameWithDragging {
       position: _startPosition - Vector2(0, BoulesBowl.radius * 4),
     );
     // ignore: avoid-async-call-in-sync-function
-    add(_target);
+    world.add(_target);
     _dragProjection = BoulesDragProjection(
       origin: _startPosition,
       target: _target,
     );
     // ignore: avoid-async-call-in-sync-function
-    add(ClipComponent.rectangle(
+    world.add(ClipComponent.rectangle(
       size: Vector2(size.x, size.y),
       children: [_dragProjection],
     ));
@@ -110,15 +110,15 @@ class BoulesModule extends Forge2DGameWithDragging {
       referenceColor: TurnAware.currentPlayer.color,
     );
     // ignore: avoid-async-call-in-sync-function
-    add(_arrowHead);
+    world.add(_arrowHead);
     _hint = CustomTextBoxComponent(
       "Trascina la freccia e poi lascia andare",
       _initialJackPosition + Vector2(0, BoulesJack.radius * 2),
       autoDismiss: true,
-      scale: 1 / zoom,
+      scale: 1 / camera.viewfinder.zoom,
     );
     // ignore: avoid-async-call-in-sync-function
-    add(_hint!);
+    world.add(_hint!);
   }
 
   @override

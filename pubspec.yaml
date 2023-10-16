@@ -35,8 +35,8 @@ dependencies:
   collection: ^1.17.2 # pinned by flutter_test:sdk
   intl: ^0.18.1
   shared_preferences: ^2.2.1
-  flame: ^1.8.2
-  flame_forge2d: ^0.14.1+1
+  flame: ^1.10.0
+  flame_forge2d: ^0.15.1
   sensors_plus: ^3.0.3
   flutter_carousel_widget: ^2.1.0
   flutter_markdown: ^0.6.17+2
