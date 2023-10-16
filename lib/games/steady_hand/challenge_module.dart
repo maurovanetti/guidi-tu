@@ -1,4 +1,5 @@
 import 'package:flame/components.dart';
+import 'package:flame/extensions.dart';
 
 import 'challenge_platform.dart';
 import 'steady_hand_module.dart';
@@ -17,11 +18,17 @@ class ChallengeModule extends SteadyHandModule {
   ChallengeModule({required super.notifyFallen});
 
   @override
-  Component createPlatform() => ChallengePlatform(size, _onScoreChange);
+  Component createPlatform() =>
+      ChallengePlatform(view.size.toVector2(), _onScoreChange);
 
   @override
-  Vector2 ballInitialPosition() {
-    return Vector2(1, 1) * ballRadius;
+  Vector2 ballInitialPosition() =>
+      view.topLeft.toVector2() + Vector2.all(ballRadius);
+
+  @override
+  void onLoad() {
+    camera.viewfinder.anchor = Anchor.topLeft;
+    super.onLoad();
   }
 
   void _onScoreChange(int value) {
