@@ -17,10 +17,9 @@ class BoulesDragProjection extends RectangleComponent {
           position: target.position,
           anchor: Anchor.topLeft,
           // ignore: no-magic-number
-          paint: Paint()..color = Colors.white.withOpacity(0.15),
+          paint: Paint()..color = Colors.white.withOpacity(0.05),
           // ignore: no-magic-number
           size: Vector2(10000, 10000),
-          priority: -100,
         );
 
   @override

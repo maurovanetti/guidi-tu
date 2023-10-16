@@ -124,6 +124,7 @@ class BoulesModule extends Forge2DGameWithDragging {
     _dragProjection = ClipComponent.rectangle(
       size: view.toVector2(),
       children: [wholeDragProjection],
+      priority: -100,
     );
     _arrowHead = BoulesArrowHead(
       origin: _startPosition,
