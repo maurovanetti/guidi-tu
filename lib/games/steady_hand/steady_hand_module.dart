@@ -1,6 +1,5 @@
-import 'dart:ui';
-
 import 'package:flame/components.dart';
+import 'package:flame/extensions.dart';
 import 'package:flame_forge2d/forge2d_game.dart';
 
 import 'steady_hand_ball.dart';
@@ -11,6 +10,8 @@ class SteadyHandModule extends Forge2DGame {
   final ballGravityMultiplier = 50.0;
   final ballRadius = 3.0;
 
+  Rect get view => camera.visibleWorldRect;
+
   SteadyHandModule({
     required this.notifyFallen,
   }) : super(gravity: Vector2.zero());
@@ -19,14 +20,11 @@ class SteadyHandModule extends Forge2DGame {
   Color backgroundColor() => const Color.fromRGBO(0, 0, 0, 1);
 
   Component createPlatform() => SteadyHandPlatform(
-        size / 2,
-        radius: size.x * (1 - 1 / 10) / 2,
+        view.center.toVector2(),
+        radius: view.width * (1 - 1 / 10) / 2,
       );
 
-  Vector2 ballInitialPosition() {
-    const ballOffset = 0;
-    return size * ((ballOffset + 1) / 2);
-  }
+  Vector2 ballInitialPosition() => view.center.toVector2();
 
   @override
   void onLoad() {
@@ -39,8 +37,8 @@ class SteadyHandModule extends Forge2DGame {
       notifyFallen: notifyFallen,
     );
     // ignore: avoid-async-call-in-sync-function
-    add(platform);
+    world.add(platform);
     // ignore: avoid-async-call-in-sync-function
-    add(ball);
+    world.add(ball);
   }
 }
