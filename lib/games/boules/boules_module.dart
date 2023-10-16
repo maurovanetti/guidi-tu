@@ -23,7 +23,7 @@ class BoulesModule extends Forge2DGameWithDragging {
 
   late final BoulesBowl _activeBowl;
   late final PositionComponent _target;
-  late final BoulesDragProjection _dragProjection;
+  late final ClipComponent _dragProjection;
   late final BoulesArrowHead _arrowHead;
 
   CustomTextBoxComponent? _hint;
@@ -95,15 +95,14 @@ class BoulesModule extends Forge2DGameWithDragging {
     );
     // ignore: avoid-async-call-in-sync-function
     add(_target);
-    _dragProjection = BoulesDragProjection(
+    final wholeDragProjection = BoulesDragProjection(
       origin: _startPosition,
       target: _target,
     );
-    // ignore: avoid-async-call-in-sync-function
-    add(ClipComponent.rectangle(
+    _dragProjection = ClipComponent.rectangle(
       size: Vector2(size.x, size.y),
-      children: [_dragProjection],
-    ));
+      children: [wholeDragProjection],
+    );
     _arrowHead = BoulesArrowHead(
       origin: _startPosition,
       target: _target,
@@ -129,8 +128,21 @@ class BoulesModule extends Forge2DGameWithDragging {
   }
 
   @override
+  void onDragEnd(DragEndEvent event) {
+    _projectDrag(false);
+    super.onDragEnd(event);
+  }
+
+  @override
+  void onDragCancel(DragCancelEvent event) {
+    _projectDrag(false);
+    super.onDragCancel(event);
+  }
+
+  @override
   void onDragStart(DragStartEvent event) {
     if (_hint?.isRemoved ?? true) {
+      _projectDrag(true);
       super.onDragStart(event);
     } else {
       _hint?.dismiss();
@@ -152,6 +164,15 @@ class BoulesModule extends Forge2DGameWithDragging {
         displayMessage?.call("Aspettiamo che le bocce si fermino…");
         _onBowlChangedState();
       });
+    }
+  }
+
+  void _projectDrag(bool visible) {
+    if (visible) {
+      // ignore: avoid-async-call-in-sync-function
+      add(_dragProjection);
+    } else if (children.contains(_dragProjection)) {
+      remove(_dragProjection);
     }
   }
 
