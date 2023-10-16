@@ -108,7 +108,7 @@ class _TeamScreenState extends TrackedState<TeamScreen>
       appBar: AppBar(
         title: const Text('Registra i partecipanti'),
       ),
-      body: WithSquares(
+      body: WithBubbles(
         child: ListView(
           padding: StyleGuide.widePadding,
           children: _loading

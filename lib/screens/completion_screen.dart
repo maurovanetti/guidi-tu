@@ -29,7 +29,7 @@ class CompletionScreenState extends GameSpecificState<CompletionScreen>
           "Ogni persona ha giocato",
         )),
       ),
-      body: WithSquares(
+      body: WithBubbles(
         behind: true,
         child: Padding(
           padding: StyleGuide.widePadding,
