@@ -57,15 +57,15 @@ class SteadyHandBall extends BodyComponent with KeyboardHandler {
       userData: this,
       linearDamping: 0.5,
       angularDamping: 0.5,
-      position: position,
+      position: initialPosition,
       type: BodyType.dynamic,
     );
     return world.createBody(bodyDef)..createFixture(fixtureDef);
   }
 
   @override
-  Future<void> onLoad() {
-    add(sprite);
+  void onMount() {
+    super.onMount();
     if (isMobile) {
       _accelerations = accelerometerEvents.listen((AccelerometerEvent event) {
         applyForce(Vector2(-event.x, event.y));
@@ -74,7 +74,12 @@ class SteadyHandBall extends BodyComponent with KeyboardHandler {
       debugPrint("This is not a mobile device. "
           "The accelerometer will be emulated by arrow keys.");
     }
-    return super.onLoad();
+  }
+
+  @override
+  Future<void> onLoad() async {
+    await super.onLoad();
+    add(sprite);
   }
 
   @override
