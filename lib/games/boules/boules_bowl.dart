@@ -88,7 +88,6 @@ class BoulesBowl extends BodyComponent with CustomNotifier {
   void launchTowards(Vector2 target) {
     final direction = target - body.position;
     final impulse = direction * launchImpulseFactor;
-    debugPrint('Launching a bowl with impulse of magnitude ${impulse.length}');
     body.applyLinearImpulse(impulse);
   }
 

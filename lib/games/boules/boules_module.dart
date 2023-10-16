@@ -2,6 +2,7 @@ import 'dart:async';
 
 import 'package:flame/components.dart';
 import 'package:flame/events.dart';
+import 'package:flame/extensions.dart';
 import 'package:flutter/material.dart';
 
 import '/common/common.dart';
@@ -41,7 +42,10 @@ class BoulesModule extends Forge2DGameWithDragging {
   @override
   PositionComponent? get dragged => _target.isMounted ? _target : null;
 
-  Vector2 get _initialJackPosition => Vector2(size.x / 2, size.y / 5);
+  Rect get view => camera.visibleWorldRect;
+
+  Vector2 get _initialJackPosition =>
+      Vector2(view.center.dx, view.top + view.height / 5);
 
   BoulesModule({required this.setReady, this.displayMessage})
       : super(minDragDuration: _minDragDuration);
@@ -52,10 +56,26 @@ class BoulesModule extends Forge2DGameWithDragging {
   @override
   Future<void> onLoad() async {
     world.setGravity(Vector2.zero());
-    world.add(BoulesWall(Vector2.zero(), Vector2(size.x, 0)));
-    world.add(BoulesWall(Vector2.zero(), Vector2(0, size.y)));
-    world.add(BoulesWall(Vector2(size.x, 0), Vector2(size.x, size.y)));
-    world.add(BoulesWall(Vector2(0, size.y), Vector2(size.x, size.y)));
+    camera.viewfinder.anchor = Anchor.topLeft;
+    debugPrint("camera.viewport.size: ${camera.viewport.size}");
+    debugPrint("camera.visibleWorldRect: ${camera.visibleWorldRect}");
+    debugPrint("camera.viewport.position: ${camera.viewport.position}");
+    world.add(BoulesWall(
+      view.topLeft.toVector2(),
+      view.topRight.toVector2(),
+    ));
+    world.add(BoulesWall(
+      view.topRight.toVector2(),
+      view.bottomRight.toVector2(),
+    ));
+    world.add(BoulesWall(
+      view.bottomRight.toVector2(),
+      view.bottomLeft.toVector2(),
+    ));
+    world.add(BoulesWall(
+      view.bottomLeft.toVector2(),
+      view.topLeft.toVector2(),
+    ));
     _bowls = await retrieveBowls();
     init();
     for (var bowl in _bowls) {
@@ -77,6 +97,7 @@ class BoulesModule extends Forge2DGameWithDragging {
         }
       }
     } else {
+      debugPrint("initial jack position: $_initialJackPosition");
       _jack = BoulesJack(_initialJackPosition);
       bowls.add(_jack);
       TeamAware.storeSessionData({
@@ -87,7 +108,9 @@ class BoulesModule extends Forge2DGameWithDragging {
   }
 
   void init() {
-    _startPosition = Vector2(size.x / 2, size.y - BoulesBowl.radius * (3 / 2));
+    _startPosition =
+        (view.bottomCenter + const Offset(0, -BoulesBowl.radius * (3 / 2)))
+            .toVector2();
     _activeBowl = BoulesBowl(_startPosition, player: TurnAware.currentPlayer);
     _bowls.add(_activeBowl);
     _target = PositionComponent(
@@ -101,7 +124,7 @@ class BoulesModule extends Forge2DGameWithDragging {
     );
     // ignore: avoid-async-call-in-sync-function
     world.add(ClipComponent.rectangle(
-      size: Vector2(size.x, size.y),
+      size: view.toVector2(),
       children: [_dragProjection],
     ));
     _arrowHead = BoulesArrowHead(
@@ -141,8 +164,8 @@ class BoulesModule extends Forge2DGameWithDragging {
   void onRelevantDragEnd() {
     if (dragged != null) {
       _activeBowl.launchTowards(dragged!.position);
-      remove(dragged!);
-      remove(_arrowHead);
+      world.remove(dragged!);
+      world.remove(_arrowHead);
       Delay.after(3, () {
         _beholdTheOutcome = true;
         for (var bowl in _bowls) {
