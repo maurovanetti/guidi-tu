@@ -18,6 +18,9 @@ class SteadyHand extends TurnPlayScreen {
   @override
   bool get isReadyAtStart => false;
 
+  @override
+  Color get backgroundColor => Colors.black;
+
   SteadyHand() : super(key: WidgetKeys.steadyHand, gameFeatures: steadyHand);
 
   @override

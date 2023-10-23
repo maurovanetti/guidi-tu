@@ -1,6 +1,7 @@
 import 'dart:async';
 import 'dart:math';
 
+import 'package:flame/palette.dart';
 import 'package:flutter/material.dart';
 
 import 'fitted_text.dart';
@@ -57,6 +58,7 @@ class CustomButtonState extends State<CustomButton>
     var colorScheme = theme.buttonTheme.colorScheme!;
     var primaryColor = colorScheme.primary;
     var onPrimaryColor = colorScheme.onPrimary;
+    var disabledColor = colorScheme.background.brighten(0.25);
     Color borderColor;
     if (widget.onPressed == null) {
       borderColor = Colors.transparent;
@@ -80,6 +82,7 @@ class CustomButtonState extends State<CustomButton>
         style: ElevatedButton.styleFrom(
           backgroundColor: primaryColor,
           foregroundColor: onPrimaryColor,
+          disabledBackgroundColor: disabledColor,
           padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 20),
           shape: RoundedRectangleBorder(
             side: BorderSide(

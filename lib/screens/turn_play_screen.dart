@@ -7,6 +7,7 @@ import 'turn_instructions_screen.dart';
 
 abstract class TurnPlayScreen extends GameSpecificStatefulWidget {
   bool get isReadyAtStart => true;
+  Color? get backgroundColor => null;
 
   const TurnPlayScreen({super.key, required super.gameFeatures});
 
@@ -73,6 +74,7 @@ class TurnPlayState<T extends Move> extends GameSpecificState<TurnPlayScreen>
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: widget.backgroundColor,
       appBar: AppBar(
         title: Text(widget.gameFeatures.name),
         actions: [
