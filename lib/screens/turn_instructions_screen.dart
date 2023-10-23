@@ -135,7 +135,7 @@ class TurnInstructionsScreenState extends TrackedState<TurnInstructionsScreen>
               if (player is! NoPlayer)
                 CustomButton(
                   key: WidgetKeys.toTurnPlay,
-                  text: player.t("Sono pronto", "Sono pronta"),
+                  text: player.t("Sono pronto", "Sono pronta", "Eccomi"),
                   onPressed: widget.gameFeatures.secretPlay
                       ? _showSecretPlayAlert
                       : _play,

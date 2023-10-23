@@ -23,9 +23,20 @@ class _TeamScreenState extends TrackedState<TeamScreen>
     with Gendered, TeamAware {
   bool _loading = true;
 
+  late final _defaultPlayers = [
+    "ROBI",
+    "ALE",
+    "GIO",
+    "FEDE",
+    "SIMO",
+    "VALE",
+    "MICHI",
+  ];
+
   @override
   initState() {
     super.initState();
+    _defaultPlayers.shuffle();
     Delay.atNextFrame(() async {
       await retrieveTeam();
       if (mounted) {
@@ -40,7 +51,7 @@ class _TeamScreenState extends TrackedState<TeamScreen>
     debugPrint("Editing player $player");
     Player? editedPlayer = await showDialog<Player>(
       context: context,
-      builder: (context) => PlayerDialog(player),
+      builder: (context) => PlayerDialog(player, editGender: true),
     );
     if (editedPlayer != null && mounted) {
       debugPrint("Edited player $editedPlayer");
@@ -52,9 +63,11 @@ class _TeamScreenState extends TrackedState<TeamScreen>
 
   void _addNewPlayer() {
     debugPrint("Adding new player");
-    Player newPlayer = players.length % 2 == 0
-        ? Player(players.length, 'COSO', Gender.male)
-        : Player(players.length, 'COSA', Gender.female);
+    Player newPlayer = Player(
+      players.length,
+      _defaultPlayers[players.length],
+      Gender.neuter,
+    );
     setState(() {
       players.add(newPlayer);
     });
@@ -157,9 +170,10 @@ class _TeamScreenState extends TrackedState<TeamScreen>
 }
 
 class PlayerDialog extends StatefulWidget {
-  const PlayerDialog(this.player, {super.key});
+  const PlayerDialog(this.player, {super.key, required this.editGender});
 
   final Player player;
+  final bool editGender;
 
   @override
   State<PlayerDialog> createState() => PlayerDialogState();
@@ -211,34 +225,49 @@ class PlayerDialogState extends State<PlayerDialog> {
             themeData: Theme.of(context),
             onChanged: _updateReadyToConfirm,
           ),
-          const Gap(),
-          // Edit gender
-          ListTile(
-            key: WidgetKeys.setFemininePlayer,
-            title: const Text('Chiamala «giocatrice»'),
-            leading: Radio<Gender>(
-              value: Gender.female,
-              groupValue: _gender,
-              onChanged: (value) {
-                setState(() {
-                  _gender = value!;
-                });
-              },
+          if (widget.editGender) ...[
+            const Gap(),
+            // Edit gender
+            ListTile(
+              key: WidgetKeys.setFemininePlayer,
+              title: const Text('Chiamala «giocatrice»'),
+              leading: Radio<Gender>(
+                value: Gender.female,
+                groupValue: _gender,
+                onChanged: (value) {
+                  setState(() {
+                    _gender = value!;
+                  });
+                },
+              ),
             ),
-          ),
-          ListTile(
-            key: WidgetKeys.setMasculinePlayer,
-            title: const Text('Chiamalo «giocatore»'),
-            leading: Radio<Gender>(
-              value: Gender.male,
-              groupValue: _gender,
-              onChanged: (value) {
-                setState(() {
-                  _gender = value!;
-                });
-              },
+            ListTile(
+              key: WidgetKeys.setMasculinePlayer,
+              title: const Text('Chiamalo «giocatore»'),
+              leading: Radio<Gender>(
+                value: Gender.male,
+                groupValue: _gender,
+                onChanged: (value) {
+                  setState(() {
+                    _gender = value!;
+                  });
+                },
+              ),
             ),
-          ),
+            ListTile(
+              key: WidgetKeys.setNeutralPlayer,
+              title: const Text('Nessuna preferenza'),
+              leading: Radio<Gender>(
+                value: Gender.neuter,
+                groupValue: _gender,
+                onChanged: (value) {
+                  setState(() {
+                    _gender = value!;
+                  });
+                },
+              ),
+            ),
+          ],
         ],
       ),
       actions: [

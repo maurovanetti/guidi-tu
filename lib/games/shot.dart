@@ -291,6 +291,7 @@ class ShotOutcomeState extends StoriesScreenState<ShotMove> {
   late final Map<Player, String> _playerNicknames;
 
   @override
+  // ignore: avoid-long-functions
   void tellPlayerStories() {
     _playerNicknames = <Player, String>{};
     for (var playerIndex in TurnAware.turns) {
@@ -313,14 +314,26 @@ class ShotOutcomeState extends StoriesScreenState<ShotMove> {
       var move = rm.move;
       var time = rm.time;
       if (move.n == 0) {
-        story = player.t(" è stato immobile", " è stata immobile");
+        story = player.t(
+          " è stato immobile",
+          " è stata immobile",
+          " non ha mosso un dito",
+        );
       } else if (move.n > 100) {
         story = " ha assaltato il cielo";
       } else if (move.n < -100) {
-        story = player.t(" è disceso negli inferi", " è discesa negli inferi");
+        story = player.t(
+          " è disceso negli inferi",
+          " è discesa negli inferi",
+          " ha raggiunto gli inferi",
+        );
         // ignore: prefer-moving-to-variable
       } else if (move.n.abs() > 20) {
-        story = player.t(" si è dato da fare", " si è data da fare");
+        story = player.t(
+          " si è dato da fare",
+          " si è data da fare",
+          " ci ha messo impegno",
+        );
       }
       if (time < 1) {
         story += " per un istante";

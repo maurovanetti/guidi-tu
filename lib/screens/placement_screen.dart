@@ -114,17 +114,20 @@ class PlacementCard extends StatelessWidget {
       role = grammar(
         "Generoso Benefattore Designato",
         "Generosa Benefattrice Designata",
+        "Persona Incaricata della Beneficenza",
       );
       style = style.copyWith(fontWeight: FontWeight.bold);
     } else if (award.canDrink) {
       role = grammar(
         "Bevitore Autorizzato",
         "Bevitrice Autorizzata",
+        "Persona Autorizzata a Bere",
       );
     } else {
       role = grammar(
         "Guidatore Sobrio Designato",
         "Guidatrice Sobria Designata",
+        "Persona Designata alla Guida",
       );
       style = style.copyWith(fontWeight: FontWeight.bold);
     }

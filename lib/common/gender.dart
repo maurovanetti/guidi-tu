@@ -14,12 +14,20 @@ class Gender {
 
   @override
   toString() => letter;
+
+  static Gender fromLetter(String letter) {
+    return switch (letter) {
+      'm' => male,
+      'f' => female,
+      _ => neuter,
+    };
+  }
 }
 
 mixin Gendered {
   Gender gender = Gender.neuter;
 
-  String t(String masculine, String feminine, [String? neutral]) {
+  String t(String masculine, String feminine, String neutral) {
     switch (gender) {
       case Gender.male:
         return masculine;
@@ -28,7 +36,7 @@ mixin Gendered {
         return feminine;
 
       default:
-        return neutral ?? masculine; // Arguable
+        return neutral;
     }
   }
 }

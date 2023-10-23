@@ -41,6 +41,7 @@ class WidgetKeys {
   static const editPlayerName = Key('edit-player-name');
   static const setFemininePlayer = Key('set-feminine-player');
   static const setMasculinePlayer = Key('set-masculine-player');
+  static const setNeutralPlayer = Key('set-neutral-player');
   static const cancelEditPlayer = Key('cancel-player');
   static const submitEditPlayer = Key('submit-player');
 

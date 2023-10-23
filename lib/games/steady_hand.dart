@@ -154,7 +154,11 @@ class SteadyHandOutcomeState extends StoriesScreenState<SteadyHandMove> {
           break;
 
         case 2:
-          story = player.t(" è rimasto in sella", " è rimasta in sella");
+          story = player.t(
+            " è rimasto in sella",
+            " è rimasta in sella",
+            " è ancora in sella",
+          );
           break;
       }
       playerStories[playerIndex] = story;

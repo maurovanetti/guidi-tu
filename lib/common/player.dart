@@ -54,7 +54,7 @@ class Player with Gendered {
   }
 
   Player.fromJson(this.id, Map<String, dynamic> json) : name = json['name'] {
-    gender = json['gender'] == Gender.male.letter ? Gender.male : Gender.female;
+    gender = Gender.fromLetter(json['gender'].toString());
   }
 
   Player.forChallenge(this.name, {required bool sober})
