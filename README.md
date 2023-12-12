@@ -3,7 +3,7 @@
 [![Powered by Flame](https://img.shields.io/badge/Powered%20by-%F0%9F%94%A5-orange.svg)](https://flame-engine.org)
 [![Codemagic build status](https://api.codemagic.io/apps/63e0b4f7446236fa9778921d/63e0b4f7446236fa9778921c/status_badge.svg)](https://codemagic.io/dashboard/af57c210-11ff-4a1d-823c-d2e9992330bc)
 
-_This free app is currently being developed in Italian. A multilingual version is planned for Q3-Q4 2023, after the full release on the Italian market in Q2-Q3 2023._
+_This free app is currently being developed in Italian. A multilingual version is planned for 2024, after the full release on the Italian market in Q1-Q2 2023._
 
 Guidi Tu, un videogioco per selezionare chi guida stasera e chi invece beve.
 
