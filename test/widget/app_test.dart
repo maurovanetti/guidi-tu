@@ -1,9 +1,11 @@
 // Tests should be compact and sometimes repetitive, even a little dumb. For
 // this reason, we ignore several elegance rules in tests.
-// ignore_for_file: avoid-ignoring-return-values, prefer-test-matchers
+// ignore_for_file: avoid-ignoring-return-values
+// ignore_for_file: prefer-test-matchers
 // ignore_for_file: avoid-long-functions
 // ignore_for_file: avoid-importing-entrypoint-exports
 // ignore_for_file: no-magic-number
+// ignore_for_file: prefer-moving-to-variable
 
 import 'package:flutter/widgets.dart';
 import 'package:flutter_test/flutter_test.dart';

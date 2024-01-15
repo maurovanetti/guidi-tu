@@ -34,6 +34,7 @@ class OuijaItem extends TextComponent {
           text: letter,
           textRenderer: OuijaItemTextRenderer(height: boxSize.x, color: color),
           position: position,
+          // ignore: no-magic-number
           anchor: const Anchor(0.5, 0.45), // to compensate baseline offset
           priority: Priorities.stickerPriority,
         ) {

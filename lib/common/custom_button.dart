@@ -83,6 +83,7 @@ class CustomButtonState extends State<CustomButton>
           backgroundColor: primaryColor,
           foregroundColor: onPrimaryColor,
           disabledBackgroundColor: disabledColor,
+          // ignore: no-magic-number
           padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 20),
           shape: RoundedRectangleBorder(
             side: BorderSide(

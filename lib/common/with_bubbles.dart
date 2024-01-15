@@ -88,7 +88,6 @@ class BubbleState extends State<Bubble>
       });
     });
     WidgetsBinding.instance.addPostFrameCallback((_) {
-      // ignore: avoid-inherited-widget-in-initstate
       App.routeObserver.subscribe(this, ModalRoute.of(context)!);
     });
   }

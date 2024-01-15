@@ -33,6 +33,7 @@ abstract class StoriesScreenState<T extends Move>
     var widgets = <Widget>[];
     for (var playerIndex in TurnAware.turns) {
       var player = players[playerIndex];
+      // ignore: avoid-returning-widgets
       widgets.add(getPlayerPerformance(player));
       widgets.add(
         FittedText(
@@ -45,6 +46,7 @@ abstract class StoriesScreenState<T extends Move>
     }
 
     outcomeWidget = ListView(
+      // ignore: no-magic-number
       padding: const EdgeInsets.symmetric(horizontal: 20),
       children: widgets +
           [

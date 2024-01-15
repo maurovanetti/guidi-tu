@@ -60,22 +60,14 @@ class BoulesModule extends Forge2DGameWithDragging {
     debugPrint("camera.viewport.size: ${camera.viewport.size}");
     debugPrint("camera.visibleWorldRect: ${camera.visibleWorldRect}");
     debugPrint("camera.viewport.position: ${camera.viewport.position}");
-    world.add(BoulesWall(
-      view.topLeft.toVector2(),
-      view.topRight.toVector2(),
-    ));
-    world.add(BoulesWall(
-      view.topRight.toVector2(),
-      view.bottomRight.toVector2(),
-    ));
-    world.add(BoulesWall(
-      view.bottomRight.toVector2(),
-      view.bottomLeft.toVector2(),
-    ));
-    world.add(BoulesWall(
-      view.bottomLeft.toVector2(),
-      view.topLeft.toVector2(),
-    ));
+    final topLeft = view.topLeft.toVector2();
+    final topRight = view.topRight.toVector2();
+    final bottomLeft = view.bottomLeft.toVector2();
+    final bottomRight = view.bottomRight.toVector2();
+    world.add(BoulesWall(topLeft, topRight));
+    world.add(BoulesWall(topRight, bottomRight));
+    world.add(BoulesWall(bottomRight, bottomLeft));
+    world.add(BoulesWall(bottomLeft, topLeft));
     _bowls = await retrieveBowls();
     init();
     for (var bowl in _bowls) {
