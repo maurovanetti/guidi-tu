@@ -7,6 +7,7 @@ export 'custom_notifier.dart';
 export 'delay.dart';
 export 'edit_player_name.dart';
 export 'fitted_text.dart';
+export 'forward_only_state.dart';
 export 'game_aware.dart';
 export 'game_features.dart';
 export 'gap.dart';

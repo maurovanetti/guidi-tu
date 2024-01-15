@@ -41,6 +41,7 @@ dependencies:
   flutter_carousel_widget: ^2.1.0
   flutter_markdown: ^0.6.17+2
   equatable: ^2.0.5
+  back_button_interceptor: ^7.0.0
 
 dev_dependencies:
   flutter_test:

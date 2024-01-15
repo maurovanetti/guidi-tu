@@ -18,7 +18,7 @@ abstract class TurnPlayScreen extends GameSpecificStatefulWidget {
 // In most cases there's no need to subclass this, all specific logic can go in
 // the GameAreaState and T. But there are some special cases like Stopwatch that
 // modifies the time logic.
-class TurnPlayState<T extends Move> extends GameSpecificState<TurnPlayScreen>
+class TurnPlayState<T extends Move> extends ForwardOnlyState<TurnPlayScreen>
     with Gendered, TeamAware, TurnAware<T>, MoveReceiver<T> {
   late bool ready;
   bool repeatable = kDebugMode;

@@ -74,7 +74,7 @@ class _PickScreenState extends TrackedState<PickScreen>
     await resetTurn(rounds: _selectedGame.rounds);
     assert(nextTurn());
     if (mounted) {
-      Navigation.replaceAll(context, () => _selectedGame.gameStart).go();
+      Navigation.push(context, () => _selectedGame.gameStart).go();
     }
   }
 

@@ -11,7 +11,7 @@ abstract class OutcomeScreen extends GameSpecificStatefulWidget {
 }
 
 abstract class OutcomeScreenState<T extends Move>
-    extends GameSpecificState<OutcomeScreen>
+    extends ForwardOnlyState<OutcomeScreen>
     with Gendered, TeamAware, ScoreAware, TurnAware<T> {
   late final Widget outcomeWidget;
   bool repeatable = false;

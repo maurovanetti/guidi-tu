@@ -6,7 +6,6 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 
 import '/common/common.dart';
-import 'title_screen.dart';
 
 class TurnInstructionsScreen extends GameSpecificStatefulWidget {
   const TurnInstructionsScreen({super.key, required super.gameFeatures});
@@ -15,7 +14,8 @@ class TurnInstructionsScreen extends GameSpecificStatefulWidget {
   TurnInstructionsScreenState createState() => TurnInstructionsScreenState();
 }
 
-class TurnInstructionsScreenState extends TrackedState<TurnInstructionsScreen>
+class TurnInstructionsScreenState
+    extends ForwardOnlyState<TurnInstructionsScreen>
     with Gendered, TeamAware, TurnAware {
   late Player player;
 
@@ -52,38 +52,13 @@ class TurnInstructionsScreenState extends TrackedState<TurnInstructionsScreen>
   @override
   Widget build(BuildContext context) {
     var textTheme = Theme.of(context).textTheme;
-
     return Scaffold(
       appBar: AppBar(
         title: Text(widget.gameFeatures.name),
         actions: [
           IconButton(
             icon: const Icon(Icons.cancel_rounded),
-            onPressed: () => unawaited(
-              showDialog(
-                context: context,
-                builder: (innerContext) => AlertDialog(
-                  title: const Text("Interruzione del gioco"),
-                  content: const Text(
-                    "Vuoi davvero interrompere il gioco?\n"
-                    "Farai una figura da guastafeste!",
-                  ),
-                  actions: [
-                    TextButton(
-                      onPressed: () => Navigator.of(innerContext).pop(),
-                      child: const Text("Continua a giocare"),
-                    ),
-                    TextButton(
-                      onPressed: Navigation.replaceAll(
-                        innerContext,
-                        () => const TitleScreen(),
-                      ).go,
-                      child: const Text("Ferma tutto"),
-                    ),
-                  ],
-                ),
-              ),
-            ),
+            onPressed: confirmQuit,
           ),
         ],
       ),

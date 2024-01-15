@@ -11,7 +11,7 @@ class CompletionScreen extends GameSpecificStatefulWidget {
   CompletionScreenState createState() => CompletionScreenState();
 }
 
-class CompletionScreenState extends GameSpecificState<CompletionScreen>
+class CompletionScreenState extends ForwardOnlyState<CompletionScreen>
     with Gendered, TeamAware {
   void _displayOutcome() {
     if (mounted) {
