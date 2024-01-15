@@ -2,8 +2,8 @@ import 'package:flame/components.dart';
 import 'package:flame/events.dart';
 import 'package:flutter/material.dart';
 
-import '/common/common.dart';
 import '../flame/priorities.dart';
+import '/common/common.dart';
 import 'ouija_board.dart';
 
 class OuijaItemTextRenderer extends TextPaint {
