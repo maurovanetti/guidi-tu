@@ -305,7 +305,7 @@ Ma attenzione: chi avrà la boccia più vicina al boccino, paga.""",
   lessIsMore: true,
   usesRigidGameArea: true,
   externalClock: false,
-  interstitialAnimationPath: "",
+  interstitialAnimationPath: "boules/interstitial/Game_Bocce",
 );
 
 final allGameFeatures = [
