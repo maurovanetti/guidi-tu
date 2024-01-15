@@ -122,7 +122,7 @@ Penalità possibili per chi arriva primo:
                 // ignore: no-magic-number
                 (start: 81, end: 96),
                 // ignore: no-magic-number
-                (start: 142, end: 148),
+                (start: 133, end: 149),
               ],
               page: pageNotifier,
             ),
