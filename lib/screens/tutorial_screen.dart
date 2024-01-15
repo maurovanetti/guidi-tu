@@ -116,8 +116,14 @@ Penalità possibili per chi arriva primo:
           Expanded(
             child: SmoothSteppedAnimation(
               prefix: tutorialAnimation,
-              // ignore: no-magic-number
-              transitions: const [(start: 26, end: 82), (start: 97, end: 132)],
+              loops: const [
+                // ignore: no-magic-number
+                (start: 0, end: 22),
+                // ignore: no-magic-number
+                (start: 81, end: 96),
+                // ignore: no-magic-number
+                (start: 142, end: 148),
+              ],
               page: pageNotifier,
             ),
           ),

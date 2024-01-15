@@ -8,11 +8,11 @@ class SmoothSteppedAnimation extends InterstitialAnimation {
     required super.prefix,
     super.repeat = double.infinity,
     super.fps = 10,
-    required this.transitions,
+    required this.loops,
     required this.page,
   });
 
-  final List<({int start, int end})> transitions;
+  final List<({int start, int end})> loops;
   final ValueListenable<int> page;
 
   @override
@@ -20,29 +20,26 @@ class SmoothSteppedAnimation extends InterstitialAnimation {
 }
 
 class SmoothSteppedAnimationState extends InterstitialAnimationState {
+  bool _beyondEnd = false;
+
   @override
   void repeatAnimation() {
     var a = animationTicker!;
     a.onFrame = (frame) {
       var w = widget as SmoothSteppedAnimation;
       int currentStep = w.page.value;
-      int loopStart, loopEnd;
-      if (currentStep == 0) {
-        loopStart = 0;
-        loopEnd = w.transitions.first.start;
-      } else if (currentStep < w.transitions.length) {
-        loopStart = w.transitions[currentStep - 1].end + 1;
-        loopEnd = w.transitions[currentStep].start;
-      } else {
-        loopStart = w.transitions.last.end + 1;
-        loopEnd = a.spriteAnimation.frames.length - 1;
+      if (currentStep >= w.loops.length) {
+        currentStep = w.loops.length - 1;
       }
-      if (frame >= loopEnd) {
+      int loopStart = w.loops[currentStep].start;
+      int loopEnd = w.loops[currentStep].end;
+      if (frame > loopEnd || _beyondEnd && a.isFirstFrame) {
         a.currentIndex = loopStart;
         a.clock = a.spriteAnimation.frames[loopStart].stepTime;
         a.elapsed = a.totalDuration();
         a.update(0);
       }
+      _beyondEnd = a.isLastFrame;
     };
   }
 }
