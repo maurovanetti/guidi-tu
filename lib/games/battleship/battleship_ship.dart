@@ -46,7 +46,7 @@ class BattleshipShip extends BattleshipItem {
       return 'battleship/duck/Naval_Papera';
     }
     if (isVertical) {
-      return 'battleship/buoy/Navale_Faro';
+      return 'battleship/buoy/Naval_Faro';
     }
     // ignore: prefer-returning-conditional-expressions
     return 'battleship/boat/Game_Naval_nave';
