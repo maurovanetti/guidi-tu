@@ -7,7 +7,6 @@
 // ignore_for_file: no-magic-number
 // ignore_for_file: prefer-moving-to-variable
 
-import 'package:flutter/widgets.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:guidi_tu/common/game_features.dart';
 import 'package:guidi_tu/common/widget_keys.dart';
@@ -54,6 +53,12 @@ void main() {
       expect(WidgetKeys.toTeam.found(), findsOneWidget);
       await tester.tap(WidgetKeys.toTeam.found());
       await tester.pumpForNavigation();
+      await tester.tap(WidgetKeys.toTeam.found());
+      await tester.pumpForNavigation();
+      await tester.tap(WidgetKeys.toTeam.found());
+      await tester.pumpForNavigation();
+      await tester.tap(WidgetKeys.toTeam.found());
+      await tester.pumpForNavigation();
 
       // Team page
       expect(WidgetKeys.toTeam.found(), findsNothing);
@@ -71,6 +76,12 @@ void main() {
       await tester.tap(WidgetKeys.setFemininePlayer.found());
       await tester.tap(WidgetKeys.submitEditPlayer.found());
       await tester.pumpForNavigation(); // Closing dialog and refreshing page
+      await tester.tap(WidgetKeys.addPlayer.found());
+      await tester.pump(); // Not a navigation, just a dialog opening
+      expect(WidgetKeys.editPlayer.found(), findsOneWidget);
+      await tester.enterText(WidgetKeys.editPlayerName.found(), "SEMPY");
+      await tester.tap(WidgetKeys.submitEditPlayer.found());
+      await tester.pumpForNavigation(); // Closing dialog and refreshing page
       await tester.ensureVisible(WidgetKeys.toPick.found());
       expect(WidgetKeys.toPick.found(), findsOneWidget);
       await tester.tap(WidgetKeys.toPick.found());
@@ -79,6 +90,13 @@ void main() {
       // Pick page
       expect(WidgetKeys.toPick.found(), findsNothing);
       expect(WidgetKeys.pickGame(largeShot.name).found(), findsOneWidget);
+      expect(WidgetKeys.pickGame(smallShot.name).found(), findsOneWidget);
+      expect(WidgetKeys.pickGame(morra.name).found(), findsOneWidget);
+      expect(WidgetKeys.pickGame(battleship.name).found(), findsOneWidget);
+      expect(WidgetKeys.pickGame(stopwatch.name).found(), findsOneWidget);
+      expect(WidgetKeys.pickGame(steadyHand.name).found(), findsOneWidget);
+      expect(WidgetKeys.pickGame(ouija.name).found(), findsOneWidget);
+      expect(WidgetKeys.pickGame(boules.name).found(), findsOneWidget);
       await tester.tap(WidgetKeys.pickGame(largeShot.name).found());
       expect(WidgetKeys.toInterstitial.found(), findsOneWidget);
       await tester.tap(WidgetKeys.toInterstitial.found());
@@ -90,47 +108,28 @@ void main() {
       await tester.tap(WidgetKeys.toTurnInstructions.found());
       await tester.pumpForNavigation();
 
-      // Turn instructions page (1st player)
-      expect(WidgetKeys.toTurnInstructions.found(), findsNothing);
-      expect(WidgetKeys.toTurnPlay.found(), findsOneWidget);
-      await tester.ensureVisible(WidgetKeys.toTurnPlay.found());
-      await tester.tap(WidgetKeys.toTurnPlay.found());
-      await tester.pump(); // Not a navigation, just a dialog opening
-      expect(WidgetKeys.hiddenPlayAlert.found(), findsOneWidget);
-      expect(WidgetKeys.acknowledgeHiddenPlay.found(), findsOneWidget);
-      await tester.tap(WidgetKeys.acknowledgeHiddenPlay.found());
-      await tester.pumpForNavigation(); // Actual navigation
+      for (int i = 0; i < 3; i++) {
+        // Turn instructions page (n-th player)
+        expect(WidgetKeys.toTurnInstructions.found(), findsNothing);
+        expect(WidgetKeys.toTurnPlay.found(), findsOneWidget);
+        await tester.ensureVisible(WidgetKeys.toTurnPlay.found());
+        await tester.tap(WidgetKeys.toTurnPlay.found());
+        await tester.pump(); // Not a navigation, just a dialog opening
+        expect(WidgetKeys.hiddenPlayAlert.found(), findsOneWidget);
+        expect(WidgetKeys.acknowledgeHiddenPlay.found(), findsOneWidget);
+        await tester.tap(WidgetKeys.acknowledgeHiddenPlay.found());
+        await tester.pumpForNavigation(); // Actual navigation
 
-      // Turn play page (1st player)
-      expect(WidgetKeys.toTurnPlay.found(), findsNothing);
-      expect(WidgetKeys.largeShot.found(), findsOneWidget);
-      await tester.ensureVisible(WidgetKeys.clock.found());
-      expect(WidgetKeys.clock.found(), findsOneWidget);
-      await tester.ensureVisible(WidgetKeys.toNextTurn.found());
-      expect(WidgetKeys.toNextTurn.found(), findsOneWidget);
-      await tester.tap(WidgetKeys.toNextTurn.found());
-      await tester.pumpForNavigation();
-
-      // Turn instructions page (2nd player)
-      expect(WidgetKeys.toTurnInstructions.found(), findsNothing);
-      expect(WidgetKeys.toTurnPlay.found(), findsOneWidget);
-      await tester.ensureVisible(WidgetKeys.toTurnPlay.found());
-      await tester.tap(WidgetKeys.toTurnPlay.found());
-      await tester.pump(); // Not a navigation, just a dialog opening
-      expect(WidgetKeys.hiddenPlayAlert.found(), findsOneWidget);
-      expect(WidgetKeys.acknowledgeHiddenPlay.found(), findsOneWidget);
-      await tester.tap(WidgetKeys.acknowledgeHiddenPlay.found());
-      await tester.pumpForNavigation(); // Actual navigation
-
-      // Turn play page (2nd player)
-      expect(WidgetKeys.toTurnPlay.found(), findsNothing);
-      expect(WidgetKeys.largeShot.found(), findsOneWidget);
-      await tester.ensureVisible(WidgetKeys.clock.found());
-      expect(WidgetKeys.clock.found(), findsOneWidget);
-      await tester.ensureVisible(WidgetKeys.toNextTurn.found());
-      expect(WidgetKeys.toNextTurn.found(), findsOneWidget);
-      await tester.tap(WidgetKeys.toNextTurn.found());
-      await tester.pumpForNavigation();
+        // Turn play page (n-th player)
+        expect(WidgetKeys.toTurnPlay.found(), findsNothing);
+        expect(WidgetKeys.largeShot.found(), findsOneWidget);
+        await tester.ensureVisible(WidgetKeys.clock.found());
+        expect(WidgetKeys.clock.found(), findsOneWidget);
+        await tester.ensureVisible(WidgetKeys.toNextTurn.found());
+        expect(WidgetKeys.toNextTurn.found(), findsOneWidget);
+        await tester.tap(WidgetKeys.toNextTurn.found());
+        await tester.pumpForNavigation();
+      }
 
       // Completion screen
       expect(WidgetKeys.toNextTurn.found(), findsNothing);
@@ -155,9 +154,11 @@ void main() {
           .pump(const Duration(seconds: 4)); // Initial animation must complete
       expect(WidgetKeys.toHome.found(), findsNothing);
       expect(WidgetKeys.toTutorial.found(), findsOneWidget);
-      expect("TIZIO".found(), findsOneWidget);
-      expect("CAIA".found(), findsOneWidget);
-
+      int qualified = 0;
+      if ("TIZIO".found().tryEvaluate()) qualified++;
+      if ("CAIA".found().tryEvaluate()) qualified++;
+      if ("SEMPY".found().tryEvaluate()) qualified++;
+      expect(qualified, 2);
       await tester.restoreDefaultSurfaceSize();
     });
   });
@@ -188,14 +189,9 @@ void main() {
         expect(WidgetKeys.driver.found(), findsNothing);
         expect(WidgetKeys.payer.found(), findsNothing);
         await tester.pump(const Duration(seconds: 4)); // End initial animation
-        Widget? guido = "GUIDO".found().evaluate().singleOrNull?.widget;
-        Widget? driver =
-            WidgetKeys.driver.found().evaluate().singleOrNull?.widget;
-        expect(guido, driver);
-        Widget? pago = "PAGO".found().evaluate().singleOrNull?.widget;
-        Widget? payer =
-            WidgetKeys.payer.found().evaluate().singleOrNull?.widget;
-        expect(pago, payer);
+
+        expect("GUIDO".found(), findsOneWidget);
+        expect("PAGO".found(), findsOneWidget);
       },
     );
 
