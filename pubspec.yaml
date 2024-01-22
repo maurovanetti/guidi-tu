@@ -42,6 +42,7 @@ dependencies:
   flutter_markdown: ^0.6.17+2
   equatable: ^2.0.5
   back_button_interceptor: ^7.0.0
+  package_info_plus: ^5.0.1
 
 dev_dependencies:
   flutter_test:

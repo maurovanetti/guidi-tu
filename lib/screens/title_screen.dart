@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 
 import '/common/common.dart';
 import 'challenge/challenge_setup_screen.dart';
+import 'info_screen.dart';
 import 'tutorial_screen.dart';
 
 class TitleScreen extends StatefulWidget {
@@ -92,9 +93,8 @@ class _TitleScreenState extends TrackedState<TitleScreen> with ScoreAware {
               ),
               CustomButton(
                 text: 'Informazioni',
-                onPressed: () {
-                  // TODO
-                },
+                onPressed:
+                    Navigation.push(context, () => const InfoScreen()).go,
                 important: false,
               ),
               const Gap(),

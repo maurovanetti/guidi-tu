@@ -86,12 +86,16 @@ class _PickScreenState extends TrackedState<PickScreen>
         title: const Text('Estrazione del minigioco'),
       ),
       body: Center(
-        child: ListView(
-          shrinkWrap: true,
-          children: [
-            ..._gameCards.toList(), // to rebuild it every time
-            const SafeMarginForCustomFloatingActionButton(),
-          ],
+        child: Scrollbar(
+          thumbVisibility: true,
+          child: ListView(
+            primary: true,
+            shrinkWrap: true,
+            children: [
+              ..._gameCards.toList(), // to rebuild it every time
+              const SafeMarginForCustomFloatingActionButton(),
+            ],
+          ),
         ),
       ),
     );
