@@ -43,6 +43,7 @@ class _PickScreenState extends TrackedState<PickScreen>
           description: gameFeatures.description,
           icon: gameFeatures.icon,
           onTap: _select,
+          onIconTap: _startGame,
           suggested: _isSuggested(gameFeatures),
           rounds: gameFeatures.rounds,
         );
@@ -70,11 +71,11 @@ class _PickScreenState extends TrackedState<PickScreen>
       _playerCount >= gameFeatures.minSuggestedPlayers &&
       _playerCount <= gameFeatures.maxSuggestedPlayers;
 
-  Future<void> _startGame() async {
-    await resetTurn(rounds: _selectedGame.rounds);
+  Future<void> _startGame(GameCard game) async {
+    await resetTurn(rounds: game.rounds);
     assert(nextTurn());
     if (mounted) {
-      Navigation.push(context, () => _selectedGame.gameStart).go();
+      Navigation.push(context, () => game.gameStart).go();
     }
   }
 
@@ -93,12 +94,6 @@ class _PickScreenState extends TrackedState<PickScreen>
           ],
         ),
       ),
-      floatingActionButton: CustomFloatingActionButton(
-        key: WidgetKeys.toInterstitial,
-        tooltip: 'Inizio',
-        icon: Icons.play_arrow_rounded,
-        onPressed: _startGame,
-      ),
     );
   }
 }
@@ -111,6 +106,7 @@ class GameCard extends StatelessWidget {
     required this.description,
     required this.icon,
     required this.onTap,
+    required this.onIconTap,
     this.suggested = false,
     this.selected = false,
     this.rounds = 1,
@@ -121,7 +117,8 @@ class GameCard extends StatelessWidget {
   final IconData icon;
   final bool suggested;
   final bool selected;
-  final void Function(GameCard card) onTap;
+  final FutureOr<void> Function(GameCard card) onTap;
+  final FutureOr<void> Function(GameCard card) onIconTap;
   final Widget gameStart;
   final int rounds;
 
@@ -133,6 +130,7 @@ class GameCard extends StatelessWidget {
       description: description,
       icon: icon,
       onTap: onTap,
+      onIconTap: onIconTap,
       suggested: suggested,
       selected: selected,
       rounds: rounds,
@@ -141,11 +139,15 @@ class GameCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    var theme = Theme.of(context);
-    var textTheme = theme.textTheme;
-    var buttonColorScheme = theme.buttonTheme.colorScheme;
-    var foreground = selected ? buttonColorScheme?.onPrimaryContainer : null;
-    var background = selected ? buttonColorScheme?.primaryContainer : null;
+    final theme = Theme.of(context);
+    final textTheme = theme.textTheme;
+    final buttonColorScheme = theme.buttonTheme.colorScheme;
+    final foreground = selected ? buttonColorScheme?.onPrimaryContainer : null;
+    final background = selected ? buttonColorScheme?.primaryContainer : null;
+    final bright = selected ? buttonColorScheme?.primary : null;
+    final dark = selected ? buttonColorScheme?.onPrimary : null;
+    final halfWay = Color.lerp(bright, dark, 0.5);
+
     Widget card = Card(
       key: WidgetKeys.pickGame(name),
       color: background,
@@ -153,15 +155,44 @@ class GameCard extends StatelessWidget {
         mainAxisSize: MainAxisSize.min,
         children: [
           ListTile(
-            leading: Icon(icon, size: 50),
-            title: Text(
+            leading: Icon(
+              icon,
+              size: 50,
+              color: selected ? buttonColorScheme?.primary : null,
+            ),
+            title: FittedText(
               name,
               style: textTheme.headlineMedium?.copyWith(color: foreground),
+              alignment: Alignment.centerLeft,
             ),
-            subtitle: Text(
+            subtitle: FittedText(
               description,
               style: textTheme.bodyLarge?.copyWith(color: foreground),
+              alignment: Alignment.centerLeft,
             ),
+            trailing: selected
+                ? IconButton(
+                    icon: Icon(
+                      Icons.play_arrow_rounded,
+                      size: 32,
+                      color: dark,
+                    ),
+                    style: IconButton.styleFrom(
+                      backgroundColor: bright,
+                      highlightColor: halfWay,
+                    ),
+                    onPressed: () {
+                      var _ = onIconTap(this);
+                    },
+                  )
+                : const IconButton(
+                    icon: Icon(
+                      Icons.play_arrow_rounded,
+                      size: 32,
+                      color: Colors.transparent,
+                    ),
+                    onPressed: null,
+                  ),
           ),
         ],
       ),
@@ -170,14 +201,14 @@ class GameCard extends StatelessWidget {
       card = ClipRect(
         child: Banner(
           message: "Suggerito",
-          location: BannerLocation.topEnd,
+          location: BannerLocation.topStart,
           child: card,
         ),
       );
     }
     return GestureDetector(
       onTap: () {
-        onTap(this);
+        var _ = onTap(this);
       },
       child: card,
     );

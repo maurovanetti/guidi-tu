@@ -5,8 +5,8 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
-import '/common/common.dart';
 import '../title_screen.dart';
+import '/common/common.dart';
 
 class ChallengeScoresScreen extends StatefulWidget {
   const ChallengeScoresScreen({
@@ -119,17 +119,14 @@ class ChallengeScoresScreenState extends State<ChallengeScoresScreen> {
                   FittedText(
                     "Hai raccolto ${widget.score} $stars$mark",
                     style: textTheme.headlineLarge,
-                    textAlign: TextAlign.center,
                   ),
                   FittedText(
                     bigStar * widget.score,
                     style: textTheme.headlineLarge,
-                    textAlign: TextAlign.center,
                   ),
                   FittedText(
                     "Confrontalo coi risultati precedenti.",
                     style: textTheme.headlineSmall,
-                    textAlign: TextAlign.center,
                   ),
                   const Gap(),
                   Row(
@@ -245,7 +242,6 @@ class ChallengeScore extends StatelessWidget {
             FittedText(
               I18n.dateTimeFormat.format(timestamp),
               style: textTheme.bodyMedium,
-              textAlign: TextAlign.center,
             ),
           ],
         ),

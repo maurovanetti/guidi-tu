@@ -38,7 +38,6 @@ abstract class StoriesScreenState<T extends Move>
       widgets.add(
         FittedText(
           playerStories[playerIndex],
-          textAlign: TextAlign.center,
           style: textTheme.headlineMedium,
         ),
       );

@@ -119,7 +119,7 @@ Ma attenzione: chi sceglie il numero più basso, paga.""",
 
 final morra = GameFeatures(
   name: "Morra",
-  description: "Indovina la somma delle mani.",
+  description: "Indovina la somma.",
   explanation: """
 Scegli quante dita mostrare e prevedi quante dita saranno mostrate da tutti.
   
