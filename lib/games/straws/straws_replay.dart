@@ -1,5 +1,3 @@
-import 'dart:async';
-
 import 'package:flame/components.dart';
 
 import 'straws_module.dart';
@@ -11,7 +9,7 @@ class StrawsReplay extends StrawsModule {
       : super(setReady: ({bool ready = true}) {});
 
   @override
-  Future<List<StrawsStraw>> retrieveStraws({required Sprite sprite}) async {
+  List<StrawsStraw> retrieveStraws({required Sprite sprite}) {
     List<StrawsStraw> straws = [];
     for (var strawSetup in strawsToDisplay) {
       var straw = StrawsStraw.fromJson(strawSetup, sprite);

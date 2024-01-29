@@ -1,7 +1,4 @@
-import 'dart:async';
 import 'dart:convert';
-
-import 'package:shared_preferences/shared_preferences.dart';
 
 import 'gender.dart';
 import 'persistence.dart';
@@ -12,20 +9,17 @@ mixin TeamAware on Gendered {
 
   List<Player> get players => _players;
 
-  Future<void> retrieveTeam() async {
-    var prefs = await SharedPreferences.getInstance();
-    var team = prefs.getStringList(Persistence.playersKey);
+  void retrieveTeam() {
+    var team = db.getStringList(Persistence.playersKey);
     _players = [];
     int genderBalance = 0;
-    if (team != null) {
-      for (var i = 0; i < team.length; i++) {
-        var player = Player.fromJson(i, jsonDecode(team[i]));
-        _players.add(player);
-        if (player.gender case Gender.male) {
-          genderBalance--;
-        } else if (player.gender case Gender.female) {
-          genderBalance++;
-        }
+    for (var i = 0; i < team.length; i++) {
+      var player = Player.fromJson(i, jsonDecode(team[i]));
+      _players.add(player);
+      if (player.gender case Gender.male) {
+        genderBalance--;
+      } else if (player.gender case Gender.female) {
+        genderBalance++;
       }
     }
     // Majority rule
@@ -36,21 +30,19 @@ mixin TeamAware on Gendered {
     }
   }
 
-  Future<void> storeTeam() async {
-    var prefs = await SharedPreferences.getInstance();
+  void storeTeam() {
     var team = players.map((player) => jsonEncode(player.toJson()));
-    assert(await prefs.setStringList(Persistence.playersKey, team.toList()));
-    unawaited(prefs.remove(Persistence.sessionKey));
+    db.set(Persistence.playersKey, team.toList());
+    db.delete(Persistence.sessionKey);
   }
 
-  static Future<void> storeSessionData(Map<String, dynamic> data) async {
-    var prefs = await SharedPreferences.getInstance();
-    assert(await prefs.setString(Persistence.sessionKey, jsonEncode(data)));
+  static void storeSessionData(Map<String, dynamic> data) {
+    db.set(Persistence.sessionKey, jsonEncode(data));
   }
 
-  static Future<Map<String, dynamic>> retrieveSessionData() async {
-    var prefs = await SharedPreferences.getInstance();
-    return jsonDecode(prefs.getString(Persistence.sessionKey) ?? '{}');
+  static Map<String, dynamic> retrieveSessionData() {
+    var sessionData = db.getString(Persistence.sessionKey);
+    return sessionData.isNotEmpty ? jsonDecode(sessionData) : {};
   }
 
   static Player getPlayer(int? id) => _players

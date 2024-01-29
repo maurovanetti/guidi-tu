@@ -30,8 +30,8 @@ class _TitleScreenState extends TrackedState<TitleScreen> with ScoreAware {
     Delay.after(2, _revealRoles);
   }
 
-  _revealRoles() async {
-    var driverAndPayer = await ScoreAware.retrieveCurrentDriverAndPayer();
+  _revealRoles() {
+    var driverAndPayer = ScoreAware.retrieveCurrentDriverAndPayer();
     debugPrint("Driver=${driverAndPayer.driver ?? 'N/A'}, "
         "Payer=${driverAndPayer.payer ?? 'N/A'}");
     if (mounted) {

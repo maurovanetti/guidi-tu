@@ -54,7 +54,7 @@ class OuijaModule extends FlameGame {
     });
 
     final String alphabet;
-    var sessionData = await TeamAware.retrieveSessionData();
+    var sessionData = TeamAware.retrieveSessionData();
     if (sessionData.containsKey(ouijaAlphabetKey)) {
       alphabet = sessionData[ouijaAlphabetKey];
     } else {

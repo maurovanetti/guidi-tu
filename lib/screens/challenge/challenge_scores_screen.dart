@@ -3,7 +3,6 @@
 import 'dart:convert';
 
 import 'package:flutter/material.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 
 import '../title_screen.dart';
 import '/common/common.dart';
@@ -29,15 +28,18 @@ class ChallengeScoresScreenState extends State<ChallengeScoresScreen> {
   @override
   void initState() {
     super.initState();
-    Delay.atNextFrame(() async {
-      final prefs = await SharedPreferences.getInstance();
-      final soberScores = prefs.getStringList(Persistence.soberScoresKey) ?? [];
-      final drunkScores = prefs.getStringList(Persistence.drunkScoresKey) ?? [];
+    Delay.atNextFrame(() {
+      final soberScores = db.getStringList(Persistence.soberScoresKey);
+      final drunkScores = db.getStringList(Persistence.drunkScoresKey);
+      var challenger = db.getString(Persistence.challengerKey);
+      if (challenger.isEmpty) {
+        challenger = '???';
+      }
       var scores = widget.sober ? soberScores : drunkScores;
       scores.insert(
         0,
         jsonEncode({
-          'player': prefs.getString(Persistence.challengerKey) ?? '???',
+          'player': challenger,
           'score': widget.score,
           't': DateTime.now().toIso8601String(),
         }),
@@ -52,11 +54,10 @@ class ChallengeScoresScreenState extends State<ChallengeScoresScreen> {
           _scores[false] = drunkScores;
         });
       }
-      bool stored = widget.sober
-          ? await prefs.setStringList(Persistence.soberScoresKey, soberScores)
-          : await prefs.setStringList(Persistence.drunkScoresKey, drunkScores);
-      if (!stored) {
-        debugPrint("Failed to store new challenge score");
+      if (widget.sober) {
+        db.set(Persistence.soberScoresKey, soberScores);
+      } else {
+        db.set(Persistence.drunkScoresKey, drunkScores);
       }
     });
   }

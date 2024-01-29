@@ -26,16 +26,16 @@ class StrawsModule extends FlameGame {
   @override
   Future<void> onLoad() async {
     var sprite = await loadSprite('straws/straw.png');
-    _straws = await retrieveStraws(sprite: sprite);
+    _straws = retrieveStraws(sprite: sprite);
     for (var straw in _straws) {
       add(straw);
     }
     init();
   }
 
-  Future<List<StrawsStraw>> retrieveStraws({required Sprite sprite}) async {
+  List<StrawsStraw> retrieveStraws({required Sprite sprite}) {
     List<StrawsStraw> straws = [];
-    var sessionData = await TeamAware.retrieveSessionData();
+    var sessionData = TeamAware.retrieveSessionData();
     if (sessionData.containsKey(strawsSetupKey)) {
       debugPrint("Loading straws from session data");
       var strawsSetup = sessionData[strawsSetupKey];

@@ -9,22 +9,23 @@
 
 import 'package:flutter_test/flutter_test.dart';
 import 'package:guidi_tu/common/game_features.dart';
+import 'package:guidi_tu/common/persistence.dart';
 import 'package:guidi_tu/common/widget_keys.dart';
 import 'package:guidi_tu/main.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 
 import '../test_utils.dart';
 
 void main() {
   TestWidgetsFlutterBinding.ensureInitialized();
 
-  setUp(() {
+  setUp(() async {
     // Bubbles can break tests using pumpAndSettle (they never settle), but it's
     // better in any case to avoid pumpAndSettle and use pumpForNavigation (a
     // custom extension) instead.
     // Uncomment the following line to restore the bubble-less testing.
     // WithBubbles.enabled = false;
-    SharedPreferences.setMockInitialValues({});
+    await Persistence.init(production: false);
+    db.clear();
   });
 
   group("App journey", () {
@@ -182,10 +183,9 @@ void main() {
     testWidgets(
       "App shows driver + payer at start if not expired",
       (WidgetTester tester) async {
-        SharedPreferences prefs = await SharedPreferences.getInstance();
-        await prefs.setInt('awardsTime', DateTime.now().millisecondsSinceEpoch);
-        await prefs.setString('payer', 'PAGO');
-        await prefs.setString('driver', 'GUIDO');
+        db.set('awardsTime', DateTime.now().millisecondsSinceEpoch);
+        db.set('payer', 'PAGO');
+        db.set('driver', 'GUIDO');
         await tester.pumpWidget(const App());
         expect(WidgetKeys.driver.found(), findsNothing);
         expect(WidgetKeys.payer.found(), findsNothing);
@@ -199,15 +199,14 @@ void main() {
     testWidgets(
       "App hides driver + payer at start if expired",
       (WidgetTester tester) async {
-        SharedPreferences prefs = await SharedPreferences.getInstance();
-        await prefs.setInt(
+        db.set(
           'awardsTime',
           DateTime.now()
               .subtract(const Duration(days: 2))
               .millisecondsSinceEpoch,
         );
-        await prefs.setString('payer', 'PAGO');
-        await prefs.setString('driver', 'GUIDO');
+        db.set('payer', 'PAGO');
+        db.set('driver', 'GUIDO');
         await tester.pumpWidget(const App());
         expect(WidgetKeys.driver.found(), findsNothing);
         expect(WidgetKeys.payer.found(), findsNothing);

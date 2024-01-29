@@ -1,5 +1,4 @@
 import 'package:flutter/foundation.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 
 import 'i18n.dart';
 import 'persistence.dart';
@@ -49,34 +48,29 @@ mixin ScoreAware {
     _cachedAwards.clear(); // Invalidates cache
   }
 
-  static Future<void> storeAwards() async {
-    var prefs = await SharedPreferences.getInstance();
+  static void storeAwards() {
     var payer = awards.first.player;
     var driver = awards.last.player;
     var now = DateTime.now();
-    assert(await prefs.setString(Persistence.payerKey, payer.name));
-    assert(await prefs.setString(Persistence.driverKey, driver.name));
-    assert(await prefs.setInt(
-      Persistence.awardsTimeKey,
-      now.millisecondsSinceEpoch,
-    ));
+    db.set(Persistence.payerKey, payer.name);
+    db.set(Persistence.driverKey, driver.name);
+    db.set(Persistence.awardsTimeKey, now.millisecondsSinceEpoch);
     debugPrint("Stored awards: $payer must pay, $driver must drive");
   }
 
-  static Future<DriverAndPayer> retrieveCurrentDriverAndPayer() async {
-    var prefs = await SharedPreferences.getInstance();
-    var awardsTimeInMilliseconds = prefs.getInt(Persistence.awardsTimeKey);
+  static DriverAndPayer retrieveCurrentDriverAndPayer() {
+    var awardsTimeInMilliseconds = db.getInt(Persistence.awardsTimeKey);
     var awardsTime =
-        DateTime.fromMillisecondsSinceEpoch(awardsTimeInMilliseconds ?? 0);
+        DateTime.fromMillisecondsSinceEpoch(awardsTimeInMilliseconds);
     if (DateTime.now().difference(awardsTime) > awardsExpirationTime) {
-      if (awardsTimeInMilliseconds != null) {
+      if (awardsTimeInMilliseconds != 0) {
         debugPrint("Awards expired ($awardsTime)");
       }
       return const DriverAndPayer(null, null);
     }
     return DriverAndPayer(
-      prefs.getString(Persistence.driverKey),
-      prefs.getString(Persistence.payerKey),
+      db.getString(Persistence.driverKey),
+      db.getString(Persistence.payerKey),
     );
   }
 }

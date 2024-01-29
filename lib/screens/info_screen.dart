@@ -63,8 +63,7 @@ class InfoScreenState extends TrackedState<InfoScreen> {
         behind: true,
         child: Padding(
           padding: StyleGuide.widePadding,
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
+          child: ListView(
             children: [
               Text.rich(
                 style: regular,
@@ -93,18 +92,20 @@ class InfoScreenState extends TrackedState<InfoScreen> {
                     const TextSpan(text: "Disegni e animazioni di "),
                     TextSpan(text: "Jacopo Rovida\n", style: bold),
                     const TextSpan(
-                        text: "Collaudo e preziosi consigli sempre di "),
+                      text: "Collaudo e preziosi consigli sempre di ",
+                    ),
                     TextSpan(text: "Jacopo Rovida\n", style: bold),
                     newParagraph,
                     const TextSpan(
-                        text: "Questa app è software libero. "
-                            "Tutto il codice sorgente e gli asset si trovano su "
-                            "GitHub (maurovanetti/guidi-tu) e possono essere "
-                            "riutilizzati purché non a scopo di lucro "
-                            "secondo la licenza indicata nel repository.\n"
-                            "Se volete aggiungere un minigioco, segnalare dei bug, "
-                            "proporre migliorie, aggiungere traduzioni, intervenite "
-                            "pure direttamente lì."),
+                      text: "Questa app è software libero. "
+                          "Tutto il codice sorgente e gli asset si trovano su "
+                          "GitHub (maurovanetti/guidi-tu) e possono essere "
+                          "riutilizzati purché non a scopo di lucro "
+                          "secondo la licenza indicata nel repository.\n"
+                          "Se volete aggiungere un minigioco, segnalare dei bug, "
+                          "proporre migliorie, aggiungere traduzioni, intervenite "
+                          "pure direttamente lì.",
+                    ),
                     newParagraph,
                   ],
                 ),

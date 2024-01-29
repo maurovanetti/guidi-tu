@@ -41,9 +41,9 @@ mixin TurnAware<T extends Move> on TeamAware {
     return true;
   }
 
-  Future<void> resetTurn({int rounds = 1}) async {
+  void resetTurn({int rounds = 1}) {
     _moves.clear();
-    await retrieveTeam();
+    retrieveTeam();
     _turns = List<int>.generate(players.length, (i) => i);
     // Shuffles the first round
     _turns.shuffle();

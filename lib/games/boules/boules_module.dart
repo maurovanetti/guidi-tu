@@ -1,5 +1,3 @@
-import 'dart:async';
-
 import 'package:flame/components.dart';
 import 'package:flame/events.dart';
 import 'package:flame/extensions.dart';
@@ -54,8 +52,8 @@ class BoulesModule extends Forge2DGameWithDragging {
   backgroundColor() => Colors.green[900]!;
 
   @override
-  Future<void> onLoad() async {
-    world.setGravity(Vector2.zero());
+  void onLoad() {
+    world.gravity = Vector2.zero();
     camera.viewfinder.anchor = Anchor.topLeft;
     debugPrint("camera.viewport.size: ${camera.viewport.size}");
     debugPrint("camera.visibleWorldRect: ${camera.visibleWorldRect}");
@@ -64,21 +62,26 @@ class BoulesModule extends Forge2DGameWithDragging {
     final topRight = view.topRight.toVector2();
     final bottomLeft = view.bottomLeft.toVector2();
     final bottomRight = view.bottomRight.toVector2();
+    // ignore: avoid-async-call-in-sync-function
     world.add(BoulesWall(topLeft, topRight));
+    // ignore: avoid-async-call-in-sync-function
     world.add(BoulesWall(topRight, bottomRight));
+    // ignore: avoid-async-call-in-sync-function
     world.add(BoulesWall(bottomRight, bottomLeft));
+    // ignore: avoid-async-call-in-sync-function
     world.add(BoulesWall(bottomLeft, topLeft));
-    _bowls = await retrieveBowls();
+    _bowls = retrieveBowls();
     init();
     for (var bowl in _bowls) {
+      // ignore: avoid-async-call-in-sync-function
       world.add(bowl);
       bowl.addListener(_onBowlChangedState);
     }
   }
 
-  Future<List<BoulesBowl>> retrieveBowls() async {
+  List<BoulesBowl> retrieveBowls() {
     List<BoulesBowl> bowls = [];
-    var sessionData = await TeamAware.retrieveSessionData();
+    var sessionData = TeamAware.retrieveSessionData();
     if (sessionData.containsKey(boulesSetupKey)) {
       var boulesSetup = sessionData[boulesSetupKey];
       for (var bowlSetup in boulesSetup) {
@@ -193,9 +196,9 @@ class BoulesModule extends Forge2DGameWithDragging {
 
   void _onBowlChangedState() {
     if (_beholdTheOutcome && _bowls.every((bowl) => bowl.sleeping)) {
-      unawaited(TeamAware.storeSessionData({
+      TeamAware.storeSessionData({
         boulesSetupKey: _bowls.map((bowl) => bowl.toJson()).toList(),
-      }));
+      });
       setReady(ready: true);
     }
   }

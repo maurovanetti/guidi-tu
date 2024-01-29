@@ -1,9 +1,6 @@
 // ignore_for_file: avoid-non-ascii-symbols
 
-import 'dart:async';
-
 import 'package:flutter/material.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 
 import '/common/common.dart';
 import 'challenge_screen.dart';
@@ -25,9 +22,8 @@ class ChallengeSetupScreenState extends State<ChallengeSetupScreen> {
   @override
   void initState() {
     super.initState();
-    Delay.atNextFrame(() async {
-      var prefs = await SharedPreferences.getInstance();
-      var name = prefs.getString(Persistence.challengerKey) ?? '';
+    Delay.atNextFrame(() {
+      var name = db.getString(Persistence.challengerKey);
       if (name.isNotEmpty) {
         _nameController.text = name;
         _readyToConfirm = true;
@@ -41,9 +37,8 @@ class ChallengeSetupScreenState extends State<ChallengeSetupScreen> {
     });
   }
 
-  Future<void> _startChallenge() async {
-    final prefs = await SharedPreferences.getInstance();
-    var _ = prefs.setString(Persistence.challengerKey, _nameController.text);
+  void _startChallenge() {
+    db.set(Persistence.challengerKey, _nameController.text);
     if (mounted) {
       Navigation.push(
         context,

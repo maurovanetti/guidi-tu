@@ -33,8 +33,8 @@ class PlacementScreenState extends TrackedState<PlacementScreen>
     ];
   }
 
-  Future<void> _endGame() async {
-    await ScoreAware.storeAwards();
+  void _endGame() {
+    ScoreAware.storeAwards();
     if (mounted) {
       Navigation.replaceAll(context, () => const TitleScreen()).go();
     }

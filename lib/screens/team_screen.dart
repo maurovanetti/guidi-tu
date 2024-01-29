@@ -37,8 +37,8 @@ class _TeamScreenState extends TrackedState<TeamScreen>
   initState() {
     super.initState();
     _defaultPlayers.shuffle();
-    Delay.atNextFrame(() async {
-      await retrieveTeam();
+    Delay.atNextFrame(() {
+      retrieveTeam();
       if (mounted) {
         setState(() {
           _loading = false;
@@ -102,8 +102,8 @@ class _TeamScreenState extends TrackedState<TeamScreen>
     ));
   }
 
-  Future<void> _proceedToPickPage() async {
-    await storeTeam();
+  void _proceedToPickPage() {
+    storeTeam();
     if (mounted) {
       Navigation.push(context, () => const PickScreen()).go();
     }

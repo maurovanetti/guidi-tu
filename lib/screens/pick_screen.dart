@@ -71,8 +71,8 @@ class _PickScreenState extends TrackedState<PickScreen>
       _playerCount >= gameFeatures.minSuggestedPlayers &&
       _playerCount <= gameFeatures.maxSuggestedPlayers;
 
-  Future<void> _startGame(GameCard game) async {
-    await resetTurn(rounds: game.rounds);
+  void _startGame(GameCard game) {
+    resetTurn(rounds: game.rounds);
     assert(nextTurn());
     if (mounted) {
       Navigation.push(context, () => game.gameStart).go();
