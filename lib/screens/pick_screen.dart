@@ -176,6 +176,7 @@ class GameCard extends StatelessWidget {
             ),
             trailing: selected
                 ? IconButton(
+                    key: WidgetKeys.toInterstitial(name),
                     icon: Icon(
                       Icons.play_arrow_rounded,
                       size: 32,

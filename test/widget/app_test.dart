@@ -98,12 +98,13 @@ void main() {
       expect(WidgetKeys.pickGame(ouija.name).found(), findsOneWidget);
       expect(WidgetKeys.pickGame(boules.name).found(), findsOneWidget);
       await tester.tap(WidgetKeys.pickGame(largeShot.name).found());
-      expect(WidgetKeys.toInterstitial.found(), findsOneWidget);
-      await tester.tap(WidgetKeys.toInterstitial.found());
+      await tester.pumpAndSettle();
+      expect(WidgetKeys.toInterstitial(largeShot.name).found(), findsOneWidget);
+      await tester.tap(WidgetKeys.toInterstitial(largeShot.name).found());
       await tester.pumpForNavigation();
 
       // Interstitial page
-      expect(WidgetKeys.toInterstitial.found(), findsNothing);
+      expect(WidgetKeys.toInterstitial(largeShot.name).found(), findsNothing);
       expect(WidgetKeys.toTurnInstructions.found(), findsOneWidget);
       await tester.tap(WidgetKeys.toTurnInstructions.found());
       await tester.pumpForNavigation();
@@ -111,8 +112,8 @@ void main() {
       for (int i = 0; i < 3; i++) {
         // Turn instructions page (n-th player)
         expect(WidgetKeys.toTurnInstructions.found(), findsNothing);
-        expect(WidgetKeys.toTurnPlay.found(), findsOneWidget);
         await tester.ensureVisible(WidgetKeys.toTurnPlay.found());
+        expect(WidgetKeys.toTurnPlay.found(), findsOneWidget);
         await tester.tap(WidgetKeys.toTurnPlay.found());
         await tester.pump(); // Not a navigation, just a dialog opening
         expect(WidgetKeys.hiddenPlayAlert.found(), findsOneWidget);

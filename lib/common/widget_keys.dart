@@ -23,7 +23,6 @@ class WidgetKeys {
   static const toTutorial = Key('to-tutorial');
   static const toTeam = Key('to-team');
   static const toPick = Key('to-pick');
-  static const toInterstitial = Key('to-interstitial');
   static const toTurnInstructions = Key('to-turn-instructions');
   static const toTurnPlay = Key('to-turn-play');
   static const toNextTurn = Key('to-next-turn');
@@ -58,4 +57,5 @@ class WidgetKeys {
 
 // Pick page controls
   static Key pickGame(String game) => Key('pick-game-$game');
+  static Key toInterstitial(String game) => Key('to-interstitial-$game');
 }
