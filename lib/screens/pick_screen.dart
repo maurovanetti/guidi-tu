@@ -73,7 +73,7 @@ class _PickScreenState extends TrackedState<PickScreen>
 
   void _startGame(GameCard game) {
     resetTurn(rounds: game.rounds);
-    nextTurn();
+    var _ = nextTurn();
     if (mounted) {
       Navigation.push(context, () => game.gameStart).go();
     }
