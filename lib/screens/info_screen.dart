@@ -54,6 +54,7 @@ class InfoScreenState extends TrackedState<InfoScreen> {
   Widget build(BuildContext context) {
     final regular = Theme.of(context).textTheme.bodyMedium;
     final bold = regular?.copyWith(fontWeight: FontWeight.bold);
+    const logoHeight = 150.0;
 
     return Scaffold(
       appBar: AppBar(
@@ -76,7 +77,7 @@ class InfoScreenState extends TrackedState<InfoScreen> {
               ),
               Image.asset(
                 'assets/images/title/logo.png',
-                height: 100,
+                height: logoHeight,
               ),
               const Gap(),
               Text.rich(
@@ -108,6 +109,21 @@ class InfoScreenState extends TrackedState<InfoScreen> {
                     ),
                     newParagraph,
                   ],
+                ),
+              ),
+              Center(
+                child: CustomButton(
+                  text: 'Licenze software',
+                  onPressed: () => showLicensePage(
+                    context: context,
+                    applicationVersion: appFullVersion,
+                    applicationIcon:
+                        Image.asset('assets/images/title/logo.png'),
+                    applicationLegalese: "Contact posta@maurovanetti.info\n"
+                        "for any clarification needed\n"
+                        "and for localisation proposals.",
+                  ),
+                  important: false,
                 ),
               ),
             ],
