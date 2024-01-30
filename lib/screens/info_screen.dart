@@ -15,10 +15,10 @@ class InfoScreen extends StatefulWidget {
 
 class InfoScreenState extends TrackedState<InfoScreen> {
   static const disclaimer =
-      "Applicazione realizzata nell'ambito del progetto \"Safe & Drive\", "
-      "finanziato dal Consiglio dei Ministri - "
+      "Applicazione realizzata nell'ambito del progetto Safe & Drive, "
+      "finanziato dal Consiglio dei Ministri — "
       "Dipartimento per le Politiche Antidroga, "
-      "che ha come capofila la Città di Cuneo.\n"
+      "che ha come capofila la Città di Cuneo. "
       "L'obiettivo principale è la riduzione degli incidenti stradali "
       "correlati al consumo di alcol e sostanze.";
 
@@ -65,14 +65,17 @@ class InfoScreenState extends TrackedState<InfoScreen> {
         child: Padding(
           padding: StyleGuide.widePadding,
           child: ListView(
+            shrinkWrap: true,
             children: [
-              Text.rich(
-                style: regular,
-                TextSpan(
-                  children: [
-                    TextSpan(text: appName, style: bold),
-                    TextSpan(text: appFullVersion),
-                  ],
+              Center(
+                child: Text.rich(
+                  style: regular,
+                  TextSpan(
+                    children: [
+                      TextSpan(text: appName, style: bold),
+                      TextSpan(text: appFullVersion),
+                    ],
+                  ),
                 ),
               ),
               Image.asset(
@@ -84,33 +87,38 @@ class InfoScreenState extends TrackedState<InfoScreen> {
                 style: regular,
                 TextSpan(
                   children: [
-                    const TextSpan(text: disclaimer),
-                    newParagraph,
-                    const TextSpan(text: "Prodotta nel 2024 da "),
-                    TextSpan(text: "cooperativa sociale Alice\n", style: bold),
-                    const TextSpan(text: "Pensata e sviluppata da "),
-                    TextSpan(text: "Mauro Vanetti\n", style: bold),
-                    const TextSpan(text: "Disegni e animazioni di "),
-                    TextSpan(text: "Jacopo Rovida\n", style: bold),
+                    const TextSpan(text: "Prodotta da\n"),
+                    TextSpan(
+                        text: "  cooperativa sociale Alice\n", style: bold),
+                    const TextSpan(text: "Pensata e sviluppata da\n"),
+                    TextSpan(text: "  Mauro Vanetti\n", style: bold),
+                    const TextSpan(text: "Disegni e animazioni di\n"),
+                    TextSpan(text: "  Jacopo Rovida\n", style: bold),
                     const TextSpan(
-                      text: "Collaudo e preziosi consigli sempre di ",
+                      text: "Collaudo e preziosi consigli sempre di\n",
                     ),
-                    TextSpan(text: "Jacopo Rovida\n", style: bold),
-                    newParagraph,
-                    const TextSpan(
-                      text: "Questa app è software libero. "
-                          "Tutto il codice sorgente e gli asset si trovano su "
-                          "GitHub (maurovanetti/guidi-tu) e possono essere "
-                          "riutilizzati purché non a scopo di lucro "
-                          "secondo la licenza indicata nel repository.\n"
-                          "Se volete aggiungere un minigioco, segnalare dei bug, "
-                          "proporre migliorie, aggiungere traduzioni, intervenite "
-                          "pure direttamente lì.",
-                    ),
-                    newParagraph,
+                    TextSpan(text: "  Jacopo Rovida", style: bold),
                   ],
                 ),
               ),
+              const Gap(),
+              ClipRRect(
+                borderRadius: StyleGuide.borderRadius / 2,
+                child: FittedBox(
+                  fit: BoxFit.fitWidth,
+                  child: Image.asset('assets/images/info/sponsors.png'),
+                ),
+              ),
+              const Gap(),
+              Text.rich(
+                style: regular,
+                const TextSpan(
+                  children: [
+                    TextSpan(text: disclaimer),
+                  ],
+                ),
+              ),
+              const Gap(),
               Center(
                 child: CustomButton(
                   text: 'Licenze software',
@@ -124,6 +132,19 @@ class InfoScreenState extends TrackedState<InfoScreen> {
                         "and for localisation proposals.",
                   ),
                   important: false,
+                ),
+              ),
+              const Gap(),
+              const Text.rich(
+                TextSpan(
+                  text: "Questa app è software libero. "
+                      "Tutto il codice sorgente e gli asset si trovano su "
+                      "GitHub (maurovanetti/guidi-tu) e possono essere "
+                      "riutilizzati purché non a scopo di lucro "
+                      "secondo la licenza indicata nel repository.\n"
+                      "Se volete aggiungere un minigioco, segnalare dei bug, "
+                      "proporre migliorie, aggiungere traduzioni, intervenite "
+                      "pure direttamente lì.",
                 ),
               ),
             ],

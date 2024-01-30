@@ -1,0 +1,25 @@
+Guidi Tu
+========
+Tanti minigiochi per selezionare chi guida stasera e chi invece beve.
+
+---
+
+Chi beve alcolici non guida, TROPPO PERICOLOSO.
+Ogni gruppo dovrebbe avere un GUIDATORE SOBRIO.
+Giocando a uno dei minigiochi di questa app, si stabilisce CHI BEVE e CHI GUIDA.
+
+Chi arriva ultimo, guida e non beve. Ma attenzione: chi arriva primo, può bere ma deve pagare. Quindi, conviene arrivare a metà classifica!
+Penalità possibili per chi arriva primo:
+* Pagare analcolici al Guidatore Sobrio?
+* Offrire snack a tutti?
+* Pagare la benzina?
+
+---
+
+Per 2-7 giocatori e giocatrici sullo stesso telefono.
+Durata: pochi minuti.
+Età: da 18 in su.
+
+---
+
+Applicazione realizzata nell'ambito del progetto Safe & Drive, finanziato dal Consiglio dei Ministri — Dipartimento per le Politiche Antidroga, che ha come capofila la Città di Cuneo. L'obiettivo principale è la riduzione degli incidenti stradali correlati al consumo di alcol e sostanze.
