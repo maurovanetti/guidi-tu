@@ -218,7 +218,7 @@ class DraggableCustomSpriteComponent<T extends FlameGame>
   @override
   void onDragUpdate(DragUpdateEvent event) {
     if (draggable) {
-      position += event.delta;
+      position += event.localDelta;
     }
   }
 

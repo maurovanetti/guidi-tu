@@ -28,8 +28,8 @@ abstract class Forge2DGameWithDragging extends Forge2DGame with DragCallbacks {
 
   @override
   void onDragUpdate(DragUpdateEvent event) {
-    if (event.pointerId == _dragPointerId && !event.localPosition.isNaN) {
-      dragged?.position = screenToWorld(event.localPosition);
+    if (event.pointerId == _dragPointerId && !event.localStartPosition.isNaN) {
+      dragged?.position = screenToWorld(event.localStartPosition);
     }
     super.onDragUpdate(event);
   }
