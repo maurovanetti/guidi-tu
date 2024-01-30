@@ -1,5 +1,7 @@
 // ignore_for_file: avoid-non-ascii-symbols
 
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 
 import '/common/common.dart';
@@ -35,6 +37,26 @@ class ChallengeSetupScreenState extends State<ChallengeSetupScreen> {
     setState(() {
       _readyToConfirm = name.isNotEmpty;
     });
+  }
+
+  void _showSensorAlert() {
+    unawaited(showDialog<void>(
+      context: context,
+      builder: (context) => AlertDialog(
+        key: WidgetKeys.sensorAlert,
+        title: const Text("Preparati alla sfida"),
+        content: const Text(
+          "Poni il telefono in posizione orizzontale prima di procedere.",
+        ),
+        actions: [
+          TextButton(
+            key: WidgetKeys.acknowledgeSensorAlert,
+            onPressed: _startChallenge,
+            child: const Text("Fatto"),
+          ),
+        ],
+      ),
+    ));
   }
 
   void _startChallenge() {
@@ -110,7 +132,7 @@ class ChallengeSetupScreenState extends State<ChallengeSetupScreen> {
       floatingActionButton: _readyToConfirm && _sober != null
           ? CustomFloatingActionButton(
               key: WidgetKeys.toChallenge,
-              onPressed: _startChallenge,
+              onPressed: _showSensorAlert,
               tooltip: 'Si può iniziare',
               icon: Icons.check_circle_rounded,
             )
