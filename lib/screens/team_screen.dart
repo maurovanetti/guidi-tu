@@ -77,7 +77,8 @@ class _TeamScreenState extends TrackedState<TeamScreen>
   void _removePlayer(Player player) {
     debugPrint("Removing player $player from $players");
     setState(() {
-      assert(players.removeAt(player.id).name == player.name);
+      final removed = players.removeAt(player.id);
+      assert(removed.name == player.name);
     });
     for (var i = 0; i < players.length; i++) {
       setState(() {

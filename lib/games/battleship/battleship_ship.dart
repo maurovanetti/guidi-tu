@@ -36,7 +36,8 @@ class BattleshipShip extends BattleshipItem {
     Set<BattleshipBoardCell> cells = {pivot};
     for (var i = 1, cell = pivot; i < cellSpan; i++) {
       cell = (isVertical ? cell.below() : cell.right()) as BattleshipBoardCell;
-      assert(cells.add(cell), "Error in ship cells");
+      final added = cells.add(cell);
+      assert(added, "Error in ship cells");
     }
     return cells;
   }
