@@ -47,6 +47,8 @@ class WidgetKeys {
   // Turn interstitial controls
   static const hiddenPlayAlert = Key('hidden-play');
   static const acknowledgeHiddenPlay = Key('acknowledge-hidden-play');
+  static const sensorAlert = Key('sensor');
+  static const acknowledgeSensorAlert = Key('acknowledge-sensor');
 
 // Play page controls
   static const gameArea = Key('game-area');
