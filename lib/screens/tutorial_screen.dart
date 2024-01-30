@@ -64,7 +64,7 @@ class TutorialCarousel extends StatelessWidget {
   TutorialCarousel(this.controller, this.onPageChanged, {super.key});
 
   static const length = 4;
-
+  static const fps = 14;
   static const tutorialAnimation = 'tutorial/Tutorial';
 
   // in Markdown format
@@ -125,6 +125,7 @@ Penalità possibili per chi arriva primo:
                 (start: 133, end: 149),
               ],
               page: pageNotifier,
+              fps: TutorialCarousel.fps,
             ),
           ),
           const Gap(),
