@@ -17,6 +17,9 @@ Disegni e animazioni di Jacopo Rovida.
 
 <a href="https://apps.apple.com/it/app/guidi-tu/id6476491805?itsct=apps_box_badge&amp;itscg=30200" style="display: inline-block; overflow: hidden; border-radius: 13px; width: 250px; height: 83px;"><img src="https://tools.applemediaservices.com/api/badges/download-on-the-app-store/black/it-it?size=250x83&amp;releaseDate=1706659200" alt="Download on the App Store" style="border-radius: 13px; width: 250px; height: 83px;"></a>
 
+
+<a href='https://url.cloud.huawei.com/pgR2uPpQTS?shareTo=qrcode'><img alt='Scopri su AppGallery' src='https://developer.huawei.com/consumer/cn/service/josp/csp/activity/img/Badge-Black.285811b0.png' style="width: 250px;"/></a>
+
 <hr>
 
 <p xmlns:cc="http://creativecommons.org/ns#" xmlns:dct="http://purl.org/dc/terms/"><a property="dct:title" rel="cc:attributionURL" href="https://github.com/maurovanetti/guidi-tu">Guidi Tu</a> © 2024 by <a rel="cc:attributionURL dct:creator" property="cc:attributionName" href="https://maurovanetti.info">Mauro Vanetti</a> is licensed under <a href="http://creativecommons.org/licenses/by-nc-sa/4.0/?ref=chooser-v1" target="_blank" rel="license noopener noreferrer" style="display:inline-block;">CC BY-NC-SA 4.0</a> <img style="height:22px!important;margin-left:3px;vertical-align:text-bottom;" src="https://mirrors.creativecommons.org/presskit/icons/cc.svg?ref=chooser-v1"> <img style="height:22px!important;margin-left:3px;vertical-align:text-bottom;" src="https://mirrors.creativecommons.org/presskit/icons/by.svg?ref=chooser-v1"> <img style="height:22px!important;margin-left:3px;vertical-align:text-bottom;" src="https://mirrors.creativecommons.org/presskit/icons/nc.svg?ref=chooser-v1"> <img style="height:22px!important;margin-left:3px;vertical-align:text-bottom;" src="https://mirrors.creativecommons.org/presskit/icons/sa.svg?ref=chooser-v1"></p>
