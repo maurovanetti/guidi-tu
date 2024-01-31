@@ -1,17 +1,17 @@
-# Guidi Tu
+## Guidi Tu
 
 [![Powered by Flame](https://img.shields.io/badge/Powered%20by-%F0%9F%94%A5-orange.svg)](https://flame-engine.org)
 [![Codemagic build status](https://api.codemagic.io/apps/63e0b4f7446236fa9778921d/65ae2c6acc67517556b1b97d/status_badge.svg)](https://codemagic.io/apps/63e0b4f7446236fa9778921d/65ae2c6acc67517556b1b97d/latest_build)
 
 _This free app is currently being developed in Italian. A multilingual version is planned for Q2 2024, after the full release on the Italian market in Q1 2024._
 
-
-
 Guidi Tu, un videogioco per selezionare chi guida stasera e chi invece beve.
 
 Lo sta sviluppando Mauro Vanetti: contattalo per avere maggiori informazioni.
 
 Disegni e animazioni di Jacopo Rovida.
+
+[Provalo sul web](https://designateddriver.codemagic.app/) (con funzionalità limitate)
 
 <a href='https://play.google.com/store/apps/details?id=net.coopalice.guiditu&pcampaignid=pcampaignidMKT-Other-global-all-co-prtnr-py-PartBadge-Mar2515-1'><img alt='Disponibile su Google Play' src='https://play.google.com/intl/en_us/badges/static/images/badges/it_badge_web_generic.png' style="width: 250px;"/></a>
 
