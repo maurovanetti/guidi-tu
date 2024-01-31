@@ -89,7 +89,9 @@ class InfoScreenState extends TrackedState<InfoScreen> {
                   children: [
                     const TextSpan(text: "Prodotta da\n"),
                     TextSpan(
-                        text: "  cooperativa sociale Alice\n", style: bold),
+                      text: "  cooperativa sociale Alice\n",
+                      style: bold,
+                    ),
                     const TextSpan(text: "Pensata e sviluppata da\n"),
                     TextSpan(text: "  Mauro Vanetti\n", style: bold),
                     const TextSpan(text: "Disegni e animazioni di\n"),
@@ -106,7 +108,13 @@ class InfoScreenState extends TrackedState<InfoScreen> {
                 borderRadius: StyleGuide.borderRadius / 2,
                 child: FittedBox(
                   fit: BoxFit.fitWidth,
-                  child: Image.asset('assets/images/info/sponsors.png'),
+                  child: Image.asset(
+                    'assets/images/info/sponsors.png',
+                    // ignore: no-magic-number
+                    width: 1240,
+                    // ignore: no-magic-number
+                    height: 354,
+                  ),
                 ),
               ),
               const Gap(),
