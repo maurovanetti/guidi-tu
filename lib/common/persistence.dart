@@ -31,7 +31,11 @@ class Persistence {
   static Future<void> init({bool production = true}) async {
     if (!_initialized) {
       if (production) {
-        Hive.init((await getApplicationDocumentsDirectory()).path);
+        if (kIsWeb) {
+          Hive.init('./.hive');
+        } else {
+          Hive.init((await getApplicationDocumentsDirectory()).path);
+        }
       } else {
         Hive.init('./test/.hive');
       }
@@ -54,8 +58,10 @@ class Persistence {
 
   int getInt(String key) => _box.get(key) ?? 0;
 
-  List<String> getStringList(String key) =>
-      _box.get(key) ?? List.empty(growable: true);
+  List<String> getStringList(String key) {
+    var list = _box.get(key);
+    return list is List ? list.cast<String>() : [];
+  }
 
   Future<void> close() async {
     await _box.close();

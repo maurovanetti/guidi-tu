@@ -1,6 +1,7 @@
 import 'dart:async';
 import 'dart:math';
 
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 
 import '/common/common.dart';
@@ -36,6 +37,9 @@ class _PickScreenState extends TrackedState<PickScreen>
       var otherCards = [];
       var availableGames = allGameFeatures.where((game) =>
           game.minPlayers <= _playerCount && game.maxPlayers >= _playerCount);
+      if (kIsWeb) {
+        availableGames = availableGames.where((game) => !game.mobileOnly);
+      }
       for (var gameFeatures in availableGames) {
         var gameCard = GameCard(
           name: gameFeatures.name,

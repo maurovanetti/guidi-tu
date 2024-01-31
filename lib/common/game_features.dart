@@ -49,6 +49,7 @@ class GameFeatures {
   final bool usesRigidGameArea;
   final String interstitialAnimationPath; // Path below images with no extension
   final num interstitialAnimationRepeat;
+  final bool mobileOnly;
 
   GameFeatures({
     required this.name,
@@ -72,6 +73,7 @@ class GameFeatures {
     this.usesRigidGameArea = false,
     required this.interstitialAnimationPath,
     this.interstitialAnimationRepeat = 1,
+    this.mobileOnly = false,
   })  : maxPlayers = maxPlayers ?? Config.maxPlayers,
         maxSuggestedPlayers = maxSuggestedPlayers ?? Config.maxPlayers {
     assert(minPlayers <= minSuggestedPlayers);
@@ -211,6 +213,7 @@ Ma attenzione: chi resiste più a lungo, paga.""",
       '${I18n.secondsFormat.format(p / Duration.microsecondsPerSecond)}"',
   externalClock: false,
   usesRigidGameArea: true,
+  mobileOnly: true,
   interstitialAnimationPath: "steady_hand/interstitial/Steady_Hand",
 );
 

@@ -1,6 +1,10 @@
 // ignore_for_file: avoid-non-ascii-symbols
 
+import 'dart:async';
+
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 import '/common/common.dart';
 import 'challenge/challenge_setup_screen.dart';
@@ -9,6 +13,11 @@ import 'tutorial_screen.dart';
 
 class TitleScreen extends StatefulWidget {
   const TitleScreen({super.key});
+
+  static const googlePlayUrl =
+      'https://play.google.com/store/apps/details?id=net.coopalice.guiditu';
+  static const appStoreUrl =
+      'https://apps.apple.com/it/app/guidi-tu/id6476491805';
 
   @override
   State<TitleScreen> createState() => _TitleScreenState();
@@ -83,20 +92,37 @@ class _TitleScreenState extends TrackedState<TitleScreen> with ScoreAware {
                 onPressed:
                     Navigation.push(context, () => const TutorialScreen()).go,
               ),
-              CustomButton(
-                key: WidgetKeys.toChallengeSetup,
-                text: 'Prova di abilità',
-                onPressed:
-                    Navigation.push(context, () => const ChallengeSetupScreen())
-                        .go,
-                important: false,
-              ),
+              if (!kIsWeb)
+                CustomButton(
+                  key: WidgetKeys.toChallengeSetup,
+                  text: 'Prova di abilità',
+                  onPressed: Navigation.push(
+                    context,
+                    () => const ChallengeSetupScreen(),
+                  ).go,
+                  important: false,
+                ),
               CustomButton(
                 text: 'Informazioni',
                 onPressed:
                     Navigation.push(context, () => const InfoScreen()).go,
                 important: false,
               ),
+              if (kIsWeb)
+                CustomButton(
+                  text: 'Scarica da Google Play',
+                  onPressed: () => unawaited(
+                    launchUrl(Uri.parse(TitleScreen.googlePlayUrl)),
+                  ),
+                  important: false,
+                ),
+              if (kIsWeb)
+                CustomButton(
+                  text: 'Scarica da App Store',
+                  onPressed: () =>
+                      unawaited(launchUrl(Uri.parse(TitleScreen.appStoreUrl))),
+                  important: false,
+                ),
               const Gap(),
             ],
           ),
