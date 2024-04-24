@@ -26,5 +26,6 @@ export 'style_guide.dart';
 export 'team_aware.dart';
 export 'tracked_state.dart';
 export 'turn_aware.dart';
+export 'typedefs.dart';
 export 'widget_keys.dart';
 export 'with_bubbles.dart';

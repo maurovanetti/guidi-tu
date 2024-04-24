@@ -9,7 +9,7 @@ class CustomTextBoxComponent extends TextBoxComponent {
 
   final _backgroundPaint = Paint()..color = Colors.white;
 
-  static final _boxConfig = TextBoxConfig(
+  static const _boxConfig = TextBoxConfig(
     margins: StyleGuide.widePadding,
   );
 

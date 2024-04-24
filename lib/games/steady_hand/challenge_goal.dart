@@ -42,7 +42,6 @@ class ChallengeGoal extends BodyComponent with ContactCallbacks {
     final bodyDef = BodyDef(
       userData: this,
       position: initialPosition,
-      type: BodyType.static,
     );
     switch (anchor) {
       case Anchor.topLeft:

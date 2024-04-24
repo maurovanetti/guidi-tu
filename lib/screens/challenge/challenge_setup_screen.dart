@@ -8,7 +8,7 @@ import '/common/common.dart';
 import 'challenge_screen.dart';
 
 class ChallengeSetupScreen extends StatefulWidget {
-  const ChallengeSetupScreen({Key? key}) : super(key: key);
+  const ChallengeSetupScreen({super.key});
 
   @override
   ChallengeSetupScreenState createState() => ChallengeSetupScreenState();
@@ -33,7 +33,7 @@ class ChallengeSetupScreenState extends State<ChallengeSetupScreen> {
     });
   }
 
-  void _updateReadyToConfirm(String name) {
+  void _handleNameChange(String name) {
     setState(() {
       _readyToConfirm = name.isNotEmpty;
     });
@@ -51,6 +51,7 @@ class ChallengeSetupScreenState extends State<ChallengeSetupScreen> {
         actions: [
           TextButton(
             key: WidgetKeys.acknowledgeSensorAlert,
+            // ignore: prefer-correct-handler-name
             onPressed: _startChallenge,
             child: const Text("Fatto"),
           ),
@@ -97,7 +98,7 @@ class ChallengeSetupScreenState extends State<ChallengeSetupScreen> {
                 PlayerNameField(
                   controller: _nameController,
                   themeData: Theme.of(context),
-                  onChanged: _updateReadyToConfirm,
+                  onChanged: _handleNameChange,
                 ),
                 const Gap(),
                 ListTile(
@@ -132,6 +133,7 @@ class ChallengeSetupScreenState extends State<ChallengeSetupScreen> {
       floatingActionButton: _readyToConfirm && _sober != null
           ? CustomFloatingActionButton(
               key: WidgetKeys.toChallenge,
+              // ignore: prefer-correct-handler-name
               onPressed: _showSensorAlert,
               tooltip: 'Si può iniziare',
               icon: Icons.check_circle_rounded,

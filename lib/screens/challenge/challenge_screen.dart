@@ -11,10 +11,10 @@ import 'challenge_scores_screen.dart';
 
 class ChallengeScreen extends StatefulWidget {
   const ChallengeScreen({
-    Key? key,
+    super.key,
     required this.name,
     required this.sober,
-  }) : super(key: key);
+  });
 
   final String name;
   final bool sober;
@@ -33,12 +33,12 @@ class ChallengeScreenState extends State<ChallengeScreen> {
     // resized at its final size.
     unawaited(Delay.waitFor(1, () {
       setState(() {
-        _gameModule = ChallengeModule(notifyFallen: _notifyFallen);
+        _gameModule = ChallengeModule(notifyFallen: _handleFallen);
       });
     }));
   }
 
-  void _notifyFallen() {
+  void _handleFallen() {
     setState(() {
       _ended = true;
     });
@@ -109,6 +109,7 @@ class ChallengeScreenState extends State<ChallengeScreen> {
       floatingActionButton: _ended
           ? CustomFloatingActionButton(
               key: WidgetKeys.toChallengeScores,
+              // ignore: prefer-correct-handler-name
               onPressed: _displayScores,
               icon: Icons.stop_rounded,
             )

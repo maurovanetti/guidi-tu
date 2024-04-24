@@ -3,7 +3,7 @@ import 'boules_bowl.dart';
 import 'boules_module.dart';
 
 class BoulesReplay extends BoulesModule {
-  BoulesReplay() : super(setReady: ({bool ready = true}) {});
+  BoulesReplay() : super(onChangeReady: ({bool ready = true}) {});
 
   @override
   void init() {

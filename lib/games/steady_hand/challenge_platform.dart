@@ -2,20 +2,21 @@ import 'package:flame/components.dart';
 import 'package:flame/extensions.dart';
 import 'package:flame_forge2d/flame_forge2d.dart';
 import 'package:flutter/material.dart';
+import 'package:guidi_tu/common/common.dart';
 
 import 'challenge_goal.dart';
 import 'steady_hand_ball.dart';
 
 class ChallengePlatform extends PositionComponent with HasGameRef {
   Vector2 boardSize;
-  void Function(int score) onScoreChange;
+  OnScore onScore;
   final breadth = 1 / 10;
   final gap = 1 / 20;
   final paint = Paint()..color = Colors.grey.withBlue(200);
 
   int _score = 0;
 
-  ChallengePlatform(this.boardSize, this.onScoreChange)
+  ChallengePlatform(this.boardSize, this.onScore)
       : super(
           position: Vector2.zero(),
           anchor: Anchor.topLeft,
@@ -122,7 +123,7 @@ class ChallengePlatform extends PositionComponent with HasGameRef {
   void _onHitGoal(Object other, Contact _) {
     if (other is SteadyHandBall) {
       _score++;
-      onScoreChange(_score);
+      onScore(_score);
     }
   }
 }

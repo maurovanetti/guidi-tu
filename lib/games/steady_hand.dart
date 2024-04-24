@@ -2,7 +2,6 @@
 
 import 'dart:async';
 import 'dart:math';
-import 'dart:ui';
 
 import 'package:flame/game.dart';
 import 'package:flutter/material.dart';

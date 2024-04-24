@@ -83,14 +83,13 @@ class CustomSpriteComponent<T extends FlameGame>
     Vector2? size,
     this.keepAspectRatio = false,
     Anchor? anchor,
-    int? priority,
+    super.priority,
     this.fps,
     Color? color,
   }) : super(
           size: size ?? defaultSpriteSize,
           anchor: anchor ?? Anchor.center,
           position: position,
-          priority: priority,
         ) {
     // If there's no shadow, the default elevation is 0 to prevent the sprite
     // from being rendered in a different initial position than expected.
@@ -186,8 +185,8 @@ class DraggableCustomSpriteComponent<T extends FlameGame>
   bool Function()? onUnsnap; // If false, the snap is locked
 
   DraggableCustomSpriteComponent(
-    String assetPath,
-    Vector2 position, {
+    super.assetPath,
+    super.position, {
     super.stampAssetPath,
     super.hasShadow = true,
     super.elevation = 10.0,
@@ -197,7 +196,7 @@ class DraggableCustomSpriteComponent<T extends FlameGame>
     super.color,
     this.draggable = true,
     this.extraElevationWhileDragged = defaultExtraElevationWhileDragged,
-  }) : super(assetPath, position);
+  });
 
   @override
   void onDragStart(DragStartEvent event) {

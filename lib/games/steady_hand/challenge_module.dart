@@ -19,7 +19,7 @@ class ChallengeModule extends SteadyHandModule {
 
   @override
   Component createPlatform() =>
-      ChallengePlatform(view.size.toVector2(), _onScoreChange);
+      ChallengePlatform(view.size.toVector2(), _handleScore);
 
   @override
   Vector2 ballInitialPosition() =>
@@ -31,7 +31,7 @@ class ChallengeModule extends SteadyHandModule {
     super.onLoad();
   }
 
-  void _onScoreChange(int value) {
+  void _handleScore(int value) {
     _score = value;
   }
 }

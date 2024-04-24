@@ -12,9 +12,6 @@ class BoulesWall extends BodyComponent {
     final fixtureDef = FixtureDef(shape)
       ..density = 0.5
       ..friction = 1;
-    final bodyDef = BodyDef(
-      type: BodyType.static,
-    );
-    return world.createBody(bodyDef)..createFixture(fixtureDef);
+    return world.createBody(BodyDef())..createFixture(fixtureDef);
   }
 }

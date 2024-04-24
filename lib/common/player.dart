@@ -234,7 +234,7 @@ class PlayerIcon extends StatelessWidget {
 }
 
 class PlayerTag extends PlayerButton {
-  const PlayerTag(Player player, {super.key}) : super(player);
+  const PlayerTag(super.player, {super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -255,11 +255,11 @@ class PlayerTag extends PlayerButton {
 
 class PlayerPerformance extends PlayerButton {
   const PlayerPerformance(
-    Player player, {
+    super.player, {
     required this.primaryText,
     this.secondaryText = '',
     super.key,
-  }) : super(player);
+  });
 
   static const _secondaryTextScale = 0.7;
 

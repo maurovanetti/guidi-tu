@@ -1,5 +1,3 @@
-import 'dart:ui';
-
 import 'package:flutter/material.dart';
 
 import '/common/common.dart';
@@ -102,7 +100,7 @@ class IncrementalOuijaOutcomeState extends State<IncrementalOuijaOutcome> {
             textAlign: TextAlign.center,
           ),
         );
-      }).toList(),
+      }),
       Container(
         alignment: Alignment.center,
         constraints: const BoxConstraints(minWidth: 100.0),

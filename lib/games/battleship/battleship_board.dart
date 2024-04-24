@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
-import '/common/common.dart';
 import '../flame/custom_board.dart';
+import '/common/common.dart';
 import 'battleship_item.dart';
 
 class BattleshipBoard extends CustomBoard<BattleshipBoardCell>
@@ -82,6 +82,7 @@ class BattleshipBoard extends CustomBoard<BattleshipBoardCell>
       BattleshipBoardCell(this, row, column);
 }
 
+// ignore: prefer-overriding-parent-equality
 class BattleshipBoardCell extends CustomBoardCell {
   @override
   final BattleshipBoard board;

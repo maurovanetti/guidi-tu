@@ -72,6 +72,7 @@ void main() {
       await tester.pumpForNavigation(); // Closing dialog and refreshing page
       await tester.tap(WidgetKeys.addPlayer.found());
       await tester.pump(); // Not a navigation, just a dialog opening
+      // ignore: avoid-duplicate-test-assertions
       expect(WidgetKeys.editPlayer.found(), findsOneWidget);
       await tester.enterText(WidgetKeys.editPlayerName.found(), "CAIA");
       await tester.tap(WidgetKeys.setFemininePlayer.found());
@@ -79,6 +80,7 @@ void main() {
       await tester.pumpForNavigation(); // Closing dialog and refreshing page
       await tester.tap(WidgetKeys.addPlayer.found());
       await tester.pump(); // Not a navigation, just a dialog opening
+      // ignore: avoid-duplicate-test-assertions
       expect(WidgetKeys.editPlayer.found(), findsOneWidget);
       await tester.enterText(WidgetKeys.editPlayerName.found(), "SEMPY");
       await tester.tap(WidgetKeys.submitEditPlayer.found());

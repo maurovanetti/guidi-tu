@@ -67,7 +67,8 @@ class SteadyHandBall extends BodyComponent with KeyboardHandler {
   void onMount() {
     super.onMount();
     if (isMobile) {
-      _accelerations = accelerometerEvents.listen((AccelerometerEvent event) {
+      _accelerations =
+          accelerometerEventStream().listen((AccelerometerEvent event) {
         applyForce(Vector2(-event.x, event.y));
       });
     } else {
@@ -90,7 +91,7 @@ class SteadyHandBall extends BodyComponent with KeyboardHandler {
   }
 
   @override
-  bool onKeyEvent(RawKeyEvent event, Set<LogicalKeyboardKey> keysPressed) {
+  bool onKeyEvent(KeyEvent event, Set<LogicalKeyboardKey> keysPressed) {
     debugPrint("onKeyEvent: $event");
     if (keysPressed.contains(LogicalKeyboardKey.arrowLeft)) {
       applyImpulse(Vector2(-1, 0));

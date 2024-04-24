@@ -3,6 +3,7 @@ import 'dart:async';
 import 'package:flame/game.dart';
 import 'package:flutter/material.dart';
 
+import '/common/common.dart';
 import '/games/flame/custom_text_box_component.dart';
 import 'battleship_board.dart';
 import 'battleship_bomb.dart';
@@ -18,10 +19,10 @@ class BattleshipModule extends FlameGame {
   final int shipCount;
   final int bombCount;
 
-  final void Function({bool ready}) setReady;
+  final OnChangeReady onChangeReady;
 
   BattleshipModule({
-    required this.setReady,
+    required this.onChangeReady,
     this.shipCount = 3,
     this.bombCount = 5,
   }) {
@@ -72,8 +73,6 @@ class BattleshipModule extends FlameGame {
     // The ships are placed near the board.
     var smallShip = BattleshipShip(
       bottomRightCorner,
-      cellSpan: 1,
-      isVertical: false,
       board: board,
     );
     var mediumShip = BattleshipShip(
@@ -85,7 +84,6 @@ class BattleshipModule extends FlameGame {
     var largeShip = BattleshipShip(
       bottomLeftCorner,
       cellSpan: 3,
-      isVertical: false,
       board: board,
     );
     var rightOfLargeShip = largeShip.position + rightwardOneCell * 3;
@@ -101,8 +99,6 @@ class BattleshipModule extends FlameGame {
     for (int i = 0; i + 3 < shipCount; i++) {
       var extraShip = BattleshipShip(
         extraPositions[i],
-        cellSpan: 1,
-        isVertical: false,
         board: board,
       );
       extra.add(extraShip);
@@ -112,6 +108,8 @@ class BattleshipModule extends FlameGame {
     }
 
     // Callback used every time a ship is placed.
+    // The callback depends on several local variables, that's why it is local.
+    // ignore: avoid-local-functions
     void onPlaceShip() {
       if (board.isFull) {
         // The bombs are placed near the board.
@@ -147,7 +145,7 @@ class BattleshipModule extends FlameGame {
           if (!board.isEmpty) {
             bombsHint.dismiss();
           }
-          setReady(ready: board.isFull);
+          onChangeReady(ready: board.isFull);
         });
       } else if (!board.isEmpty) {
         // After the first ship is placed, the first hint is removed.

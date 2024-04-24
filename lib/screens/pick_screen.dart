@@ -96,7 +96,7 @@ class _PickScreenState extends TrackedState<PickScreen>
             primary: true,
             shrinkWrap: true,
             children: [
-              ..._gameCards.toList(), // to rebuild it every time
+              ..._gameCards, // to rebuild it every time
               const SafeMarginForCustomFloatingActionButton(),
             ],
           ),

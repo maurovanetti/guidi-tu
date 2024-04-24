@@ -62,7 +62,7 @@ class ChallengeScoresScreenState extends State<ChallengeScoresScreen> {
     });
   }
 
-  Widget? _scoreBuilder(int index, {required bool sober}) {
+  Widget? _handleScore(int index, {required bool sober}) {
     List<String> scores = _scores[sober] ?? [];
     if (index >= scores.length) {
       return null;
@@ -155,14 +155,14 @@ class ChallengeScoresScreenState extends State<ChallengeScoresScreen> {
                     Expanded(
                       child: ListView.builder(
                         itemBuilder: (_, index) =>
-                            _scoreBuilder(index, sober: true),
+                            _handleScore(index, sober: true),
                       ),
                     ),
                     const Gap(),
                     Expanded(
                       child: ListView.builder(
                         itemBuilder: (_, index) =>
-                            _scoreBuilder(index, sober: false),
+                            _handleScore(index, sober: false),
                       ),
                     ),
                   ],

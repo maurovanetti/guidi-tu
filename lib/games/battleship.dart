@@ -84,7 +84,7 @@ class BattleshipGameAreaState extends GameAreaState<BattleshipMove>
         break;
     }
     _gameModule = BattleshipModule(
-      setReady: widget.setReady,
+      onChangeReady: widget.setReady,
       shipCount: shipCount,
       bombCount: bombCount,
     );
@@ -167,6 +167,7 @@ class BattleshipMove extends Move {
   }
 
   // Every bomb has a distinct cell
+  // ignore: prefer-getter-over-method
   Set<BattleshipBoardCell> placedBombCells() {
     return Set.of(placedBombs().values);
   }

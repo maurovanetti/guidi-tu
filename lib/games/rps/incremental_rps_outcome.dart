@@ -89,7 +89,7 @@ class IncrementalRockPaperScissorsOutcomeState
             ),
           ),
         );
-      }).toList(),
+      }),
       Container(
         alignment: Alignment.center,
         constraints: const BoxConstraints(minWidth: 100.0),

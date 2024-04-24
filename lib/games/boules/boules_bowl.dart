@@ -13,7 +13,7 @@ class BoulesJack extends BoulesBowl {
   @override
   double get r => radius;
 
-  BoulesJack(Vector2 position) : super(position, player: Player.none) {
+  BoulesJack(super.position) : super(player: Player.none) {
     // The jack should not be shadowing the larger bowls
     priority--;
   }

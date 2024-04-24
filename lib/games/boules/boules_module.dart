@@ -13,8 +13,8 @@ import 'boules_wall.dart';
 
 class BoulesModule extends Forge2DGameWithDragging {
   static const boulesSetupKey = "boulesSetup";
-  final void Function({bool ready}) setReady;
-  final void Function(String message)? displayMessage;
+  final OnChangeReady onChangeReady;
+  final OnMessage? onMessage;
   static const _minDragDuration = Duration(milliseconds: 500);
   late final List<BoulesBowl> _bowls;
   late final BoulesJack _jack;
@@ -45,7 +45,7 @@ class BoulesModule extends Forge2DGameWithDragging {
   Vector2 get _initialJackPosition =>
       Vector2(view.center.dx, view.top + view.height / 5);
 
-  BoulesModule({required this.setReady, this.displayMessage})
+  BoulesModule({required this.onChangeReady, this.onMessage})
       : super(minDragDuration: _minDragDuration);
 
   @override
@@ -131,7 +131,6 @@ class BoulesModule extends Forge2DGameWithDragging {
     _hint = CustomTextBoxComponent(
       "Trascina la freccia e poi lascia andare",
       _initialJackPosition + Vector2(0, BoulesJack.radius * 2),
-      autoDismiss: true,
       scale: 1 / camera.viewfinder.zoom,
     );
     // ignore: avoid-async-call-in-sync-function
@@ -179,7 +178,7 @@ class BoulesModule extends Forge2DGameWithDragging {
           bowl.prepareToStop();
         }
         // ignore: avoid-non-ascii-symbols
-        displayMessage?.call("Aspettiamo che le bocce si fermino…");
+        onMessage?.call("Aspettiamo che le bocce si fermino…");
         _onBowlChangedState();
       });
     }
@@ -199,7 +198,7 @@ class BoulesModule extends Forge2DGameWithDragging {
       TeamAware.storeSessionData({
         boulesSetupKey: _bowls.map((bowl) => bowl.toJson()).toList(),
       });
-      setReady(ready: true);
+      onChangeReady(ready: true);
     }
   }
 }

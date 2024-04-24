@@ -138,7 +138,7 @@ class IncrementalBattleshipOutcomeState
       ),
       ...widget.incrementalScores.map((x) {
         return Center(child: mapper(x));
-      }).toList(),
+      }),
     ]);
   }
 

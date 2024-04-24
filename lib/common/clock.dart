@@ -1,5 +1,4 @@
 import 'dart:async';
-import 'dart:ui';
 
 import 'package:flutter/material.dart';
 
@@ -34,6 +33,7 @@ class ClockState extends State<Clock> {
       // To check the error in microseconds, uncomment this line:
       // debugPrint((_duration.inMicroseconds * 1e-6).toString());
       // It's always below 0.1 seconds in emulator tests
+      // ignore: avoid-recursive-calls
       _untilNextSecond();
     });
   }

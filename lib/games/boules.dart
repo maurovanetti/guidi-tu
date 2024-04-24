@@ -1,9 +1,9 @@
 import 'package:flame/game.dart';
 import 'package:flutter/material.dart';
 
+import '../screens/outcome_screen.dart';
 import '/common/common.dart';
 import '/screens/turn_play_screen.dart';
-import '../screens/outcome_screen.dart';
 import 'boules/boules_module.dart';
 import 'boules/final_boules_outcome.dart';
 import 'game_area.dart';
@@ -43,11 +43,11 @@ class BoulesGameAreaState extends GameAreaState<BoulesMove>
   void initState() {
     super.initState();
     _gameModule = BoulesModule(
-      setReady: ({bool ready = true}) {
+      onChangeReady: ({bool ready = true}) {
         QuickMessage().hideQuickMessage();
         widget.setReady(ready: ready);
       },
-      displayMessage: displayMessage,
+      onMessage: handleMessage,
     );
   }
 
@@ -73,7 +73,7 @@ class BoulesGameAreaState extends GameAreaState<BoulesMove>
     return (newMove: newMove, updatedOldMoves: updatedOldMoves);
   }
 
-  void displayMessage(String message) =>
+  void handleMessage(String message) =>
       QuickMessage().showQuickMessage(message, context: context, longer: true);
 
   @override
@@ -100,17 +100,15 @@ class BoulesMove extends Move {
   // ignore: avoid-global-state
   static Vector2 finalJackPosition = Vector2.zero();
 
+  double get distanceFromJack => bowlPosition.distanceTo(finalJackPosition);
+
   BoulesMove({required this.bowlPosition, required Vector2 jackPosition}) {
     BoulesMove.finalJackPosition = jackPosition;
   }
 
-  double distanceFromJack() {
-    return bowlPosition.distanceTo(finalJackPosition);
-  }
-
   @override
   int getPointsFor(Player player, Iterable<RecordedMove<Move>> allMoves) {
-    return (distanceFromJack() * 100).toInt();
+    return (distanceFromJack * 100).toInt();
   }
 
   @override
@@ -122,7 +120,6 @@ class BoulesMove extends Move {
 
   @override
   int samePlayerCompareTo(Move other) {
-    return distanceFromJack()
-        .compareTo((other as BoulesMove).distanceFromJack());
+    return distanceFromJack.compareTo((other as BoulesMove).distanceFromJack);
   }
 }
