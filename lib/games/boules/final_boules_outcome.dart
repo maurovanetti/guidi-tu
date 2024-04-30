@@ -9,17 +9,16 @@ class FinalBoulesOutcome extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Center(
+    return const Center(
       child: SqueezeOrScroll(
-        squeeze: false,
         centralChild: Padding(
           padding: StyleGuide.regularPadding,
           child: AspectRatio(
             aspectRatio: 1.0, // It's a square
-            child: GameWidget(game: BoulesReplay()),
+            child: GameWidget.controlled(gameFactory: BoulesReplay.new),
           ),
         ),
-        bottomChildren: const [
+        bottomChildren: [
           Text(
             "Contano solo le bocce migliori di ogni partecipante",
             textAlign: TextAlign.center,

@@ -24,7 +24,7 @@ class Ouija extends TurnPlayScreen {
 class OuijaGameArea extends GameArea<OuijaMove> {
   OuijaGameArea({
     super.key,
-    required super.setReady,
+    required super.onChangeReady,
     required MoveReceiver moveReceiver,
     required super.startTime,
   }) : super(
@@ -71,7 +71,7 @@ class OuijaGameAreaState extends GameAreaState<OuijaMove>
         break;
     }
     _gameModule = OuijaModule(
-      setReady: widget.setReady,
+      setReady: widget.onChangeReady,
       letterCount: letterCount,
     );
   }

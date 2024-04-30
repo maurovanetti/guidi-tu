@@ -14,7 +14,7 @@ class SteadyHandBall extends BodyComponent with KeyboardHandler {
   final Vector2 initialPosition;
   final Component platform;
   final double radius;
-  final void Function() notifyFallen;
+  final VoidCallback onFallen;
   late final SteadyHandBallSprite sprite;
   double finalGravityMultiplier;
   double _gravityMultiplier = 0;
@@ -29,7 +29,7 @@ class SteadyHandBall extends BodyComponent with KeyboardHandler {
     this.initialPosition,
     this.platform, {
     required this.radius,
-    required this.notifyFallen,
+    required this.onFallen,
     required this.finalGravityMultiplier,
   }) : super(renderBody: false) {
     sprite = SteadyHandBallSprite(radius: radius);
@@ -118,7 +118,7 @@ class SteadyHandBall extends BodyComponent with KeyboardHandler {
       body.linearVelocity.setZero();
       body.setAwake(false);
       unawaited(sprite.flash());
-      notifyFallen();
+      onFallen();
     }
     super.update(dt);
   }

@@ -23,7 +23,7 @@ class BoulesState extends TurnPlayState<BoulesMove> {}
 class BoulesGameArea extends GameArea<BoulesMove> {
   BoulesGameArea({
     super.key,
-    required super.setReady,
+    required super.onChangeReady,
     required MoveReceiver moveReceiver,
     required super.startTime,
   }) : super(
@@ -45,7 +45,7 @@ class BoulesGameAreaState extends GameAreaState<BoulesMove>
     _gameModule = BoulesModule(
       onChangeReady: ({bool ready = true}) {
         QuickMessage().hideQuickMessage();
-        widget.setReady(ready: ready);
+        widget.onChangeReady(ready: ready);
       },
       onMessage: handleMessage,
     );

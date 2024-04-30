@@ -19,7 +19,7 @@ class Morra extends TurnPlayScreen {
 class MorraGameArea extends GameArea<MorraMove> {
   MorraGameArea({
     super.key,
-    required super.setReady,
+    required super.onChangeReady,
     required MoveReceiver moveReceiver,
     required super.startTime,
   }) : super(
@@ -43,7 +43,7 @@ class MorraGameAreaState extends ShotGameAreaState<MorraMove>
     n = _fingers;
   }
 
-  void _changeFingers(int delta) {
+  void _handleChangeFingers(int delta) {
     int newFingers = _fingers + delta;
     if (newFingers >= 0 && newFingers <= 5) {
       debugPrint("Fingers = $newFingers");
@@ -68,29 +68,28 @@ class MorraGameAreaState extends ShotGameAreaState<MorraMove>
   @override
   Widget build(BuildContext context) {
     var primaryColor = Theme.of(context).colorScheme.primary;
-
+    const hands = <HandImage>[];
+    for (var player in players) {
+      hands.add(HandImage(
+        player == TurnAware.currentPlayer ? _fingers : HandImage.unknown,
+        variant: player == TurnAware.currentPlayer
+            ? HandImageVariant.definedWithIcon
+            : HandImageVariant.undefinedWithIcon,
+        padding: HandImage._handsPadding,
+        player: player,
+      ));
+    }
     return ListView(
       children: [
         GridView.count(
           crossAxisCount: 4,
           shrinkWrap: true,
-          children: players
-              .map((player) => HandImage(
-                    player == TurnAware.currentPlayer
-                        ? _fingers
-                        : HandImage.unknown,
-                    variant: player == TurnAware.currentPlayer
-                        ? HandImageVariant.definedWithIcon
-                        : HandImageVariant.undefinedWithIcon,
-                    padding: HandImage._handsPadding,
-                    player: player,
-                  ))
-              .toList(),
+          children: hands,
         ),
         Row(
           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
           crossAxisAlignment: CrossAxisAlignment.center,
-          children: <Widget>[
+          children: [
             Expanded(
               flex: 1,
               child: Column(
@@ -100,9 +99,9 @@ class MorraGameAreaState extends ShotGameAreaState<MorraMove>
                     assetPath: 'ui/up.png',
                     delta: 1,
                     color: primaryColor,
-                    changeN: _changeFingers,
-                    quickChangeNStart: (_) {},
-                    quickChangeNEnd: () {},
+                    onChangeN: _handleChangeFingers,
+                    onQuickChangeNStart: (_) {},
+                    onQuickChangeNEnd: () {},
                     enabled: _fingers < 5,
                   ),
                   HandImage(
@@ -114,9 +113,9 @@ class MorraGameAreaState extends ShotGameAreaState<MorraMove>
                     assetPath: 'ui/down.png',
                     delta: -1,
                     color: primaryColor,
-                    changeN: _changeFingers,
-                    quickChangeNStart: (_) {},
-                    quickChangeNEnd: () {},
+                    onChangeN: _handleChangeFingers,
+                    onQuickChangeNStart: (_) {},
+                    onQuickChangeNEnd: () {},
                     enabled: _fingers > 0,
                   ),
                 ],
@@ -206,8 +205,8 @@ class HandImageState extends State<HandImage> with TickerProviderStateMixin {
   @override
   initState() {
     super.initState();
-    int n = HandImage.hands.length;
     if (widget.fingers == HandImage.unknown) {
+      int n = HandImage.hands.length;
       _controller = AnimationController(
         duration: Duration(milliseconds: _millisecondsPerFrame * n),
         lowerBound: 0,
@@ -218,7 +217,7 @@ class HandImageState extends State<HandImage> with TickerProviderStateMixin {
   }
 
   // ignore: avoid-long-functions
-  Widget _build(BuildContext context) {
+  Widget _handleBuild(BuildContext context) {
     Color? color;
     switch (widget.variant) {
       case HandImageVariant.withNumber:
@@ -286,7 +285,7 @@ class HandImageState extends State<HandImage> with TickerProviderStateMixin {
   build(BuildContext context) {
     return AnimatedBuilder(
       animation: _controller ?? const AlwaysStoppedAnimation(0),
-      builder: (innerContext, child) => _build(innerContext),
+      builder: (innerContext, child) => _handleBuild(innerContext),
     );
   }
 }
@@ -320,19 +319,21 @@ class MorraOutcomeState extends OutcomeScreenState<MorraMove> {
   @override
   void initOutcome() {
     var textTheme = Theme.of(context).textTheme;
+    const hands = <HandImage>[];
+    for (var fingers in _fingers.entries) {
+      hands.add(HandImage(
+        fingers.value,
+        variant: HandImageVariant.definedWithIcon,
+        player: fingers.key,
+        padding: HandImage._handsPadding,
+      ));
+    }
     outcomeWidget = ListView(
       children: [
         GridView.count(
           crossAxisCount: 4,
           shrinkWrap: true,
-          children: _fingers.entries
-              .map((fingers) => HandImage(
-                    fingers.value,
-                    variant: HandImageVariant.definedWithIcon,
-                    player: fingers.key,
-                    padding: HandImage._handsPadding,
-                  ))
-              .toList(),
+          children: hands,
         ),
         Text.rich(
           textAlign: TextAlign.center,
@@ -368,6 +369,7 @@ class MorraMove extends ShotMove {
 
   @override
   int getPointsFor(Player player, Iterable<RecordedMove> allMoves) {
+    // ignore: avoid-inferrable-type-arguments
     int totalFingers = countFingers(allMoves.cast<RecordedMove<MorraMove>>());
     return (totalFingers - n).abs();
   }

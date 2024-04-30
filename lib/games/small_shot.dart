@@ -14,7 +14,7 @@ class SmallShot extends TurnPlayScreen {
 class SmallShotGameArea extends GameArea<ShotMove> {
   SmallShotGameArea({
     super.key,
-    required super.setReady,
+    required super.onChangeReady,
     required MoveReceiver moveReceiver,
     required super.startTime,
   }) : super(

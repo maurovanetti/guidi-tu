@@ -105,8 +105,6 @@ class IncrementalRockPaperScissorsOutcomeState
   Widget build(BuildContext context) {
     return Center(
       child: SqueezeOrScroll(
-        squeeze: false,
-        topChildren: const [],
         centralChild: Padding(
           padding: StyleGuide.regularPadding,
           child: Table(

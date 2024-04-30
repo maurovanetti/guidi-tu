@@ -38,7 +38,7 @@ class StopwatchState extends TurnPlayState<StopwatchMove> {
 class StopwatchGameArea extends GameArea<StopwatchMove> {
   StopwatchGameArea({
     super.key,
-    required super.setReady,
+    required super.onChangeReady,
     required MoveReceiver moveReceiver,
     required super.startTime,
   }) : super(
@@ -74,14 +74,15 @@ class StopwatchGameAreaState extends GameAreaState<StopwatchMove>
     unawaited(_ticker.start());
   }
 
-  void _stop() {
+  void _handleStop() {
     _ticker.stop();
-    widget.setReady(ready: true);
+    widget.onChangeReady(ready: true);
   }
 
   _trafficLightColor(double t) {
     var t1 = Stopwatch.period / 2;
     var t2 = Stopwatch.period * (3 / 4);
+    // ignore: move-variable-closer-to-its-usage
     var t3 = Stopwatch.period;
     if (t < t1) {
       return badColor;
@@ -152,7 +153,10 @@ class StopwatchGameAreaState extends GameAreaState<StopwatchMove>
             ],
           ),
         ),
-        CustomButton(text: "STOP", onPressed: _ticker.isTicking ? _stop : null),
+        CustomButton(
+          text: "STOP",
+          onPressed: _ticker.isTicking ? _handleStop : null,
+        ),
       ],
     );
   }
@@ -176,7 +180,7 @@ class StopwatchOutcomeState extends OutcomeScreenState<StopwatchMove> {
             children: [
               TextSpan(
                 text: "Ricordate:\n",
-                style: TextStyle(inherit: true, fontWeight: FontWeight.bold),
+                style: TextStyle(fontWeight: FontWeight.bold),
               ),
               TextSpan(
                 text: "L'orologio non deve per forza essere fermato al primo "

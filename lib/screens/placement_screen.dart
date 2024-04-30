@@ -33,7 +33,7 @@ class PlacementScreenState extends TrackedState<PlacementScreen>
     ];
   }
 
-  void _endGame() {
+  void _handleEndGame() {
     ScoreAware.storeAwards();
     if (mounted) {
       Navigation.replaceAll(context, () => const TitleScreen()).go();
@@ -93,7 +93,7 @@ class PlacementScreenState extends TrackedState<PlacementScreen>
         tooltip: "Fine",
         icon: Icons.stop_rounded,
         // On press, a short async computation is required
-        onPressed: _endGame,
+        onPressed: _handleEndGame,
       ),
     );
   }

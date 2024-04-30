@@ -17,7 +17,7 @@ abstract class ForwardOnlyState<T extends GameSpecificStatefulWidget>
   }
 
   FutureOr<bool> _interceptBackButton(bool _, RouteInfo __) {
-    confirmQuit();
+    handleQuit();
     return false;
   }
 
@@ -27,7 +27,7 @@ abstract class ForwardOnlyState<T extends GameSpecificStatefulWidget>
     super.dispose();
   }
 
-  void confirmQuit() {
+  void handleQuit() {
     unawaited(
       showDialog(
         context: context,

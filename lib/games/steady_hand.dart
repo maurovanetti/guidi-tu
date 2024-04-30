@@ -29,7 +29,7 @@ class SteadyHand extends TurnPlayScreen {
 class SteadyHandGameArea extends GameArea<SteadyHandMove> {
   SteadyHandGameArea({
     super.key,
-    required super.setReady,
+    required super.onChangeReady,
     required MoveReceiver moveReceiver,
     required super.startTime,
   }) : super(
@@ -51,7 +51,7 @@ class SteadyHandGameAreaState extends GameAreaState<SteadyHandMove>
   @override
   void initState() {
     super.initState();
-    _gameModule = SteadyHandModule(notifyFallen: _stop);
+    _gameModule = SteadyHandModule(onFallen: _handleStop);
     _ticker = createTicker((_) {
       var truncated = _updateSeconds().toInt();
       if (truncated != _displaying) {
@@ -69,10 +69,10 @@ class SteadyHandGameAreaState extends GameAreaState<SteadyHandMove>
     return _seconds;
   }
 
-  void _stop() {
+  void _handleStop() {
     _ticker.stop();
     var _ = _updateSeconds();
-    widget.setReady(ready: true);
+    widget.onChangeReady(ready: true);
   }
 
   @override
@@ -93,35 +93,32 @@ class SteadyHandGameAreaState extends GameAreaState<SteadyHandMove>
   Widget build(BuildContext context) {
     var leftOffsetForLabel = MediaQuery.sizeOf(context).width / 2 - 35;
     var bottomOffsetForLabel = (_seconds ?? 0.0) / 10.0;
-    return Column(
-      children: [
-        Flexible(
-          child: Stack(
-            alignment: Alignment.center,
-            children: [
-              GameWidget(game: _gameModule),
-              if (_seconds != null)
-                Align(
-                  alignment: Alignment.bottomLeft,
-                  child: Padding(
-                    padding: EdgeInsets.only(
-                      left: leftOffsetForLabel,
-                      bottom: bottomOffsetForLabel,
-                    ),
-                    child: Text(
-                      '$_displaying"',
-                      style:
-                          Theme.of(context).textTheme.headlineLarge?.copyWith(
-                        fontWeight: FontWeight.bold,
-                        fontFeatures: [const FontFeature.tabularFigures()],
-                      ),
+    return Center(
+      child: Flexible(
+        child: Stack(
+          alignment: Alignment.center,
+          children: [
+            GameWidget(game: _gameModule),
+            if (_seconds != null)
+              Align(
+                alignment: Alignment.bottomLeft,
+                child: Padding(
+                  padding: EdgeInsets.only(
+                    left: leftOffsetForLabel,
+                    bottom: bottomOffsetForLabel,
+                  ),
+                  child: Text(
+                    '$_displaying"',
+                    style: Theme.of(context).textTheme.headlineLarge?.copyWith(
+                      fontWeight: FontWeight.bold,
+                      fontFeatures: [const FontFeature.tabularFigures()],
                     ),
                   ),
                 ),
-            ],
-          ),
+              ),
+          ],
         ),
-      ],
+      ),
     );
   }
 }
@@ -184,7 +181,8 @@ class SteadyHandOutcomeState extends StoriesScreenState<SteadyHandMove> {
   @override
   PlayerPerformance getPlayerPerformance(Player player) => PlayerPerformance(
         player,
-        primaryText: steadyHand.formatPoints(getBestMove(player).microseconds),
+        primaryText:
+            steadyHand.onFormatPoints(getBestMove(player).microseconds),
       );
 }
 

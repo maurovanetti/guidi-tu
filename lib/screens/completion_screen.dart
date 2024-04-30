@@ -13,9 +13,10 @@ class CompletionScreen extends GameSpecificStatefulWidget {
 
 class CompletionScreenState extends ForwardOnlyState<CompletionScreen>
     with Gendered, TeamAware {
-  void _displayOutcome() {
+  void _handleDisplayOutcome() {
     if (mounted) {
-      Navigation.replaceAll(context, widget.gameFeatures.outcomeWidget).go();
+      Navigation.replaceAll(context, widget.gameFeatures.onBuildOutcomeScreen)
+          .go();
     }
   }
 
@@ -46,7 +47,7 @@ class CompletionScreenState extends ForwardOnlyState<CompletionScreen>
               CustomButton(
                 key: WidgetKeys.toOutcome,
                 text: "Vediamoli!",
-                onPressed: _displayOutcome,
+                onPressed: _handleDisplayOutcome,
               ),
             ],
           ),

@@ -63,6 +63,7 @@ mixin TurnAware<T extends Move> on TeamAware {
     remainingTurnsInRound.sort((a, b) {
       final moveA = getBestRecordedMove(players[a]);
       final moveB = getBestRecordedMove(players[b]);
+      // ignore: avoid-slow-collection-methods
       return moveA.compareTo(moveB, _moves.values.flattened);
     });
     _turns.replaceRange(_currentTurn, roundEnd, remainingTurnsInRound);
@@ -103,12 +104,14 @@ mixin TurnAware<T extends Move> on TeamAware {
       _moves[player] as List<RecordedMove>;
 
   RecordedMove<T> getRecordedMove(Player player) {
+    // ignore: avoid-inferrable-type-arguments
     return getRecordedMoves(player).single.castContentAs<T>();
   }
 
   RecordedMove<T> getBestRecordedMove(Player player) {
     final recordedMoves = getRecordedMoves(player);
     recordedMoves.sort((a, b) => a.samePlayerCompareTo(b));
+    // ignore: avoid-inferrable-type-arguments
     return recordedMoves.first.castContentAs<T>();
   }
 
@@ -117,5 +120,6 @@ mixin TurnAware<T extends Move> on TeamAware {
   double getTime(Player player) => getBestRecordedMove(player).time;
 
   int getPoints(Player player) =>
+      // ignore: avoid-slow-collection-methods
       getBestMove(player).getPointsFor(player, _moves.values.flattened);
 }

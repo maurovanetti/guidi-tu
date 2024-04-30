@@ -22,7 +22,7 @@ class Straws extends TurnPlayScreen {
 class StrawsGameArea extends GameArea<StrawsMove> {
   StrawsGameArea({
     super.key,
-    required super.setReady,
+    required super.onChangeReady,
     required MoveReceiver moveReceiver,
     required super.startTime,
   }) : super(
@@ -41,10 +41,10 @@ class StrawsGameAreaState extends GameAreaState<StrawsMove>
   @override
   void initState() {
     super.initState();
-    _gameModule = StrawsModule(setReady: widget.setReady);
+    _gameModule = StrawsModule(onChangeReady: widget.onChangeReady);
   }
 
-  void _nextStraw() {
+  void _handleNextStraw() {
     _gameModule.pick();
   }
 
@@ -64,7 +64,7 @@ class StrawsGameAreaState extends GameAreaState<StrawsMove>
         CustomButton(
           text: "Prendine un altro",
           important: false,
-          onPressed: _nextStraw,
+          onPressed: _handleNextStraw,
         ),
       ],
     );

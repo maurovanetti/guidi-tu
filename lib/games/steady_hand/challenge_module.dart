@@ -15,7 +15,7 @@ class ChallengeModule extends SteadyHandModule {
   get ballRadius => super.ballRadius / 3;
   int get score => _score;
 
-  ChallengeModule({required super.notifyFallen});
+  ChallengeModule({required super.onFallen});
 
   @override
   Component createPlatform() =>

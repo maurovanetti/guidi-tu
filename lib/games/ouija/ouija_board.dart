@@ -21,6 +21,7 @@ class OuijaBoard extends CustomBoard<OuijaBoardCell> {
     ..strokeWidth = 2.0;
 
   double get slotWidth => size.x / slots;
+  // ignore: match-getter-setter-field-names
   double get slotHeight => cellHeight;
   Vector2 get slotSize => Vector2(slotWidth, slotHeight);
 
@@ -37,7 +38,7 @@ class OuijaBoard extends CustomBoard<OuijaBoardCell> {
   }
 
   @override
-  OuijaBoardCell createCell(int row, int column) =>
+  OuijaBoardCell handleCreateCell(int row, int column) =>
       OuijaBoardCell(this, row, column);
 
   void registerSlotItem(int slot, OuijaPassiveItem ouijaPassiveItem) {
@@ -78,6 +79,7 @@ class OuijaBoard extends CustomBoard<OuijaBoardCell> {
   }
 }
 
+// ignore: prefer-overriding-parent-equality
 class OuijaBoardCell extends CustomBoardCell {
   @override
   final OuijaBoard board;

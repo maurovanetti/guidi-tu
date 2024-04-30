@@ -14,7 +14,7 @@ class LargeShot extends TurnPlayScreen {
 class LargeShotGameArea extends GameArea<ShotMove> {
   LargeShotGameArea({
     super.key,
-    required super.setReady,
+    required super.onChangeReady,
     required MoveReceiver moveReceiver,
     required super.startTime,
   }) : super(

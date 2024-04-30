@@ -1,7 +1,7 @@
 // These utils are the only place where new top-level public members are
 // allowed. Please be careful before introducing more, and consider how they may
 // affect the reliability of the tests.
-// ignore_for_file: avoid-top-level-members-in-tests
+// ignore_for_file: avoid-top-level-members-in-tests, prefer-getter-over-method
 
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';

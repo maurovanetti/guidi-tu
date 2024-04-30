@@ -8,36 +8,38 @@ enum NavigationPushMode {
   replaceAll,
 }
 
+typedef WidgetCallback = Widget Function();
+
 class Navigation {
   final BuildContext context;
   final NavigationPushMode mode;
-  final Widget Function() target;
+  final WidgetCallback onNavigateToTarget;
 
   const Navigation._internal(
     this.context, {
     this.mode = NavigationPushMode.push,
-    required this.target,
+    required this.onNavigateToTarget,
   });
 
-  const Navigation.push(BuildContext context, Widget Function() target)
-      : this._internal(context, mode: NavigationPushMode.push, target: target);
+  const Navigation.push(BuildContext context, WidgetCallback target)
+      : this._internal(context, onNavigateToTarget: target);
 
-  const Navigation.replaceLast(BuildContext context, Widget Function() target)
+  const Navigation.replaceLast(BuildContext context, WidgetCallback target)
       : this._internal(
           context,
           mode: NavigationPushMode.replaceLast,
-          target: target,
+          onNavigateToTarget: target,
         );
 
-  const Navigation.replaceAll(BuildContext context, Widget Function() target)
+  const Navigation.replaceAll(BuildContext context, WidgetCallback target)
       : this._internal(
           context,
           mode: NavigationPushMode.replaceAll,
-          target: target,
+          onNavigateToTarget: target,
         );
 
   void go() {
-    final route = MaterialPageRoute(builder: (_) => target());
+    final route = MaterialPageRoute(builder: (_) => onNavigateToTarget());
     switch (mode) {
       case NavigationPushMode.push:
         unawaited(Navigator.push(context, route));

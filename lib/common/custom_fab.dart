@@ -1,8 +1,7 @@
-import 'dart:async';
-
 import 'package:flutter/material.dart';
 
 import 'style_guide.dart';
+import 'typedefs.dart';
 
 class CustomFloatingActionButton extends StatelessWidget {
   const CustomFloatingActionButton({
@@ -13,7 +12,7 @@ class CustomFloatingActionButton extends StatelessWidget {
     this.heroTag = 'hero',
   });
 
-  final FutureOr<void> Function()? onPressed;
+  final AsyncCallback onPressed;
   final String tooltip;
   final IconData icon;
   final String heroTag;

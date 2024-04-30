@@ -58,18 +58,18 @@ class ArrowButton extends StatelessWidget {
     required this.assetPath,
     required this.delta,
     required this.color,
-    required this.changeN,
-    required this.quickChangeNStart,
-    required this.quickChangeNEnd,
+    required this.onChangeN,
+    required this.onQuickChangeNStart,
+    required this.onQuickChangeNEnd,
     this.enabled = true,
   });
 
   final String assetPath;
   final int delta;
   final Color? color;
-  final void Function(int delta) changeN;
-  final void Function(int nStart) quickChangeNStart;
-  final void Function() quickChangeNEnd;
+  final OnSetInteger onChangeN;
+  final OnSetInteger onQuickChangeNStart;
+  final VoidCallback onQuickChangeNEnd;
   final bool enabled;
 
   @override
@@ -83,10 +83,10 @@ class ArrowButton extends StatelessWidget {
           color: enabled ? actualColor : actualColor.withOpacity(0.1),
           size: 250,
         ),
-        onPressed: enabled ? () => changeN(delta) : null,
+        onPressed: enabled ? () => onChangeN(delta) : null,
       ),
-      onLongPress: () => quickChangeNStart(delta),
-      onLongPressUp: () => quickChangeNEnd(),
+      onLongPress: () => onQuickChangeNStart(delta),
+      onLongPressUp: () => onQuickChangeNEnd(),
     );
   }
 }
@@ -100,9 +100,9 @@ class _UpArrowButton extends ArrowButton {
   }) : super(
           assetPath: 'ui/up.png',
           delta: 1,
-          changeN: shotState.changeN,
-          quickChangeNStart: shotState.longPressStart,
-          quickChangeNEnd: shotState.longPressEnd,
+          onChangeN: shotState.changeN,
+          onQuickChangeNStart: shotState.longPressStart,
+          onQuickChangeNEnd: shotState.longPressEnd,
         );
 }
 
@@ -115,9 +115,9 @@ class _DownArrowButton extends ArrowButton {
   }) : super(
           assetPath: 'ui/down.png',
           delta: -1,
-          changeN: shotState.changeN,
-          quickChangeNStart: shotState.longPressStart,
-          quickChangeNEnd: shotState.longPressEnd,
+          onChangeN: shotState.changeN,
+          onQuickChangeNStart: shotState.longPressStart,
+          onQuickChangeNEnd: shotState.longPressEnd,
         );
 }
 

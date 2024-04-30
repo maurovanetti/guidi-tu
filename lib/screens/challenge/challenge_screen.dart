@@ -33,7 +33,7 @@ class ChallengeScreenState extends State<ChallengeScreen> {
     // resized at its final size.
     unawaited(Delay.waitFor(1, () {
       setState(() {
-        _gameModule = ChallengeModule(notifyFallen: _handleFallen);
+        _gameModule = ChallengeModule(onFallen: _handleFallen);
       });
     }));
   }

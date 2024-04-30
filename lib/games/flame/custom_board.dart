@@ -43,12 +43,12 @@ abstract class CustomBoard<T extends CustomBoardCell>
       gridRows,
       (row) => List.generate(
         gridColumns,
-        (column) => createCell(row, column),
+        (column) => handleCreateCell(row, column),
       ),
     );
   }
 
-  T createCell(int row, int column);
+  T handleCreateCell(int row, int column);
 
   @override
   void render(Canvas canvas) {

@@ -40,7 +40,7 @@ class ChallengeSetupScreenState extends State<ChallengeSetupScreen> {
   }
 
   void _showSensorAlert() {
-    unawaited(showDialog<void>(
+    unawaited(showDialog(
       context: context,
       builder: (context) => AlertDialog(
         key: WidgetKeys.sensorAlert,

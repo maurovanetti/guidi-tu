@@ -1,12 +1,7 @@
 import 'package:flame/extensions.dart';
 import 'package:flutter/material.dart';
 
-import 'fitted_text.dart';
-import 'gap.dart';
-import 'gender.dart';
-import 'score_aware.dart';
-import 'style_guide.dart';
-import 'widget_keys.dart';
+import 'common.dart';
 
 class Player with Gendered {
   int id;
@@ -100,8 +95,8 @@ class PlayerButton extends StatelessWidget {
   static const _genderSymbolScale = 0.8;
 
   final Player player;
-  final void Function(Player playerToRemove)? onRemove;
-  final void Function(Player playerToEdit)? onEdit;
+  final OnPlayerAction? onRemove;
+  final OnPlayerAction? onEdit;
 
   get textColor => player.foreground;
 
@@ -111,11 +106,11 @@ class PlayerButton extends StatelessWidget {
             fontWeight: FontWeight.bold,
           );
 
-  _edit() {
+  void _handleEdit() {
     onEdit?.call(player);
   }
 
-  _remove() {
+  void _handleRemove() {
     onRemove?.call(player);
   }
 
@@ -124,7 +119,7 @@ class PlayerButton extends StatelessWidget {
     var style = _textStyle(context);
     return PlayerButtonStructure(
       player,
-      onEdit: _edit,
+      onEdit: _handleEdit,
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         crossAxisAlignment: CrossAxisAlignment.center,
@@ -144,7 +139,7 @@ class PlayerButton extends StatelessWidget {
           ),
           IconButton(
             icon: Icon(Icons.remove_circle, color: player.color),
-            onPressed: _remove,
+            onPressed: _handleRemove,
           ),
         ],
       ),
@@ -161,6 +156,7 @@ class PlayerButtonStructure extends StatelessWidget {
   });
 
   // The useless click prevents the button from being disabled
+  // ignore: prefer-getter-over-method
   static _uselessClick() {}
 
   final Player player;
@@ -269,7 +265,7 @@ class PlayerPerformance extends PlayerButton {
   @override
   Widget build(BuildContext context) {
     var style = _textStyle(context);
-    var horizontalGap = const Spacer(flex: 1);
+    var horizontalGap = const Spacer();
     return PlayerButtonStructure(
       player,
       child: Row(

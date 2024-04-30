@@ -11,7 +11,7 @@ class InterstitialScreen extends GameSpecificStatefulWidget {
 }
 
 class TurnInterstitialState extends TrackedState<InterstitialScreen> {
-  void _play() {
+  void _handlePlay() {
     Navigation.replaceAll(
       context,
       () => TurnInstructionsScreen(gameFeatures: widget.gameFeatures),
@@ -26,14 +26,14 @@ class TurnInterstitialState extends TrackedState<InterstitialScreen> {
         child: InterstitialAnimation(
           prefix: widget.gameFeatures.interstitialAnimationPath,
           repeat: widget.gameFeatures.interstitialAnimationRepeat,
-          onComplete: _play,
+          onComplete: _handlePlay,
         ),
       ),
       floatingActionButton: CustomFloatingActionButton(
         key: WidgetKeys.toTurnInstructions,
         tooltip: 'Gioca',
         icon: Icons.skip_next_rounded,
-        onPressed: _play,
+        onPressed: _handlePlay,
       ),
     );
   }

@@ -81,43 +81,41 @@ class IncrementalOuijaOutcomeState extends State<IncrementalOuijaOutcome> {
       );
 
   TableRow _buildTableRow(IncrementalOuijaScore incrementalScore) {
-    var heightFactor = 1.1;
-    var pointsForGuesses = incrementalScore.pointsForGuesses;
-    var pointsForMisses = incrementalScore.pointsForMisses;
-    return TableRow(children: [
-      Center(
-        heightFactor: heightFactor,
-        child: PlayerIcon.color(incrementalScore.player),
-      ),
-      ...incrementalScore.letters.map((ouijaGuess) {
-        return Center(
-          child: Text(
-            ouijaGuess.letter,
-            style: _tableStyle.copyWith(
-              color: ouijaGuess.colorByType,
-              fontWeight: ouijaGuess.weightByType,
-            ),
-            textAlign: TextAlign.center,
-          ),
-        );
-      }),
-      Container(
-        alignment: Alignment.center,
-        constraints: const BoxConstraints(minWidth: 100.0),
+    const heightFactor = 1.1;
+    final pointsForGuesses = incrementalScore.pointsForGuesses;
+    final pointsForMisses = incrementalScore.pointsForMisses;
+    const rowCells = <Widget>[];
+    rowCells.add(Center(
+      heightFactor: heightFactor,
+      child: PlayerIcon.color(incrementalScore.player),
+    ));
+    for (var ouijaGuess in incrementalScore.letters) {
+      rowCells.add(Center(
         child: Text(
-          "$pointsForGuesses + $pointsForMisses",
-          style: _tableStyle,
+          ouijaGuess.letter,
+          style: _tableStyle.copyWith(
+            color: ouijaGuess.colorByType,
+            fontWeight: ouijaGuess.weightByType,
+          ),
+          textAlign: TextAlign.center,
         ),
+      ));
+    }
+    rowCells.add(Container(
+      alignment: Alignment.center,
+      constraints: const BoxConstraints(minWidth: 100.0),
+      child: Text(
+        "$pointsForGuesses + $pointsForMisses",
+        style: _tableStyle,
       ),
-    ]);
+    ));
+    return const TableRow(children: rowCells);
   }
 
   @override
   Widget build(BuildContext context) {
     return Center(
       child: SqueezeOrScroll(
-        squeeze: false,
-        topChildren: const [],
         centralChild: Padding(
           padding: StyleGuide.regularPadding,
           child: Table(

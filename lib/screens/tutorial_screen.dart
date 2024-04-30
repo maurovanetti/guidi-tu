@@ -25,17 +25,17 @@ class _TutorialScreenState extends TrackedState<TutorialScreen> {
   @override
   void initState() {
     super.initState();
-    _carousel = TutorialCarousel(_carouselController, _onPageChanged);
+    _carousel = TutorialCarousel(_carouselController, _handleChangePage);
     _lastPage = (TutorialCarousel.length == 1);
   }
 
-  void _onPageChanged(int page, CarouselPageChangedReason _) {
+  void _handleChangePage(int page, CarouselPageChangedReason _) {
     setState(() {
       _lastPage = (page == TutorialCarousel.length - 1);
     });
   }
 
-  void _moveOn() {
+  void _handleMoveOn() {
     if (_lastPage) {
       Navigation.replaceLast(context, () => const TeamScreen()).go();
     } else {
@@ -52,7 +52,7 @@ class _TutorialScreenState extends TrackedState<TutorialScreen> {
       body: _carousel,
       floatingActionButton: CustomFloatingActionButton(
         key: WidgetKeys.toTeam,
-        onPressed: _moveOn,
+        onPressed: _handleMoveOn,
         tooltip: 'Avanti',
         icon: _lastPage ? Icons.check_circle_rounded : Icons.skip_next_rounded,
       ),
@@ -96,10 +96,11 @@ Penalità possibili per chi arriva primo:
   static const indicatorSpacing = indicatorRadius * 2.5;
 
   final CarouselController controller;
+  // ignore: prefer-typedefs-for-callbacks
   final void Function(int page, CarouselPageChangedReason reason) onPageChanged;
   final pageNotifier = ValueNotifier<int>(0);
 
-  _onInnerPageChange(int page, CarouselPageChangedReason reason) {
+  _handleChangeInnerPage(int page, CarouselPageChangedReason reason) {
     pageNotifier.value = page;
     onPageChanged(page, reason);
   }
@@ -167,7 +168,7 @@ Penalità possibili per chi arriva primo:
                 );
               },
               options: CarouselOptions(
-                onPageChanged: _onInnerPageChange,
+                onPageChanged: _handleChangeInnerPage,
                 controller: controller,
                 height: double.infinity,
                 enlargeCenterPage: true,

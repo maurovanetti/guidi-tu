@@ -66,7 +66,6 @@ class IncrementalStrawsOutcomeState extends State<IncrementalStrawsOutcome> {
   Widget build(BuildContext context) {
     return Center(
       child: SqueezeOrScroll(
-        squeeze: false,
         centralChild: Padding(
           padding: StyleGuide.regularPadding,
           child: AspectRatio(

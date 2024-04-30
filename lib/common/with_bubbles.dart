@@ -30,6 +30,7 @@ class WithBubbles extends StatelessWidget {
     return Stack(
       children: [
         if (!behind) child,
+        // ignore: prefer-for-loop-in-children
         ...List.generate(n, (index) => Bubble(square: square)),
         if (behind) child,
       ],

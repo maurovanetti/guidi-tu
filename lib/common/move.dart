@@ -46,7 +46,7 @@ class RecordedMove<T extends Move> {
           .where((thisMove) => thisMove.player != thisPlayer);
 
   RecordedMove<U> castContentAs<U extends Move>() {
-    return RecordedMove<U>(player: player, time: time, move: move as U);
+    return RecordedMove(player: player, time: time, move: move as U);
   }
 
   // This is used to sort the turns in games with multiple rounds.
@@ -66,8 +66,7 @@ class RecordedMove<T extends Move> {
 mixin MoveReceiver<T extends Move> {
   MoveProvider<T>? moveProvider;
 
-  //T receiveMove() => moveProvider!.getMoveUpdate().newMove;
-
+  // ignore: prefer-getter-over-method
   MoveUpdate<T> receiveMoves() => moveProvider!.getMoveUpdate();
 }
 

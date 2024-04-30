@@ -69,9 +69,10 @@ class CustomSpriteComponent<T extends FlameGame>
   }
 
   @override
-  set angle(double a) {
+  set angle(double value) {
+    // ignore: match-getter-setter-field-names
     _shadowOffset = null; // Invalidates the cached value
-    super.angle = a;
+    super.angle = value;
   }
 
   CustomSpriteComponent(
@@ -180,9 +181,9 @@ class DraggableCustomSpriteComponent<T extends FlameGame>
   final double extraElevationWhileDragged;
   SnapRule? snapRule;
 
-  bool Function()? onSnap; // If false, the snap is forbidden
-  void Function()? onFallbackSnap;
-  bool Function()? onUnsnap; // If false, the snap is locked
+  BoolCallback? onSnap; // If false, the snap is forbidden
+  VoidCallback? onFallbackSnap;
+  BoolCallback? onUnsnap; // If false, the snap is locked
 
   DraggableCustomSpriteComponent(
     super.assetPath,
@@ -242,9 +243,9 @@ class DraggableCustomSpriteComponent<T extends FlameGame>
     elevation -= extraElevationWhileDragged; // The position is updated in super
     priority = elevation.toInt(); // Restores the original priority
 
-    bool regularSnapFound = false; // as opposed to fallback snap
     // Snaps to the closest spot
     if (snapRule != null) {
+      bool regularSnapFound = false; // as opposed to fallback snap
       final minSpotDistance = snapRule!.spots
           .map((spot) => spot - position)
           .reduce((a, b) => a.length < b.length ? a : b);

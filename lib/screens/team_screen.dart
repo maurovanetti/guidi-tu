@@ -47,7 +47,7 @@ class _TeamScreenState extends TrackedState<TeamScreen>
     });
   }
 
-  void _editPlayer(Player player) async {
+  void _handleEditPlayer(Player player) async {
     debugPrint("Editing player $player");
     Player? editedPlayer = await showDialog<Player>(
       context: context,
@@ -61,7 +61,7 @@ class _TeamScreenState extends TrackedState<TeamScreen>
     }
   }
 
-  void _addNewPlayer() {
+  void _handleAddNewPlayer() {
     debugPrint("Adding new player");
     Player newPlayer = Player(
       players.length,
@@ -71,10 +71,10 @@ class _TeamScreenState extends TrackedState<TeamScreen>
     setState(() {
       players.add(newPlayer);
     });
-    _editPlayer(newPlayer);
+    _handleEditPlayer(newPlayer);
   }
 
-  void _removePlayer(Player player) {
+  void _handleRemovePlayer(Player player) {
     debugPrint("Removing player $player from $players");
     setState(() {
       final removed = players.removeAt(player.id);
@@ -87,8 +87,8 @@ class _TeamScreenState extends TrackedState<TeamScreen>
     }
   }
 
-  void _showDuplicatesAlert() {
-    unawaited(showDialog<void>(
+  void _handleDuplicates() {
+    unawaited(showDialog(
       context: context,
       builder: (context) => AlertDialog(
         title: const Text("Nomi duplicati"),
@@ -103,13 +103,14 @@ class _TeamScreenState extends TrackedState<TeamScreen>
     ));
   }
 
-  void _proceedToPickPage() {
+  void _handleProceedToPickPage() {
     storeTeam();
     if (mounted) {
       Navigation.push(context, () => const PickScreen()).go();
     }
   }
 
+  // ignore: prefer-getter-over-method
   bool _hasDuplicates() {
     var names = players.map((player) => player.name);
     return names.toSet().length != names.length;
@@ -132,14 +133,14 @@ class _TeamScreenState extends TrackedState<TeamScreen>
                     const Text("Clicca sui nomi per modificarli:"),
                   ...players.map((player) => PlayerButton(
                         player,
-                        onEdit: _editPlayer,
-                        onRemove: _removePlayer,
+                        onEdit: _handleEditPlayer,
+                        onRemove: _handleRemovePlayer,
                       )),
                   if (players.length < Config.maxPlayers)
                     CustomButton(
                       key: WidgetKeys.addPlayer,
                       important: false,
-                      onPressed: _addNewPlayer,
+                      onPressed: _handleAddNewPlayer,
                       text: "Aggiungi partecipante",
                     ),
                   if (hasDuplicates)
@@ -162,7 +163,7 @@ class _TeamScreenState extends TrackedState<TeamScreen>
               key: WidgetKeys.toPick,
               onPressed:
                   // ignore: avoid-nested-conditional-expressions
-                  hasDuplicates ? _showDuplicatesAlert : _proceedToPickPage,
+                  hasDuplicates ? _handleDuplicates : _handleProceedToPickPage,
               tooltip: 'Pronti',
               icon: Icons.check_circle_rounded,
             ),
@@ -199,7 +200,7 @@ class PlayerDialogState extends State<PlayerDialog> {
     _readyToConfirm = name.isNotEmpty;
   }
 
-  void _updateReadyToConfirm(String name) {
+  void _handleReadyToConfirm(String name) {
     setState(() {
       _setReadyToConfirm(name);
     });
@@ -224,7 +225,7 @@ class PlayerDialogState extends State<PlayerDialog> {
             key: WidgetKeys.editPlayerName,
             controller: _nameController,
             themeData: Theme.of(context),
-            onChanged: _updateReadyToConfirm,
+            onChanged: _handleReadyToConfirm,
           ),
           if (widget.editGender) ...[
             const Gap(),
@@ -274,7 +275,7 @@ class PlayerDialogState extends State<PlayerDialog> {
       actions: [
         TextButton(
           key: WidgetKeys.cancelEditPlayer,
-          onPressed: () => Navigator.of(context).pop(null),
+          onPressed: () => Navigator.of(context).pop(),
           child: const Text('Annulla'),
         ),
         OutlinedButton(

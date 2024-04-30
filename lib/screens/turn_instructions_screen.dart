@@ -25,8 +25,8 @@ class TurnInstructionsScreenState
     player = TurnAware.currentPlayer;
   }
 
-  void _showSecretPlayAlert() {
-    unawaited(showDialog<void>(
+  void _handleSecretPlay() {
+    unawaited(showDialog(
       context: context,
       builder: (context) => AlertDialog(
         key: WidgetKeys.hiddenPlayAlert,
@@ -37,7 +37,7 @@ class TurnInstructionsScreenState
         actions: [
           TextButton(
             key: WidgetKeys.acknowledgeHiddenPlay,
-            onPressed: _play,
+            onPressed: _handlePlay,
             child: const Text("OK"),
           ),
         ],
@@ -45,8 +45,9 @@ class TurnInstructionsScreenState
     ));
   }
 
-  void _play() {
-    Navigation.replaceAll(context, widget.gameFeatures.playWidget).go();
+  void _handlePlay() {
+    Navigation.replaceAll(context, widget.gameFeatures.onBuildTurnPlayScreen)
+        .go();
   }
 
   @override
@@ -58,7 +59,7 @@ class TurnInstructionsScreenState
         actions: [
           IconButton(
             icon: const Icon(Icons.cancel_rounded),
-            onPressed: confirmQuit,
+            onPressed: handleQuit,
           ),
         ],
       ),
@@ -70,7 +71,6 @@ class TurnInstructionsScreenState
             // Squeezing it does not work right now because the text does not
             // resize. In order to do that some changes to the text widget are
             // needed.
-            squeeze: false,
             topChildren: [
               Text(
                 "Tocca a",
@@ -112,8 +112,8 @@ class TurnInstructionsScreenState
                   key: WidgetKeys.toTurnPlay,
                   text: player.t("Sono pronto", "Sono pronta", "Eccomi"),
                   onPressed: widget.gameFeatures.secretPlay
-                      ? _showSecretPlayAlert
-                      : _play,
+                      ? _handleSecretPlay
+                      : _handlePlay,
                 ),
             ],
           ),

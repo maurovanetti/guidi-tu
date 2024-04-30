@@ -1,5 +1,6 @@
 import 'package:flame/game.dart';
 import 'package:flutter/material.dart';
+import 'package:guidi_tu/common/common.dart';
 
 import '/games/rps.dart';
 import 'rps_board.dart';
@@ -8,12 +9,12 @@ import 'rps_item.dart';
 class RockPaperScissorsModule extends FlameGame {
   late final RockPaperScissorsBoard board;
   final int gestureCount;
-  final void Function({bool ready}) setReady;
+  final OnChangeReady onChangeReady;
 
   RockPaperScissorsSequence get currentSequence => board.sequence;
 
   RockPaperScissorsModule({
-    required this.setReady,
+    required this.onChangeReady,
     required this.gestureCount,
   }) {
     assert(gestureCount > 1, "At least one gesture");
@@ -38,7 +39,7 @@ class RockPaperScissorsModule extends FlameGame {
     board = RockPaperScissorsBoard(rect: grid, slots: gestureCount);
     await add(board);
     board.addListener(() {
-      setReady(ready: board.sequence.length >= gestureCount);
+      onChangeReady(ready: board.sequence.length >= gestureCount);
     });
 
     await add(RockPaperScissorsActiveItem(Rock(), board.cellAt(0, 0)));

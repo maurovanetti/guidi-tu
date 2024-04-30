@@ -1,7 +1,9 @@
-mixin CustomNotifier {
-  final _listeners = <void Function()>[];
+import 'package:flutter/foundation.dart';
 
-  void addListener(void Function() notify) {
+mixin CustomNotifier {
+  final _listeners = <VoidCallback>[];
+
+  void addListener(VoidCallback notify) {
     _listeners.add(notify);
   }
 

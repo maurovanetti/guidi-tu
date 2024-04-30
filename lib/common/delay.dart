@@ -1,13 +1,15 @@
 import 'dart:async';
 
+import 'common.dart';
+
 class Delay {
-  static void after(num seconds, [FutureOr<void> Function()? callback]) {
+  static void after(num seconds, [AsyncCallback? callback]) {
     unawaited(waitFor(seconds, callback));
   }
 
   static Future<void> waitFor(
     num seconds, [
-    FutureOr<void> Function()? callback,
+    AsyncCallback? callback,
   ]) {
     return Future.delayed(
       Duration(
@@ -17,7 +19,7 @@ class Delay {
     );
   }
 
-  static void atNextFrame(FutureOr<void> Function() callback) {
+  static void atNextFrame(AsyncCallback callback) {
     after(0, callback);
   }
 }

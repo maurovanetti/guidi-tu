@@ -30,13 +30,13 @@ class SteadyHandPlatform extends CircleComponent with HasGameRef {
         MoveEffect.by(Vector2.zero(), longStep), // wait
         ScaleEffect.by(Vector2.all(0.9), longStep), // shrink
       ],
-      onComplete: _cycle,
+      onComplete: _handleCycle,
     );
     await add(waitThenShrink);
     await super.onLoad();
   }
 
-  void _cycle() {
+  void _handleCycle() {
     var delta = (radius * 2) - scaledSize.x;
     var sequence = SequenceEffect(
       [
@@ -48,7 +48,7 @@ class SteadyHandPlatform extends CircleComponent with HasGameRef {
         MoveEffect.by(Vector2.all(delta / 2), shortStep), // to center
         ScaleEffect.by(Vector2.all(0.8), longStep), // shrink more
       ],
-      onComplete: _cycle,
+      onComplete: _handleCycle,
     );
     // ignore: avoid-async-call-in-sync-function
     add(sequence);

@@ -40,6 +40,7 @@ mixin TeamAware on Gendered {
     db.set(Persistence.sessionKey, jsonEncode(data));
   }
 
+  // ignore: prefer-getter-over-method
   static Map<String, dynamic> retrieveSessionData() {
     var sessionData = db.getString(Persistence.sessionKey);
     return sessionData.isNotEmpty ? jsonDecode(sessionData) : {};

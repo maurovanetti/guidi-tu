@@ -21,7 +21,7 @@ class RockPaperScissors extends TurnPlayScreen {
 class RockPaperScissorsGameArea extends GameArea<RockPaperScissorsMove> {
   RockPaperScissorsGameArea({
     super.key,
-    required super.setReady,
+    required super.onChangeReady,
     required MoveReceiver moveReceiver,
     required super.startTime,
   }) : super(
@@ -42,7 +42,7 @@ class RockPaperScissorsGameAreaState
     super.initState();
     int gestureCount = players.length + 2;
     _gameModule = RockPaperScissorsModule(
-      setReady: widget.setReady,
+      onChangeReady: widget.onChangeReady,
       gestureCount: gestureCount,
     );
   }

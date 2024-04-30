@@ -78,7 +78,7 @@ class BattleshipBoard extends CustomBoard<BattleshipBoardCell>
   }
 
   @override
-  BattleshipBoardCell createCell(int row, int column) =>
+  BattleshipBoardCell handleCreateCell(int row, int column) =>
       BattleshipBoardCell(this, row, column);
 }
 

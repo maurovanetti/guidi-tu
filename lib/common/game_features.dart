@@ -5,10 +5,10 @@
 // ignore_for_file: avoid-non-ascii-symbols
 
 import 'package:flutter/material.dart';
+import 'package:guidi_tu/common/common.dart';
 
 import '/games/battleship.dart';
 import '/games/boules.dart';
-import '/games/game_area.dart';
 import '/games/large_shot.dart';
 import '/games/morra.dart';
 import '/games/ouija.dart';
@@ -17,11 +17,6 @@ import '/games/small_shot.dart';
 import '/games/steady_hand.dart';
 import '/games/stopwatch.dart';
 import '/games/straws.dart';
-import '/screens/outcome_screen.dart';
-import '/screens/turn_play_screen.dart';
-import 'config.dart';
-import 'i18n.dart';
-import 'move.dart';
 
 class GameFeatures {
   final String name;
@@ -34,18 +29,14 @@ class GameFeatures {
   final int minSuggestedPlayers;
   final int maxSuggestedPlayers;
   final int rounds;
-  final GameArea Function({
-    required void Function({bool ready}) setReady,
-    required MoveReceiver moveReceiver,
-    required DateTime startTime,
-  }) buildGameArea;
-  final TurnPlayScreen Function() playWidget;
-  final OutcomeScreen Function() outcomeWidget;
+  final GameAreaBuilder onBuildGameArea;
+  final TurnPlayScreenBuilder onBuildTurnPlayScreen;
+  final OutcomeScreenBuilder onBuildOutcomeScreen;
   final bool lessIsMore;
   final bool longerIsBetter;
   final bool pointsMatter;
   final bool externalClock;
-  final String Function(int points) formatPoints;
+  final ScoreFormatter onFormatPoints;
   final bool usesRigidGameArea;
   final String interstitialAnimationPath; // Path below images with no extension
   final num interstitialAnimationRepeat;
@@ -62,14 +53,14 @@ class GameFeatures {
     required this.minSuggestedPlayers,
     int? maxSuggestedPlayers,
     this.rounds = 1,
-    required this.playWidget,
-    required this.buildGameArea,
-    required this.outcomeWidget,
+    required this.onBuildTurnPlayScreen,
+    required this.onBuildGameArea,
+    required this.onBuildOutcomeScreen,
     this.lessIsMore = false,
     this.longerIsBetter = false,
     this.pointsMatter = true,
     this.externalClock = true,
-    this.formatPoints = dontFormat,
+    this.onFormatPoints = dontFormat,
     this.usesRigidGameArea = false,
     required this.interstitialAnimationPath,
     this.interstitialAnimationRepeat = 1,
@@ -95,9 +86,9 @@ Ma attenzione: chi sceglie il numero più alto, paga.""",
   icon: Icons.arrow_circle_up_rounded,
   minPlayers: 3,
   minSuggestedPlayers: 5,
-  buildGameArea: LargeShotGameArea.new,
-  playWidget: LargeShot.new,
-  outcomeWidget: LargeShotOutcome.new,
+  onBuildGameArea: LargeShotGameArea.new,
+  onBuildTurnPlayScreen: LargeShot.new,
+  onBuildOutcomeScreen: LargeShotOutcome.new,
   interstitialAnimationPath: "shot/interstitial/Game_Numero Alto",
 );
 
@@ -112,9 +103,9 @@ Ma attenzione: chi sceglie il numero più basso, paga.""",
   icon: Icons.arrow_circle_down_rounded,
   minPlayers: 3,
   minSuggestedPlayers: 5,
-  buildGameArea: SmallShotGameArea.new,
-  playWidget: SmallShot.new,
-  outcomeWidget: SmallShotOutcome.new,
+  onBuildGameArea: SmallShotGameArea.new,
+  onBuildTurnPlayScreen: SmallShot.new,
+  onBuildOutcomeScreen: SmallShotOutcome.new,
   lessIsMore: true,
   interstitialAnimationPath: "shot/interstitial/Game_Numero Basso",
 );
@@ -124,7 +115,7 @@ final morra = GameFeatures(
   description: "Indovina la somma.",
   explanation: """
 Scegli quante dita mostrare e prevedi quante dita saranno mostrate da tutti.
-  
+
 Guidi tu se ti avvicini di meno alla somma giusta.
 
 Ma attenzione: chi si avvicina di più, paga.""",
@@ -133,12 +124,12 @@ Ma attenzione: chi si avvicina di più, paga.""",
   minPlayers: 2,
   minSuggestedPlayers: 3,
   maxSuggestedPlayers: 3,
-  buildGameArea: MorraGameArea.new,
-  playWidget: Morra.new,
-  outcomeWidget: MorraOutcome.new,
+  onBuildGameArea: MorraGameArea.new,
+  onBuildTurnPlayScreen: Morra.new,
+  onBuildOutcomeScreen: MorraOutcome.new,
   lessIsMore: true,
   // Means the difference between the sum and the guess
-  formatPoints: (p) => '±$p',
+  onFormatPoints: (p) => '±$p',
   interstitialAnimationPath: "morra/interstitial/Morra",
   interstitialAnimationRepeat: 2,
 );
@@ -149,8 +140,8 @@ final battleship = GameFeatures(
   explanation: """
 Scegli dove collocare i tuoi galleggianti e in quali caselle attaccare.
 
-Fai ${Battleship.saveValue} punti per ogni tuo galleggiante salvato, ${Battleship.hitValue} per ognuno che affondi. 
-  
+Fai ${Battleship.saveValue} punti per ogni tuo galleggiante salvato, ${Battleship.hitValue} per ognuno che affondi.
+
 Guidi tu se fai meno punti.
 
 Ma attenzione: chi fa più punti, paga.""",
@@ -159,10 +150,10 @@ Ma attenzione: chi fa più punti, paga.""",
   minPlayers: 2,
   minSuggestedPlayers: 2,
   maxSuggestedPlayers: 4,
-  buildGameArea: BattleshipGameArea.new,
-  playWidget: Battleship.new,
-  outcomeWidget: BattleshipOutcome.new,
-  formatPoints: (p) => '$p pt.',
+  onBuildGameArea: BattleshipGameArea.new,
+  onBuildTurnPlayScreen: Battleship.new,
+  onBuildOutcomeScreen: BattleshipOutcome.new,
+  onFormatPoints: (p) => '$p pt.',
   usesRigidGameArea: true,
   interstitialAnimationPath: "battleship/interstitial/Game_Naval",
 );
@@ -182,10 +173,10 @@ Ma attenzione: chi la ferma più avanti di tutti, paga.""",
   icon: Icons.timer_rounded,
   minPlayers: 2,
   minSuggestedPlayers: 4,
-  buildGameArea: StopwatchGameArea.new,
-  playWidget: Stopwatch.new,
-  outcomeWidget: StopwatchOutcome.new,
-  formatPoints: (p) =>
+  onBuildGameArea: StopwatchGameArea.new,
+  onBuildTurnPlayScreen: Stopwatch.new,
+  onBuildOutcomeScreen: StopwatchOutcome.new,
+  onFormatPoints: (p) =>
       '${I18n.preciserSecondsFormat.format(p / Duration.microsecondsPerSecond)}"',
   externalClock: false,
   interstitialAnimationPath: "stopwatch/interstitial/Game_Lancette",
@@ -196,9 +187,9 @@ final steadyHand = GameFeatures(
   description: "Resisti immobile.",
   explanation: """
 Tieni il telefono in orizzontale sulla tua mano.
-  
+
 Non far cadere la biglia.
-  
+
 Guidi tu se resisti meno di tutti.
 
 Ma attenzione: chi resiste più a lungo, paga.""",
@@ -206,10 +197,10 @@ Ma attenzione: chi resiste più a lungo, paga.""",
   icon: Icons.sports_gymnastics_rounded,
   minPlayers: 2,
   minSuggestedPlayers: 3,
-  buildGameArea: SteadyHandGameArea.new,
-  playWidget: SteadyHand.new,
-  outcomeWidget: SteadyHandOutcome.new,
-  formatPoints: (p) =>
+  onBuildGameArea: SteadyHandGameArea.new,
+  onBuildTurnPlayScreen: SteadyHand.new,
+  onBuildOutcomeScreen: SteadyHandOutcome.new,
+  onFormatPoints: (p) =>
       '${I18n.secondsFormat.format(p / Duration.microsecondsPerSecond)}"',
   externalClock: false,
   usesRigidGameArea: true,
@@ -223,9 +214,9 @@ final ouija = GameFeatures(
   explanation: """
 Componi una sequenza di lettere.
 
-Fai ${Ouija.missValue} pt. per ogni lettera usata anche da altri, 
-${Ouija.guessValue} pt. se è anche nella stessa posizione. 
-  
+Fai ${Ouija.missValue} pt. per ogni lettera usata anche da altri,
+${Ouija.guessValue} pt. se è anche nella stessa posizione.
+
 Guida chi fa meno punti.
 
 Ma attenzione: chi ne fa di più, paga.""",
@@ -233,10 +224,10 @@ Ma attenzione: chi ne fa di più, paga.""",
   icon: Icons.transcribe_rounded,
   minPlayers: 3,
   minSuggestedPlayers: 5,
-  buildGameArea: OuijaGameArea.new,
-  playWidget: Ouija.new,
-  outcomeWidget: OuijaOutcome.new,
-  formatPoints: (p) => '$p pt.',
+  onBuildGameArea: OuijaGameArea.new,
+  onBuildTurnPlayScreen: Ouija.new,
+  onBuildOutcomeScreen: OuijaOutcome.new,
+  onFormatPoints: (p) => '$p pt.',
   usesRigidGameArea: true,
   interstitialAnimationPath: "ouija/interstitial/Telepathy",
 );
@@ -248,7 +239,7 @@ final rps = GameFeatures(
 Componi una sequenza di gesti.
 
 Ogni gesto che vince ti fa fare un punto.
-  
+
 Guida chi fa meno punti.
 
 Ma attenzione: chi ne fa di più, paga.""",
@@ -257,10 +248,10 @@ Ma attenzione: chi ne fa di più, paga.""",
   minPlayers: 2,
   minSuggestedPlayers: 2,
   maxSuggestedPlayers: 2,
-  buildGameArea: RockPaperScissorsGameArea.new,
-  playWidget: RockPaperScissors.new,
-  outcomeWidget: RockPaperScissorsOutcome.new,
-  formatPoints: (p) => '$p pt.',
+  onBuildGameArea: RockPaperScissorsGameArea.new,
+  onBuildTurnPlayScreen: RockPaperScissors.new,
+  onBuildOutcomeScreen: RockPaperScissorsOutcome.new,
+  onFormatPoints: (p) => '$p pt.',
   usesRigidGameArea: true,
   interstitialAnimationPath: "rps/interstitial/Morra",
 );
@@ -269,8 +260,8 @@ final straws = GameFeatures(
   name: "Bastoncino corto",
   description: "Scegli un bastoncino.",
   explanation: """
-Puoi cambiare bastoncino finché non ne trovi uno che ti piace. 
-  
+Puoi cambiare bastoncino finché non ne trovi uno che ti piace.
+
 Guidi tu se lo scegli più corto degli altri.
 
 Ma attenzione: chi sceglie il più lungo, paga.""",
@@ -278,10 +269,11 @@ Ma attenzione: chi sceglie il più lungo, paga.""",
   icon: Icons.equalizer_rounded,
   minPlayers: 2,
   minSuggestedPlayers: 4,
-  buildGameArea: StrawsGameArea.new,
-  playWidget: Straws.new,
-  outcomeWidget: StrawsOutcome.new,
-  formatPoints: (p) => '${I18n.centimetersFormat.format(p.toDouble() / 10)} cm',
+  onBuildGameArea: StrawsGameArea.new,
+  onBuildTurnPlayScreen: Straws.new,
+  onBuildOutcomeScreen: StrawsOutcome.new,
+  onFormatPoints: (p) =>
+      '${I18n.centimetersFormat.format(p.toDouble() / 10)} cm',
   usesRigidGameArea: true,
   interstitialAnimationPath: "straws/interstitial/Game_Straws",
 );
@@ -291,8 +283,8 @@ final boules = GameFeatures(
   description: "Avvicinati al boccino.",
   explanation: """
 Due bocce a testa, conta solo il tiro migliore.
-Scegli la posizione di partenza, la direzione e la forza dei lanci. 
-  
+Scegli la posizione di partenza, la direzione e la forza dei lanci.
+
 Guidi tu se alla fine la boccia più lontana dal boccino bianco è la tua.
 
 Ma attenzione: chi avrà la boccia più vicina al boccino, paga.""",
@@ -301,10 +293,11 @@ Ma attenzione: chi avrà la boccia più vicina al boccino, paga.""",
   minPlayers: 2,
   minSuggestedPlayers: 2,
   rounds: 2,
-  buildGameArea: BoulesGameArea.new,
-  playWidget: Boules.new,
-  outcomeWidget: BoulesOutcome.new,
-  formatPoints: (p) => '${I18n.centimetersFormat.format(p.toDouble() / 10)} cm',
+  onBuildGameArea: BoulesGameArea.new,
+  onBuildTurnPlayScreen: Boules.new,
+  onBuildOutcomeScreen: BoulesOutcome.new,
+  onFormatPoints: (p) =>
+      '${I18n.centimetersFormat.format(p.toDouble() / 10)} cm',
   lessIsMore: true,
   usesRigidGameArea: true,
   externalClock: false,

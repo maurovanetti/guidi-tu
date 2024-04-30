@@ -130,6 +130,7 @@ class InfoScreenState extends TrackedState<InfoScreen> {
               Center(
                 child: CustomButton(
                   text: 'Licenze software',
+                  // ignore: prefer-correct-handler-name
                   onPressed: () => showLicensePage(
                     context: context,
                     applicationVersion: appFullVersion,

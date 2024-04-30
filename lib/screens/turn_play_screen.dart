@@ -53,6 +53,7 @@ class TurnPlayState<T extends Move> extends ForwardOnlyState<TurnPlayScreen>
       moveUpdates.newMove,
       duration.inMicroseconds / Duration.microsecondsPerSecond,
     );
+    // ignore: move-variable-closer-to-its-usage
     var hasEveryonePlayed = !nextTurn();
     if (mounted) {
       if (hasEveryonePlayed) {
@@ -82,8 +83,10 @@ class TurnPlayState<T extends Move> extends ForwardOnlyState<TurnPlayScreen>
             IconButton(
               icon: const Icon(Icons.replay_rounded),
               onPressed: () {
-                Navigation.replaceAll(context, widget.gameFeatures.playWidget)
-                    .go();
+                Navigation.replaceAll(
+                  context,
+                  widget.gameFeatures.onBuildTurnPlayScreen,
+                ).go();
               },
             ),
         ],
@@ -100,9 +103,9 @@ class TurnPlayState<T extends Move> extends ForwardOnlyState<TurnPlayScreen>
             child: AspectRatio(
               key: WidgetKeys.gameArea,
               aspectRatio: 1.0, // It's a square
-              child: widget.gameFeatures.buildGameArea(
+              child: widget.gameFeatures.onBuildGameArea(
                 startTime: _startTime,
-                setReady: setReady,
+                onChangeReady: setReady,
                 moveReceiver: this,
               ),
             ),

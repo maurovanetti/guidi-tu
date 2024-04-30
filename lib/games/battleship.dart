@@ -27,7 +27,7 @@ class Battleship extends TurnPlayScreen {
 class BattleshipGameArea extends GameArea<BattleshipMove> {
   BattleshipGameArea({
     super.key,
-    required super.setReady,
+    required super.onChangeReady,
     required MoveReceiver moveReceiver,
     required super.startTime,
   }) : super(
@@ -84,7 +84,7 @@ class BattleshipGameAreaState extends GameAreaState<BattleshipMove>
         break;
     }
     _gameModule = BattleshipModule(
-      onChangeReady: widget.setReady,
+      onChangeReady: widget.onChangeReady,
       shipCount: shipCount,
       bombCount: bombCount,
     );

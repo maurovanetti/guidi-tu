@@ -37,11 +37,14 @@ dart_code_metrics:
   rules:
     - arguments-ordering: false
     - avoid-collection-mutating-methods: false
+    - avoid-duplicate-collection-elements: false
     - avoid-non-null-assertion: false
     - avoid-late-keyword: false
+    - avoid-local-functions: false
       # Semantic labels are important, but this game is unplayable without images and is meant to be
       # for people who can drive a car. People with serious sight impairments should never drive.
     - avoid-missing-image-alt: false
+    - avoid-recursive-calls: false
     - avoid-similar-names: false
     - avoid-stateless-widget-initialized-fields: false # TODO: remove when fixed
     - avoid-unsafe-collection-methods: false
@@ -67,6 +70,9 @@ dart_code_metrics:
     - parameters-ordering: false
     - prefer-addition-subtraction-assignments: false
     - prefer-commenting-analyzer-ignores: false
+    - prefer-correct-handler-name:
+        name-pattern: (^handle[A-Z]+|unawaited)
+        ignore-functions: true
     - prefer-correct-identifier-length: false
     - prefer-early-return: false
     - prefer-extracting-callbacks: false

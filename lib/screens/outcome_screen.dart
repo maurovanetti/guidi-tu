@@ -25,7 +25,7 @@ abstract class OutcomeScreenState<T extends Move>
         longerIsBetter: widget.gameFeatures.longerIsBetter,
         pointsMatter: widget.gameFeatures.pointsMatter,
         timeDisplayed: widget.gameFeatures.externalClock,
-        formatPoints: widget.gameFeatures.formatPoints,
+        onFormatPoints: widget.gameFeatures.onFormatPoints,
       );
       ScoreAware.recordScore(player, score);
       debugPrint("${player.name} scored ${ScoreAware.scores[player] ?? 'N/A'} "
@@ -69,7 +69,7 @@ abstract class OutcomeScreenState<T extends Move>
               onPressed: () {
                 Navigation.replaceLast(
                   context,
-                  widget.gameFeatures.outcomeWidget,
+                  widget.gameFeatures.onBuildOutcomeScreen,
                 ).go();
               },
             ),

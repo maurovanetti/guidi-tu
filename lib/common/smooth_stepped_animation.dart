@@ -31,6 +31,7 @@ class SmoothSteppedAnimationState extends InterstitialAnimationState {
       if (currentStep >= w.loops.length) {
         currentStep = w.loops.length - 1;
       }
+      // ignore: move-variable-closer-to-its-usage
       int loopStart = w.loops[currentStep].start;
       int loopEnd = w.loops[currentStep].end;
       if (frame > loopEnd || _beyondEnd && a.isFirstFrame) {

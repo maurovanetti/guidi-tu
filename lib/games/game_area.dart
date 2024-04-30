@@ -6,14 +6,14 @@ abstract class GameArea<T extends Move> extends StatefulWidget {
   const GameArea({
     super.key,
     required this.gameFeatures,
-    required this.setReady,
+    required this.onChangeReady,
     required this.moveReceiver,
     required this.startTime,
   });
 
   final GameFeatures gameFeatures;
   final DateTime startTime; // Only used in "synchronized" games like Stopwatch
-  final void Function({bool ready}) setReady;
+  final OnChangeReady onChangeReady;
   final MoveReceiver<T> moveReceiver;
 
   @override

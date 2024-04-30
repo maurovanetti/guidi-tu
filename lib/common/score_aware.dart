@@ -1,8 +1,6 @@
 import 'package:flutter/foundation.dart';
 
-import 'i18n.dart';
-import 'persistence.dart';
-import 'player.dart';
+import 'common.dart';
 
 mixin ScoreAware {
   static const awardsExpirationTime = Duration(hours: 20);
@@ -26,6 +24,7 @@ mixin ScoreAware {
         "Awards: ${_cachedAwards.map((a) => a.player.name).join(", ")}",
       );
     }
+    // ignore: match-getter-setter-field-names
     return _cachedAwards;
   }
 
@@ -58,6 +57,7 @@ mixin ScoreAware {
     debugPrint("Stored awards: $payer must pay, $driver must drive");
   }
 
+  // ignore: prefer-getter-over-method
   static DriverAndPayer retrieveCurrentDriverAndPayer() {
     var awardsTimeInMilliseconds = db.getInt(Persistence.awardsTimeKey);
     var awardsTime =
@@ -82,9 +82,9 @@ class Score implements Comparable<Score> {
   double time;
   final bool lessIsMore;
   final bool longerIsBetter;
-  final String Function(int points) formatPoints;
+  final ScoreFormatter onFormatPoints;
 
-  String get formattedPoints => formatPoints(points);
+  String get formattedPoints => onFormatPoints(points);
 
   String get formattedTime => '${I18n.secondsFormat.format(time)}"';
 
@@ -100,7 +100,7 @@ class Score implements Comparable<Score> {
     required this.time,
     this.lessIsMore = false,
     this.longerIsBetter = false,
-    required this.formatPoints,
+    required this.onFormatPoints,
   }) {
     assert(pointsMatter || timeDisplayed);
   }
@@ -135,6 +135,7 @@ class Award {
 
   bool get canDrink => !mustDrive;
 
+  // ignore: match-getter-setter-field-names
   set canDrink(bool value) => mustDrive = !value;
 
   Award(this.player, this.score);
