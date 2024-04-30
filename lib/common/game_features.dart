@@ -288,7 +288,6 @@ Scegli la posizione di partenza, la direzione e la forza dei lanci.
 Guidi tu se alla fine la boccia più lontana dal boccino bianco è la tua.
 
 Ma attenzione: chi avrà la boccia più vicina al boccino, paga.""",
-  secretPlay: false,
   icon: Icons.sports_baseball_rounded,
   minPlayers: 2,
   minSuggestedPlayers: 2,

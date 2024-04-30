@@ -15,13 +15,13 @@ class OuijaModule extends FlameGame {
 
   late final OuijaBoard board;
   final int letterCount;
-  final void Function({bool ready}) setReady;
+  final OnChangeReady onChangeReady;
 
   String get currentWord => board.word;
   int get capacity => gridColumns * gridRows - 1; // -1 for the backspace
 
   OuijaModule({
-    required this.setReady,
+    required this.onChangeReady,
     required this.letterCount,
   }) {
     assert(letterCount > 1, "At least one letter");
@@ -50,7 +50,7 @@ class OuijaModule extends FlameGame {
     );
     await add(board);
     board.wordNotifier.addListener(() {
-      setReady(ready: board.word.length >= letterCount);
+      onChangeReady(ready: board.word.length >= letterCount);
     });
 
     final String alphabet;

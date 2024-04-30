@@ -1,4 +1,3 @@
-import 'dart:async';
 import 'dart:math';
 
 import 'package:flutter/foundation.dart';
@@ -46,8 +45,8 @@ class _PickScreenState extends TrackedState<PickScreen>
           gameStart: InterstitialScreen(gameFeatures: gameFeatures),
           description: gameFeatures.description,
           icon: gameFeatures.icon,
-          onTap: _select,
-          onIconTap: _startGame,
+          onTap: _handleSelectGame,
+          onIconTap: _handleStartGame,
           suggested: _isSuggested(gameFeatures),
           rounds: gameFeatures.rounds,
         );
@@ -55,11 +54,11 @@ class _PickScreenState extends TrackedState<PickScreen>
       }
       suggestedCards.shuffle(Random(DateTime.now().second));
       _gameCards = [...suggestedCards, ...otherCards];
-      _select(_gameCards.first);
+      _handleSelectGame(_gameCards.first);
     });
   }
 
-  void _select(GameCard game) {
+  void _handleSelectGame(GameCard game) {
     debugPrint("Selecting ${game.name}");
     setState(() {
       if (_selectedGameIndex != null) {
@@ -75,7 +74,7 @@ class _PickScreenState extends TrackedState<PickScreen>
       _playerCount >= gameFeatures.minSuggestedPlayers &&
       _playerCount <= gameFeatures.maxSuggestedPlayers;
 
-  void _startGame(GameCard game) {
+  void _handleStartGame(GameCard game) {
     resetTurn(rounds: game.rounds);
     var _ = nextTurn();
     if (mounted) {
@@ -125,8 +124,8 @@ class GameCard extends StatelessWidget {
   final IconData icon;
   final bool suggested;
   final bool selected;
-  final FutureOr<void> Function(GameCard card) onTap;
-  final FutureOr<void> Function(GameCard card) onIconTap;
+  final OnSelectGameCard onTap;
+  final OnSelectGameCard onIconTap;
   final Widget gameStart;
   final int rounds;
 
@@ -159,6 +158,7 @@ class GameCard extends StatelessWidget {
     Widget card = Card(
       key: WidgetKeys.pickGame(name),
       color: background,
+      // ignore: avoid-single-child-column-or-row
       child: Column(
         mainAxisSize: MainAxisSize.min,
         children: [

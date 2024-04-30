@@ -71,7 +71,7 @@ class OuijaGameAreaState extends GameAreaState<OuijaMove>
         break;
     }
     _gameModule = OuijaModule(
-      setReady: widget.onChangeReady,
+      onChangeReady: widget.onChangeReady,
       letterCount: letterCount,
     );
   }

@@ -16,7 +16,7 @@ abstract class OutcomeScreenState<T extends Move>
   late final Widget outcomeWidget;
   bool repeatable = false;
 
-  void _revealPlacement() {
+  void _handleRevealPlacement() {
     for (var player in players) {
       var score = Score(
         points: getPoints(player),
@@ -81,7 +81,7 @@ abstract class OutcomeScreenState<T extends Move>
         key: WidgetKeys.toPlacement,
         tooltip: "Classifica",
         icon: Icons.skip_next_rounded,
-        onPressed: _revealPlacement,
+        onPressed: _handleRevealPlacement,
       ),
     );
   }

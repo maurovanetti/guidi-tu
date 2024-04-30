@@ -109,7 +109,6 @@ class BattleshipModule extends FlameGame {
 
     // Callback used every time a ship is placed.
     // The callback depends on several local variables, that's why it is local.
-    // ignore: avoid-local-functions
     void onPlaceShip() {
       if (board.isFull) {
         // The bombs are placed near the board.

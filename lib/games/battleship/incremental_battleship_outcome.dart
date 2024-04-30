@@ -8,6 +8,14 @@ import '/games/battleship.dart';
 import 'battleship_board.dart';
 import 'battleship_replay.dart';
 
+typedef BattleshipScoreFormatter = String Function(
+  IncrementalBattleshipScore score,
+);
+
+typedef BattleshipScoreBuilder = Widget Function(
+  IncrementalBattleshipScore score,
+);
+
 class IncrementalBattleshipOutcome extends StatefulWidget {
   const IncrementalBattleshipOutcome({
     super.key,
@@ -120,15 +128,16 @@ class IncrementalBattleshipOutcomeState
 
   _buildTableRowFromStrings(
     String title,
-    String Function(IncrementalBattleshipScore score) mapper,
+    BattleshipScoreFormatter mapper,
   ) {
-    mapperWrapper(x) => Text(mapper(x), style: _tableStyle);
+    mapperWrapper(IncrementalBattleshipScore x) =>
+        Text(mapper(x), style: _tableStyle);
     return _buildTableRow(title, mapperWrapper);
   }
 
   _buildTableRow(
     String title,
-    Widget Function(IncrementalBattleshipScore score) mapper,
+    BattleshipScoreBuilder mapper,
   ) {
     var heightFactor = 1.1;
     return TableRow(children: [
@@ -136,9 +145,7 @@ class IncrementalBattleshipOutcomeState
         heightFactor: heightFactor,
         child: Text(title, style: _tableStyle),
       ),
-      ...widget.incrementalScores.map((x) {
-        return Center(child: mapper(x));
-      }),
+      for (var x in widget.incrementalScores) Center(child: mapper(x)),
     ]);
   }
 

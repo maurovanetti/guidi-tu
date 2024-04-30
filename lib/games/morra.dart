@@ -68,23 +68,24 @@ class MorraGameAreaState extends ShotGameAreaState<MorraMove>
   @override
   Widget build(BuildContext context) {
     var primaryColor = Theme.of(context).colorScheme.primary;
-    const hands = <HandImage>[];
-    for (var player in players) {
-      hands.add(HandImage(
-        player == TurnAware.currentPlayer ? _fingers : HandImage.unknown,
-        variant: player == TurnAware.currentPlayer
-            ? HandImageVariant.definedWithIcon
-            : HandImageVariant.undefinedWithIcon,
-        padding: HandImage._handsPadding,
-        player: player,
-      ));
-    }
     return ListView(
       children: [
         GridView.count(
           crossAxisCount: 4,
           shrinkWrap: true,
-          children: hands,
+          children: [
+            for (var player in players)
+              HandImage(
+                player == TurnAware.currentPlayer
+                    ? _fingers
+                    : HandImage.unknown,
+                variant: player == TurnAware.currentPlayer
+                    ? HandImageVariant.definedWithIcon
+                    : HandImageVariant.undefinedWithIcon,
+                padding: HandImage._handsPadding,
+                player: player,
+              ),
+          ],
         ),
         Row(
           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
@@ -319,21 +320,20 @@ class MorraOutcomeState extends OutcomeScreenState<MorraMove> {
   @override
   void initOutcome() {
     var textTheme = Theme.of(context).textTheme;
-    const hands = <HandImage>[];
-    for (var fingers in _fingers.entries) {
-      hands.add(HandImage(
-        fingers.value,
-        variant: HandImageVariant.definedWithIcon,
-        player: fingers.key,
-        padding: HandImage._handsPadding,
-      ));
-    }
     outcomeWidget = ListView(
       children: [
         GridView.count(
           crossAxisCount: 4,
           shrinkWrap: true,
-          children: hands,
+          children: [
+            for (var fingers in _fingers.entries)
+              HandImage(
+                fingers.value,
+                variant: HandImageVariant.definedWithIcon,
+                player: fingers.key,
+                padding: HandImage._handsPadding,
+              ),
+          ],
         ),
         Text.rich(
           textAlign: TextAlign.center,

@@ -74,8 +74,8 @@ class IncrementalRockPaperScissorsOutcomeState
         heightFactor: heightFactor,
         child: PlayerIcon.color(incrementalScore.player),
       ),
-      ...incrementalScore.gestures.map((gesture) {
-        return Center(
+      for (final gesture in incrementalScore.gestures)
+        Center(
           child: ImageFiltered(
             imageFilter: ImageFilter.dilate(radiusX: 0.5, radiusY: 0.5),
             enabled: gesture.isThickByType,
@@ -88,8 +88,7 @@ class IncrementalRockPaperScissorsOutcomeState
               semanticLabel: gesture.type.name,
             ),
           ),
-        );
-      }),
+        ),
       Container(
         alignment: Alignment.center,
         constraints: const BoxConstraints(minWidth: 100.0),

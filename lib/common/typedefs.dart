@@ -2,6 +2,7 @@ import 'dart:async';
 
 import '/games/game_area.dart';
 import '/screens/outcome_screen.dart';
+import '/screens/pick_screen.dart';
 import '/screens/turn_play_screen.dart';
 import 'move.dart';
 import 'player.dart';
@@ -21,3 +22,4 @@ typedef TurnPlayScreenBuilder = TurnPlayScreen Function();
 typedef OutcomeScreenBuilder = OutcomeScreen Function();
 typedef OnPlayerAction = void Function(Player player);
 typedef OnSetInteger = void Function(int value);
+typedef OnSelectGameCard = FutureOr<void> Function(GameCard card);

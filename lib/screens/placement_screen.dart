@@ -53,6 +53,7 @@ class PlacementScreenState extends TrackedState<PlacementScreen>
           shrinkWrap: true,
           padding: StyleGuide.regularPadding,
           children: [
+            // ignore: avoid-slow-collection-methods
             ..._placementGroups.mapIndexed(
               (i, group) => group.isNotEmpty
                   ? Column(

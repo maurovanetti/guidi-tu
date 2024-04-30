@@ -60,6 +60,7 @@ class Persistence {
 
   List<String> getStringList(String key) {
     var list = _box.get(key);
+    // ignore: avoid-inferrable-type-arguments
     return list is List ? list.cast<String>() : [];
   }
 

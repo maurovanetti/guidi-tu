@@ -23,7 +23,7 @@ class OuijaFrame extends CustomSpriteComponent {
           priority: Priorities.toolPriority,
           hasShadow: false,
         ) {
-    _nextStep();
+    _handleNextStep();
   }
 
   @override
@@ -43,7 +43,7 @@ class OuijaFrame extends CustomSpriteComponent {
         position = _nextDestination!;
         double pauseDuration =
             position == board.absoluteCenter ? pauseAtCenter : pauseAtLetter;
-        _timer = Timer(pauseDuration, onTick: _nextStep)..start();
+        _timer = Timer(pauseDuration, onTick: _handleNextStep)..start();
       } else {
         position += dp.normalized() * ds;
       }
@@ -51,7 +51,7 @@ class OuijaFrame extends CustomSpriteComponent {
     super.update(dt);
   }
 
-  void _nextStep() {
+  void _handleNextStep() {
     if (_nextLetter.isEmpty) {
       _goTo(board.absoluteCenter);
       if (board.word.isNotEmpty) {
