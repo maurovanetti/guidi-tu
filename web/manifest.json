@@ -1,11 +1,11 @@
 {
-    "name": "Guidi Tu",
-    "short_name": "Guidi Tu",
+    "name": "guidi_tu",
+    "short_name": "guidi_tu",
     "start_url": ".",
     "display": "standalone",
     "background_color": "#0175C2",
     "theme_color": "#0175C2",
-    "description": "Guidi Tu, un videogioco per selezionare chi guida stasera e chi invece beve.",
+    "description": "A new Flutter project.",
     "orientation": "portrait-primary",
     "prefer_related_applications": false,
     "icons": [
