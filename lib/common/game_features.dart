@@ -283,7 +283,7 @@ final boules = GameFeatures(
   description: "Avvicinati al boccino.",
   explanation: """
 Due bocce a testa, conta solo il tiro migliore.
-Scegli la posizione di partenza, la direzione e la forza dei lanci.
+Scegli la direzione e la forza dei lanci.
 
 Guidi tu se alla fine la boccia più lontana dal boccino bianco è la tua.
 
