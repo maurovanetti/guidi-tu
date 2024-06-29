@@ -4,7 +4,7 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart';
-import 'package:flutter_carousel_widget/flutter_carousel_widget.dart';
+import 'package:flutter_carousel_widget/flutter_carousel_widget.dart' as carousel;
 import 'package:flutter_markdown/flutter_markdown.dart';
 
 import '/common/common.dart';
@@ -18,7 +18,7 @@ class TutorialScreen extends StatefulWidget {
 }
 
 class _TutorialScreenState extends TrackedState<TutorialScreen> {
-  final _carouselController = CarouselController();
+  final _carouselController = carousel.CarouselController();
   late final TutorialCarousel _carousel;
   late bool _lastPage;
 
@@ -29,7 +29,7 @@ class _TutorialScreenState extends TrackedState<TutorialScreen> {
     _lastPage = (TutorialCarousel.length == 1);
   }
 
-  void _handleChangePage(int page, CarouselPageChangedReason _) {
+  void _handleChangePage(int page, carousel.CarouselPageChangedReason _) {
     setState(() {
       _lastPage = (page == TutorialCarousel.length - 1);
     });
@@ -95,12 +95,12 @@ Penalità possibili per chi arriva primo:
   static const indicatorRadius = 10.0;
   static const indicatorSpacing = indicatorRadius * 2.5;
 
-  final CarouselController controller;
+  final carousel.CarouselController controller;
   // ignore: prefer-typedefs-for-callbacks
-  final void Function(int page, CarouselPageChangedReason reason) onPageChanged;
+  final void Function(int page, carousel.CarouselPageChangedReason reason) onPageChanged;
   final pageNotifier = ValueNotifier<int>(0);
 
-  _handleChangeInnerPage(int page, CarouselPageChangedReason reason) {
+  _handleChangeInnerPage(int page, carousel.CarouselPageChangedReason reason) {
     pageNotifier.value = page;
     onPageChanged(page, reason);
   }
@@ -131,7 +131,7 @@ Penalità possibili per chi arriva primo:
           ),
           const Gap(),
           Expanded(
-            child: FlutterCarousel.builder(
+            child: carousel.FlutterCarousel.builder(
               itemCount: length,
               itemBuilder: (
                 BuildContext innerContext,
@@ -167,12 +167,12 @@ Penalità possibili per chi arriva primo:
                   ),
                 );
               },
-              options: CarouselOptions(
+              options: carousel.CarouselOptions(
                 onPageChanged: _handleChangeInnerPage,
                 controller: controller,
                 height: double.infinity,
                 enlargeCenterPage: true,
-                slideIndicator: CircularSlideIndicator(
+                slideIndicator: carousel.CircularSlideIndicator(
                   indicatorRadius: indicatorRadius,
                   itemSpacing: indicatorSpacing,
                   currentIndicatorColor: colorScheme.primaryContainer,

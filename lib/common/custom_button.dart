@@ -58,7 +58,7 @@ class CustomButtonState extends State<CustomButton>
     var colorScheme = theme.buttonTheme.colorScheme!;
     var primaryColor = colorScheme.primary;
     var onPrimaryColor = colorScheme.onPrimary;
-    var disabledColor = colorScheme.background.brighten(0.25);
+    var disabledColor = colorScheme.surface.brighten(0.25);
     Color borderColor;
     if (widget.onPressed == null) {
       borderColor = Colors.transparent;
@@ -69,7 +69,7 @@ class CustomButtonState extends State<CustomButton>
           Color.lerp(primaryColor, onPrimaryColor, _borderColorBlendFactor)!;
     }
     var textStyle = theme.textTheme.headlineMedium?.copyWith(
-      color: widget.onPressed == null ? colorScheme.background : onPrimaryColor,
+      color: widget.onPressed == null ? colorScheme.surface : onPrimaryColor,
       fontWeight: widget.important ? FontWeight.bold : FontWeight.normal,
       fontSize:
           widget.important ? null : theme.textTheme.headlineSmall?.fontSize,
