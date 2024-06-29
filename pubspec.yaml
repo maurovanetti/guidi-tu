@@ -32,7 +32,7 @@ environment:
 dependencies:
   flutter:
     sdk: flutter
-  collection: ^1.17.2 # pinned by flutter_test:sdk
+  collection: ^1.18.0 # pinned by flutter_test:sdk
   intl: ^0.19.0
   hive: ^2.0.4
   path_provider: ^2.1.3
