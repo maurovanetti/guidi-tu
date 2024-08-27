@@ -20,7 +20,7 @@ mixin TurnAware<T extends Move> on TeamAware {
 
   static final _moves = <Player, List<RecordedMove>>{};
 
-  bool nextTurn() {
+  bool tryNextTurn() {
     _currentTurn++;
     if (_currentTurn >= turns.length) {
       _currentPlayer = Player.none;
@@ -54,8 +54,6 @@ mixin TurnAware<T extends Move> on TeamAware {
     _currentTurn = -1;
     _currentPlayer = Player.none;
   }
-
-  bool get worstFirst => true;
 
   void sortCurrentRound() {
     final roundEnd = (_currentRound + 1) * players.length;

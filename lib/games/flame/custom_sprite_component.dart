@@ -145,8 +145,13 @@ class CustomSpriteComponent<T extends FlameGame>
       animation =
           SpriteAnimation.spriteList([sprite], stepTime: double.infinity);
     } else {
-      animation = await AnimationLoader.make(assetPath, fps: fps);
-      referenceSize = animation!.frames.first.sprite.srcSize;
+      try {
+        animation = await AnimationLoader.make(assetPath, fps: fps);
+        referenceSize = animation!.frames.first.sprite.srcSize;
+      } catch (error) {
+        debugPrint('Error loading animation: $error');
+        return;
+      }
     }
     if (keepAspectRatio) {
       double wrongAspectRatio = size.x / size.y;
@@ -245,15 +250,15 @@ class DraggableCustomSpriteComponent<T extends FlameGame>
 
     // Snaps to the closest spot
     if (snapRule != null) {
-      bool regularSnapFound = false; // as opposed to fallback snap
+      bool wasRegularSnapFound = false; // as opposed to fallback snap
       final minSpotDistance = snapRule!.spots
           .map((spot) => spot - position)
           .reduce((a, b) => a.length < b.length ? a : b);
       if (minSpotDistance.length < snapRule!.maxSnapDistance) {
         position += minSpotDistance;
-        regularSnapFound = (onSnap?.call() ?? true);
+        wasRegularSnapFound = (onSnap?.call() ?? true);
       }
-      if (!regularSnapFound) {
+      if (!wasRegularSnapFound) {
         position = snapRule!.fallbackSpot;
         onFallbackSnap?.call();
       }

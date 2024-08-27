@@ -1,3 +1,6 @@
+// ignore_for_file: prefer-boolean-prefixes
+// Using booleans for the outcomes of the gestures is more readable
+
 import 'package:flame/game.dart';
 import 'package:flutter/material.dart';
 

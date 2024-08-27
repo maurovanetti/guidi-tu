@@ -66,6 +66,7 @@ abstract class OutcomeScreenState<T extends Move>
           if (repeatable)
             IconButton(
               icon: const Icon(Icons.replay_rounded),
+              // ignore: prefer-extracting-callbacks
               onPressed: () {
                 Navigation.replaceLast(
                   context,

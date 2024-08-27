@@ -59,5 +59,6 @@ abstract final class WidgetKeys {
 
 // Pick page controls
   static Key pickGame(String game) => Key('pick-game-$game');
+
   static Key toInterstitial(String game) => Key('to-interstitial-$game');
 }

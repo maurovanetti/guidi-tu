@@ -1,11 +1,13 @@
 import 'dart:ui';
 
+import 'package:dart_code_metrics_annotations/annotations.dart';
 import 'package:flame/components.dart';
 import 'package:flame/flame.dart';
 
 abstract final class AnimationLoader {
   static const defaultFps = 10;
 
+  @Throws()
   static Future<SpriteAnimation?> make(
     String path, {
     int? fps,
@@ -22,6 +24,7 @@ abstract final class AnimationLoader {
 
   // This exists as a separate method so that it can be used to precache long
   // animations.
+  @Throws()
   static Future<List<Image>> load(String path) async {
     // Lower case is required because Flame.images.loadAllFromPattern assumes
     // lower-case pattern matching.

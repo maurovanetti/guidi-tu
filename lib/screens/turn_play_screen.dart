@@ -54,7 +54,7 @@ class TurnPlayState<T extends Move> extends ForwardOnlyState<TurnPlayScreen>
       moveUpdates.newMove,
       duration.inMicroseconds / Duration.microsecondsPerSecond,
     );
-    var hasEveryonePlayed = !nextTurn();
+    var hasEveryonePlayed = !tryNextTurn();
     if (mounted) {
       if (hasEveryonePlayed) {
         Navigation.replaceLast(

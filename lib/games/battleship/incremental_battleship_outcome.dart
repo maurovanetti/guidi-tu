@@ -85,10 +85,10 @@ class IncrementalBattleshipOutcomeState
     var shipCellGroups = target.recordedMove.move.placedShipCells();
     for (var cell in hitter.recordedMove.move.placedBombCells()) {
       await Delay.waitFor(1 / 5);
-      bool hit = false;
+      bool isHit = false;
       for (var shipCellGroup in shipCellGroups) {
         if (shipCellGroup.contains(cell)) {
-          hit = true;
+          isHit = true;
           if (!mounted) return;
           setState(() {
             // ignore: avoid-mutating-parameters
@@ -97,7 +97,7 @@ class IncrementalBattleshipOutcomeState
         }
       }
       var bomb = _replay.importBomb(cell, hitter.recordedMove.player);
-      bomb.opacity = hit ? 1.0 : missOpacity;
+      bomb.opacity = isHit ? 1.0 : missOpacity;
     }
   }
 

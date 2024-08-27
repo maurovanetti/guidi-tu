@@ -7,24 +7,24 @@ import 'straws_module.dart';
 
 class StrawsStraw extends NineTileBoxComponent
     with HasGameReference<StrawsModule>, EquatableMixin {
-  bool _picked = false;
+  bool _isPicked = false;
 
   int get length => size.x.toInt();
 
-  bool get picked => _picked;
+  bool get isPicked => _isPicked;
 
   @override
   List<Object?> get props => [position, angle, length];
 
-  set picked(bool value) {
-    if (value && !_picked) {
+  set isPicked(bool value) {
+    if (value && !_isPicked) {
       // --> on
       decorator.addLast(PaintDecorator.tint(Colors.white));
-    } else if (!value && _picked) {
+    } else if (!value && _isPicked) {
       // --> off
       decorator.removeLast();
     }
-    _picked = value;
+    _isPicked = value;
   }
 
   StrawsStraw(

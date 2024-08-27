@@ -73,6 +73,15 @@ class ChallengeSetupScreenState extends State<ChallengeSetupScreen> {
     }
   }
 
+  void _handleSobernessChange(bool? value) {
+    if (value == null) {
+      return;
+    }
+    setState(() {
+      _sober = value;
+    });
+  }
+
   @override
   void dispose() {
     _nameController.dispose();
@@ -106,11 +115,7 @@ class ChallengeSetupScreenState extends State<ChallengeSetupScreen> {
                   leading: Radio<bool>(
                     value: false,
                     groupValue: _sober,
-                    onChanged: (value) {
-                      setState(() {
-                        _sober = value!;
-                      });
-                    },
+                    onChanged: _handleSobernessChange,
                   ),
                 ),
                 ListTile(
@@ -118,11 +123,7 @@ class ChallengeSetupScreenState extends State<ChallengeSetupScreen> {
                   leading: Radio<bool>(
                     value: true,
                     groupValue: _sober,
-                    onChanged: (value) {
-                      setState(() {
-                        _sober = value!;
-                      });
-                    },
+                    onChanged: _handleSobernessChange,
                   ),
                 ),
               ],

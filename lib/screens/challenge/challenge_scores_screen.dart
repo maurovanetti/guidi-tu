@@ -4,8 +4,8 @@ import 'dart:convert';
 
 import 'package:flutter/material.dart';
 
-import '../title_screen.dart';
 import '/common/common.dart';
+import '../title_screen.dart';
 
 class ChallengeScoresScreen extends StatefulWidget {
   const ChallengeScoresScreen({
@@ -25,6 +25,7 @@ class ChallengeScoresScreenState extends State<ChallengeScoresScreen> {
   static const bigStar = '⭐';
 
   final _scores = <bool, List<String>>{};
+
   @override
   void initState() {
     super.initState();

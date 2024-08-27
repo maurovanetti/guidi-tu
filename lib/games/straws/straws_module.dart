@@ -16,6 +16,7 @@ class StrawsModule extends FlameGame {
 
   late final List<StrawsStraw> _straws;
   int _pickedStrawIndex = 0;
+
   StrawsStraw get pickedStraw => _straws[_pickedStrawIndex];
 
   StrawsModule({required this.onChangeReady});
@@ -64,11 +65,11 @@ class StrawsModule extends FlameGame {
 
   void pick([StrawsStraw? straw]) {
     assert(_straws.isNotEmpty, "No straws to pick from");
-    pickedStraw.picked = false;
+    pickedStraw.isPicked = false;
     _pickedStrawIndex = straw == null
         ? (_pickedStrawIndex + 1) % _straws.length
         : _straws.indexOf(straw);
-    pickedStraw.picked = true;
+    pickedStraw.isPicked = true;
   }
 
   StrawsStraw _randomStraw({

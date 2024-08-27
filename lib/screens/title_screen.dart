@@ -33,8 +33,13 @@ class _TitleScreenState extends TrackedState<TitleScreen> with ScoreAware {
     super.initState();
     Delay.atNextFrame(() {
       debugPrint("Tutorial animation preloading...");
-      var _ = AnimationLoader.load(TutorialCarousel.tutorialAnimation);
-      debugPrint("Tutorial animation preloaded");
+      try {
+        // ignore: avoid-ignoring-return-values
+        AnimationLoader.load(TutorialCarousel.tutorialAnimation);
+        debugPrint("Tutorial animation preloaded");
+      } catch (error) {
+        debugPrint("Tutorial animation preloading failed: $error");
+      }
     });
     Delay.after(2, _revealRoles);
   }

@@ -53,7 +53,8 @@ class ChallengeGoal extends BodyComponent with ContactCallbacks {
         break;
 
       default:
-        throw UnimplementedError("Other anchors are not expected here");
+        // Other anchors are not expected here
+        break;
     }
     return world.createBody(bodyDef)..createFixture(fixtureDef);
   }

@@ -53,7 +53,8 @@ class RockPaperScissorsText extends TextComponent {
           ),
           position: position,
           // ignore: no-magic-number
-          anchor: const Anchor(0.5, 0.3), // to compensate baseline offset
+          anchor: const Anchor(0.5, 0.3),
+          // to compensate baseline offset
           priority: Priorities.stickerPriority,
         ) {
     assert(text.length == 1);
@@ -114,7 +115,7 @@ class RockPaperScissorsActiveItem extends RockPaperScissorsItem
   ) : super(cell.center, size: cell.board.cellSize) {
     setGesture(gesture);
     onSelect = () {
-      if (!cell.board.addGesture(gesture)) {
+      if (!cell.board.tryAddGesture(gesture)) {
         debugPrint('No more slots to fill');
       }
     };
@@ -125,7 +126,7 @@ class RockPaperScissorsActiveItem extends RockPaperScissorsItem
   ) : super(cell.center, size: cell.board.cellSize) {
     setText(backspaceEmoji, color: Colors.grey);
     onSelect = () {
-      if (!cell.board.removeGesture()) {
+      if (!cell.board.tryRemoveGesture()) {
         debugPrint('No letters to remove');
       }
     };
@@ -140,7 +141,9 @@ class RockPaperScissorsPassiveItem extends RockPaperScissorsItem {
   static const pending = '_';
 
   RockPaperScissorsGesture? _gesture;
+
   RockPaperScissorsGesture? get gesture => _gesture;
+
   set gesture(RockPaperScissorsGesture? value) {
     _gesture = value;
     if (value == null) {

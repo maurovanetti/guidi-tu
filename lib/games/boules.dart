@@ -1,9 +1,9 @@
 import 'package:flame/game.dart';
 import 'package:flutter/material.dart';
 
-import '../screens/outcome_screen.dart';
 import '/common/common.dart';
 import '/screens/turn_play_screen.dart';
+import '../screens/outcome_screen.dart';
 import 'boules/boules_module.dart';
 import 'boules/final_boules_outcome.dart';
 import 'game_area.dart';
@@ -43,12 +43,14 @@ class BoulesGameAreaState extends GameAreaState<BoulesMove>
   void initState() {
     super.initState();
     _gameModule = BoulesModule(
-      onChangeReady: ({bool ready = true}) {
-        QuickMessage().hideQuickMessage();
-        widget.onChangeReady(ready: ready);
-      },
+      onChangeReady: _handleChangeReady,
       onMessage: handleMessage,
     );
+  }
+
+  void _handleChangeReady({bool ready = true}) {
+    QuickMessage().hideQuickMessage();
+    widget.onChangeReady(ready: true);
   }
 
   /// All moves must be re-recorded because every move can modify the positions
@@ -97,6 +99,7 @@ class BoulesOutcomeState extends OutcomeScreenState<BoulesMove> {
 
 class BoulesMove extends Move {
   final Vector2 bowlPosition;
+
   // ignore: avoid-global-state
   static Vector2 finalJackPosition = Vector2.zero();
 

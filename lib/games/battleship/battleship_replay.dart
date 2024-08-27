@@ -46,8 +46,8 @@ class BattleshipReplay extends BattleshipModule {
     var shipClone = ship.copyOn(board, cell)..draggable = false;
     // ignore: avoid-async-call-in-sync-function
     add(shipClone);
-    final placed = board.placeItem(shipClone);
-    assert(placed, "Ship import failed");
+    final wasPlaced = board.tryPlaceItem(shipClone);
+    assert(wasPlaced, "Ship import failed");
     return shipClone;
   }
 

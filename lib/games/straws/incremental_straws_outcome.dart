@@ -35,15 +35,17 @@ class IncrementalStrawsOutcomeState extends State<IncrementalStrawsOutcome> {
       strawsToDisplay.add(move.move.straw.toJson());
     }
     _replay = StrawsReplay(strawsToDisplay);
-    _timer = Timer.periodic(const Duration(seconds: 1), (timer) {
-      if (!mounted) {
-        timer.cancel();
-        return;
-      }
-      var recordedMove = widget.recordedMoves[_moveIndex];
-      _display(recordedMove);
-      _moveIndex = (_moveIndex + 1) % widget.recordedMoves.length;
-    });
+    _timer = Timer.periodic(const Duration(seconds: 1), _handleReplayStep);
+  }
+
+  _handleReplayStep(Timer timer) {
+    if (!mounted) {
+      timer.cancel();
+      return;
+    }
+    var recordedMove = widget.recordedMoves[_moveIndex];
+    _display(recordedMove);
+    _moveIndex = (_moveIndex + 1) % widget.recordedMoves.length;
   }
 
   void _display(RecordedMove<StrawsMove> recordedMove) {

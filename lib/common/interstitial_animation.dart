@@ -43,17 +43,20 @@ class InterstitialAnimationState extends State<InterstitialAnimation> {
       debugPrint("No interstitial animation in ${widget.prefix}_*.png");
       return;
     }
-    // ignore: move-variable-closer-to-its-usage
-    SpriteAnimation animation = (await AnimationLoader.make(
-      widget.prefix,
-      fps: widget.fps,
-    ))!;
-    debugPrint("Interstitial animation loaded: ${widget.prefix}_*.png");
-    if (mounted) {
-      setState(() {
-        animationTicker = SpriteAnimationTicker(animation);
-      });
-      repeatAnimation();
+    try {
+      SpriteAnimation animation = (await AnimationLoader.make(
+        widget.prefix,
+        fps: widget.fps,
+      ))!;
+      debugPrint("Interstitial animation loaded: ${widget.prefix}_*.png");
+      if (mounted) {
+        setState(() {
+          animationTicker = SpriteAnimationTicker(animation);
+        });
+        repeatAnimation();
+      }
+    } catch (error) {
+      debugPrint("Error loading interstitial animation: $error");
     }
   }
 

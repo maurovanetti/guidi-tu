@@ -1,9 +1,9 @@
 import 'package:flame/components.dart';
 import 'package:flutter/material.dart';
 
-import '../flame/custom_board.dart';
 import '/common/common.dart';
 import '/games/rps.dart';
+import '../flame/custom_board.dart';
 import 'rps_item.dart';
 
 class RockPaperScissorsBoard extends CustomBoard<RockPaperScissorsBoardCell>
@@ -20,8 +20,10 @@ class RockPaperScissorsBoard extends CustomBoard<RockPaperScissorsBoardCell>
     ..strokeWidth = 2.0;
 
   double get slotWidth => size.x / slots;
+
   // ignore: match-getter-setter-field-names
   double get slotHeight => cellHeight;
+
   Vector2 get slotSize => Vector2(slotWidth, slotHeight);
 
   RockPaperScissorsBoard({
@@ -40,7 +42,7 @@ class RockPaperScissorsBoard extends CustomBoard<RockPaperScissorsBoardCell>
     _passiveItems[slot] = item;
   }
 
-  bool addGesture(RockPaperScissorsGesture gesture) {
+  bool tryAddGesture(RockPaperScissorsGesture gesture) {
     if (sequence.length >= slots) {
       return false;
     }
@@ -49,7 +51,7 @@ class RockPaperScissorsBoard extends CustomBoard<RockPaperScissorsBoardCell>
     return true;
   }
 
-  bool removeGesture() {
+  bool tryRemoveGesture() {
     if (sequence.isNotEmpty) {
       var _ = sequence.removeLast();
       _refreshSlots();

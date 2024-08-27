@@ -28,7 +28,7 @@ class BattleshipBoard extends CustomBoard<BattleshipBoardCell>
     required super.gridRows,
   });
 
-  bool placeItem(BattleshipItem item) {
+  bool tryPlaceItem(BattleshipItem item) {
     var cell = cellOn(item.position);
     if (cell.isAvailableFor(item)) {
       for (int i = 0; i < item.cellSpan; i++) {

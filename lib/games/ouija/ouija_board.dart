@@ -12,6 +12,7 @@ class OuijaBoard extends CustomBoard<OuijaBoardCell> {
   final _activeItems = <String, OuijaActiveItem>{};
 
   final _wordNotifier = ValueNotifier('');
+
   ValueListenable<String> get wordNotifier => _wordNotifier;
 
   @override
@@ -21,11 +22,14 @@ class OuijaBoard extends CustomBoard<OuijaBoardCell> {
     ..strokeWidth = 2.0;
 
   double get slotWidth => size.x / slots;
+
   // ignore: match-getter-setter-field-names
   double get slotHeight => cellHeight;
+
   Vector2 get slotSize => Vector2(slotWidth, slotHeight);
 
   String get word => _wordNotifier.value;
+
   set word(String value) => _wordNotifier.value = value;
 
   OuijaBoard({
@@ -50,19 +54,19 @@ class OuijaBoard extends CustomBoard<OuijaBoardCell> {
     _activeItems[letter] = ouijaActiveItem;
   }
 
-  bool addLetter(String letter) {
+  bool tryAddLetter(String letter) {
     if (word.length >= slots) {
       return false;
     }
     word += letter;
-    _activeItems[letter]?.clickable = false;
+    _activeItems[letter]?.isClickable = false;
     _refreshSlots();
     return true;
   }
 
-  bool removeLetter() {
+  bool tryRemoveLetter() {
     if (word.isNotEmpty) {
-      _activeItems[word.characters.last]?.clickable = true;
+      _activeItems[word.characters.last]?.isClickable = true;
       word = word.characters.getRange(0, word.length - 1).toString();
       _refreshSlots();
       return true;

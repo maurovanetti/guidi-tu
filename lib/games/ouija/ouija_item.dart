@@ -2,8 +2,8 @@ import 'package:flame/components.dart';
 import 'package:flame/events.dart';
 import 'package:flutter/material.dart';
 
-import '../flame/priorities.dart';
 import '/common/common.dart';
+import '../flame/priorities.dart';
 import 'ouija_board.dart';
 
 class OuijaItemTextRenderer extends TextPaint {
@@ -35,7 +35,8 @@ class OuijaItem extends TextComponent {
           textRenderer: OuijaItemTextRenderer(height: boxSize.x, color: color),
           position: position,
           // ignore: no-magic-number
-          anchor: const Anchor(0.5, 0.45), // to compensate baseline offset
+          anchor: const Anchor(0.5, 0.45),
+          // to compensate baseline offset
           priority: Priorities.stickerPriority,
         ) {
     assert(text.length == 1);
@@ -66,13 +67,15 @@ class OuijaActiveItem extends OuijaItem with TapCallbacks {
   static const backspace = '⌫';
   late final VoidCallback onSelect;
 
-  bool _clickable = true;
-  bool get clickable => _clickable;
-  set clickable(bool value) {
-    _clickable = value;
+  bool _isClickable = true;
+
+  bool get isClickable => _isClickable;
+
+  set isClickable(bool value) {
+    _isClickable = value;
     textRenderer = OuijaItemTextRenderer(
       height: _boxSize.x,
-      color: color(canBeClicked: clickable),
+      color: color(canBeClicked: isClickable),
     );
   }
 
@@ -81,12 +84,12 @@ class OuijaActiveItem extends OuijaItem with TapCallbacks {
     cell.board.registerLetterItem(this, letter);
     onSelect = letter == backspace
         ? () {
-            if (!cell.board.removeLetter()) {
+            if (!cell.board.tryRemoveLetter()) {
               debugPrint('No letters to remove');
             }
           }
         : () {
-            if (!cell.board.addLetter(letter)) {
+            if (!cell.board.tryAddLetter(letter)) {
               debugPrint('No more slots to fill');
             }
           };
@@ -113,14 +116,14 @@ class OuijaActiveItem extends OuijaItem with TapCallbacks {
     ));
     canvas.drawRRect(
       rect,
-      Paint()..color = backgroundColor(canBeClicked: clickable),
+      Paint()..color = backgroundColor(canBeClicked: isClickable),
     );
     super.render(canvas);
   }
 
   @override
   void onTapDown(TapDownEvent event) {
-    if (clickable) onSelect();
+    if (isClickable) onSelect();
   }
 }
 
@@ -128,6 +131,7 @@ class OuijaPassiveItem extends OuijaItem {
   static const pending = '_';
 
   String get letter => text;
+
   set letter(String value) {
     text = value.isEmpty ? pending : value.characters.first;
   }

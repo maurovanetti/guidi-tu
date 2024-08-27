@@ -45,7 +45,7 @@ abstract class BattleshipItem
       // Twice the required amount, but this makes it easier to snap
       maxSnapDistance: board.cellSize.length,
     );
-    onSnap = () => board.placeItem(this);
+    onSnap = () => board.tryPlaceItem(this);
     onUnsnap = () {
       board.removeItem(this);
       return true;

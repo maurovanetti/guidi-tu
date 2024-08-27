@@ -205,6 +205,12 @@ class PlayerDialogState extends State<PlayerDialog> {
     });
   }
 
+  void _handleGenderChange(Gender? value) {
+    setState(() {
+      _gender = value!;
+    });
+  }
+
   @override
   void dispose() {
     _nameController.dispose();
@@ -235,11 +241,7 @@ class PlayerDialogState extends State<PlayerDialog> {
               leading: Radio<Gender>(
                 value: Gender.female,
                 groupValue: _gender,
-                onChanged: (value) {
-                  setState(() {
-                    _gender = value!;
-                  });
-                },
+                onChanged: _handleGenderChange,
               ),
             ),
             ListTile(
@@ -248,11 +250,7 @@ class PlayerDialogState extends State<PlayerDialog> {
               leading: Radio<Gender>(
                 value: Gender.male,
                 groupValue: _gender,
-                onChanged: (value) {
-                  setState(() {
-                    _gender = value!;
-                  });
-                },
+                onChanged: _handleGenderChange,
               ),
             ),
             ListTile(
@@ -261,11 +259,7 @@ class PlayerDialogState extends State<PlayerDialog> {
               leading: Radio<Gender>(
                 value: Gender.neuter,
                 groupValue: _gender,
-                onChanged: (value) {
-                  setState(() {
-                    _gender = value!;
-                  });
-                },
+                onChanged: _handleGenderChange,
               ),
             ),
           ],

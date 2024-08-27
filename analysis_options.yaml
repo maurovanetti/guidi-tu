@@ -70,13 +70,28 @@ dart_code_metrics:
           - test/**
     - parameters-ordering: false
     - prefer-addition-subtraction-assignments: false
+    - prefer-boolean-prefixes:
+        ignore-fields: true
+        ignore-parameters: true
+        prefixes:
+          - is
+          - was
+          - has
+          - had
+          - can
+          - should
+          - try
     - prefer-commenting-analyzer-ignores: false
     - prefer-correct-handler-name:
         name-pattern: (^handle[A-Z]+|unawaited)
         ignore-functions: true
     - prefer-correct-identifier-length: false
     - prefer-early-return: false
-    - prefer-extracting-callbacks: false
+    - prefer-extracting-callbacks:
+        ignored-named-arguments:
+          - onPressed
+        allowed-line-count: 1
+    - prefer-extracting-function-callbacks: false
     - prefer-match-file-name: false
     - prefer-named-parameters:
         max-number: 3

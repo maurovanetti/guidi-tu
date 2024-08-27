@@ -13,17 +13,17 @@ abstract class ForwardOnlyState<T extends GameSpecificStatefulWidget>
   @override
   initState() {
     super.initState();
-    BackButtonInterceptor.add(_interceptBackButton);
+    BackButtonInterceptor.add(_tryInterceptBackButton);
   }
 
-  FutureOr<bool> _interceptBackButton(bool _, RouteInfo __) {
+  FutureOr<bool> _tryInterceptBackButton(bool _, RouteInfo __) {
     handleQuit();
     return false;
   }
 
   @override
   void dispose() {
-    BackButtonInterceptor.remove(_interceptBackButton);
+    BackButtonInterceptor.remove(_tryInterceptBackButton);
     super.dispose();
   }
 

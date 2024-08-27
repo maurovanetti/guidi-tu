@@ -26,15 +26,20 @@ class ClockState extends State<Clock> {
     int targetMicro = widget.startTime.microsecondsSinceEpoch;
     int currentMicro = DateTime.now().microsecondsSinceEpoch;
     int diffMicro = (targetMicro - currentMicro) % 1000000;
-    _timer = Timer(Duration(microseconds: diffMicro), () {
-      setState(() {
-        _duration = DateTime.now().difference(widget.startTime);
-      });
-      // To check the error in microseconds, uncomment this line:
-      // debugPrint((_duration.inMicroseconds * 1e-6).toString());
-      // It's always below 0.1 seconds in emulator tests
-      _untilNextSecond();
+    _timer = Timer(
+      Duration(microseconds: diffMicro),
+      _handleNewSecond,
+    );
+  }
+
+  void _handleNewSecond() {
+    setState(() {
+      _duration = DateTime.now().difference(widget.startTime);
     });
+    // To check the error in microseconds, uncomment this line:
+    // debugPrint((_duration.inMicroseconds * 1e-6).toString());
+    // It's always below 0.1 seconds in emulator tests
+    _untilNextSecond();
   }
 
   @override
