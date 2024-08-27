@@ -1,6 +1,6 @@
 {
-    "name": "guidi_tu",
-    "short_name": "guidi_tu",
+    "name": "guiditu",
+    "short_name": "guiditu",
     "start_url": ".",
     "display": "standalone",
     "background_color": "#0175C2",
