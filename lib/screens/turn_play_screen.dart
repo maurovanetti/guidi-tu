@@ -7,6 +7,7 @@ import 'turn_instructions_screen.dart';
 
 abstract class TurnPlayScreen extends GameSpecificStatefulWidget {
   bool get isReadyAtStart => true;
+
   Color? get backgroundColor => null;
 
   const TurnPlayScreen({super.key, required super.gameFeatures});
@@ -53,7 +54,6 @@ class TurnPlayState<T extends Move> extends ForwardOnlyState<TurnPlayScreen>
       moveUpdates.newMove,
       duration.inMicroseconds / Duration.microsecondsPerSecond,
     );
-    // ignore: move-variable-closer-to-its-usage
     var hasEveryonePlayed = !nextTurn();
     if (mounted) {
       if (hasEveryonePlayed) {

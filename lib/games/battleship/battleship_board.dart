@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
-import '../flame/custom_board.dart';
 import '/common/common.dart';
+import '../flame/custom_board.dart';
 import 'battleship_item.dart';
 
 class BattleshipBoard extends CustomBoard<BattleshipBoardCell>

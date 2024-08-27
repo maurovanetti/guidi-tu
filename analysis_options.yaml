@@ -45,6 +45,7 @@ dart_code_metrics:
       # for people who can drive a car. People with serious sight impairments should never drive.
     - avoid-missing-image-alt: false
     - avoid-recursive-calls: false
+    - avoid-returning-cascades: false
     - avoid-similar-names: false
     - avoid-stateless-widget-initialized-fields: false # TODO: remove when fixed
     - avoid-unsafe-collection-methods: false
@@ -63,7 +64,7 @@ dart_code_metrics:
           - padding
           - margin
     - no-magic-number:
-        allowed: [ -1, 0, 0.5, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 100, 1000]
+        allowed: [ -1, 0, 0.5, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 100, 1000 ]
     - no-magic-string:
         exclude:
           - test/**
@@ -77,6 +78,9 @@ dart_code_metrics:
     - prefer-early-return: false
     - prefer-extracting-callbacks: false
     - prefer-match-file-name: false
+    - prefer-named-parameters:
+        max-number: 3
+    - prefer-single-declaration-per-file: false
     - prefer-single-widget-per-file: false
     - prefer-type-over-var: false
     - prefer-unwrapping-future-or: false

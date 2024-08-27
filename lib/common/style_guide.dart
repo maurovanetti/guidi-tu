@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-class StyleGuide {
+abstract final class StyleGuide {
   static const borderRadius = BorderRadius.all(Radius.circular(30.0));
   static const importantBorderWidth = 5.0;
   static const regularBorderWidth = 3.0;

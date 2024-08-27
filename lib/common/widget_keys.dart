@@ -2,7 +2,7 @@ import 'package:flutter/foundation.dart';
 
 import 'player.dart';
 
-class WidgetKeys {
+abstract final class WidgetKeys {
 // Outer game widgets
   static const largeShot = Key('large-shot');
   static const smallShot = Key('small-shot');

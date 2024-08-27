@@ -2,7 +2,7 @@ import 'dart:async';
 
 import 'common.dart';
 
-class Delay {
+abstract final class Delay {
   static void after(num seconds, [AsyncCallback? callback]) {
     unawaited(waitFor(seconds, callback));
   }

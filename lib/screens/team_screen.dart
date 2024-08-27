@@ -162,7 +162,6 @@ class _TeamScreenState extends TrackedState<TeamScreen>
           : CustomFloatingActionButton(
               key: WidgetKeys.toPick,
               onPressed:
-                  // ignore: avoid-nested-conditional-expressions
                   hasDuplicates ? _handleDuplicates : _handleProceedToPickPage,
               tooltip: 'Pronti',
               icon: Icons.check_circle_rounded,

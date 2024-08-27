@@ -29,7 +29,7 @@ extension CustomTestUtils on WidgetTester {
   }
 }
 
-class TestUtils {
+abstract final class TestUtils {
   static void debugListRelevantWidgets({bool skipOffstage = false}) {
     debugPrint("=== Widgets with ValueKey<String> ===");
     find

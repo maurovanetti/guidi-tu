@@ -3,7 +3,7 @@ import 'dart:ui';
 import 'package:flame/components.dart';
 import 'package:flame/flame.dart';
 
-class AnimationLoader {
+abstract final class AnimationLoader {
   static const defaultFps = 10;
 
   static Future<SpriteAnimation?> make(

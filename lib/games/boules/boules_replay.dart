@@ -34,6 +34,6 @@ class BoulesReplay extends BoulesModule {
       }
     });
 
-    super.onMount();
+    onMount();
   }
 }
