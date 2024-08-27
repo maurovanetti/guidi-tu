@@ -161,11 +161,10 @@ packages:
   flutter_carousel_widget:
     dependency: "direct main"
     description:
-      path: "."
-      ref: "v2.3.0"
-      resolved-ref: e13b01f28f4aac82e5548a51405f858e1eaa1ace
-      url: "https://github.com/nixrajput/flutter_carousel_widget.git"
-    source: git
+      name: flutter_carousel_widget
+      sha256: "9476c39f1fcff57fb387a1a3c379a01f7c73eca4179ac1b41c07b7181fadec14"
+      url: "https://pub.dev"
+    source: hosted
     version: "2.3.0"
   flutter_launcher_icons:
     dependency: "direct dev"
