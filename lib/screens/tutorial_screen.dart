@@ -4,7 +4,8 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart';
-import 'package:flutter_carousel_widget/flutter_carousel_widget.dart' as carousel;
+import 'package:flutter_carousel_widget/flutter_carousel_widget.dart'
+    as carousel;
 import 'package:flutter_markdown/flutter_markdown.dart';
 
 import '/common/common.dart';
@@ -96,8 +97,10 @@ Penalità possibili per chi arriva primo:
   static const indicatorSpacing = indicatorRadius * 2.5;
 
   final carousel.CarouselController controller;
+
   // ignore: prefer-typedefs-for-callbacks
-  final void Function(int page, carousel.CarouselPageChangedReason reason) onPageChanged;
+  final void Function(int page, carousel.CarouselPageChangedReason reason)
+      onPageChanged;
   final pageNotifier = ValueNotifier<int>(0);
 
   _handleChangeInnerPage(int page, carousel.CarouselPageChangedReason reason) {
@@ -173,10 +176,12 @@ Penalità possibili per chi arriva primo:
                 height: double.infinity,
                 enlargeCenterPage: true,
                 slideIndicator: carousel.CircularSlideIndicator(
-                  indicatorRadius: indicatorRadius,
-                  itemSpacing: indicatorSpacing,
-                  currentIndicatorColor: colorScheme.primaryContainer,
-                  indicatorBackgroundColor: colorScheme.secondaryContainer,
+                  slideIndicatorOptions: carousel.SlideIndicatorOptions(
+                    indicatorRadius: indicatorRadius,
+                    itemSpacing: indicatorSpacing,
+                    currentIndicatorColor: colorScheme.primaryContainer,
+                    indicatorBackgroundColor: colorScheme.secondaryContainer,
+                  ),
                 ),
               ),
             ),

@@ -42,7 +42,7 @@ dependencies:
   flutter_carousel_widget:
     git:
       url: https://github.com/nixrajput/flutter_carousel_widget.git
-      ref: d046d84e4d45ae779c8e8fcc93bd254f5a5ae991
+      ref: v2.3.0
   flutter_markdown: ^0.7.1
   equatable: ^2.0.5
   back_button_interceptor: ^7.0.3
