@@ -1,0 +1,6 @@
+{
+  "appName": "Guidi Tu",
+  "@appName": {
+    "type": "text"
+  }
+}

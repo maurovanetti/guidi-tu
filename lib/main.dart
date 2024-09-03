@@ -16,19 +16,39 @@ void main() async {
   runApp(kIsWeb ? const WebApp() : const App());
 }
 
-class App extends StatelessWidget {
+class App extends StatefulWidget {
   const App({super.key});
 
   static final routeObserver = RouteObserver<ModalRoute>();
+
+  @override
+  AppState createState() => AppState();
+}
+
+class AppState extends State<StatefulWidget> with Localized {
+  late Locale _locale;
+
+  @override
+  initState() {
+    super.initState();
+    String languageCode = db.getString(Persistence.localeKey);
+    if (languageCode.isEmpty) {
+      languageCode = 'it';
+    }
+    _locale = Locale(languageCode);
+  }
 
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'Guidi Tu',
+      title: $.appName,
       theme: StyleGuide.themeData,
+      locale: _locale,
       home: const TitleScreen(),
-      navigatorObservers: [routeObserver],
+      navigatorObservers: [App.routeObserver],
+      localizationsDelegates: localizationsDelegates,
+      supportedLocales: supportedLocales,
     );
   }
 }
