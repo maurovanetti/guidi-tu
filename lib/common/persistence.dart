@@ -9,7 +9,7 @@ late final Persistence db;
 
 class Persistence {
   // l10n
-  static const localeKey = 'locale';
+  static const languageKey = 'language';
 
   // Multiplayer games
   static const playersKey = 'players';

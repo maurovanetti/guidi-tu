@@ -14,6 +14,7 @@ export 'gap.dart';
 export 'gender.dart';
 export 'i18n.dart';
 export 'interstitial_animation.dart';
+export 'l10n/l10n.dart';
 export 'l10n/localized.dart';
 export 'move.dart';
 export 'navigation.dart';

@@ -1,19 +1,33 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations_en.dart';
 
-// ignore: prefer-static-class
-get localizationsDelegates => AppLocalizations.localizationsDelegates;
+import 'l10n.dart';
 
-// ignore: prefer-static-class
-get supportedLocales => AppLocalizations.supportedLocales;
+export 'package:flutter_gen/gen_l10n/app_localizations.dart'
+    show AppLocalizations;
 
-mixin LocalizedWidget on Widget {
-  $(BuildContext context) => LocalizedWidget.get$(context);
+// to build the AppLocalizations file from the arb files -> flutter gen-l10n
 
-  static AppLocalizations get$(BuildContext context) =>
-      AppLocalizations.of(context)!;
-}
+AppLocalizations get$(BuildContext context) =>
+    AppLocalizations.of(context) ?? AppLocalizationsEn();
 
-mixin Localized on State {
-  get $ => AppLocalizations.of(context)!;
+mixin Localized<T extends StatefulWidget> on State<T> {
+  AppLocalizations get $ => get$(context);
+
+  void cycleLanguage() {
+    final locales = L10n().supportedLocales;
+    for (int i = 0; i < locales.length; i++) {
+      if (locales[i] == L10n().currentLocale) {
+        setLanguage(locales[(i + 1) % locales.length].languageCode);
+        break;
+      }
+    }
+  }
+
+  void setLanguage(String language) {
+    L10n().userSelectedLanguage = language;
+    debugPrint("Switching to $language");
+    context.findAncestorStateOfType<State<MaterialApp>>()!.setState(() {});
+  }
 }

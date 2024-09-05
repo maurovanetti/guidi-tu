@@ -5,6 +5,7 @@ import 'package:flutter_web_frame/flutter_web_frame.dart';
 import 'package:intl/date_symbol_data_local.dart';
 
 import 'common/common.dart';
+import 'screens/language_screen.dart';
 import 'screens/title_screen.dart';
 
 void main() async {
@@ -26,29 +27,24 @@ class App extends StatefulWidget {
 }
 
 class AppState extends State<StatefulWidget> with Localized {
-  late Locale _locale;
-
-  @override
-  initState() {
-    super.initState();
-    String languageCode = db.getString(Persistence.localeKey);
-    if (languageCode.isEmpty) {
-      languageCode = 'it';
-    }
-    _locale = Locale(languageCode);
-  }
-
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: $.appName,
       theme: StyleGuide.themeData,
-      locale: _locale,
-      home: const TitleScreen(),
+      home: L10n().isLanguageSelected
+          ? const TitleScreen()
+          : const LanguageScreen(),
       navigatorObservers: [App.routeObserver],
-      localizationsDelegates: localizationsDelegates,
-      supportedLocales: supportedLocales,
+      localizationsDelegates: L10n().localizationsDelegates,
+      supportedLocales: L10n().supportedLocales,
+      builder: (context, child) {
+        return Localizations.override(
+          context: context,
+          locale: L10n().currentLocale,
+          child: child!,
+        );
+      },
     );
   }
 }

@@ -4,6 +4,7 @@ import 'dart:async';
 
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:guidi_tu/screens/language_screen.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 import '/common/common.dart';
@@ -23,7 +24,8 @@ class TitleScreen extends StatefulWidget {
   State<TitleScreen> createState() => _TitleScreenState();
 }
 
-class _TitleScreenState extends TrackedState<TitleScreen> with ScoreAware {
+class _TitleScreenState extends TrackedState<TitleScreen>
+    with ScoreAware, Localized {
   bool _loading = true;
 
   DriverAndPayer? _driverAndPayer;
@@ -62,7 +64,7 @@ class _TitleScreenState extends TrackedState<TitleScreen> with ScoreAware {
 
     return Scaffold(
       appBar: AppBar(
-        title: const Text("Guidi Tu"),
+        title: Text($.appName),
       ),
       body: WithBubbles(
         child: Center(
@@ -75,14 +77,14 @@ class _TitleScreenState extends TrackedState<TitleScreen> with ScoreAware {
                 ),
               ),
               const Gap(),
-              Text('Chi guida stasera?', style: style),
+              Text($.whoDrivesTonight, style: style),
               DriverOrPayerLabel(
                 _driverAndPayer?.driver,
                 labelKey: WidgetKeys.driver,
                 loading: _loading,
               ),
               const Gap(),
-              Text('Chi paga stasera?', style: style),
+              Text($.whoPaysTonight, style: style),
               DriverOrPayerLabel(
                 _driverAndPayer?.payer,
                 labelKey: WidgetKeys.payer,
@@ -91,16 +93,14 @@ class _TitleScreenState extends TrackedState<TitleScreen> with ScoreAware {
               const Gap(),
               CustomButton(
                 key: WidgetKeys.toTutorial,
-                text: _driverAndPayer?.driver == null
-                    ? 'Gioca'
-                    : 'Gioca di nuovo',
+                text: _driverAndPayer?.driver == null ? $.play : $.playAgain,
                 onPressed:
                     Navigation.push(context, () => const TutorialScreen()).go,
               ),
               if (!kIsWeb)
                 CustomButton(
                   key: WidgetKeys.toChallengeSetup,
-                  text: 'Prova di abilità',
+                  text: $.challenge,
                   onPressed: Navigation.push(
                     context,
                     () => const ChallengeSetupScreen(),
@@ -108,14 +108,21 @@ class _TitleScreenState extends TrackedState<TitleScreen> with ScoreAware {
                   important: false,
                 ),
               CustomButton(
-                text: 'Informazioni',
+                text: $.info,
                 onPressed:
                     Navigation.push(context, () => const InfoScreen()).go,
                 important: false,
               ),
+              CustomButton(
+                text: $.changeLanguage,
+                onPressed:
+                    Navigation.replaceAll(context, () => const LanguageScreen())
+                        .go,
+                important: false,
+              ),
               if (kIsWeb)
                 CustomButton(
-                  text: 'Scarica da Google Play',
+                  text: $.downloadFromGooglePlay,
                   onPressed: () => unawaited(
                     launchUrl(Uri.parse(TitleScreen.googlePlayUrl)),
                   ),
@@ -123,7 +130,7 @@ class _TitleScreenState extends TrackedState<TitleScreen> with ScoreAware {
                 ),
               if (kIsWeb)
                 CustomButton(
-                  text: 'Scarica da App Store',
+                  text: $.downloadFromAppStore,
                   onPressed: () =>
                       unawaited(launchUrl(Uri.parse(TitleScreen.appStoreUrl))),
                   important: false,

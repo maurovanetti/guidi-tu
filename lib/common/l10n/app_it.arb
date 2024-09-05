@@ -1,6 +1,13 @@
 {
   "appName": "Guidi Tu",
-  "@appName": {
-    "type": "text"
-  }
+  "whoDrivesTonight": "Chi guida stasera?",
+  "whoPaysTonight": "Chi paga stasera?",
+  "findOutPlaying": "Decidetelo giocando!",
+  "play": "Gioca",
+  "playAgain": "Gioca di nuovo",
+  "info": "Informazioni",
+  "challenge": "Prova di abilità",
+  "changeLanguage": "\uD83C\uDF10 Cambia lingua",
+  "downloadFromGooglePlay": "Scarica da Google Play",
+  "downloadFromAppStore": "Scarica da App Store"
 }

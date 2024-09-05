@@ -33,6 +33,8 @@ abstract final class WidgetKeys {
   static const toChallenge = Key('to-challenge');
   static const toChallengeScores = Key('to-challenge-scores');
 
+  static Key toInterstitial(String game) => Key('to-interstitial-$game');
+
 // Team page controls
   static const addPlayer = Key('add-player');
   static const removePlayer = Key('remove-player');
@@ -50,15 +52,17 @@ abstract final class WidgetKeys {
   static const sensorAlert = Key('sensor');
   static const acknowledgeSensorAlert = Key('acknowledge-sensor');
 
-// Play page controls
+  // Play page controls
   static const gameArea = Key('game-area');
   static const clock = Key('clock');
 
-// Recurring widgets
+  // Recurring widgets
   static Key playerButton(Player player) => Key('player-${player.id}');
 
-// Pick page controls
+  // Pick page controls
   static Key pickGame(String game) => Key('pick-game-$game');
 
-  static Key toInterstitial(String game) => Key('to-interstitial-$game');
+  // Language selection
+  static const selectEnglish = Key('select-en');
+  static const selectItalian = Key('select-it');
 }

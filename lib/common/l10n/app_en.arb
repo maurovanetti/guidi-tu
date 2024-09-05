@@ -1,3 +1,13 @@
 {
-  "appName": "Sober Driver"
+  "appName": "Sober Driver",
+  "whoDrivesTonight": "Who drives tonight?",
+  "whoPaysTonight": "Who pays tonight?",
+  "findOutPlaying": "Find out playing!",
+  "play": "Play",
+  "playAgain": "Play again",
+  "info": "About this app",
+  "challenge": "Dexterity challenge",
+  "changeLanguage": "\uD83C\uDF10 Change language",
+  "downloadFromGooglePlay": "Download from Google Play",
+  "downloadFromAppStore": "Download from App Store"
 }
