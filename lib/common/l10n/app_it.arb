@@ -10,5 +10,11 @@
   "downloadFromGooglePlay": "Scarica da Google Play",
   "downloadFromAppStore": "Scarica da App Store",
   "logoPath": "assets/images/title/logo_it.png",
+  "howDoesItWork": "Come funziona?",
+  "proceed": "Avanti",
+  "tutorial1": "\nChi beve alcolici non guida, **troppo pericoloso**.\n\nOgni gruppo dovrebbe avere un **Guidatore Sobrio**.\n",
+  "tutorial2": "\nGiocando a uno dei minigiochi di questa app, si stabilisce chi beve e chi guida.\n\n**Chi arriva ultimo, guida e non beve**.\n",
+  "tutorial3": "\nMa attenzione: **chi arriva primo, può bere ma deve pagare**.\n\nQuindi, conviene arrivare a metà classifica!",
+  "tutorial4": "\nPenalità possibili per chi arriva primo:\n* Pagare analcolici al Guidatore Sobrio?\n* Offrire snack a tutti?\n* Pagare la benzina?\n",
   "appName": "Guidi Tu"
 }

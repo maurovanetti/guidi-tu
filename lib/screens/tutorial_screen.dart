@@ -46,13 +46,13 @@ class _TutorialScreenState extends TrackedState<TutorialScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Come funziona?'),
+        title: Text($.howDoesItWork),
       ),
       body: _carousel,
       floatingActionButton: CustomFloatingActionButton(
         key: WidgetKeys.toTeam,
         onPressed: _handleMoveOn,
-        tooltip: 'Avanti',
+        tooltip: $.proceed,
         icon: _lastPage ? Icons.check_circle_rounded : Icons.skip_next_rounded,
       ),
     );
@@ -66,40 +66,24 @@ class TutorialCarousel extends StatelessWidget {
   static const fps = 14;
   static const tutorialAnimation = 'tutorial/Tutorial';
 
-  // in Markdown format
-  static const tutorialTexts = [
-    """
-Chi beve alcolici non guida, **troppo pericoloso**.
-
-Ogni gruppo dovrebbe avere un **Guidatore Sobrio**.
-""",
-    """
-Giocando a uno dei minigiochi di questa app, si stabilisce chi beve e chi guida.
-
-**Chi arriva ultimo, guida e non beve.**
-""",
-    """
-Ma attenzione: **chi arriva primo, può bere ma deve pagare**.
-
-Quindi, conviene arrivare a metà classifica!
-""",
-    """
-Penalità possibili per chi arriva primo:
-* Pagare analcolici al Guidatore Sobrio?
-* Offrire snack a tutti?
-* Pagare la benzina?
-""",
-  ];
-
   static const indicatorRadius = 10.0;
   static const indicatorSpacing = indicatorRadius * 2.5;
 
   final carousel.FlutterCarouselController controller;
 
+  final pageNotifier = ValueNotifier<int>(0);
+
   // ignore: prefer-typedefs-for-callbacks
   final void Function(int page, carousel.CarouselPageChangedReason reason)
       onPageChanged;
-  final pageNotifier = ValueNotifier<int>(0);
+
+  // in Markdown format
+  List<String> _tutorialTexts(BuildContext context) => [
+        get$(context).tutorial1,
+        get$(context).tutorial2,
+        get$(context).tutorial3,
+        get$(context).tutorial4,
+      ];
 
   _handleChangeInnerPage(int page, carousel.CarouselPageChangedReason reason) {
     pageNotifier.value = page;
@@ -108,6 +92,7 @@ Penalità possibili per chi arriva primo:
 
   @override
   Widget build(BuildContext context) {
+    final tutorialTexts = _tutorialTexts(context);
     assert(tutorialTexts.length == length);
     final colorScheme = Theme.of(context).colorScheme;
     return Padding(

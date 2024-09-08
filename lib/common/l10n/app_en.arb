@@ -10,5 +10,11 @@
   "downloadFromGooglePlay": "Download from Google Play",
   "downloadFromAppStore": "Download from App Store",
   "logoPath": "assets/images/title/logo_en.png",
+  "howDoesItWork": "How does it work?",
+  "proceed": "Next",
+  "tutorial1": "\nWho drinks alcohol doesn't drive, **too dangerous**.\n\nEvery group should have a **Sober Driver**.\n",
+  "tutorial2": "\nBy playing one of this app's mini games, you decide who drinks and who drives.\n\n**Whoever comes last, drives and doesn't drink**.\n",
+  "tutorial3": "\nBut watch out: **whoever comes first, can drink but must pay**.\n\nTherefore, it's better to get to mid-table!",
+  "tutorial4": "\nPossible penalties for who comes first:\n* Pay for non-alcoholic drinks for the Sober Driver?\n* Offer snacks to everyone?\n* Pay the fuel?\n",
   "appName": "Sober Driver"
 }
