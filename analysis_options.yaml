@@ -102,3 +102,8 @@ dart_code_metrics:
     - prefer-widget-private-members: false
     - unnecessary-trailing-comma:
         max-width: 40
+
+analyzer:
+  exclude:
+    - '.dart_tool/**'
+    - 'build/**'

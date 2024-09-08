@@ -38,9 +38,9 @@ class AppState extends State<StatefulWidget> with Localized {
       navigatorObservers: [App.routeObserver],
       localizationsDelegates: L10n().localizationsDelegates,
       supportedLocales: L10n().supportedLocales,
-      builder: (context, child) {
+      builder: (innerContext, child) {
         return Localizations.override(
-          context: context,
+          context: innerContext,
           locale: L10n().currentLocale,
           child: child!,
         );

@@ -9,6 +9,7 @@ export 'package:flutter_gen/gen_l10n/app_localizations.dart'
 
 // to build the AppLocalizations file from the arb files -> flutter gen-l10n
 
+// ignore: prefer-static-class
 AppLocalizations get$(BuildContext context) =>
     AppLocalizations.of(context) ?? AppLocalizationsEn();
 
@@ -26,8 +27,9 @@ mixin Localized<T extends StatefulWidget> on State<T> {
   }
 
   void setLanguage(String language) {
-    L10n().userSelectedLanguage = language;
     debugPrint("Switching to $language");
-    context.findAncestorStateOfType<State<MaterialApp>>()!.setState(() {});
+    context.findAncestorStateOfType<State<MaterialApp>>()!.setState(() {
+      L10n().userSelectedLanguage = language;
+    });
   }
 }
