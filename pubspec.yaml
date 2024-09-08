@@ -41,7 +41,7 @@ dependencies:
   flame: ^1.19.0
   flame_forge2d: ^0.18.2
   sensors_plus: ^6.0.1
-  flutter_carousel_widget: ^2.3.0
+  flutter_carousel_widget: ^3.0.0
   flutter_markdown: ^0.7.3+1
   equatable: ^2.0.5
   back_button_interceptor: ^7.0.3

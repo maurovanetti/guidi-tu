@@ -1,8 +1,6 @@
 // This version of the app is in Italian only.
 // ignore_for_file: avoid-non-ascii-symbols
 
-import 'dart:async';
-
 import 'package:flutter/material.dart';
 import 'package:flutter_carousel_widget/flutter_carousel_widget.dart'
     as carousel;
@@ -19,7 +17,7 @@ class TutorialScreen extends StatefulWidget {
 }
 
 class _TutorialScreenState extends TrackedState<TutorialScreen> {
-  final _carouselController = carousel.CarouselController();
+  final _carouselController = carousel.FlutterCarouselController();
   late final TutorialCarousel _carousel;
   late bool _lastPage;
 
@@ -40,7 +38,7 @@ class _TutorialScreenState extends TrackedState<TutorialScreen> {
     if (_lastPage) {
       Navigation.replaceLast(context, () => const TeamScreen()).go();
     } else {
-      unawaited(_carouselController.nextPage());
+      _carouselController.nextPage();
     }
   }
 
@@ -96,7 +94,7 @@ Penalità possibili per chi arriva primo:
   static const indicatorRadius = 10.0;
   static const indicatorSpacing = indicatorRadius * 2.5;
 
-  final carousel.CarouselController controller;
+  final carousel.FlutterCarouselController controller;
 
   // ignore: prefer-typedefs-for-callbacks
   final void Function(int page, carousel.CarouselPageChangedReason reason)
@@ -170,7 +168,7 @@ Penalità possibili per chi arriva primo:
                   ),
                 );
               },
-              options: carousel.CarouselOptions(
+              options: carousel.FlutterCarouselOptions(
                 onPageChanged: _handleChangeInnerPage,
                 controller: controller,
                 height: double.infinity,
