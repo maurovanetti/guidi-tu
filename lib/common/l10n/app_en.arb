@@ -1,5 +1,4 @@
 {
-  "appName": "Sober Driver",
   "whoDrivesTonight": "Who drives tonight?",
   "whoPaysTonight": "Who pays tonight?",
   "findOutPlaying": "Find out playing!",
@@ -9,5 +8,7 @@
   "challenge": "Dexterity challenge",
   "changeLanguage": "\uD83C\uDF10 Change language",
   "downloadFromGooglePlay": "Download from Google Play",
-  "downloadFromAppStore": "Download from App Store"
+  "downloadFromAppStore": "Download from App Store",
+  "logoPath": "assets/images/title/logo_en.png",
+  "appName": "Sober Driver"
 }

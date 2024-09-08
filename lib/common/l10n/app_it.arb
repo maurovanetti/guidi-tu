@@ -1,5 +1,4 @@
 {
-  "appName": "Guidi Tu",
   "whoDrivesTonight": "Chi guida stasera?",
   "whoPaysTonight": "Chi paga stasera?",
   "findOutPlaying": "Decidetelo giocando!",
@@ -9,5 +8,7 @@
   "challenge": "Prova di abilità",
   "changeLanguage": "\uD83C\uDF10 Cambia lingua",
   "downloadFromGooglePlay": "Scarica da Google Play",
-  "downloadFromAppStore": "Scarica da App Store"
+  "downloadFromAppStore": "Scarica da App Store",
+  "logoPath": "assets/images/title/logo_it.png",
+  "appName": "Guidi Tu"
 }

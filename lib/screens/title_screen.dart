@@ -72,9 +72,7 @@ class _TitleScreenState extends TrackedState<TitleScreen>
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
               Expanded(
-                child: Image.asset(
-                  'assets/images/title/logo.png',
-                ),
+                child: Image.asset($.logoPath),
               ),
               const Gap(),
               Text($.whoDrivesTonight, style: style),
@@ -167,7 +165,7 @@ class DriverOrPayerLabel extends StatelessWidget {
     }
     // ignore: prefer-returning-conditional-expressions
     return FittedText(
-      name ?? 'Decidetelo giocando!',
+      name ?? get$(context).findOutPlaying,
       key: labelKey,
       style: name == null
           ? style.copyWith(fontStyle: FontStyle.italic)
