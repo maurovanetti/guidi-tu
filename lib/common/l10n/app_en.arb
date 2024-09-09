@@ -58,5 +58,7 @@
   "playSecretlyTitle": "Play in secret",
   "playSecretly": "Don't show your move to those who have not played yet.",
   "iAmDone": "I'm done!",
+  "outcome": "Outcome",
+  "ranking": "Ranking",
   "appName": "Sober Driver"
 }

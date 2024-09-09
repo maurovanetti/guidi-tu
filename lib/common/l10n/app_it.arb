@@ -149,5 +149,7 @@
   "playSecretlyTitle": "Gioca di nascosto",
   "playSecretly": "Non mostrare la tua mossa a chi non ha ancora giocato.",
   "iAmDone": "Ho finito!",
+  "outcome": "Risultati",
+  "ranking": "Classifica",
   "appName": "Guidi Tu"
 }
