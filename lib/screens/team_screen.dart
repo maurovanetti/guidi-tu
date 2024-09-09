@@ -223,7 +223,7 @@ class PlayerDialogState extends State<PlayerDialog> with Localized {
             controller: _nameController,
             themeData: Theme.of(context),
             onChanged: _handleReadyToConfirm,
-            context: context,
+            $: get$(context),
           ),
           if (widget.editGender) ...[
             const Gap(),

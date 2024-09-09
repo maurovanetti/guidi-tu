@@ -9,10 +9,10 @@ class PlayerNameField extends TextField {
     super.controller,
     super.onChanged,
     required ThemeData themeData,
-    required BuildContext context,
+    required AppLocalizations $,
   }) : super(
           decoration: InputDecoration(
-            counterText: get$(context).maxNLetters(maxNameLength),
+            counterText: $.maxNLetters(maxNameLength),
           ),
           inputFormatters: const [UpperCaseTextFormatter(maxNameLength)],
           textCapitalization: TextCapitalization.characters,

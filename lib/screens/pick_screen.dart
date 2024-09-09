@@ -49,6 +49,7 @@ class _PickScreenState extends TrackedState<PickScreen>
           onIconTap: _handleStartGame,
           suggested: _isSuggested(gameFeatures),
           rounds: gameFeatures.rounds,
+          $: $,
         );
         (gameCard.suggested ? suggestedCards : otherCards).add(gameCard);
       }
@@ -86,7 +87,7 @@ class _PickScreenState extends TrackedState<PickScreen>
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Estrazione del minigioco'),
+        title: Text($.pickDiscipline),
       ),
       body: Center(
         child: Scrollbar(
@@ -114,6 +115,7 @@ class GameCard extends StatelessWidget {
     required this.icon,
     required this.onTap,
     required this.onIconTap,
+    required this.$,
     this.suggested = false,
     this.selected = false,
     this.rounds = 1,
@@ -128,6 +130,7 @@ class GameCard extends StatelessWidget {
   final OnSelectGameCard onIconTap;
   final Widget gameStart;
   final int rounds;
+  final AppLocalizations $;
 
   // ignore: avoid-incomplete-copy-with
   GameCard copyWith({required bool selected}) {
@@ -141,6 +144,7 @@ class GameCard extends StatelessWidget {
       suggested: suggested,
       selected: selected,
       rounds: rounds,
+      $: $,
     );
   }
 
@@ -209,7 +213,7 @@ class GameCard extends StatelessWidget {
     if (suggested) {
       card = ClipRect(
         child: Banner(
-          message: "Suggerito",
+          message: $.recommendedDiscipline,
           location: BannerLocation.topStart,
           child: card,
         ),

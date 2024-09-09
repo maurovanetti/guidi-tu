@@ -39,5 +39,7 @@
   "ok": "OK",
   "cancel": "Cancel",
   "confirm": "Confirm",
+  "pickDiscipline": "Pick a discipline",
+  "recommendedDiscipline": "Suggested",
   "appName": "Sober Driver"
 }

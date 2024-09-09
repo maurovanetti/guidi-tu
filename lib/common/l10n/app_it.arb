@@ -46,5 +46,7 @@
   "ok": "OK",
   "cancel": "Annulla",
   "confirm": "Conferma",
+  "pickDiscipline": "Scegli una disciplina",
+  "recommendedDiscipline": "Suggerita",
   "appName": "Guidi Tu"
 }

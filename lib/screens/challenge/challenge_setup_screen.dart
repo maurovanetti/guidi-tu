@@ -108,7 +108,7 @@ class ChallengeSetupScreenState extends State<ChallengeSetupScreen> {
                   controller: _nameController,
                   themeData: Theme.of(context),
                   onChanged: _handleNameChange,
-                  context: context,
+                  $: get$(context),
                 ),
                 const Gap(),
                 ListTile(
