@@ -38,6 +38,11 @@ class Player with Gendered {
 
   Color get color => _palette[id % _palette.length];
 
+  Color get colorNotBlack {
+    var color = this.color;
+    return color == Colors.black ? Colors.white : color;
+  }
+
   Color get foreground => color.brighten(_brightening);
 
   Color get background => color.darken(_darkening);
@@ -138,7 +143,7 @@ class PlayerButton extends StatelessWidget {
             ],
           ),
           IconButton(
-            icon: Icon(Icons.remove_circle, color: player.color),
+            icon: Icon(Icons.remove_circle, color: player.colorNotBlack),
             onPressed: _handleRemove,
           ),
         ],
@@ -205,6 +210,7 @@ class PlayerIcon extends StatelessWidget {
       : variant = PlayerIconVariant.inverted,
         color = null;
 
+  static const _imagesDir = 'assets/images/';
   final PlayerIconVariant variant;
   final Player player;
   final Color? color;
@@ -220,7 +226,7 @@ class PlayerIcon extends StatelessWidget {
     // ignore: prefer-returning-conditional-expressions
     return Image(
       image: AssetImage(
-        'assets/images/${player.iconAssetPath(variant)}',
+        _imagesDir + player.iconAssetPath(variant),
       ),
       width: StyleGuide.iconSize,
       color: color,

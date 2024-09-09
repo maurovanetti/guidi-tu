@@ -38,7 +38,10 @@ class _TeamScreenState extends TrackedState<TeamScreen>
     debugPrint("Editing player $player");
     Player? editedPlayer = await showDialog<Player>(
       context: context,
-      builder: (context) => PlayerDialog(player, editGender: true),
+      builder: (context) => PlayerDialog(
+        player,
+        editGender: L10n().isHeavilyGendered,
+      ),
     );
     if (editedPlayer != null && mounted) {
       debugPrint("Edited player $editedPlayer");

@@ -3,6 +3,10 @@ import 'package:flutter/material.dart';
 import '/common/common.dart';
 
 final class L10n {
+  static const _italian = 'it';
+
+  static const _english = 'en';
+
   late String _userSelectedLanguage;
 
   static final _instance = L10n._internal();
@@ -22,6 +26,17 @@ final class L10n {
         : supportedLocales.first;
   }
 
+  bool get isHeavilyGendered {
+    switch (_userSelectedLanguage) {
+      case _italian:
+        return true;
+
+      case _english:
+      default:
+        return false;
+    }
+  }
+
   set userSelectedLanguage(String value) {
     _userSelectedLanguage = value;
     db.set(Persistence.languageKey, value);
@@ -31,16 +46,5 @@ final class L10n {
 
   L10n._internal() {
     _userSelectedLanguage = db.getString(Persistence.languageKey);
-  }
-
-  dynamic select({dynamic en, dynamic it}) {
-    switch (_userSelectedLanguage) {
-      case 'it':
-        return it;
-
-      case 'en':
-      default:
-        return en;
-    }
   }
 }

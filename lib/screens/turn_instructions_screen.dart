@@ -30,15 +30,13 @@ class TurnInstructionsScreenState
       context: context,
       builder: (context) => AlertDialog(
         key: WidgetKeys.hiddenPlayAlert,
-        title: const Text("Gioca di nascosto"),
-        content: const Text(
-          "Non mostrare la tua mossa a chi non ha ancora giocato.",
-        ),
+        title: Text($.playSecretlyTitle),
+        content: Text($.playSecretly),
         actions: [
           TextButton(
             key: WidgetKeys.acknowledgeHiddenPlay,
             onPressed: _handlePlay,
-            child: const Text("OK"),
+            child: Text($.ok),
           ),
         ],
       ),
