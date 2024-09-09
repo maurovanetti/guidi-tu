@@ -139,25 +139,13 @@ class SteadyHandOutcomeState extends StoriesScreenState<SteadyHandMove> {
     _playerTimes = List.filled(players.length, 0);
     for (var playerIndex in TurnAware.turns) {
       var player = players[playerIndex];
-      String story = '';
-      switch (Random().nextInt(3)) {
-        case 0:
-          story = " ha resistito";
-          break;
-
-        case 1:
-          story = " ha tenuto duro";
-          break;
-
-        case 2:
-          story = player.t(
-            " è rimasto in sella",
-            " è rimasta in sella",
-            " è ancora in sella",
-          );
-          break;
-      }
-      playerStories[playerIndex] = story;
+      final stories = [
+        $.steadyHandStory1,
+        $.steadyHandStory2,
+        $.steadyHandStory3,
+      ];
+      Declension story = stories[Random().nextInt(3)];
+      playerStories[playerIndex] = player.t(story);
       var time = getRecordedMove(player).move.microseconds;
       _playerTimes[playerIndex] = time;
       bestTime = max(time, bestTime);

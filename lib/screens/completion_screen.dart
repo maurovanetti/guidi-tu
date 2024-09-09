@@ -24,11 +24,7 @@ class CompletionScreenState extends ForwardOnlyState<CompletionScreen>
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text(t(
-          "Hanno giocato tutti",
-          "Hanno giocato tutte",
-          "Ogni persona ha giocato",
-        )),
+        title: Text(t($.everyonePlayed)),
       ),
       body: WithBubbles(
         behind: true,

@@ -48,5 +48,103 @@
   "confirm": "Conferma",
   "pickDiscipline": "Scegli una disciplina",
   "recommendedDiscipline": "Suggerita",
+  "itsTurnOf": "Tocca a",
+  "tieBreaker": "A pari merito, conta la velocità.",
+  "iAmReady": "{gender, select, m{Sono pronto} f{Sono pronta} other{Eccomi}}",
+  "@iAmReady": {
+    "placeholders": {
+      "gender": {
+        "type": "String"
+      }
+    }
+  },
+  "everyonePlayed": "{gender, select, m{Hanno giocato tutti} f{Hanno giocato tutte} other{Ogni persona ha giocato}}",
+  "@everyonePlayed": {
+    "placeholders": {
+      "gender": {
+        "type": "String"
+      }
+    }
+  },
+  "generousDesignatedBenefactor": "{gender, select, m{Generoso Benefattore Designato} f{Generosa Benefattrice Designata} other{Responsabile della Generosa Beneficenza}}",
+  "@generousDesignatedBenefactor": {
+    "placeholders": {
+      "gender": {
+        "type": "String"
+      }
+    }
+  },
+  "authorisedDrinker": "{gender, select, m{Bevitore Autorizzato} f{Bevitrice Autorizzata} other{Persona Autorizzata a Bere}}",
+  "@authorisedDrinker": {
+    "placeholders": {
+      "gender": {
+        "type": "String"
+      }
+    }
+  },
+  "soberDesignatedDriver": "{gender, select, m{Guidatore Sobrio Designato} f{Guidatrice Sobria Designata} other{Responsabile della Guida Sobria}}",
+  "@soberDesignatedDriver": {
+    "placeholders": {
+      "gender": {
+        "type": "String"
+      }
+    }
+  },
+  "shot0": "{gender, select, m{ è stato immobile} f{ è stata immobile} other{ non ha mosso un dito}}",
+  "@shot0": {
+    "placeholders": {
+      "gender": {
+        "type": "String"
+      }
+    }
+  },
+  "shotOver100": " ha assaltato il cielo",
+  "@shotOver100": {
+    "placeholders": {
+      "gender": {
+        "type": "String"
+      }
+    }
+  },
+  "shotUnderMinus100": "{gender, select, m{ è disceso negli inferi} f{ è discesa negli inferi} other{ ha raggiunto gli inferi}}",
+  "@shotUnderMinus100": {
+    "placeholders": {
+      "gender": {
+        "type": "String"
+      }
+    }
+  },
+  "shotBetween20AndMinus20": "{gender, select, m{ si è dato da fare} f{ si è data da fare} other{ ci ha messo impegno}}",
+  "@shotBetween20AndMinus20": {
+    "placeholders": {
+      "gender": {
+        "type": "String"
+      }
+    }
+  },
+  "steadyHandStory1": " ha resistito",
+  "@steadyHandStory1": {
+    "placeholders": {
+      "gender": {
+        "type": "String"
+      }
+    }
+  },
+  "steadyHandStory2": " ha tenuto duro",
+  "@steadyHandStory2": {
+    "placeholders": {
+      "gender": {
+        "type": "String"
+      }
+    }
+  },
+  "steadyHandStory3": "è {gender, select, m{rimasto} f{rimasta} other{ancora}} in sella",
+  "@steadyHandStory3": {
+    "placeholders": {
+      "gender": {
+        "type": "String"
+      }
+    }
+  },
   "appName": "Guidi Tu"
 }

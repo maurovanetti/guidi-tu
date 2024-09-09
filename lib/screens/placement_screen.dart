@@ -22,7 +22,7 @@ class PlacementScreenState extends TrackedState<PlacementScreen>
   initState() {
     super.initState();
     var placementCards =
-        ScoreAware.awards.map((award) => PlacementCard(award)).toList();
+        ScoreAware.awards.map((award) => PlacementCard(award, $: $)).toList();
 
     var payer = placementCards.removeAt(0);
     var driver = placementCards.removeLast();
@@ -101,9 +101,10 @@ class PlacementScreenState extends TrackedState<PlacementScreen>
 }
 
 class PlacementCard extends StatelessWidget {
-  const PlacementCard(this.award, {super.key});
+  const PlacementCard(this.award, {super.key, required this.$});
 
   final Award award;
+  final AppLocalizations $;
 
   @override
   Widget build(BuildContext context) {
@@ -112,24 +113,12 @@ class PlacementCard extends StatelessWidget {
     String role = "";
     var grammar = award.player.t;
     if (award.mustPay) {
-      role = grammar(
-        "Generoso Benefattore Designato",
-        "Generosa Benefattrice Designata",
-        "Persona Incaricata della Beneficenza",
-      );
+      role = grammar($.generousDesignatedBenefactor);
       style = style.copyWith(fontWeight: FontWeight.bold);
     } else if (award.canDrink) {
-      role = grammar(
-        "Bevitore Autorizzato",
-        "Bevitrice Autorizzata",
-        "Persona Autorizzata a Bere",
-      );
+      role = grammar($.authorisedDrinker);
     } else {
-      role = grammar(
-        "Guidatore Sobrio Designato",
-        "Guidatrice Sobria Designata",
-        "Persona Designata alla Guida",
-      );
+      role = grammar($.soberDesignatedDriver);
       style = style.copyWith(fontWeight: FontWeight.bold);
     }
     debugPrint("Role: $role");

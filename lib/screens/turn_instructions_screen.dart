@@ -73,7 +73,7 @@ class TurnInstructionsScreenState
             // needed.
             topChildren: [
               Text(
-                "Tocca a",
+                $.itsTurnOf,
                 textAlign: TextAlign.center,
                 style: textTheme.headlineLarge,
               ),
@@ -97,9 +97,9 @@ class TurnInstructionsScreenState
                   ),
                   if (widget.gameFeatures.externalClock) ...[
                     const Gap(),
-                    const Text(
+                    Text(
+                      $.tieBreaker,
                       textAlign: TextAlign.center,
-                      'A pari merito, conta la velocità.',
                     ),
                   ],
                 ],
@@ -110,7 +110,7 @@ class TurnInstructionsScreenState
               if (player is! NoPlayer)
                 CustomButton(
                   key: WidgetKeys.toTurnPlay,
-                  text: player.t("Sono pronto", "Sono pronta", "Eccomi"),
+                  text: player.t($.iAmReady),
                   onPressed: widget.gameFeatures.secretPlay
                       ? _handleSecretPlay
                       : _handlePlay,

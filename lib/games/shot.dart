@@ -314,26 +314,14 @@ class ShotOutcomeState extends StoriesScreenState<ShotMove> {
       var move = rm.move;
       var time = rm.time;
       if (move.n == 0) {
-        story = player.t(
-          " è stato immobile",
-          " è stata immobile",
-          " non ha mosso un dito",
-        );
+        story = player.t($.shot0);
       } else if (move.n > 100) {
-        story = " ha assaltato il cielo";
+        story = player.t($.shotOver100);
       } else if (move.n < -100) {
-        story = player.t(
-          " è disceso negli inferi",
-          " è discesa negli inferi",
-          " ha raggiunto gli inferi",
-        );
+        story = player.t($.shotUnderMinus100);
         // ignore: prefer-moving-to-variable
       } else if (move.n.abs() > 20) {
-        story = player.t(
-          " si è dato da fare",
-          " si è data da fare",
-          " ci ha messo impegno",
-        );
+        story = player.t($.shotBetween20AndMinus20);
       }
       if (time < 1) {
         story += " per un istante";
