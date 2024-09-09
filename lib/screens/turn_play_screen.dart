@@ -114,7 +114,7 @@ class TurnPlayState<T extends Move> extends ForwardOnlyState<TurnPlayScreen>
             const Gap(),
             CustomButton(
               key: WidgetKeys.toNextTurn,
-              text: "Ho finito!",
+              text: $.iAmDone,
               onPressed: ready
                   ? () {
                       completeTurn(elapsed);

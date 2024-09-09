@@ -291,7 +291,6 @@ class ShotOutcomeState extends StoriesScreenState<ShotMove> {
   late final Map<Player, String> _playerNicknames;
 
   @override
-  // ignore: avoid-long-functions
   void tellPlayerStories() {
     _playerNicknames = <Player, String>{};
     for (var playerIndex in TurnAware.turns) {
@@ -321,7 +320,7 @@ class ShotOutcomeState extends StoriesScreenState<ShotMove> {
         story = player.t($.shotUnderMinus100);
         // ignore: prefer-moving-to-variable
       } else if (move.n.abs() > 20) {
-        story = player.t($.shotBetween20AndMinus20);
+        story = player.t($.shotOverAbsolute20);
       }
       if (time < 1) {
         story += " per un istante";

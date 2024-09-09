@@ -114,8 +114,8 @@
       }
     }
   },
-  "shotBetween20AndMinus20": "{gender, select, m{ si è dato da fare} f{ si è data da fare} other{ ci ha messo impegno}}",
-  "@shotBetween20AndMinus20": {
+  "shotOverAbsolute20": "{gender, select, m{ si è dato da fare} f{ si è data da fare} other{ ci ha messo impegno}}",
+  "@shotOverAbsolute20": {
     "placeholders": {
       "gender": {
         "type": "String"
@@ -148,5 +148,6 @@
   },
   "playSecretlyTitle": "Gioca di nascosto",
   "playSecretly": "Non mostrare la tua mossa a chi non ha ancora giocato.",
+  "iAmDone": "Ho finito!",
   "appName": "Guidi Tu"
 }
