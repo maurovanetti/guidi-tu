@@ -85,7 +85,7 @@ class IncrementalOuijaOutcomeState extends State<IncrementalOuijaOutcome> {
     const heightFactor = 1.1;
     final pointsForGuesses = incrementalScore.pointsForGuesses;
     final pointsForMisses = incrementalScore.pointsForMisses;
-    const rowCells = <Widget>[];
+    var rowCells = <Widget>[];
     rowCells.add(Center(
       heightFactor: heightFactor,
       child: PlayerIcon.color(incrementalScore.player),
@@ -110,7 +110,7 @@ class IncrementalOuijaOutcomeState extends State<IncrementalOuijaOutcome> {
         style: _tableStyle,
       ),
     ));
-    return const TableRow(children: rowCells);
+    return TableRow(children: rowCells);
   }
 
   @override
