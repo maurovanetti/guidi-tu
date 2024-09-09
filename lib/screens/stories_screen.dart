@@ -51,7 +51,7 @@ abstract class StoriesScreenState<T extends Move>
           [
             const Gap(),
             Text(
-              "E ora vediamo la classifica!",
+              $.seeRanking,
               textAlign: TextAlign.center,
               style: textTheme.headlineMedium
                   ?.copyWith(fontStyle: FontStyle.italic),
