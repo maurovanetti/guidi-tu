@@ -63,5 +63,9 @@
   "finalResults": "The final results are ready…",
   "seeFinalResults": "Let's check them!",
   "seeRanking": "Let's see the rankings now!",
+  "canDrinkButMustPay": "Can drink, must pay",
+  "canDrink": "Can drink",
+  "drivesAndDoesntDrink": "Drives, doesn't drink",
+  "end": "End",
   "appName": "Sober Driver"
 }

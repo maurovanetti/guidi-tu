@@ -154,5 +154,17 @@
   "finalResults": "I risultati finali sono pronti…",
   "seeFinalResults": "Vediamoli!",
   "seeRanking": "E ora vediamo la classifica!",
+  "canDrinkButMustPay": "Può bere ma paga",
+  "canDrink": "{count, plural, =1{Può} other{Possono}} bere",
+  "@canDrink": {
+    "description": "A plural message",
+    "placeholders": {
+      "count": {
+        "type": "num"
+      }
+    }
+  },
+  "drivesAndDoesntDrink": "Guida e non beve",
+  "end": "Fine",
   "appName": "Guidi Tu"
 }

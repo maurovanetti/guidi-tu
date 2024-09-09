@@ -42,9 +42,7 @@ class PlacementScreenState extends TrackedState<PlacementScreen>
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: const Text("Classifica"),
-      ),
+      appBar: AppBar(title: Text($.ranking)),
       body: Scrollbar(
         thumbVisibility: true,
         child: ListView(
@@ -61,12 +59,9 @@ class PlacementScreenState extends TrackedState<PlacementScreen>
                         StyleGuide.getLabelOnImportantBorder(
                           context,
                           [
-                            "Può bere ma paga",
-                            if (group.length > 1)
-                              "Possono bere"
-                            else
-                              "Può bere",
-                            "Guida e non beve",
+                            $.canDrinkButMustPay,
+                            $.canDrink(group.length),
+                            $.drivesAndDoesntDrink,
                           ].elementAt(i),
                         ),
                         Container(
@@ -90,7 +85,7 @@ class PlacementScreenState extends TrackedState<PlacementScreen>
       ),
       floatingActionButton: CustomFloatingActionButton(
         key: WidgetKeys.toHome,
-        tooltip: "Fine",
+        tooltip: $.end,
         icon: Icons.stop_rounded,
         // On press, a short async computation is required
         onPressed: _handleEndGame,
