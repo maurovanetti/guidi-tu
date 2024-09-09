@@ -18,12 +18,18 @@ class PlacementScreenState extends TrackedState<PlacementScreen>
     with Gendered, TeamAware, ScoreAware {
   late final List<List<Widget>> _placementGroups;
 
+  void _handleEndGame() {
+    ScoreAware.storeAwards();
+    if (mounted) {
+      Navigation.replaceAll(context, () => const TitleScreen()).go();
+    }
+  }
+
   @override
-  initState() {
-    super.initState();
+  didChangeDependencies() {
+    super.didChangeDependencies();
     var placementCards =
         ScoreAware.awards.map((award) => PlacementCard(award, $: $)).toList();
-
     var payer = placementCards.removeAt(0);
     var driver = placementCards.removeLast();
     _placementGroups = [
@@ -31,13 +37,6 @@ class PlacementScreenState extends TrackedState<PlacementScreen>
       placementCards,
       [driver],
     ];
-  }
-
-  void _handleEndGame() {
-    ScoreAware.storeAwards();
-    if (mounted) {
-      Navigation.replaceAll(context, () => const TitleScreen()).go();
-    }
   }
 
   @override
