@@ -166,5 +166,9 @@
   },
   "drivesAndDoesntDrink": "Guida e non beve",
   "end": "Fine",
+  "disclaimer": "Applicazione realizzata nell'ambito del progetto Safe & Drive, finanziato dal Consiglio dei Ministri — Dipartimento per le Politiche Antidroga, che ha come capofila la Città di Cuneo. L'obiettivo principale è la riduzione degli incidenti stradali correlati al consumo di alcol e sostanze.",
+  "mainCredits": "Prodotta da **cooperativa sociale Alice**\n\nPensata e sviluppata da **Mauro Vanetti**\n\nDisegni e animazioni di **Jacopo Rovida**\n\nLocalizzazione curata da **Mauro Vanetti**\n\nCollaudo e preziosi consigli di **Jacopo Rovida**",
+  "freeSoftwareCredits": "Questa app è software libero. Tutto il codice sorgente e gli asset si trovano su GitHub (maurovanetti/guidi-tu) e possono essere riutilizzati purché non a scopo di lucro secondo la licenza indicata nel repository.\nSe volete aggiungere un minigioco, segnalare dei bug, proporre migliorie, aggiungere traduzioni, intervenite pure direttamente lì.",
+  "sponsorsPath": "assets/images/info/sponsors.png",
   "appName": "Guidi Tu"
 }
