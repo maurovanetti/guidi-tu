@@ -128,22 +128,25 @@ class PlacementCard extends StatelessWidget {
       child: ListTile(
         contentPadding: StyleGuide.stripePadding,
         title: PlayerPlacement(award),
-        subtitle: Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: [
-            // This Text can be quite long and putting it into an Expanded
-            // widget wraps it if necessary
-            Expanded(child: Text(role, style: style)),
-            // No need to expand the icons Row as long as it is so small
-            Row(
-              children: [
-                if (award.canDrink) const Icon(Icons.local_bar_rounded),
-                if (!award.canDrink) const Icon(Icons.no_drinks_rounded),
-                if (award.mustPay) const Icon(Icons.attach_money_rounded),
-                if (award.mustDrive) const Icon(Icons.drive_eta_rounded),
-              ],
-            ),
-          ],
+        subtitle: Padding(
+          padding: StyleGuide.sidePadding,
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              // This Text can be quite long and putting it into an Expanded
+              // widget wraps it if necessary
+              Expanded(child: Text(role, style: style)),
+              // No need to expand the icons Row as long as it is so small
+              Row(
+                children: [
+                  if (award.canDrink) const Icon(Icons.local_bar_rounded),
+                  if (!award.canDrink) const Icon(Icons.no_drinks_rounded),
+                  if (award.mustPay) const Icon(Icons.attach_money_rounded),
+                  if (award.mustDrive) const Icon(Icons.drive_eta_rounded),
+                ],
+              ),
+            ],
+          ),
         ),
       ),
     );
