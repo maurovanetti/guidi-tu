@@ -24,8 +24,7 @@ class TitleScreen extends StatefulWidget {
   State<TitleScreen> createState() => _TitleScreenState();
 }
 
-class _TitleScreenState extends TrackedState<TitleScreen>
-    with ScoreAware, Localized {
+class _TitleScreenState extends TrackedState<TitleScreen> with ScoreAware {
   bool _loading = true;
 
   DriverAndPayer? _driverAndPayer;

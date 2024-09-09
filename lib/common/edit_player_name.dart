@@ -1,18 +1,25 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
+import 'common.dart';
+
 class PlayerNameField extends TextField {
   PlayerNameField({
     super.key,
     super.controller,
     super.onChanged,
     required ThemeData themeData,
+    required BuildContext context,
   }) : super(
-          decoration: const InputDecoration(counterText: 'max 5 lettere'),
-          inputFormatters: const [UpperCaseTextFormatter(5)],
+          decoration: InputDecoration(
+            counterText: get$(context).maxNLetters(maxNameLength),
+          ),
+          inputFormatters: const [UpperCaseTextFormatter(maxNameLength)],
           textCapitalization: TextCapitalization.characters,
           style: themeData.textTheme.headlineLarge,
         );
+
+  static const maxNameLength = 5;
 }
 
 class UpperCaseTextFormatter extends TextInputFormatter {

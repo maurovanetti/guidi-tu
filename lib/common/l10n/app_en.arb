@@ -16,5 +16,28 @@
   "tutorial2": "\nBy playing one of this app's mini games, you decide who drinks and who drives.\n\n**Whoever comes last, drives and doesn't drink**.\n",
   "tutorial3": "\nBut watch out: **whoever comes first, can drink but must pay**.\n\nTherefore, it's better to get to mid-table!",
   "tutorial4": "\nPossible penalties for who comes first:\n* Pay for non-alcoholic drinks for the Sober Driver?\n* Offer snacks to everyone?\n* Pay the fuel?\n",
+  "defaultPlayerNames": "ALEX,DANNY,JO,LOU,MO,ROBBY,SAM",
+  "duplicatesWarningTitle": "Duplicate names.",
+  "duplicatesWarning": "Some names are the same, please change them.",
+  "addPlayersWarning": "Please add at least 2 players.",
+  "registerPlayers": "Register players",
+  "clickNamesToEdit": "Click on the names to edit them:",
+  "addPlayer": "Add player",
+  "playersReady": "Ready",
+  "editPlayer": "Edit player",
+  "setFemininePlayer": "Use «she»",
+  "setMasculinePlayer": "Use «he»",
+  "setNeutralPlayer": "Use «they»",
+  "maxNLetters": "Max {n} letters",
+  "@maxNLetters": {
+    "placeholders": {
+      "n": {
+        "type": "int"
+      }
+    }
+  },
+  "ok": "OK",
+  "cancel": "Cancel",
+  "confirm": "Confirm",
   "appName": "Sober Driver"
 }
