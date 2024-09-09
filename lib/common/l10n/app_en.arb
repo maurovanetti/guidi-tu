@@ -60,5 +60,7 @@
   "iAmDone": "I'm done!",
   "outcome": "Outcome",
   "ranking": "Ranking",
+  "finalResults": "The final results are ready…",
+  "seeFinalResults": "Let's check them!",
   "appName": "Sober Driver"
 }

@@ -35,14 +35,14 @@ class CompletionScreenState extends ForwardOnlyState<CompletionScreen>
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
               Text(
-                "I risultati finali sono pronti…",
+                $.finalResults,
                 textAlign: TextAlign.center,
                 style: Theme.of(context).textTheme.headlineLarge,
               ),
               const Gap(),
               CustomButton(
                 key: WidgetKeys.toOutcome,
-                text: "Vediamoli!",
+                text: $.seeFinalResults,
                 onPressed: _handleDisplayOutcome,
               ),
             ],
