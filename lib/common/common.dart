@@ -12,7 +12,6 @@ export 'game_aware.dart';
 export 'game_features.dart';
 export 'gap.dart';
 export 'gender.dart';
-export 'i18n.dart';
 export 'interstitial_animation.dart';
 export 'l10n/l10n.dart';
 export 'l10n/localized.dart';

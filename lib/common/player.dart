@@ -310,10 +310,11 @@ class PlayerPerformance extends PlayerButton {
 }
 
 class PlayerPlacement extends PlayerPerformance {
-  PlayerPlacement(Award award, {super.key})
+  final AppLocalizations $;
+  PlayerPlacement(Award award, {super.key, required this.$})
       : super(
           award.player,
-          primaryText: award.score.displayedFirst,
-          secondaryText: award.score.displayedSecond,
+          primaryText: award.score.displayedFirst($),
+          secondaryText: award.score.displayedSecond($),
         );
 }

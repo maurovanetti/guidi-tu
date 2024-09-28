@@ -5,7 +5,6 @@
 // ignore_for_file: avoid-non-ascii-symbols
 
 import 'package:flutter/material.dart';
-import 'package:guidi_tu/common/common.dart';
 
 import '/games/battleship.dart';
 import '/games/boules.dart';
@@ -17,6 +16,7 @@ import '/games/small_shot.dart';
 import '/games/steady_hand.dart';
 import '/games/stopwatch.dart';
 import '/games/straws.dart';
+import 'common.dart';
 
 class GameFeatures {
   final String name;
@@ -72,7 +72,7 @@ class GameFeatures {
     assert(this.maxSuggestedPlayers <= Config.maxPlayers);
   }
 
-  static String dontFormat(int i) => i.toString();
+  static String dontFormat(int i, _) => i.toString();
 }
 
 final largeShot = GameFeatures(
@@ -129,7 +129,7 @@ Ma attenzione: chi si avvicina di più, paga.""",
   onBuildOutcomeScreen: MorraOutcome.new,
   lessIsMore: true,
   // Means the difference between the sum and the guess
-  onFormatPoints: (p) => '±$p',
+  onFormatPoints: (p, $) => $.plusMinusN(p),
   interstitialAnimationPath: "morra/interstitial/Morra",
   interstitialAnimationRepeat: 2,
 );
@@ -153,7 +153,7 @@ Ma attenzione: chi fa più punti, paga.""",
   onBuildGameArea: BattleshipGameArea.new,
   onBuildTurnPlayScreen: Battleship.new,
   onBuildOutcomeScreen: BattleshipOutcome.new,
-  onFormatPoints: (p) => '$p pt.',
+  onFormatPoints: (p, $) => $.nPoints(p),
   usesRigidGameArea: true,
   interstitialAnimationPath: "battleship/interstitial/Game_Naval",
 );
@@ -176,8 +176,8 @@ Ma attenzione: chi la ferma più avanti di tutti, paga.""",
   onBuildGameArea: StopwatchGameArea.new,
   onBuildTurnPlayScreen: Stopwatch.new,
   onBuildOutcomeScreen: StopwatchOutcome.new,
-  onFormatPoints: (p) =>
-      '${I18n.preciserSecondsFormat.format(p / Duration.microsecondsPerSecond)}"',
+  onFormatPoints: (p, $) =>
+      $.xSecondsPrecise(p / Duration.microsecondsPerSecond),
   externalClock: false,
   interstitialAnimationPath: "stopwatch/interstitial/Game_Lancette",
 );
@@ -200,8 +200,7 @@ Ma attenzione: chi resiste più a lungo, paga.""",
   onBuildGameArea: SteadyHandGameArea.new,
   onBuildTurnPlayScreen: SteadyHand.new,
   onBuildOutcomeScreen: SteadyHandOutcome.new,
-  onFormatPoints: (p) =>
-      '${I18n.secondsFormat.format(p / Duration.microsecondsPerSecond)}"',
+  onFormatPoints: (p, $) => $.xSeconds(p / Duration.microsecondsPerSecond),
   externalClock: false,
   usesRigidGameArea: true,
   mobileOnly: true,
@@ -227,7 +226,7 @@ Ma attenzione: chi ne fa di più, paga.""",
   onBuildGameArea: OuijaGameArea.new,
   onBuildTurnPlayScreen: Ouija.new,
   onBuildOutcomeScreen: OuijaOutcome.new,
-  onFormatPoints: (p) => '$p pt.',
+  onFormatPoints: (p, $) => $.nPoints(p),
   usesRigidGameArea: true,
   interstitialAnimationPath: "ouija/interstitial/Telepathy",
 );
@@ -251,7 +250,7 @@ Ma attenzione: chi ne fa di più, paga.""",
   onBuildGameArea: RockPaperScissorsGameArea.new,
   onBuildTurnPlayScreen: RockPaperScissors.new,
   onBuildOutcomeScreen: RockPaperScissorsOutcome.new,
-  onFormatPoints: (p) => '$p pt.',
+  onFormatPoints: (p, $) => $.nPoints(p),
   usesRigidGameArea: true,
   interstitialAnimationPath: "rps/interstitial/Morra",
 );
@@ -272,8 +271,7 @@ Ma attenzione: chi sceglie il più lungo, paga.""",
   onBuildGameArea: StrawsGameArea.new,
   onBuildTurnPlayScreen: Straws.new,
   onBuildOutcomeScreen: StrawsOutcome.new,
-  onFormatPoints: (p) =>
-      '${I18n.centimetersFormat.format(p.toDouble() / 10)} cm',
+  onFormatPoints: (p, $) => $.xCentimeters(p.toDouble() / 10),
   usesRigidGameArea: true,
   interstitialAnimationPath: "straws/interstitial/Game_Straws",
 );
@@ -295,8 +293,7 @@ Ma attenzione: chi avrà la boccia più vicina al boccino, paga.""",
   onBuildGameArea: BoulesGameArea.new,
   onBuildTurnPlayScreen: Boules.new,
   onBuildOutcomeScreen: BoulesOutcome.new,
-  onFormatPoints: (p) =>
-      '${I18n.centimetersFormat.format(p.toDouble() / 10)} cm',
+  onFormatPoints: (p, $) => $.xCentimeters(p.toDouble() / 10),
   lessIsMore: true,
   usesRigidGameArea: true,
   externalClock: false,

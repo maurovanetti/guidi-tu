@@ -12,7 +12,7 @@ void main() async {
   // ignore: avoid-ignoring-return-values
   WidgetsFlutterBinding.ensureInitialized();
   await SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp]);
-  await initializeDateFormatting(I18n.locale);
+  await initializeDateFormatting('it_IT');
   await Persistence.init();
   runApp(kIsWeb ? const WebApp() : const App());
 }

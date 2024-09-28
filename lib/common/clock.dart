@@ -2,6 +2,8 @@ import 'dart:async';
 
 import 'package:flutter/material.dart';
 
+import 'common.dart';
+
 class Clock extends StatefulWidget {
   const Clock(this.startTime, {super.key});
 
@@ -11,7 +13,7 @@ class Clock extends StatefulWidget {
   createState() => ClockState();
 }
 
-class ClockState extends State<Clock> {
+class ClockState extends State<Clock> with Localized {
   late Timer _timer;
 
   Duration _duration = Duration.zero;
@@ -52,7 +54,7 @@ class ClockState extends State<Clock> {
   Widget build(BuildContext context) {
     return Center(
       child: Text(
-        'Tempo trascorso: ${_duration.inSeconds}"',
+        $.elapsedTime(_duration.inSeconds),
         style: Theme.of(context).textTheme.headlineSmall?.copyWith(
           fontFeatures: const [FontFeature.tabularFigures()],
         ),

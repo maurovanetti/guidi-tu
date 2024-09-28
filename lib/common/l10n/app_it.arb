@@ -170,5 +170,87 @@
   "mainCredits": "Prodotta da **cooperativa sociale Alice**\n\nPensata e sviluppata da **Mauro Vanetti**\n\nDisegni e animazioni di **Jacopo Rovida**\n\nLocalizzazione curata da **Mauro Vanetti**\n\nCollaudo e preziosi consigli di **Jacopo Rovida**",
   "freeSoftwareCredits": "Questa app è software libero. Tutto il codice sorgente e gli asset si trovano su GitHub (maurovanetti/guidi-tu) e possono essere riutilizzati purché non a scopo di lucro secondo la licenza indicata nel repository.\nSe volete aggiungere un minigioco, segnalare dei bug, proporre migliorie, aggiungere traduzioni, intervenite pure direttamente lì.",
   "sponsorsPath": "assets/images/info/sponsors.png",
+  "elapsedTime": "Tempo trascorso: {seconds}\"",
+  "@elapsedTime": {
+    "placeholders": {
+      "seconds": {
+        "type": "int"
+      }
+    }
+  },
+  "xCentimeters": "{x}",
+  "@xCentimeters": {
+    "placeholders": {
+      "x": {
+        "type": "double",
+        "format": "decimalPatternDigits",
+        "optionalParameters": {
+          "decimalDigits": 1
+        }
+      }
+    }
+  },
+  "xSeconds": "{x}\"",
+  "@xSeconds": {
+    "placeholders": {
+      "x": {
+        "type": "double",
+        "format": "decimalPatternDigits",
+        "optionalParameters": {
+          "decimalDigits": 2
+        }
+      }
+    }
+  },
+  "xForSeconds": "{x}",
+  "@xForSeconds": {
+    "placeholders": {
+      "x": {
+        "type": "double",
+        "format": "decimalPatternDigits",
+        "optionalParameters": {
+          "decimalDigits": 2
+        }
+      }
+    }
+  },
+  "xSecondsPrecise": "{x}\"",
+  "@xSecondsPrecise": {
+    "placeholders": {
+      "x": {
+        "type": "double",
+        "format": "decimalPatternDigits",
+        "optionalParameters": {
+          "decimalDigits": 4
+        }
+      }
+    }
+  },
+  "dateTime": "{dt}",
+  "@dateTime": {
+    "placeholders": {
+      "dt": {
+        "type": "DateTime",
+        "format": "dd/MM HH:mm",
+        "isCustomDateFormat": "true"
+      }
+    }
+  },
+  "plusMinusN": "'±{n}",
+  "@plusMinusN": {
+    "placeholders": {
+      "n": {
+        "type": "int"
+      }
+    }
+  },
+  "nPoints": "{n} pt.",
+  "@nPoints": {
+    "placeholders": {
+      "n": {
+        "type": "int"
+      }
+    }
+  },
   "appName": "Guidi Tu"
 }

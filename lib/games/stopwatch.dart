@@ -140,7 +140,7 @@ class StopwatchGameAreaState extends GameAreaState<StopwatchMove>
                       bottom: bottomOffsetForLabel,
                     ),
                     child: Text(
-                      I18n.secondsFormat.format(_secondsIntoPeriod!),
+                      $.xForSeconds(_secondsIntoPeriod!),
                       style:
                           Theme.of(context).textTheme.headlineLarge?.copyWith(
                         color: _trafficLightColor(_secondsIntoPeriod!),

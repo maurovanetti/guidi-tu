@@ -29,13 +29,6 @@
   "setMasculinePlayer": "Use «he»",
   "setNeutralPlayer": "Use «they»",
   "maxNLetters": "Max {n} letters",
-  "@maxNLetters": {
-    "placeholders": {
-      "n": {
-        "type": "int"
-      }
-    }
-  },
   "ok": "OK",
   "cancel": "Cancel",
   "confirm": "Confirm",
@@ -71,5 +64,13 @@
   "mainCredits": "Produced by **cooperativa sociale Alice**\n\nConceived and developed by **Mauro Vanetti**\n\nArt and animation by **Jacopo Rovida**\n\nLocalised by **Mauro Vanetti**\n\nTesting and precious advice by **Jacopo Rovida**",
   "freeSoftwareCredits": "This app is free software. The entire source code and all assets are on GitHub (maurovanetti/guidi-tu) and can be reused for non-commercial purposes according to the license indicated in the repository.\nIf you wish to add a mini game, file a bug, suggest improvements, add localisations, please directly contribute there.",
   "sponsorsPath": "assets/images/info/sponsors.png",
+  "elapsedTime": "Elapsed: {seconds} s",
+  "xSeconds": "{x} s",
+  "xForSeconds": "{x}",
+  "xCentimeters": "{x} cm",
+  "xSecondsPrecise": "{x} s",
+  "dateTime": "{dt}",
+  "plusMinusN": "'±{n}",
+  "nPoints": "{n} pt.",
   "appName": "Sober Driver"
 }

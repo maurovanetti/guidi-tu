@@ -122,7 +122,7 @@ class PlacementCard extends StatelessWidget {
       ),
       child: ListTile(
         contentPadding: StyleGuide.stripePadding,
-        title: PlayerPlacement(award),
+        title: PlayerPlacement(award, $: $),
         subtitle: Padding(
           padding: StyleGuide.sidePadding,
           child: Row(

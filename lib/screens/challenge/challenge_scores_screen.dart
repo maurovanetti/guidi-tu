@@ -21,7 +21,8 @@ class ChallengeScoresScreen extends StatefulWidget {
   ChallengeScoresScreenState createState() => ChallengeScoresScreenState();
 }
 
-class ChallengeScoresScreenState extends State<ChallengeScoresScreen> {
+class ChallengeScoresScreenState extends State<ChallengeScoresScreen>
+    with Localized {
   static const bigStar = '⭐';
 
   final _scores = <bool, List<String>>{};
@@ -81,6 +82,7 @@ class ChallengeScoresScreenState extends State<ChallengeScoresScreen> {
         name: name,
         score: score,
         timestamp: timestamp,
+        $: $,
       );
     }
     debugPrint("Invalid score data: $scoreData");
@@ -186,12 +188,14 @@ class ChallengeScore extends StatelessWidget {
     required this.name,
     required this.score,
     required this.timestamp,
+    required this.$,
   });
 
   final bool sober;
   final String name;
   final int score;
   final DateTime timestamp;
+  final AppLocalizations $;
 
   @override
   Widget build(BuildContext context) {
@@ -242,7 +246,7 @@ class ChallengeScore extends StatelessWidget {
               ],
             ),
             FittedText(
-              I18n.dateTimeFormat.format(timestamp),
+              $.dateTime(timestamp),
               style: textTheme.bodyMedium,
             ),
           ],

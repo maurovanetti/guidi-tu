@@ -170,7 +170,7 @@ class SteadyHandOutcomeState extends StoriesScreenState<SteadyHandMove> {
   PlayerPerformance getPlayerPerformance(Player player) => PlayerPerformance(
         player,
         primaryText:
-            steadyHand.onFormatPoints(getBestMove(player).microseconds),
+            steadyHand.onFormatPoints(getBestMove(player).microseconds, $),
       );
 }
 
