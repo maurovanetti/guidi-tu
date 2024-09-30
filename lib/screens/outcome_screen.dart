@@ -50,7 +50,7 @@ abstract class OutcomeScreenState<T extends Move>
       color: Colors.blue,
       child: Center(
         child: Text(
-          widget.gameFeatures.name,
+          widget.gameFeatures.name($),
           // ignore: no-magic-number
           style: const TextStyle(fontSize: 48),
         ),
@@ -66,7 +66,6 @@ abstract class OutcomeScreenState<T extends Move>
           if (repeatable)
             IconButton(
               icon: const Icon(Icons.replay_rounded),
-              // ignore: prefer-extracting-callbacks
               onPressed: () {
                 Navigation.replaceLast(
                   context,
@@ -75,12 +74,12 @@ abstract class OutcomeScreenState<T extends Move>
               },
             ),
         ],
-        title: const Text("Risultati"),
+        title: Text($.outcome),
       ),
       body: outcomeWidget,
       floatingActionButton: CustomFloatingActionButton(
         key: WidgetKeys.toPlacement,
-        tooltip: "Classifica",
+        tooltip: $.ranking,
         icon: Icons.skip_next_rounded,
         onPressed: _handleRevealPlacement,
       ),

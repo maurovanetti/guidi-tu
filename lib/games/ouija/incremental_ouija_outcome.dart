@@ -16,7 +16,8 @@ class IncrementalOuijaOutcome extends StatefulWidget {
   IncrementalOuijaOutcomeState createState() => IncrementalOuijaOutcomeState();
 }
 
-class IncrementalOuijaOutcomeState extends State<IncrementalOuijaOutcome> {
+class IncrementalOuijaOutcomeState extends State<IncrementalOuijaOutcome>
+    with Localized {
   @override
   initState() {
     super.initState();
@@ -85,7 +86,7 @@ class IncrementalOuijaOutcomeState extends State<IncrementalOuijaOutcome> {
     const heightFactor = 1.1;
     final pointsForGuesses = incrementalScore.pointsForGuesses;
     final pointsForMisses = incrementalScore.pointsForMisses;
-    const rowCells = <Widget>[];
+    var rowCells = <Widget>[];
     rowCells.add(Center(
       heightFactor: heightFactor,
       child: PlayerIcon.color(incrementalScore.player),
@@ -110,7 +111,7 @@ class IncrementalOuijaOutcomeState extends State<IncrementalOuijaOutcome> {
         style: _tableStyle,
       ),
     ));
-    return const TableRow(children: rowCells);
+    return TableRow(children: rowCells);
   }
 
   @override
@@ -127,13 +128,12 @@ class IncrementalOuijaOutcomeState extends State<IncrementalOuijaOutcome> {
             children: widget.incrementalScores.map(_buildTableRow).toList(),
           ),
         ),
-        bottomChildren: const [
+        bottomChildren: [
           Center(
-            child: Text("${Ouija.guessValue} pt. per lettera indovinata."),
+            child: Text($.nPointsPerFullGuess(Ouija.guessValue)),
           ),
           Center(
-            child:
-                Text("${Ouija.missValue} pt. per lettera nel posto sbagliato."),
+            child: Text($.nPointsPerPartialGuess(Ouija.missValue)),
           ),
         ],
       ),

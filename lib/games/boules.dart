@@ -40,11 +40,15 @@ class BoulesGameAreaState extends GameAreaState<BoulesMove>
   late final BoulesModule _gameModule;
 
   @override
-  void initState() {
-    super.initState();
+  void didChangeDependencies() {
+    super.didChangeDependencies();
     _gameModule = BoulesModule(
       onChangeReady: _handleChangeReady,
       onMessage: handleMessage,
+      $: (
+        dragAndRelease: $.dragAndRelease,
+        waitForBoules: $.waitForBoules,
+      ),
     );
   }
 

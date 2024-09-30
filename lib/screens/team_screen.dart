@@ -11,10 +11,6 @@ import 'pick_screen.dart';
 class TeamScreen extends StatefulWidget {
   const TeamScreen({super.key});
 
-  static const duplicatesWarning =
-      "Alcuni nomi sono uguali tra loro, per favore cambiali.";
-  static const addPlayersWarning = "Aggiungi almeno 2 partecipanti per favore.";
-
   @override
   State<TeamScreen> createState() => _TeamScreenState();
 }
@@ -23,20 +19,11 @@ class _TeamScreenState extends TrackedState<TeamScreen>
     with Gendered, TeamAware {
   bool _loading = true;
 
-  late final _defaultPlayers = [
-    "ROBI",
-    "ALE",
-    "GIO",
-    "FEDE",
-    "SIMO",
-    "VALE",
-    "MICHI",
-  ];
+  late final List<String> _defaultPlayers;
 
   @override
   initState() {
     super.initState();
-    _defaultPlayers.shuffle();
     Delay.atNextFrame(() {
       retrieveTeam();
       if (mounted) {
@@ -51,7 +38,10 @@ class _TeamScreenState extends TrackedState<TeamScreen>
     debugPrint("Editing player $player");
     Player? editedPlayer = await showDialog<Player>(
       context: context,
-      builder: (context) => PlayerDialog(player, editGender: true),
+      builder: (context) => PlayerDialog(
+        player,
+        editGender: L10n().isHeavilyGendered,
+      ),
     );
     if (editedPlayer != null && mounted) {
       debugPrint("Edited player $editedPlayer");
@@ -91,12 +81,12 @@ class _TeamScreenState extends TrackedState<TeamScreen>
     unawaited(showDialog(
       context: context,
       builder: (context) => AlertDialog(
-        title: const Text("Nomi duplicati"),
-        content: const Text(TeamScreen.duplicatesWarning),
+        title: Text($.duplicatesWarningTitle),
+        content: Text($.duplicatesWarning),
         actions: [
           TextButton(
             onPressed: () => Navigator.of(context).pop(),
-            child: const Text("OK"),
+            child: Text($.ok),
           ),
         ],
       ),
@@ -117,11 +107,17 @@ class _TeamScreenState extends TrackedState<TeamScreen>
   }
 
   @override
+  didChangeDependencies() {
+    super.didChangeDependencies();
+    _defaultPlayers = $.defaultPlayerNames.split(',')..shuffle();
+  }
+
+  @override
   Widget build(BuildContext context) {
     bool hasDuplicates = _hasDuplicates();
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Registra i partecipanti'),
+        title: Text($.registerPlayers),
       ),
       body: WithBubbles(
         child: ListView(
@@ -129,8 +125,7 @@ class _TeamScreenState extends TrackedState<TeamScreen>
           children: _loading
               ? []
               : [
-                  if (players.isNotEmpty)
-                    const Text("Clicca sui nomi per modificarli:"),
+                  if (players.isNotEmpty) Text($.clickNamesToEdit),
                   ...players.map((player) => PlayerButton(
                         player,
                         onEdit: _handleEditPlayer,
@@ -141,17 +136,17 @@ class _TeamScreenState extends TrackedState<TeamScreen>
                       key: WidgetKeys.addPlayer,
                       important: false,
                       onPressed: _handleAddNewPlayer,
-                      text: "Aggiungi partecipante",
+                      text: $.addPlayer,
                     ),
                   if (hasDuplicates)
-                    const Text(
-                      TeamScreen.duplicatesWarning,
-                      style: TextStyle(color: Colors.red),
+                    Text(
+                      $.duplicatesWarning,
+                      style: const TextStyle(color: Colors.red),
                     ),
                   if (players.length < 2)
-                    const Text(
-                      TeamScreen.addPlayersWarning,
-                      style: TextStyle(color: Colors.red),
+                    Text(
+                      $.addPlayersWarning,
+                      style: const TextStyle(color: Colors.red),
                     ),
                   const SafeMarginForCustomFloatingActionButton(),
                 ],
@@ -163,7 +158,7 @@ class _TeamScreenState extends TrackedState<TeamScreen>
               key: WidgetKeys.toPick,
               onPressed:
                   hasDuplicates ? _handleDuplicates : _handleProceedToPickPage,
-              tooltip: 'Pronti',
+              tooltip: $.playersReady(gender.letter),
               icon: Icons.check_circle_rounded,
             ),
     );
@@ -180,7 +175,7 @@ class PlayerDialog extends StatefulWidget {
   State<PlayerDialog> createState() => PlayerDialogState();
 }
 
-class PlayerDialogState extends State<PlayerDialog> {
+class PlayerDialogState extends State<PlayerDialog> with Localized {
   late Player _player;
   late final TextEditingController _nameController;
   late Gender _gender;
@@ -222,7 +217,7 @@ class PlayerDialogState extends State<PlayerDialog> {
     return AlertDialog(
       scrollable: true,
       key: WidgetKeys.editPlayer,
-      title: const Text('Modifica partecipante'),
+      title: Text($.editPlayer),
       content: Column(
         children: [
           // Edit name
@@ -231,13 +226,14 @@ class PlayerDialogState extends State<PlayerDialog> {
             controller: _nameController,
             themeData: Theme.of(context),
             onChanged: _handleReadyToConfirm,
+            $: get$(context),
           ),
           if (widget.editGender) ...[
             const Gap(),
             // Edit gender
             ListTile(
               key: WidgetKeys.setFemininePlayer,
-              title: const Text('Chiamala «giocatrice»'),
+              title: Text($.setFemininePlayer),
               leading: Radio<Gender>(
                 value: Gender.female,
                 groupValue: _gender,
@@ -246,7 +242,7 @@ class PlayerDialogState extends State<PlayerDialog> {
             ),
             ListTile(
               key: WidgetKeys.setMasculinePlayer,
-              title: const Text('Chiamalo «giocatore»'),
+              title: Text($.setMasculinePlayer),
               leading: Radio<Gender>(
                 value: Gender.male,
                 groupValue: _gender,
@@ -255,7 +251,7 @@ class PlayerDialogState extends State<PlayerDialog> {
             ),
             ListTile(
               key: WidgetKeys.setNeutralPlayer,
-              title: const Text('Nessuna preferenza'),
+              title: Text($.setNeutralPlayer),
               leading: Radio<Gender>(
                 value: Gender.neuter,
                 groupValue: _gender,
@@ -269,7 +265,7 @@ class PlayerDialogState extends State<PlayerDialog> {
         TextButton(
           key: WidgetKeys.cancelEditPlayer,
           onPressed: () => Navigator.of(context).pop(),
-          child: const Text('Annulla'),
+          child: Text($.cancel),
         ),
         OutlinedButton(
           key: WidgetKeys.submitEditPlayer,
@@ -277,7 +273,7 @@ class PlayerDialogState extends State<PlayerDialog> {
               ? () => Navigator.of(context)
                   .pop(Player(_player.id, _nameController.text, _gender))
               : null,
-          child: const Text('Conferma'),
+          child: Text($.confirm),
         ),
       ],
     );

@@ -24,19 +24,10 @@ class Gender {
   }
 }
 
+typedef Declension = String Function(String genderLetter);
+
 mixin Gendered {
   Gender gender = Gender.neuter;
 
-  String t(String masculine, String feminine, String neutral) {
-    switch (gender) {
-      case Gender.male:
-        return masculine;
-
-      case Gender.female:
-        return feminine;
-
-      default:
-        return neutral;
-    }
-  }
+  String t(Declension declension) => declension(gender.letter);
 }

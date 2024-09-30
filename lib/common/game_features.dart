@@ -5,7 +5,6 @@
 // ignore_for_file: avoid-non-ascii-symbols
 
 import 'package:flutter/material.dart';
-import 'package:guidi_tu/common/common.dart';
 
 import '/games/battleship.dart';
 import '/games/boules.dart';
@@ -17,11 +16,13 @@ import '/games/small_shot.dart';
 import '/games/steady_hand.dart';
 import '/games/stopwatch.dart';
 import '/games/straws.dart';
+import 'common.dart';
 
 class GameFeatures {
-  final String name;
-  final String description;
-  final String explanation;
+  final String id;
+  final LocalizedString name;
+  final LocalizedString description;
+  final LocalizedString explanation;
   final bool secretPlay;
   final IconData icon;
   final int minPlayers;
@@ -43,6 +44,7 @@ class GameFeatures {
   final bool mobileOnly;
 
   GameFeatures({
+    required this.id,
     required this.name,
     required this.description,
     required this.explanation,
@@ -72,16 +74,14 @@ class GameFeatures {
     assert(this.maxSuggestedPlayers <= Config.maxPlayers);
   }
 
-  static String dontFormat(int i) => i.toString();
+  static String dontFormat(int i, _) => i.toString();
 }
 
 final largeShot = GameFeatures(
-  name: "Spararla grossa",
-  description: "Scegli un numero alto.",
-  explanation: """
-Guidi tu se scegli il numero più basso.
-
-Ma attenzione: chi sceglie il numero più alto, paga.""",
+  id: "ls",
+  name: ($) => $.longShotName,
+  description: ($) => $.longShotDescription,
+  explanation: ($) => $.longShotExplanation,
   secretPlay: true,
   icon: Icons.arrow_circle_up_rounded,
   minPlayers: 3,
@@ -93,12 +93,10 @@ Ma attenzione: chi sceglie il numero più alto, paga.""",
 );
 
 final smallShot = GameFeatures(
-  name: "Cadere in basso",
-  description: "Scegli un numero basso.",
-  explanation: """
-Guidi tu se scegli il numero più alto.
-
-Ma attenzione: chi sceglie il numero più basso, paga.""",
+  id: "ss",
+  name: ($) => $.shortShotName,
+  description: ($) => $.shortShotDescription,
+  explanation: ($) => $.shortShotExplanation,
   secretPlay: true,
   icon: Icons.arrow_circle_down_rounded,
   minPlayers: 3,
@@ -111,14 +109,10 @@ Ma attenzione: chi sceglie il numero più basso, paga.""",
 );
 
 final morra = GameFeatures(
-  name: "Morra",
-  description: "Indovina la somma.",
-  explanation: """
-Scegli quante dita mostrare e prevedi quante dita saranno mostrate da tutti.
-
-Guidi tu se ti avvicini di meno alla somma giusta.
-
-Ma attenzione: chi si avvicina di più, paga.""",
+  id: "m5",
+  name: ($) => $.morraName,
+  description: ($) => $.morraDescription,
+  explanation: ($) => $.morraExplanation,
   secretPlay: true,
   icon: Icons.back_hand_rounded,
   minPlayers: 2,
@@ -129,22 +123,19 @@ Ma attenzione: chi si avvicina di più, paga.""",
   onBuildOutcomeScreen: MorraOutcome.new,
   lessIsMore: true,
   // Means the difference between the sum and the guess
-  onFormatPoints: (p) => '±$p',
+  onFormatPoints: (p, $) => $.plusMinusN(p),
   interstitialAnimationPath: "morra/interstitial/Morra",
   interstitialAnimationRepeat: 2,
 );
 
 final battleship = GameFeatures(
-  name: "Battaglia navale",
-  description: "Salva e affonda.",
-  explanation: """
-Scegli dove collocare i tuoi galleggianti e in quali caselle attaccare.
-
-Fai ${Battleship.saveValue} punti per ogni tuo galleggiante salvato, ${Battleship.hitValue} per ognuno che affondi.
-
-Guidi tu se fai meno punti.
-
-Ma attenzione: chi fa più punti, paga.""",
+  id: "bs",
+  name: ($) => $.battleshipName,
+  description: ($) => $.battleshipDescription,
+  explanation: ($) => $.battleshipExplanation(
+    Battleship.saveValue,
+    Battleship.hitValue,
+  ),
   secretPlay: true,
   icon: Icons.sailing_rounded,
   minPlayers: 2,
@@ -153,22 +144,16 @@ Ma attenzione: chi fa più punti, paga.""",
   onBuildGameArea: BattleshipGameArea.new,
   onBuildTurnPlayScreen: Battleship.new,
   onBuildOutcomeScreen: BattleshipOutcome.new,
-  onFormatPoints: (p) => '$p pt.',
+  onFormatPoints: (p, $) => $.nPoints(p),
   usesRigidGameArea: true,
   interstitialAnimationPath: "battleship/interstitial/Game_Naval",
 );
 
 final stopwatch = GameFeatures(
-  name: "Cronometro",
-  description: "Spacca il secondo.",
-  explanation: """
-La lancetta gira velocemente. Puoi fermarla quando vuoi.
-
-Se supera il mezzogiorno, ricomincia da zero.
-
-Guidi tu se hai fermato la lancetta al valore più basso.
-
-Ma attenzione: chi la ferma più avanti di tutti, paga.""",
+  id: "sw",
+  name: ($) => $.stopwatchName,
+  description: ($) => $.stopwatchDescription,
+  explanation: ($) => $.stopwatchExplanation,
   secretPlay: true,
   icon: Icons.timer_rounded,
   minPlayers: 2,
@@ -176,23 +161,17 @@ Ma attenzione: chi la ferma più avanti di tutti, paga.""",
   onBuildGameArea: StopwatchGameArea.new,
   onBuildTurnPlayScreen: Stopwatch.new,
   onBuildOutcomeScreen: StopwatchOutcome.new,
-  onFormatPoints: (p) =>
-      '${I18n.preciserSecondsFormat.format(p / Duration.microsecondsPerSecond)}"',
+  onFormatPoints: (p, $) =>
+      $.xSecondsPrecise(p / Duration.microsecondsPerSecond),
   externalClock: false,
   interstitialAnimationPath: "stopwatch/interstitial/Game_Lancette",
 );
 
 final steadyHand = GameFeatures(
-  name: "Mano ferma",
-  description: "Resisti immobile.",
-  explanation: """
-Tieni il telefono in orizzontale sulla tua mano.
-
-Non far cadere la biglia.
-
-Guidi tu se resisti meno di tutti.
-
-Ma attenzione: chi resiste più a lungo, paga.""",
+  id: "sh",
+  name: ($) => $.steadyHandName,
+  description: ($) => $.steadyHandDescription,
+  explanation: ($) => $.steadyHandExplanation,
   secretPlay: true,
   icon: Icons.sports_gymnastics_rounded,
   minPlayers: 2,
@@ -200,8 +179,7 @@ Ma attenzione: chi resiste più a lungo, paga.""",
   onBuildGameArea: SteadyHandGameArea.new,
   onBuildTurnPlayScreen: SteadyHand.new,
   onBuildOutcomeScreen: SteadyHandOutcome.new,
-  onFormatPoints: (p) =>
-      '${I18n.secondsFormat.format(p / Duration.microsecondsPerSecond)}"',
+  onFormatPoints: (p, $) => $.xSeconds(p / Duration.microsecondsPerSecond),
   externalClock: false,
   usesRigidGameArea: true,
   mobileOnly: true,
@@ -209,17 +187,13 @@ Ma attenzione: chi resiste più a lungo, paga.""",
 );
 
 final ouija = GameFeatures(
-  name: "Telepatia",
-  description: "Indovina la parola.",
-  explanation: """
-Componi una sequenza di lettere.
-
-Fai ${Ouija.missValue} pt. per ogni lettera usata anche da altri,
-${Ouija.guessValue} pt. se è anche nella stessa posizione.
-
-Guida chi fa meno punti.
-
-Ma attenzione: chi ne fa di più, paga.""",
+  id: "oj",
+  name: ($) => $.ouijaName,
+  description: ($) => $.ouijaDescription,
+  explanation: ($) => $.ouijaExplanation(
+    Ouija.missValue,
+    Ouija.guessValue,
+  ),
   secretPlay: true,
   icon: Icons.transcribe_rounded,
   minPlayers: 3,
@@ -227,22 +201,16 @@ Ma attenzione: chi ne fa di più, paga.""",
   onBuildGameArea: OuijaGameArea.new,
   onBuildTurnPlayScreen: Ouija.new,
   onBuildOutcomeScreen: OuijaOutcome.new,
-  onFormatPoints: (p) => '$p pt.',
+  onFormatPoints: (p, $) => $.nPoints(p),
   usesRigidGameArea: true,
   interstitialAnimationPath: "ouija/interstitial/Telepathy",
 );
 
 final rps = GameFeatures(
-  name: "Morra cinese",
-  description: "Sasso, carta o forbici?",
-  explanation: """
-Componi una sequenza di gesti.
-
-Ogni gesto che vince ti fa fare un punto.
-
-Guida chi fa meno punti.
-
-Ma attenzione: chi ne fa di più, paga.""",
+  id: "m3",
+  name: ($) => $.rpsName,
+  description: ($) => $.rpsDescription,
+  explanation: ($) => $.rpsExplanation,
   secretPlay: true,
   icon: Icons.cut_rounded,
   minPlayers: 2,
@@ -251,20 +219,16 @@ Ma attenzione: chi ne fa di più, paga.""",
   onBuildGameArea: RockPaperScissorsGameArea.new,
   onBuildTurnPlayScreen: RockPaperScissors.new,
   onBuildOutcomeScreen: RockPaperScissorsOutcome.new,
-  onFormatPoints: (p) => '$p pt.',
+  onFormatPoints: (p, $) => $.nPoints(p),
   usesRigidGameArea: true,
   interstitialAnimationPath: "rps/interstitial/Morra",
 );
 
 final straws = GameFeatures(
-  name: "Bastoncino corto",
-  description: "Scegli un bastoncino.",
-  explanation: """
-Puoi cambiare bastoncino finché non ne trovi uno che ti piace.
-
-Guidi tu se lo scegli più corto degli altri.
-
-Ma attenzione: chi sceglie il più lungo, paga.""",
+  id: "st",
+  name: ($) => $.strawsName,
+  description: ($) => $.strawsDescription,
+  explanation: ($) => $.strawsExplanation,
   secretPlay: true,
   icon: Icons.equalizer_rounded,
   minPlayers: 2,
@@ -272,22 +236,16 @@ Ma attenzione: chi sceglie il più lungo, paga.""",
   onBuildGameArea: StrawsGameArea.new,
   onBuildTurnPlayScreen: Straws.new,
   onBuildOutcomeScreen: StrawsOutcome.new,
-  onFormatPoints: (p) =>
-      '${I18n.centimetersFormat.format(p.toDouble() / 10)} cm',
+  onFormatPoints: (p, $) => $.xCentimeters(p.toDouble() / 10),
   usesRigidGameArea: true,
   interstitialAnimationPath: "straws/interstitial/Game_Straws",
 );
 
 final boules = GameFeatures(
-  name: "Bocce",
-  description: "Avvicinati al boccino.",
-  explanation: """
-Due bocce a testa, conta solo il tiro migliore.
-Scegli la direzione e la forza dei lanci.
-
-Guidi tu se alla fine la boccia più lontana dal boccino bianco è la tua.
-
-Ma attenzione: chi avrà la boccia più vicina al boccino, paga.""",
+  id: "bo",
+  name: ($) => $.boulesName,
+  description: ($) => $.boulesDescription,
+  explanation: ($) => $.boulesExplanation,
   icon: Icons.sports_baseball_rounded,
   minPlayers: 2,
   minSuggestedPlayers: 2,
@@ -295,8 +253,7 @@ Ma attenzione: chi avrà la boccia più vicina al boccino, paga.""",
   onBuildGameArea: BoulesGameArea.new,
   onBuildTurnPlayScreen: Boules.new,
   onBuildOutcomeScreen: BoulesOutcome.new,
-  onFormatPoints: (p) =>
-      '${I18n.centimetersFormat.format(p.toDouble() / 10)} cm',
+  onFormatPoints: (p, $) => $.xCentimeters(p.toDouble() / 10),
   lessIsMore: true,
   usesRigidGameArea: true,
   externalClock: false,

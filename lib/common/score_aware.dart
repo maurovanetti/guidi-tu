@@ -84,14 +84,12 @@ class Score implements Comparable<Score> {
   final bool longerIsBetter;
   final ScoreFormatter onFormatPoints;
 
-  String get formattedPoints => onFormatPoints(points);
-
-  String get formattedTime => '${I18n.secondsFormat.format(time)}"';
-
-  String get displayedFirst => pointsMatter ? formattedPoints : formattedTime;
-
-  String get displayedSecond =>
-      pointsMatter && timeDisplayed ? formattedTime : '';
+  String formattedPoints(AppLocalizations $) => onFormatPoints(points, $);
+  String formattedTime(AppLocalizations $) => $.xSeconds(time);
+  String displayedFirst(AppLocalizations $) =>
+      pointsMatter ? formattedPoints($) : formattedTime($);
+  String displayedSecond(AppLocalizations $) =>
+      pointsMatter && timeDisplayed ? formattedTime($) : '';
 
   Score({
     required this.points,

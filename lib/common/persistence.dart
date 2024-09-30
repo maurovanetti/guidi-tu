@@ -8,6 +8,9 @@ import 'package:path_provider/path_provider.dart';
 late final Persistence db;
 
 class Persistence {
+  // l10n
+  static const languageKey = 'language';
+
   // Multiplayer games
   static const playersKey = 'players';
   static const sessionKey = 'session';
@@ -23,6 +26,7 @@ class Persistence {
   static bool _initialized = false;
 
   late final Box _box;
+
   // Singleton
   Persistence._internal(Box box) {
     _box = box;

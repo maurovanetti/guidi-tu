@@ -147,8 +147,10 @@ class ShotControls extends StatelessWidget {
       ),
       onLongPress: shotState.resetN,
       onPressed: () {
-        QuickMessage()
-            .showQuickMessage("Tieni premuto per azzerare", context: context);
+        QuickMessage().showQuickMessage(
+          get$(context).longTapToReset,
+          context: context,
+        );
       },
       child: FittedText(
         n.toString(),
@@ -183,170 +185,155 @@ class ShotControls extends StatelessWidget {
   }
 }
 
-class ShotOutcomeState extends StoriesScreenState<ShotMove> {
+class ShotOutcomeState extends StoriesScreenState<ShotMove> with Localized {
   // Folk dream interpretation for lottery prediction, revised
-  static const smorfia = [
-    "il neonato",
-    "l'Italia",
-    "la bambina",
-    "la gatta",
-    "il maialino",
-    "la mano",
-    "guarda giù",
-    "il vaso",
-    "la vergine",
-    "i figli",
-    "i fagioli",
-    "i topini",
-    "il soldato",
-    "il santo",
-    "l'etilometro",
-    "il ragazzo",
-    "il sedere",
-    "la sfortuna",
-    "il sangue",
-    "la risata",
-    "la festa",
-    "senza vestiti",
-    "il matto",
-    "il tonto",
-    "le guardie",
-    "Natale",
-    "la santa",
-    "il pitale",
-    "i seni",
-    "il papà",
-    "il tenente",
-    "il padrone",
-    "il capitone",
-    "gli anni",
-    "la testa",
-    "l'uccellino",
-    "le nacchere",
-    "il monaco",
-    "le botte",
-    "il nodo",
-    "la noia",
-    "il coltello",
-    "il caffè",
-    "il gossip",
-    "la prigione",
-    "l'acqua minerale",
-    "i soldi",
-    "lo scheletro",
-    "che parla",
-    "la carne",
-    "il pane",
-    "il giardino",
-    "la mamma",
-    "il vecchio",
-    "il cappello",
-    "la musica",
-    "la caduta",
-    "il gobbo",
-    "il rider",
-    "i peli",
-    "il lamento",
-    "il cacciatore",
-    "la preda",
-    "la sposa",
-    "il frac",
-    "il pianto",
-    "le due single",
-    "nella chitarra",
-    "la zuppa",
-    "sottosopra",
-    "il palazzo",
-    "l'omaccio",
-    "la meraviglia",
-    "l'ospedale",
-    "la grotta",
-    "Pulcinella",
-    "la fontana",
-    "le gambe",
-    "la bella",
-    "il ladro",
-    "la bocca",
-    "i fiori",
-    "la tavola",
-    "il maltempo",
-    "la chiesa",
-    "le anime",
-    "la bottega",
-    "i pidocchi",
-    "i caciocavalli",
-    "la vecchia",
-    "la paura",
-    "non c'è",
-    "l'uranio",
-    "la app",
-    "il plutonio",
-    "la finestra",
-    "sottosopra",
-    "la smorfia",
-    "il collegio",
-    "il bilico",
-  ];
 
   late final Map<Player, String> _playerNicknames;
+  late final List<String> smorfia;
 
   @override
-  // ignore: avoid-long-functions
+  void didChangeDependencies() {
+    smorfia = [
+      $.smorfia0,
+      $.smorfia1,
+      $.smorfia2,
+      $.smorfia3,
+      $.smorfia4,
+      $.smorfia5,
+      $.smorfia6,
+      $.smorfia7,
+      $.smorfia8,
+      $.smorfia9,
+      $.smorfia10,
+      $.smorfia11,
+      $.smorfia12,
+      $.smorfia13,
+      $.smorfia14,
+      $.smorfia15,
+      $.smorfia16,
+      $.smorfia17,
+      $.smorfia18,
+      $.smorfia19,
+      $.smorfia20,
+      $.smorfia21,
+      $.smorfia22,
+      $.smorfia23,
+      $.smorfia24,
+      $.smorfia25,
+      $.smorfia26,
+      $.smorfia27,
+      $.smorfia28,
+      $.smorfia29,
+      $.smorfia30,
+      $.smorfia31,
+      $.smorfia32,
+      $.smorfia33,
+      $.smorfia34,
+      $.smorfia35,
+      $.smorfia36,
+      $.smorfia37,
+      $.smorfia38,
+      $.smorfia39,
+      $.smorfia40,
+      $.smorfia41,
+      $.smorfia42,
+      $.smorfia43,
+      $.smorfia44,
+      $.smorfia45,
+      $.smorfia46,
+      $.smorfia47,
+      $.smorfia48,
+      $.smorfia49,
+      $.smorfia50,
+      $.smorfia51,
+      $.smorfia52,
+      $.smorfia53,
+      $.smorfia54,
+      $.smorfia55,
+      $.smorfia56,
+      $.smorfia57,
+      $.smorfia58,
+      $.smorfia59,
+      $.smorfia60,
+      $.smorfia61,
+      $.smorfia62,
+      $.smorfia63,
+      $.smorfia64,
+      $.smorfia65,
+      $.smorfia66,
+      $.smorfia67,
+      $.smorfia68,
+      $.smorfia69,
+      $.smorfia70,
+      $.smorfia71,
+      $.smorfia72,
+      $.smorfia73,
+      $.smorfia74,
+      $.smorfia75,
+      $.smorfia76,
+      $.smorfia77,
+      $.smorfia78,
+      $.smorfia79,
+      $.smorfia80,
+      $.smorfia81,
+      $.smorfia82,
+      $.smorfia83,
+      $.smorfia84,
+      $.smorfia85,
+      $.smorfia86,
+      $.smorfia87,
+      $.smorfia88,
+      $.smorfia89,
+      $.smorfia90,
+      $.smorfia91,
+      $.smorfia92,
+      $.smorfia93,
+      $.smorfia94,
+      $.smorfia95,
+      $.smorfia96,
+      $.smorfia97,
+      $.smorfia98,
+      $.smorfia99,
+    ];
+    super.didChangeDependencies();
+  }
+
+  @override
   void tellPlayerStories() {
     _playerNicknames = <Player, String>{};
     for (var playerIndex in TurnAware.turns) {
       var player = players[playerIndex];
-      String story = '';
-      switch (Random().nextInt(3)) {
-        case 0:
-          story = " ha fatto del suo meglio";
-          break;
-
-        case 1:
-          story = " ha giocato pulito";
-          break;
-
-        case 2:
-          story = " ha fatto la sua mossa";
-          break;
-      }
+      final stories = [
+        $.shotStory1,
+        $.shotStory2,
+        $.shotStory3,
+      ];
+      String story = player.t(stories[Random().nextInt(3)]);
       var rm = getRecordedMove(player);
       var move = rm.move;
       var time = rm.time;
       if (move.n == 0) {
-        story = player.t(
-          " è stato immobile",
-          " è stata immobile",
-          " non ha mosso un dito",
-        );
+        story = player.t($.shot0);
       } else if (move.n > 100) {
-        story = " ha assaltato il cielo";
+        story = player.t($.shotOver100);
       } else if (move.n < -100) {
-        story = player.t(
-          " è disceso negli inferi",
-          " è discesa negli inferi",
-          " ha raggiunto gli inferi",
-        );
+        story = player.t($.shotUnderMinus100);
         // ignore: prefer-moving-to-variable
       } else if (move.n.abs() > 20) {
-        story = player.t(
-          " si è dato da fare",
-          " si è data da fare",
-          " ci ha messo impegno",
-        );
+        story = player.t($.shotOverAbsolute20);
       }
       if (time < 1) {
-        story += " per un istante";
+        story += $.shotStorySuffix1;
       } else if (time < 2) {
-        story += " con rapidità";
+        story += $.shotStorySuffix2;
       } else if (time > 5) {
-        story += " con calma";
+        story += $.shotStorySuffix3;
       } else if (time > 10) {
-        story += " con molta calma";
+        story += $.shotStorySuffix4;
       } else if (time > 20) {
-        story += " in tempi geologici";
+        story += $.shotStorySuffix5;
       } else if (time > 30) {
-        story += " in tempi astronomici";
+        story += $.shotStorySuffix6;
       }
       playerStories[playerIndex] = story;
       _playerNicknames[player] =

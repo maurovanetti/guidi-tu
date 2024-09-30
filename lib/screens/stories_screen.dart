@@ -20,7 +20,12 @@ abstract class StoriesScreenState<T extends Move>
   initState() {
     super.initState();
     playerStories = List.filled(players.length, '');
+  }
+
+  @override
+  void didChangeDependencies() {
     tellPlayerStories();
+    super.didChangeDependencies();
   }
 
   void tellPlayerStories();
@@ -51,7 +56,7 @@ abstract class StoriesScreenState<T extends Move>
           [
             const Gap(),
             Text(
-              "E ora vediamo la classifica!",
+              $.seeRanking,
               textAlign: TextAlign.center,
               style: textTheme.headlineMedium
                   ?.copyWith(fontStyle: FontStyle.italic),

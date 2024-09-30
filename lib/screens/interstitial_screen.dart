@@ -21,7 +21,7 @@ class TurnInterstitialState extends TrackedState<InterstitialScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: Text(widget.gameFeatures.name)),
+      appBar: AppBar(title: Text(widget.gameFeatures.name($))),
       body: Center(
         child: InterstitialAnimation(
           prefix: widget.gameFeatures.interstitialAnimationPath,
@@ -31,7 +31,7 @@ class TurnInterstitialState extends TrackedState<InterstitialScreen> {
       ),
       floatingActionButton: CustomFloatingActionButton(
         key: WidgetKeys.toTurnInstructions,
-        tooltip: 'Gioca',
+        tooltip: $.play,
         icon: Icons.skip_next_rounded,
         onPressed: _handlePlay,
       ),

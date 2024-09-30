@@ -140,7 +140,7 @@ class StopwatchGameAreaState extends GameAreaState<StopwatchMove>
                       bottom: bottomOffsetForLabel,
                     ),
                     child: Text(
-                      I18n.secondsFormat.format(_secondsIntoPeriod!),
+                      $.xForSeconds(_secondsIntoPeriod!),
                       style:
                           Theme.of(context).textTheme.headlineLarge?.copyWith(
                         color: _trafficLightColor(_secondsIntoPeriod!),
@@ -154,7 +154,7 @@ class StopwatchGameAreaState extends GameAreaState<StopwatchMove>
           ),
         ),
         CustomButton(
-          text: "STOP",
+          text: $.stop,
           onPressed: _ticker.isTicking ? _handleStop : null,
         ),
       ],
@@ -169,27 +169,22 @@ class StopwatchOutcome extends OutcomeScreen {
   OutcomeScreenState<StopwatchMove> createState() => StopwatchOutcomeState();
 }
 
-class StopwatchOutcomeState extends OutcomeScreenState<StopwatchMove> {
+class StopwatchOutcomeState extends OutcomeScreenState<StopwatchMove>
+    with Localized {
   @override
   void initOutcome() {
     outcomeWidget = Padding(
       padding: StyleGuide.widePadding,
       child: Center(
         child: Text.rich(
-          const TextSpan(
+          TextSpan(
             children: [
               TextSpan(
-                text: "Ricordate:\n",
-                style: TextStyle(fontWeight: FontWeight.bold),
+                text: $.stopwatchMemo1,
+                style: const TextStyle(fontWeight: FontWeight.bold),
               ),
-              TextSpan(
-                text: "L'orologio non deve per forza essere fermato al primo "
-                    "giro! ",
-              ),
-              TextSpan(
-                text: "Se avete superato lo zero, conviene aspettare il giro "
-                    "successivo.\n",
-              ),
+              TextSpan(text: $.stopwatchMemo2),
+              TextSpan(text: $.stopwatchMemo3),
             ],
           ),
           style: Theme.of(context).textTheme.headlineMedium,

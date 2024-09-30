@@ -139,25 +139,13 @@ class SteadyHandOutcomeState extends StoriesScreenState<SteadyHandMove> {
     _playerTimes = List.filled(players.length, 0);
     for (var playerIndex in TurnAware.turns) {
       var player = players[playerIndex];
-      String story = '';
-      switch (Random().nextInt(3)) {
-        case 0:
-          story = " ha resistito";
-          break;
-
-        case 1:
-          story = " ha tenuto duro";
-          break;
-
-        case 2:
-          story = player.t(
-            " è rimasto in sella",
-            " è rimasta in sella",
-            " è ancora in sella",
-          );
-          break;
-      }
-      playerStories[playerIndex] = story;
+      final stories = [
+        $.steadyHandStory1,
+        $.steadyHandStory2,
+        $.steadyHandStory3,
+      ];
+      Declension story = stories[Random().nextInt(3)];
+      playerStories[playerIndex] = player.t(story);
       var time = getRecordedMove(player).move.microseconds;
       _playerTimes[playerIndex] = time;
       bestTime = max(time, bestTime);
@@ -166,13 +154,13 @@ class SteadyHandOutcomeState extends StoriesScreenState<SteadyHandMove> {
       var relativeOutcome = _playerTimes[playerIndex] / bestTime;
       String ending;
       if (relativeOutcome < 1 / 10) {
-        ending = " pochissimo";
+        ending = $.steadyHandStorySuffix1;
       } else if (relativeOutcome < 1 / 2) {
-        ending = " dignitosamente";
+        ending = $.steadyHandStorySuffix2;
       } else if (relativeOutcome < 3 / 4) {
-        ending = " un bel po'";
+        ending = $.steadyHandStorySuffix3;
       } else {
-        ending = " a lungo";
+        ending = $.steadyHandStorySuffix4;
       }
       playerStories[playerIndex] += ending;
     }
@@ -182,7 +170,7 @@ class SteadyHandOutcomeState extends StoriesScreenState<SteadyHandMove> {
   PlayerPerformance getPlayerPerformance(Player player) => PlayerPerformance(
         player,
         primaryText:
-            steadyHand.onFormatPoints(getBestMove(player).microseconds),
+            steadyHand.onFormatPoints(getBestMove(player).microseconds, $),
       );
 }
 

@@ -21,7 +21,7 @@ abstract class GameArea<T extends Move> extends StatefulWidget {
 }
 
 abstract class GameAreaState<T extends Move> extends State<GameArea<T>>
-    with MoveProvider<T> {
+    with MoveProvider<T>, Localized {
   @override
   void initState() {
     super.initState();

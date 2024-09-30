@@ -19,6 +19,7 @@ class BoulesModule extends Forge2DGameWithDragging {
   late final List<BoulesBowl> _bowls;
   late final BoulesJack _jack;
   late Vector2 _startPosition;
+  final BoulesModule$ $;
 
   late final BoulesBowl _activeBowl;
   late final PositionComponent _target;
@@ -45,7 +46,7 @@ class BoulesModule extends Forge2DGameWithDragging {
   Vector2 get _initialJackPosition =>
       Vector2(view.center.dx, view.top + view.height / 5);
 
-  BoulesModule({required this.onChangeReady, this.onMessage})
+  BoulesModule({required this.onChangeReady, this.onMessage, required this.$})
       : super(minDragDuration: _minDragDuration);
 
   @override
@@ -129,7 +130,7 @@ class BoulesModule extends Forge2DGameWithDragging {
     // ignore: avoid-async-call-in-sync-function
     world.add(_arrowHead);
     _hint = CustomTextBoxComponent(
-      "Trascina la freccia e poi lascia andare",
+      $.dragAndRelease,
       _initialJackPosition + Vector2(0, BoulesJack.radius * 2),
       scale: 1 / camera.viewfinder.zoom,
     );
@@ -178,7 +179,7 @@ class BoulesModule extends Forge2DGameWithDragging {
           bowl.prepareToStop();
         }
         // ignore: avoid-non-ascii-symbols
-        onMessage?.call("Aspettiamo che le bocce si fermino…");
+        onMessage?.call($.waitForBoules);
         _onBowlChangedState();
       });
     }

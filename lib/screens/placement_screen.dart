@@ -18,12 +18,18 @@ class PlacementScreenState extends TrackedState<PlacementScreen>
     with Gendered, TeamAware, ScoreAware {
   late final List<List<Widget>> _placementGroups;
 
-  @override
-  initState() {
-    super.initState();
-    var placementCards =
-        ScoreAware.awards.map((award) => PlacementCard(award)).toList();
+  void _handleEndGame() {
+    ScoreAware.storeAwards();
+    if (mounted) {
+      Navigation.replaceAll(context, () => const TitleScreen()).go();
+    }
+  }
 
+  @override
+  didChangeDependencies() {
+    super.didChangeDependencies();
+    var placementCards =
+        ScoreAware.awards.map((award) => PlacementCard(award, $: $)).toList();
     var payer = placementCards.removeAt(0);
     var driver = placementCards.removeLast();
     _placementGroups = [
@@ -33,19 +39,10 @@ class PlacementScreenState extends TrackedState<PlacementScreen>
     ];
   }
 
-  void _handleEndGame() {
-    ScoreAware.storeAwards();
-    if (mounted) {
-      Navigation.replaceAll(context, () => const TitleScreen()).go();
-    }
-  }
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: const Text("Classifica"),
-      ),
+      appBar: AppBar(title: Text($.ranking)),
       body: Scrollbar(
         thumbVisibility: true,
         child: ListView(
@@ -62,12 +59,9 @@ class PlacementScreenState extends TrackedState<PlacementScreen>
                         StyleGuide.getLabelOnImportantBorder(
                           context,
                           [
-                            "Può bere ma paga",
-                            if (group.length > 1)
-                              "Possono bere"
-                            else
-                              "Può bere",
-                            "Guida e non beve",
+                            $.canDrinkButMustPay,
+                            $.canDrink(group.length),
+                            $.drivesAndDoesntDrink,
                           ].elementAt(i),
                         ),
                         Container(
@@ -91,7 +85,7 @@ class PlacementScreenState extends TrackedState<PlacementScreen>
       ),
       floatingActionButton: CustomFloatingActionButton(
         key: WidgetKeys.toHome,
-        tooltip: "Fine",
+        tooltip: $.end,
         icon: Icons.stop_rounded,
         // On press, a short async computation is required
         onPressed: _handleEndGame,
@@ -101,9 +95,10 @@ class PlacementScreenState extends TrackedState<PlacementScreen>
 }
 
 class PlacementCard extends StatelessWidget {
-  const PlacementCard(this.award, {super.key});
+  const PlacementCard(this.award, {super.key, required this.$});
 
   final Award award;
+  final AppLocalizations $;
 
   @override
   Widget build(BuildContext context) {
@@ -112,24 +107,12 @@ class PlacementCard extends StatelessWidget {
     String role = "";
     var grammar = award.player.t;
     if (award.mustPay) {
-      role = grammar(
-        "Generoso Benefattore Designato",
-        "Generosa Benefattrice Designata",
-        "Persona Incaricata della Beneficenza",
-      );
+      role = grammar($.generousDesignatedBenefactor);
       style = style.copyWith(fontWeight: FontWeight.bold);
     } else if (award.canDrink) {
-      role = grammar(
-        "Bevitore Autorizzato",
-        "Bevitrice Autorizzata",
-        "Persona Autorizzata a Bere",
-      );
+      role = grammar($.authorisedDrinker);
     } else {
-      role = grammar(
-        "Guidatore Sobrio Designato",
-        "Guidatrice Sobria Designata",
-        "Persona Designata alla Guida",
-      );
+      role = grammar($.soberDesignatedDriver);
       style = style.copyWith(fontWeight: FontWeight.bold);
     }
     debugPrint("Role: $role");
@@ -139,23 +122,26 @@ class PlacementCard extends StatelessWidget {
       ),
       child: ListTile(
         contentPadding: StyleGuide.stripePadding,
-        title: PlayerPlacement(award),
-        subtitle: Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: [
-            // This Text can be quite long and putting it into an Expanded
-            // widget wraps it if necessary
-            Expanded(child: Text(role, style: style)),
-            // No need to expand the icons Row as long as it is so small
-            Row(
-              children: [
-                if (award.canDrink) const Icon(Icons.local_bar_rounded),
-                if (!award.canDrink) const Icon(Icons.no_drinks_rounded),
-                if (award.mustPay) const Icon(Icons.attach_money_rounded),
-                if (award.mustDrive) const Icon(Icons.drive_eta_rounded),
-              ],
-            ),
-          ],
+        title: PlayerPlacement(award, $: $),
+        subtitle: Padding(
+          padding: StyleGuide.sidePadding,
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              // This Text can be quite long and putting it into an Expanded
+              // widget wraps it if necessary
+              Expanded(child: Text(role, style: style)),
+              // No need to expand the icons Row as long as it is so small
+              Row(
+                children: [
+                  if (award.canDrink) const Icon(Icons.local_bar_rounded),
+                  if (!award.canDrink) const Icon(Icons.no_drinks_rounded),
+                  if (award.mustPay) const Icon(Icons.attach_money_rounded),
+                  if (award.mustDrive) const Icon(Icons.drive_eta_rounded),
+                ],
+              ),
+            ],
+          ),
         ),
       ),
     );

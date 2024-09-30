@@ -1,0 +1,517 @@
+{
+  "whoDrivesTonight": "Chi guida stasera?",
+  "whoPaysTonight": "Chi paga stasera?",
+  "findOutPlaying": "Decidetelo giocando!",
+  "play": "Gioca",
+  "playAgain": "Gioca di nuovo",
+  "info": "Informazioni",
+  "challenge": "Prova di abilità",
+  "changeLanguage": "\uD83C\uDF10 Cambia lingua",
+  "downloadFromGooglePlay": "Scarica da Google Play",
+  "downloadFromAppStore": "Scarica da App Store",
+  "logoPath": "assets/images/title/logo_it.png",
+  "howDoesItWork": "Come funziona?",
+  "proceed": "Avanti",
+  "tutorial1": "\nChi beve alcolici non guida, **troppo pericoloso**.\n\nOgni gruppo dovrebbe avere un **Guidatore Sobrio**.\n",
+  "tutorial2": "\nGiocando a uno dei minigiochi di questa app, si stabilisce chi beve e chi guida.\n\n**Chi arriva ultimo, guida e non beve**.\n",
+  "tutorial3": "\nMa attenzione: **chi arriva primo, può bere ma deve pagare**.\n\nQuindi, conviene arrivare a metà classifica!",
+  "tutorial4": "\nPenalità possibili per chi arriva primo:\n* Pagare analcolici al Guidatore Sobrio?\n* Offrire snack a tutti?\n* Pagare la benzina?\n",
+  "defaultPlayerNames": "ALE,FEDE,GIO,MICHI,ROBI,SIMO,VALE",
+  "duplicatesWarningTitle": "Nomi duplicati.",
+  "duplicatesWarning": "Alcuni nomi sono uguali tra loro, per favore cambiali.",
+  "addPlayersWarning": "Aggiungi almeno 2 partecipanti per favore.",
+  "registerPlayers": "Registra partecipanti",
+  "clickNamesToEdit": "Clicca sui nomi per modificarli:",
+  "addPlayer": "Aggiungi partecipante",
+  "playersReady": "{gender, select, m{Pronti} f{Pronte} other{Si inizia}}",
+  "@playersReady": {
+    "placeholders": {
+      "gender": {
+        "type": "String"
+      }
+    }
+  },
+  "editPlayer": "Modifica partecipante",
+  "setFemininePlayer": "Chiamala «giocatrice»",
+  "setMasculinePlayer": "Chiamalo «giocatore»",
+  "setNeutralPlayer": "Nessuna preferenza",
+  "maxNLetters": "Massimo {n} lettere",
+  "@maxNLetters": {
+    "placeholders": {
+      "n": {
+        "type": "int"
+      }
+    }
+  },
+  "ok": "OK",
+  "cancel": "Annulla",
+  "confirm": "Conferma",
+  "pickDiscipline": "Scegli una disciplina",
+  "recommendedDiscipline": "Suggerita",
+  "itsTurnOf": "Tocca a",
+  "tieBreaker": "A pari merito, conta la velocità.",
+  "iAmReady": "{gender, select, m{Sono pronto} f{Sono pronta} other{Eccomi}}",
+  "@iAmReady": {
+    "placeholders": {
+      "gender": {
+        "type": "String"
+      }
+    }
+  },
+  "everyonePlayed": "{gender, select, m{Hanno giocato tutti} f{Hanno giocato tutte} other{Ogni persona ha giocato}}",
+  "@everyonePlayed": {
+    "placeholders": {
+      "gender": {
+        "type": "String"
+      }
+    }
+  },
+  "generousDesignatedBenefactor": "{gender, select, m{Generoso Benefattore Designato} f{Generosa Benefattrice Designata} other{Responsabile della Generosa Beneficenza}}",
+  "@generousDesignatedBenefactor": {
+    "placeholders": {
+      "gender": {
+        "type": "String"
+      }
+    }
+  },
+  "authorisedDrinker": "{gender, select, m{Bevitore Autorizzato} f{Bevitrice Autorizzata} other{Persona Autorizzata a Bere}}",
+  "@authorisedDrinker": {
+    "placeholders": {
+      "gender": {
+        "type": "String"
+      }
+    }
+  },
+  "soberDesignatedDriver": "{gender, select, m{Guidatore Sobrio Designato} f{Guidatrice Sobria Designata} other{Responsabile della Guida Sobria}}",
+  "@soberDesignatedDriver": {
+    "placeholders": {
+      "gender": {
+        "type": "String"
+      }
+    }
+  },
+  "shot0": "{gender, select, m{ è stato immobile} f{ è stata immobile} other{ non ha mosso un dito}}",
+  "@shot0": {
+    "placeholders": {
+      "gender": {
+        "type": "String"
+      }
+    }
+  },
+  "shotOver100": " ha assaltato il cielo",
+  "@shotOver100": {
+    "placeholders": {
+      "gender": {
+        "type": "String"
+      }
+    }
+  },
+  "shotUnderMinus100": "{gender, select, m{ è disceso negli inferi} f{ è discesa negli inferi} other{ ha raggiunto gli inferi}}",
+  "@shotUnderMinus100": {
+    "placeholders": {
+      "gender": {
+        "type": "String"
+      }
+    }
+  },
+  "shotOverAbsolute20": "{gender, select, m{ si è dato da fare} f{ si è data da fare} other{ ci ha messo impegno}}",
+  "@shotOverAbsolute20": {
+    "placeholders": {
+      "gender": {
+        "type": "String"
+      }
+    }
+  },
+  "steadyHandStory1": " ha resistito",
+  "@steadyHandStory1": {
+    "placeholders": {
+      "gender": {
+        "type": "String"
+      }
+    }
+  },
+  "steadyHandStory2": " ha tenuto duro",
+  "@steadyHandStory2": {
+    "placeholders": {
+      "gender": {
+        "type": "String"
+      }
+    }
+  },
+  "steadyHandStory3": "è {gender, select, m{rimasto} f{rimasta} other{ancora}} in sella",
+  "@steadyHandStory3": {
+    "placeholders": {
+      "gender": {
+        "type": "String"
+      }
+    }
+  },
+  "steadyHandStorySuffix1": " pochissimo",
+  "steadyHandStorySuffix2": " dignitosamente",
+  "steadyHandStorySuffix3": " un bel po'",
+  "steadyHandStorySuffix4": " a lungo",
+  "playSecretlyTitle": "Gioca di nascosto",
+  "playSecretly": "Non mostrare la tua mossa a chi non ha ancora giocato.",
+  "iAmDone": "Ho finito!",
+  "outcome": "Risultati",
+  "ranking": "Classifica",
+  "finalResults": "I risultati finali sono pronti…",
+  "seeFinalResults": "Vediamoli!",
+  "seeRanking": "E ora vediamo la classifica!",
+  "canDrinkButMustPay": "Può bere ma paga",
+  "canDrink": "{count, plural, =1{Può} other{Possono}} bere",
+  "@canDrink": {
+    "description": "A plural message",
+    "placeholders": {
+      "count": {
+        "type": "num"
+      }
+    }
+  },
+  "drivesAndDoesntDrink": "Guida e non beve",
+  "end": "Fine",
+  "disclaimer": "Applicazione realizzata nell'ambito del progetto Safe & Drive, finanziato dal Consiglio dei Ministri — Dipartimento per le Politiche Antidroga, che ha come capofila la Città di Cuneo. L'obiettivo principale è la riduzione degli incidenti stradali correlati al consumo di alcol e sostanze.",
+  "mainCredits": "Prodotta da **cooperativa sociale Alice**\n\nPensata e sviluppata da **Mauro Vanetti**\n\nDisegni e animazioni di **Jacopo Rovida**\n\nLocalizzazione curata da **Mauro Vanetti**\n\nCollaudo e preziosi consigli di **Jacopo Rovida**",
+  "freeSoftwareCredits": "Questa app è software libero. Tutto il codice sorgente e gli asset si trovano su GitHub (maurovanetti/guidi-tu) e possono essere riutilizzati purché non a scopo di lucro secondo la licenza indicata nel repository.\nSe volete aggiungere un minigioco, segnalare dei bug, proporre migliorie, aggiungere traduzioni, intervenite pure direttamente lì.",
+  "sponsorsPath": "assets/images/info/sponsors.png",
+  "elapsedTime": "Tempo trascorso: {seconds}\"",
+  "@elapsedTime": {
+    "placeholders": {
+      "seconds": {
+        "type": "int"
+      }
+    }
+  },
+  "xCentimeters": "{x}",
+  "@xCentimeters": {
+    "placeholders": {
+      "x": {
+        "type": "double",
+        "format": "decimalPatternDigits",
+        "optionalParameters": {
+          "decimalDigits": 1
+        }
+      }
+    }
+  },
+  "xSeconds": "{x}\"",
+  "@xSeconds": {
+    "placeholders": {
+      "x": {
+        "type": "double",
+        "format": "decimalPatternDigits",
+        "optionalParameters": {
+          "decimalDigits": 2
+        }
+      }
+    }
+  },
+  "xForSeconds": "{x}",
+  "@xForSeconds": {
+    "placeholders": {
+      "x": {
+        "type": "double",
+        "format": "decimalPatternDigits",
+        "optionalParameters": {
+          "decimalDigits": 2
+        }
+      }
+    }
+  },
+  "xSecondsPrecise": "{x}\"",
+  "@xSecondsPrecise": {
+    "placeholders": {
+      "x": {
+        "type": "double",
+        "format": "decimalPatternDigits",
+        "optionalParameters": {
+          "decimalDigits": 4
+        }
+      }
+    }
+  },
+  "dateTime": "{dt}",
+  "@dateTime": {
+    "placeholders": {
+      "dt": {
+        "type": "DateTime",
+        "format": "dd/MM HH:mm",
+        "isCustomDateFormat": "true"
+      }
+    }
+  },
+  "plusMinusN": "±{n}",
+  "@plusMinusN": {
+    "placeholders": {
+      "n": {
+        "type": "int"
+      }
+    }
+  },
+  "nPoints": "{n} pt.",
+  "@nPoints": {
+    "placeholders": {
+      "n": {
+        "type": "int"
+      }
+    }
+  },
+  "longShotName": "Spararla grossa",
+  "longShotDescription": "Scegli un numero alto.",
+  "longShotExplanation": "Guidi tu se scegli il numero più basso.\n\nMa attenzione: chi sceglie il numero più alto, paga.",
+  "shortShotName": "Cadere in basso",
+  "shortShotDescription": "Scegli un numero basso.",
+  "shortShotExplanation": "Guidi tu se scegli il numero più alto.\n\nMa attenzione: chi sceglie il numero più basso, paga.",
+  "morraName": "Morra",
+  "morraDescription": "Indovina la somma.",
+  "morraExplanation": "Scegli quante dita mostrare e prevedi quante dita saranno mostrate da tutti.\n\nGuidi tu se ti avvicini di meno alla somma giusta.\n\nMa attenzione: chi si avvicina di più, paga.",
+  "battleshipName": "Battaglia navale",
+  "battleshipDescription": "Salva e affonda.",
+  "battleshipExplanation": "Scegli dove collocare i tuoi galleggianti e in quali caselle attaccare.\n\nFai ${pointsPerRescue} punti per ogni tuo galleggiante salvato, ${pointsPerHit} per ognuno che affondi.\n\nGuida chi fa meno punti.\n\nMa attenzione: chi ne fa di più, paga.",
+  "@battleshipExplanation": {
+    "placeholders": {
+      "pointsPerRescue": {
+        "type": "int"
+      },
+      "pointsPerHit": {
+        "type": "int"
+      }
+    }
+  },
+  "stopwatchName": "Cronometro",
+  "stopwatchDescription": "Spacca il secondo.",
+  "stopwatchExplanation": "La lancetta gira velocemente. Puoi fermarla quando vuoi.\n\nSe supera il mezzogiorno, ricomincia da zero.\n\nGuidi tu se hai fermato la lancetta al valore più basso.\n\nMa attenzione: chi la ferma più avanti di tutti, paga.",
+  "steadyHandName": "Mano ferma",
+  "steadyHandDescription": "Resisti immobile.",
+  "steadyHandExplanation": "Tieni il telefono in orizzontale sulla tua mano.\n\nNon far cadere la biglia.\n\nGuidi tu se resisti meno di tutti.\n\nMa attenzione: chi resiste più a lungo, paga.",
+  "ouijaName": "Telepatia",
+  "ouijaDescription": "Indovina la parola.",
+  "ouijaExplanation": "Componi una sequenza di lettere.\n\nFai {pointsPerMiss} pt. per ogni lettera usata anche da altri,\n${pointsPerGuess} pt. se è anche nella stessa posizione.\n\nGuida chi fa meno punti.\n\nMa attenzione: chi ne fa di più, paga.",
+  "@ouijaExplanation": {
+    "placeholders": {
+      "pointsPerMiss": {
+        "type": "int"
+      },
+      "pointsPerGuess": {
+        "type": "int"
+      }
+    }
+  },
+  "rpsName": "Morra cinese",
+  "rpsDescription": "Sasso, carta o forbici?",
+  "rpsExplanation": "Componi una sequenza di gesti.\n\nAd ogni turno, chi è nel gruppo vincente ad ogni turno vince un punto.\n\nGuida chi fa meno punti.\n\nMa attenzione: chi ne fa di più, paga.",
+  "strawsName": "Bastoncino corto",
+  "strawsDescription": "Scegli un bastoncino.",
+  "strawsExplanation": "Puoi cambiare bastoncino finché non ne trovi uno che ti piace.\n\nGuidi tu se lo scegli più corto degli altri.\n\nMa attenzione: chi sceglie il più lungo, paga.",
+  "boulesName": "Bocce",
+  "boulesDescription": "Avvicinati al boccino.",
+  "boulesExplanation": "Due bocce a testa, conta solo il tiro migliore.\n\nScegli la direzione e la forza dei lanci.\n\nGuidi tu se alla fine la boccia più lontana dal boccino bianco è la tua.\n\nMa attenzione: chi avrà la boccia più vicina al boccino, paga.",
+  "quitTitle": "Interruzione del gioco",
+  "quitMessage": "Vuoi davvero interrompere il gioco?\nFarai una figura da guastafeste!",
+  "quitConfirm": "Ferma tutto",
+  "quitCancel": "Continua a giocare",
+  "dragFloaters": "Trascina i galleggianti nelle caselle",
+  "chooseTargets": "E ora decidi dove colpire",
+  "nPointsPerSave": "{n} pt. per ogni galleggiante salvato.",
+  "@nPointsPerSave": {
+    "placeholders": {
+      "n": {
+        "type": "int"
+      }
+    }
+  },
+  "nPointsPerHit": "{n} pt. per ogni colpo andato a segno.",
+  "@nPointsPerHit": {
+    "placeholders": {
+      "n": {
+        "type": "int"
+      }
+    }
+  },
+  "dragAndRelease": "Trascina la freccia e poi lascia andare",
+  "waitForBoules": "Aspettiamo che le bocce si fermino…",
+  "onlyOneBowlCounts": "Conta solo la boccia migliore di ogni partecipante",
+  "total": "SOMMA =",
+  "totalFingers": "Totale dita: ",
+  "essentialAlphabet": "ABCDEFGHILMNOPQRSTUVZ",
+  "extraAlphabet": "JKWXY",
+  "nPointsPerFullGuess": "{n} pt. per lettera indovinata.",
+  "@nPointsPerFullGuess": {
+    "placeholders": {
+      "n": {
+        "type": "int"
+      }
+    }
+  },
+  "nPointsPerPartialGuess": "{n} pt. per lettera nel posto sbagliato.",
+  "@nPointsPerPartialGuess": {
+    "placeholders": {
+      "n": {
+        "type": "int"
+      }
+    }
+  },
+  "onePointPerWin": "1 pt. per giocata vincente.",
+  "zeroPointsPerTie": "0 pt. per pareggio o stallo.",
+  "longTapToReset": "Tieni premuto per azzerare",
+  "smorfia0": "il neonato",
+  "smorfia1": "l'Italia",
+  "smorfia2": "la bambina",
+  "smorfia3": "la gatta",
+  "smorfia4": "il maialino",
+  "smorfia5": "la mano",
+  "smorfia6": "guarda giù",
+  "smorfia7": "il vaso",
+  "smorfia8": "la vergine",
+  "smorfia9": "i figli",
+  "smorfia10": "i fagioli",
+  "smorfia11": "i topini",
+  "smorfia12": "il soldato",
+  "smorfia13": "il santo",
+  "smorfia14": "l'etilometro",
+  "smorfia15": "il ragazzo",
+  "smorfia16": "il sedere",
+  "smorfia17": "la sfortuna",
+  "smorfia18": "il sangue",
+  "smorfia19": "la risata",
+  "smorfia20": "la festa",
+  "smorfia21": "senza vestiti",
+  "smorfia22": "il matto",
+  "smorfia23": "il tonto",
+  "smorfia24": "le guardie",
+  "smorfia25": "Natale",
+  "smorfia26": "la santa",
+  "smorfia27": "il pitale",
+  "smorfia28": "i seni",
+  "smorfia29": "il papà",
+  "smorfia30": "il tenente",
+  "smorfia31": "il padrone",
+  "smorfia32": "il capitone",
+  "smorfia33": "gli anni",
+  "smorfia34": "la testa",
+  "smorfia35": "l'uccellino",
+  "smorfia36": "le nacchere",
+  "smorfia37": "il monaco",
+  "smorfia38": "le botte",
+  "smorfia39": "il nodo",
+  "smorfia40": "la noia",
+  "smorfia41": "il coltello",
+  "smorfia42": "il caffè",
+  "smorfia43": "il gossip",
+  "smorfia44": "la prigione",
+  "smorfia45": "l'acqua minerale",
+  "smorfia46": "i soldi",
+  "smorfia47": "lo scheletro",
+  "smorfia48": "che parla",
+  "smorfia49": "la carne",
+  "smorfia50": "il pane",
+  "smorfia51": "il giardino",
+  "smorfia52": "la mamma",
+  "smorfia53": "il vecchio",
+  "smorfia54": "il cappello",
+  "smorfia55": "la musica",
+  "smorfia56": "la caduta",
+  "smorfia57": "il gobbo",
+  "smorfia58": "il rider",
+  "smorfia59": "i peli",
+  "smorfia60": "il lamento",
+  "smorfia61": "il cacciatore",
+  "smorfia62": "la preda",
+  "smorfia63": "la sposa",
+  "smorfia64": "il frac",
+  "smorfia65": "il pianto",
+  "smorfia66": "le due single",
+  "smorfia67": "nella chitarra",
+  "smorfia68": "la zuppa",
+  "smorfia69": "sottosopra",
+  "smorfia70": "il palazzo",
+  "smorfia71": "l'omaccio",
+  "smorfia72": "la meraviglia",
+  "smorfia73": "l'ospedale",
+  "smorfia74": "la grotta",
+  "smorfia75": "Pulcinella",
+  "smorfia76": "la fontana",
+  "smorfia77": "le gambe",
+  "smorfia78": "la bella",
+  "smorfia79": "il ladro",
+  "smorfia80": "la bocca",
+  "smorfia81": "i fiori",
+  "smorfia82": "la tavola",
+  "smorfia83": "il maltempo",
+  "smorfia84": "la chiesa",
+  "smorfia85": "le anime",
+  "smorfia86": "la bottega",
+  "smorfia87": "i pidocchi",
+  "smorfia88": "i caciocavalli",
+  "smorfia89": "la vecchia",
+  "smorfia90": "la paura",
+  "smorfia91": "non c'è",
+  "smorfia92": "l'uranio",
+  "smorfia93": "la app",
+  "smorfia94": "il plutonio",
+  "smorfia95": "la finestra",
+  "smorfia96": "sottosopra",
+  "smorfia97": "la smorfia",
+  "smorfia98": "il collegio",
+  "smorfia99": "il bilico",
+  "shotStory1": " ha fatto del suo meglio",
+  "@shotStory1": {
+    "placeholders": {
+      "gender": {
+        "type": "String"
+      }
+    }
+  },
+  "shotStory2": " ha giocato pulito",
+  "@shotStory2": {
+    "placeholders": {
+      "gender": {
+        "type": "String"
+      }
+    }
+  },
+  "shotStory3": " ha fatto la sua mossa",
+  "@shotStory3": {
+    "placeholders": {
+      "gender": {
+        "type": "String"
+      }
+    }
+  },
+  "shotStorySuffix1": " in un istante",
+  "shotStorySuffix2": " con rapidità",
+  "shotStorySuffix3": " con calma",
+  "shotStorySuffix4": " con molta calma",
+  "shotStorySuffix5": " in tempi geologici",
+  "shotStorySuffix6": " in tempi astronomici",
+  "stop": "STOP",
+  "stopwatchMemo1": "Ricordate:\n",
+  "stopwatchMemo2": "L'orologio non deve per forza essere fermato al primo giro! ",
+  "stopwatchMemo3": "Se avete superato lo zero, conviene aspettare il giro successivo.\n",
+  "pickAnotherStraw": "Prendine un altro",
+  "scores": "Punteggi",
+  "collectedNStars": "Hai raccolto {n} {n, plural, =1{stella} other{stelle}}{emotion, select, bad{…} meh{.} other{!}}",
+  "@collectedNStars": {
+    "placeholders": {
+      "n": {
+        "type": "int"
+      },
+      "emotion": {
+        "type": "String"
+      }
+    }
+  },
+  "compareWithPreviousScores": "Confrontalo coi risultati precedenti.",
+  "notDrinking": "Senza bere:",
+  "drinking": "Bevendo:",
+  "prepareForChallenge": "Prepare for the challenge",
+  "placePhoneHorizontally": "Place the phone horizontally before proceeding.",
+  "done": "Done",
+  "preparingForChallenge": "Preparing for the challenge",
+  "whatsYourName": "What's your name?",
+  "iHaveDrunk": "I have drunk alcohol",
+  "iHaveNotDrunk": "I have not drunk alcohol",
+  "youCanStart": "Si può iniziare",
+  "softwareLicences": "Licenze software",
+  "appName": "Guidi Tu"
+}

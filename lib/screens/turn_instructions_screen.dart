@@ -30,15 +30,13 @@ class TurnInstructionsScreenState
       context: context,
       builder: (context) => AlertDialog(
         key: WidgetKeys.hiddenPlayAlert,
-        title: const Text("Gioca di nascosto"),
-        content: const Text(
-          "Non mostrare la tua mossa a chi non ha ancora giocato.",
-        ),
+        title: Text($.playSecretlyTitle),
+        content: Text($.playSecretly),
         actions: [
           TextButton(
             key: WidgetKeys.acknowledgeHiddenPlay,
             onPressed: _handlePlay,
-            child: const Text("OK"),
+            child: Text($.ok),
           ),
         ],
       ),
@@ -55,7 +53,7 @@ class TurnInstructionsScreenState
     var textTheme = Theme.of(context).textTheme;
     return Scaffold(
       appBar: AppBar(
-        title: Text(widget.gameFeatures.name),
+        title: Text(widget.gameFeatures.name($)),
         actions: [
           IconButton(
             icon: const Icon(Icons.cancel_rounded),
@@ -73,7 +71,7 @@ class TurnInstructionsScreenState
             // needed.
             topChildren: [
               Text(
-                "Tocca a",
+                $.itsTurnOf,
                 textAlign: TextAlign.center,
                 style: textTheme.headlineLarge,
               ),
@@ -85,21 +83,21 @@ class TurnInstructionsScreenState
               child: Column(
                 children: [
                   Text(
-                    widget.gameFeatures.description,
+                    widget.gameFeatures.description($),
                     textAlign: TextAlign.center,
                     style: textTheme.headlineLarge,
                   ),
                   const Gap(),
                   Text(
-                    widget.gameFeatures.explanation,
+                    widget.gameFeatures.explanation($),
                     textAlign: TextAlign.center,
                     style: textTheme.titleLarge,
                   ),
                   if (widget.gameFeatures.externalClock) ...[
                     const Gap(),
-                    const Text(
+                    Text(
+                      $.tieBreaker,
                       textAlign: TextAlign.center,
-                      'A pari merito, conta la velocità.',
                     ),
                   ],
                 ],
@@ -110,7 +108,7 @@ class TurnInstructionsScreenState
               if (player is! NoPlayer)
                 CustomButton(
                   key: WidgetKeys.toTurnPlay,
-                  text: player.t("Sono pronto", "Sono pronta", "Eccomi"),
+                  text: player.t($.iAmReady),
                   onPressed: widget.gameFeatures.secretPlay
                       ? _handleSecretPlay
                       : _handlePlay,

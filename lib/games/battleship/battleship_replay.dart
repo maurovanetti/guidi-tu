@@ -14,7 +14,8 @@ export 'battleship_item.dart';
 export 'battleship_ship.dart';
 
 class BattleshipReplay extends BattleshipModule {
-  BattleshipReplay() : super(onChangeReady: ({bool ready = true}) {});
+  BattleshipReplay({required super.$})
+      : super(onChangeReady: ({bool ready = true}) {});
 
   @override
   Future<void> onLoad() async {

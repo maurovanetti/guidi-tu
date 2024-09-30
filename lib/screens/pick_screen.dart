@@ -41,14 +41,16 @@ class _PickScreenState extends TrackedState<PickScreen>
       }
       for (var gameFeatures in availableGames) {
         var gameCard = GameCard(
-          name: gameFeatures.name,
+          keySuffix: gameFeatures.id,
+          name: gameFeatures.name($),
           gameStart: InterstitialScreen(gameFeatures: gameFeatures),
-          description: gameFeatures.description,
+          description: gameFeatures.description($),
           icon: gameFeatures.icon,
           onTap: _handleSelectGame,
           onIconTap: _handleStartGame,
           suggested: _isSuggested(gameFeatures),
           rounds: gameFeatures.rounds,
+          $: $,
         );
         (gameCard.suggested ? suggestedCards : otherCards).add(gameCard);
       }
@@ -86,7 +88,7 @@ class _PickScreenState extends TrackedState<PickScreen>
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Estrazione del minigioco'),
+        title: Text($.pickDiscipline),
       ),
       body: Center(
         child: Scrollbar(
@@ -108,17 +110,20 @@ class _PickScreenState extends TrackedState<PickScreen>
 class GameCard extends StatelessWidget {
   const GameCard({
     super.key,
+    required this.keySuffix,
     required this.name,
     required this.gameStart,
     required this.description,
     required this.icon,
     required this.onTap,
     required this.onIconTap,
+    required this.$,
     this.suggested = false,
     this.selected = false,
     this.rounds = 1,
   });
 
+  final String keySuffix;
   final String name;
   final String description;
   final IconData icon;
@@ -128,10 +133,12 @@ class GameCard extends StatelessWidget {
   final OnSelectGameCard onIconTap;
   final Widget gameStart;
   final int rounds;
+  final AppLocalizations $;
 
   // ignore: avoid-incomplete-copy-with
   GameCard copyWith({required bool selected}) {
     return GameCard(
+      keySuffix: keySuffix,
       name: name,
       gameStart: gameStart,
       description: description,
@@ -141,6 +148,7 @@ class GameCard extends StatelessWidget {
       suggested: suggested,
       selected: selected,
       rounds: rounds,
+      $: $,
     );
   }
 
@@ -156,7 +164,7 @@ class GameCard extends StatelessWidget {
     final halfWay = Color.lerp(bright, dark, 0.5);
 
     Widget card = Card(
-      key: WidgetKeys.pickGame(name),
+      key: WidgetKeys.pickGame(keySuffix),
       color: background,
       // ignore: avoid-single-child-column-or-row
       child: Column(
@@ -209,7 +217,7 @@ class GameCard extends StatelessWidget {
     if (suggested) {
       card = ClipRect(
         child: Banner(
-          message: "Suggerito",
+          message: $.recommendedDiscipline,
           location: BannerLocation.topStart,
           child: card,
         ),
