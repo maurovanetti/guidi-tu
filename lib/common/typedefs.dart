@@ -23,3 +23,16 @@ typedef OutcomeScreenBuilder = OutcomeScreen Function();
 typedef OnPlayerAction = void Function(Player player);
 typedef OnSetInteger = void Function(int value);
 typedef OnSelectGameCard = FutureOr<void> Function(GameCard card);
+typedef LocalizedString = String Function(AppLocalizations);
+typedef BattleshipModule$ = ({
+  String dragFloaters,
+  String chooseTargets,
+});
+typedef BoulesModule$ = ({
+  String dragAndRelease,
+  String waitForBoules,
+});
+typedef OuijaModule$ = ({
+  String essentialAlphabet,
+  String extraAlphabet,
+});

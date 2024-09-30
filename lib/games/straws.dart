@@ -62,7 +62,7 @@ class StrawsGameAreaState extends GameAreaState<StrawsMove>
           child: GameWidget(game: _gameModule),
         ),
         CustomButton(
-          text: "Prendine un altro",
+          text: $.pickAnotherStraw,
           important: false,
           onPressed: _handleNextStraw,
         ),

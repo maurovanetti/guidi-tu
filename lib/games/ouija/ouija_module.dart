@@ -9,13 +9,12 @@ import 'ouija_item.dart';
 class OuijaModule extends FlameGame {
   static const gridColumns = 6;
   static const gridRows = 4;
-  static const essentialAlphabet = 'ABCDEFGHILMNOPQRSTUVZ';
-  static const extraAlphabet = 'JKWXY';
   static const ouijaAlphabetKey = 'ouijaAlphabet';
 
   late final OuijaBoard board;
   final int letterCount;
   final OnChangeReady onChangeReady;
+  final OuijaModule$ $;
 
   String get currentWord => board.word;
   int get capacity => gridColumns * gridRows - 1; // -1 for the backspace
@@ -23,10 +22,13 @@ class OuijaModule extends FlameGame {
   OuijaModule({
     required this.onChangeReady,
     required this.letterCount,
+    required this.$,
   }) {
     assert(letterCount > 1, "At least one letter");
-    assert(essentialAlphabet.length < capacity,
+    assert($.essentialAlphabet.length < capacity,
         "There's only room for $capacity letters");
+    assert($.essentialAlphabet.length + $.extraAlphabet.length >= capacity,
+        "There's not enough room for $capacity letters");
   }
 
   @override
@@ -58,9 +60,9 @@ class OuijaModule extends FlameGame {
     if (sessionData.containsKey(ouijaAlphabetKey)) {
       alphabet = sessionData[ouijaAlphabetKey];
     } else {
-      List<String> letters = 'ABCDEFGHILMNOPQRSTUVZ'.split('');
-      List<String> extraLetters = 'JKWXY'.split('')..shuffle();
-      for (int i = 0; essentialAlphabet.length + i < capacity; i++) {
+      List<String> letters = $.essentialAlphabet.split('');
+      List<String> extraLetters = $.extraAlphabet.split('')..shuffle();
+      for (int i = 0; $.essentialAlphabet.length + i < capacity; i++) {
         letters.add(extraLetters[i]);
       }
       letters.shuffle();

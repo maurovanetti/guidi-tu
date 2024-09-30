@@ -23,7 +23,7 @@ class ChallengeScreen extends StatefulWidget {
   ChallengeScreenState createState() => ChallengeScreenState();
 }
 
-class ChallengeScreenState extends State<ChallengeScreen> {
+class ChallengeScreenState extends State<ChallengeScreen> with Localized {
   bool _ended = false;
 
   @override
@@ -62,7 +62,7 @@ class ChallengeScreenState extends State<ChallengeScreen> {
     return Scaffold(
       backgroundColor: Colors.black,
       appBar: AppBar(
-        title: const Text('Sfida di abilità'),
+        title: Text($.challenge),
       ),
       body: WithBubbles(
         n: widget.sober ? 0 : 5,

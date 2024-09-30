@@ -109,13 +109,13 @@ class InfoScreenState extends TrackedState<InfoScreen> {
               const Gap(),
               Center(
                 child: CustomButton(
-                  text: 'Licenze software',
+                  text: $.softwareLicences,
                   // ignore: prefer-correct-handler-name
                   onPressed: () => showLicensePage(
                     context: context,
                     applicationVersion: appFullVersion,
-                    applicationIcon:
-                        Image.asset('assets/images/title/logo.png'),
+                    applicationIcon: Image.asset($.logoPath),
+                    // Always in English on purpose
                     applicationLegalese: "Contact posta@maurovanetti.info\n"
                         "for any clarification needed\n"
                         "and for localisation proposals.",
@@ -160,7 +160,7 @@ class DriverOrPayerLabel extends StatelessWidget {
     }
     // ignore: prefer-returning-conditional-expressions
     return FittedText(
-      name ?? 'Decidetelo giocando!',
+      name ?? get$(context).findOutPlaying,
       key: labelKey,
       style: name == null
           ? style.copyWith(fontStyle: FontStyle.italic)

@@ -40,12 +40,12 @@ class BattleshipGameArea extends GameArea<BattleshipMove> {
 }
 
 class BattleshipGameAreaState extends GameAreaState<BattleshipMove>
-    with Gendered, TeamAware {
+    with Gendered, TeamAware, Localized {
   late final BattleshipModule _gameModule;
 
   @override
-  void initState() {
-    super.initState();
+  void didChangeDependencies() {
+    super.didChangeDependencies();
     // Relative likelihood of hitting a ship (not necessarily sinking it):
     // 2 players: 5 bombs for 10 target cells = 5 * 10 = 50
     // 3 players: 4 bombs for 8 target cells = 2 * 4 * 8 = 64
@@ -87,6 +87,10 @@ class BattleshipGameAreaState extends GameAreaState<BattleshipMove>
       onChangeReady: widget.onChangeReady,
       shipCount: shipCount,
       bombCount: bombCount,
+      $: (
+        dragFloaters: $.dragFloaters,
+        chooseTargets: $.chooseTargets,
+      ),
     );
   }
 

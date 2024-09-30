@@ -14,7 +14,8 @@ class ChallengeSetupScreen extends StatefulWidget {
   ChallengeSetupScreenState createState() => ChallengeSetupScreenState();
 }
 
-class ChallengeSetupScreenState extends State<ChallengeSetupScreen> {
+class ChallengeSetupScreenState extends State<ChallengeSetupScreen>
+    with Localized {
   final _nameController = TextEditingController();
 
   bool _readyToConfirm = false;
@@ -44,16 +45,14 @@ class ChallengeSetupScreenState extends State<ChallengeSetupScreen> {
       context: context,
       builder: (context) => AlertDialog(
         key: WidgetKeys.sensorAlert,
-        title: const Text("Preparati alla sfida"),
-        content: const Text(
-          "Poni il telefono in posizione orizzontale prima di procedere.",
-        ),
+        title: Text($.prepareForChallenge),
+        content: Text($.placePhoneHorizontally),
         actions: [
           TextButton(
             key: WidgetKeys.acknowledgeSensorAlert,
             // ignore: prefer-correct-handler-name
             onPressed: _startChallenge,
-            child: const Text("Fatto"),
+            child: Text($.done),
           ),
         ],
       ),
@@ -92,7 +91,7 @@ class ChallengeSetupScreenState extends State<ChallengeSetupScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text("Preparazione alla sfida"),
+        title: Text($.preparingForChallenge),
       ),
       body: WithBubbles(
         key: const Key('bubbles'),
@@ -103,7 +102,7 @@ class ChallengeSetupScreenState extends State<ChallengeSetupScreen> {
             squeeze: true,
             centralChild: Column(
               children: [
-                const Text('Come ti chiami?'),
+                Text($.whatsYourName),
                 PlayerNameField(
                   controller: _nameController,
                   themeData: Theme.of(context),
@@ -112,7 +111,7 @@ class ChallengeSetupScreenState extends State<ChallengeSetupScreen> {
                 ),
                 const Gap(),
                 ListTile(
-                  title: const Text('Ho bevuto alcolici'),
+                  title: Text($.iHaveDrunk),
                   leading: Radio<bool>(
                     value: false,
                     groupValue: _sober,
@@ -120,7 +119,7 @@ class ChallengeSetupScreenState extends State<ChallengeSetupScreen> {
                   ),
                 ),
                 ListTile(
-                  title: const Text('Non ho bevuto alcolici'),
+                  title: Text($.iHaveNotDrunk),
                   leading: Radio<bool>(
                     value: true,
                     groupValue: _sober,
@@ -137,7 +136,7 @@ class ChallengeSetupScreenState extends State<ChallengeSetupScreen> {
               key: WidgetKeys.toChallenge,
               // ignore: prefer-correct-handler-name
               onPressed: _showSensorAlert,
-              tooltip: 'Si può iniziare',
+              tooltip: $.youCanStart,
               icon: Icons.check_circle_rounded,
             )
           : null,

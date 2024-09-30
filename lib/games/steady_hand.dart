@@ -154,13 +154,13 @@ class SteadyHandOutcomeState extends StoriesScreenState<SteadyHandMove> {
       var relativeOutcome = _playerTimes[playerIndex] / bestTime;
       String ending;
       if (relativeOutcome < 1 / 10) {
-        ending = " pochissimo";
+        ending = $.steadyHandStorySuffix1;
       } else if (relativeOutcome < 1 / 2) {
-        ending = " dignitosamente";
+        ending = $.steadyHandStorySuffix2;
       } else if (relativeOutcome < 3 / 4) {
-        ending = " un bel po'";
+        ending = $.steadyHandStorySuffix3;
       } else {
-        ending = " a lungo";
+        ending = $.steadyHandStorySuffix4;
       }
       playerStories[playerIndex] += ending;
     }

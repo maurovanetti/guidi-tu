@@ -32,22 +32,19 @@ abstract class ForwardOnlyState<T extends GameSpecificStatefulWidget>
       showDialog(
         context: context,
         builder: (innerContext) => AlertDialog(
-          title: const Text("Interruzione del gioco"),
-          content: const Text(
-            "Vuoi davvero interrompere il gioco?\n"
-            "Farai una figura da guastafeste!",
-          ),
+          title: Text($.quitTitle),
+          content: Text($.quitMessage),
           actions: [
             TextButton(
               onPressed: () => Navigator.of(innerContext).pop(),
-              child: const Text("Continua a giocare"),
+              child: Text($.quitCancel),
             ),
             TextButton(
               onPressed: Navigation.replaceAll(
                 innerContext,
                 () => const TitleScreen(),
               ).go,
-              child: const Text("Ferma tutto"),
+              child: Text($.quitConfirm),
             ),
           ],
         ),

@@ -73,6 +73,10 @@ class OuijaGameAreaState extends GameAreaState<OuijaMove>
     _gameModule = OuijaModule(
       onChangeReady: widget.onChangeReady,
       letterCount: letterCount,
+      $: (
+        essentialAlphabet: $.essentialAlphabet,
+        extraAlphabet: $.extraAlphabet,
+      ),
     );
   }
 

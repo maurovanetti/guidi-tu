@@ -92,26 +92,14 @@ class ChallengeScoresScreenState extends State<ChallengeScoresScreen>
   @override
   Widget build(BuildContext context) {
     var textTheme = Theme.of(context).textTheme;
-    String stars = widget.score == 1 ? "stellina" : "stelline";
-    String mark;
-    switch (widget.score) {
-      case 0:
-        mark = "…";
-        break;
-
-      case 1:
-      case 2:
-      case 3:
-        mark = ".";
-        break;
-
-      default:
-        mark = "!";
-        break;
-    }
+    String emotion = switch (widget.score) {
+      0 => "bad",
+      1 || 2 || 3 => "meh",
+      _ => "!",
+    };
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Punteggi'),
+        title: Text($.scores),
       ),
       body: _scores.isEmpty
           ? null
@@ -121,7 +109,7 @@ class ChallengeScoresScreenState extends State<ChallengeScoresScreen>
                 squeeze: true,
                 topChildren: [
                   FittedText(
-                    "Hai raccolto ${widget.score} $stars$mark",
+                    $.collectedNStars(widget.score, emotion),
                     style: textTheme.headlineLarge,
                   ),
                   FittedText(
@@ -129,7 +117,7 @@ class ChallengeScoresScreenState extends State<ChallengeScoresScreen>
                     style: textTheme.headlineLarge,
                   ),
                   FittedText(
-                    "Confrontalo coi risultati precedenti.",
+                    $.compareWithPreviousScores,
                     style: textTheme.headlineSmall,
                   ),
                   const Gap(),
@@ -138,14 +126,14 @@ class ChallengeScoresScreenState extends State<ChallengeScoresScreen>
                     children: [
                       Expanded(
                         child: Text(
-                          "Senza bere:",
+                          $.notDrinking,
                           style: textTheme.headlineSmall,
                         ),
                       ),
                       const Gap(),
                       Expanded(
                         child: Text(
-                          "Bevendo:",
+                          $.drinking,
                           style: textTheme.headlineSmall,
                         ),
                       ),
@@ -173,7 +161,7 @@ class ChallengeScoresScreenState extends State<ChallengeScoresScreen>
               ),
             ),
       floatingActionButton: CustomFloatingActionButton(
-        tooltip: "Fine",
+        tooltip: $.end,
         icon: Icons.stop_rounded,
         onPressed: Navigation.replaceAll(context, () => const TitleScreen()).go,
       ),

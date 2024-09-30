@@ -18,6 +18,7 @@ class BattleshipModule extends FlameGame {
   late final BattleshipBoard board;
   final int shipCount;
   final int bombCount;
+  final BattleshipModule$ $;
 
   final OnChangeReady onChangeReady;
 
@@ -25,6 +26,7 @@ class BattleshipModule extends FlameGame {
     required this.onChangeReady,
     this.shipCount = 3,
     this.bombCount = 5,
+    required this.$,
   }) {
     assert(bombCount <= 5, "Too many bombs");
     assert(shipCount <= gridRows + 3, "Too many ships");
@@ -53,7 +55,7 @@ class BattleshipModule extends FlameGame {
     var rightwardOneCell = Vector2(1, 0) * board.cellWidth;
     var downwardOneCell = Vector2(0, 1) * board.cellHeight;
     var shipsHint = CustomTextBoxComponent(
-      "Trascina i galleggianti nelle caselle",
+      $.dragFloaters,
       rightwardOneCell * (gridColumns / 2) + downwardOneCell,
     );
     await add(shipsHint);
@@ -134,7 +136,7 @@ class BattleshipModule extends FlameGame {
         }
         // A hint to place bombs is displayed.
         var bombsHint = CustomTextBoxComponent(
-          "E ora decidi dove colpire",
+          $.chooseTargets,
           rightwardOneCell * (gridColumns / 2) + downwardOneCell,
         );
         // ignore: avoid-async-call-in-sync-function

@@ -20,7 +20,7 @@ class IncrementalRockPaperScissorsOutcome extends StatefulWidget {
 
 // Very similar to the one for Ouija, can consider refactoring.
 class IncrementalRockPaperScissorsOutcomeState
-    extends State<IncrementalRockPaperScissorsOutcome> {
+    extends State<IncrementalRockPaperScissorsOutcome> with Localized {
   @override
   initState() {
     super.initState();
@@ -114,9 +114,9 @@ class IncrementalRockPaperScissorsOutcomeState
             children: widget.incrementalScores.map(_buildTableRow).toList(),
           ),
         ),
-        bottomChildren: const [
-          Center(child: Text("1 pt. per giocata vincente.")),
-          Center(child: Text("0 pt. per pareggio o stallo.")),
+        bottomChildren: [
+          Center(child: Text($.onePointPerWin)),
+          Center(child: Text($.zeroPointsPerTie)),
         ],
       ),
     );

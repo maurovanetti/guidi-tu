@@ -126,7 +126,7 @@ class MorraGameAreaState extends ShotGameAreaState<MorraMove>
             Expanded(
               flex: 1,
               child: ShotControls(
-                caption: 'SOMMA =',
+                caption: $.total,
                 n: n,
                 stretched: false,
                 shotState: this,
@@ -340,7 +340,7 @@ class MorraOutcomeState extends OutcomeScreenState<MorraMove> {
           TextSpan(
             children: [
               TextSpan(
-                text: "Totale dita: ",
+                text: $.totalFingers,
                 style: textTheme.headlineLarge,
               ),
               TextSpan(

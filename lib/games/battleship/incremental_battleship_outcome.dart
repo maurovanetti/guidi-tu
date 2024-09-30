@@ -30,10 +30,21 @@ class IncrementalBattleshipOutcome extends StatefulWidget {
 }
 
 class IncrementalBattleshipOutcomeState
-    extends State<IncrementalBattleshipOutcome> {
+    extends State<IncrementalBattleshipOutcome> with Localized {
   Player _player = Player.none;
-  final _replay = BattleshipReplay();
+  late final BattleshipReplay _replay;
   late final _gameWidget = GameWidget(game: _replay);
+
+  @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+    _replay = BattleshipReplay(
+      $: (
+        dragFloaters: $.dragFloaters,
+        chooseTargets: $.chooseTargets,
+      ),
+    );
+  }
 
   @override
   initState() {
@@ -185,12 +196,8 @@ class IncrementalBattleshipOutcomeState
               ],
             ),
           ),
-          const Text(
-            "${Battleship.saveValue} pt. per ogni galleggiante salvato.",
-          ),
-          const Text(
-            "${Battleship.hitValue} pt. per ogni colpo andato a segno.",
-          ),
+          Text($.nPointsPerSave(Battleship.saveValue)),
+          Text($.nPointsPerHit(Battleship.hitValue)),
           const Gap(),
         ],
         centralChild: Padding(

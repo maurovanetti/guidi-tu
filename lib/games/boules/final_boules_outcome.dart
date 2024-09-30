@@ -9,18 +9,23 @@ class FinalBoulesOutcome extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return const Center(
+    final $ = get$(context);
+    final replay = BoulesReplay($: (
+      dragAndRelease: $.dragAndRelease,
+      waitForBoules: $.waitForBoules,
+    ));
+    return Center(
       child: SqueezeOrScroll(
         centralChild: Padding(
           padding: StyleGuide.regularPadding,
           child: AspectRatio(
             aspectRatio: 1.0, // It's a square
-            child: GameWidget.controlled(gameFactory: BoulesReplay.new),
+            child: GameWidget(game: replay),
           ),
         ),
         bottomChildren: [
           Text(
-            "Contano solo le bocce migliori di ogni partecipante",
+            $.onlyOneBowlCounts,
             textAlign: TextAlign.center,
           ),
         ],

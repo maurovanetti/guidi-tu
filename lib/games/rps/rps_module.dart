@@ -1,7 +1,7 @@
 import 'package:flame/game.dart';
 import 'package:flutter/material.dart';
-import 'package:guidi_tu/common/common.dart';
 
+import '/common/common.dart';
 import '/games/rps.dart';
 import 'rps_board.dart';
 import 'rps_item.dart';

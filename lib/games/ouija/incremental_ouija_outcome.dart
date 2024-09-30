@@ -16,7 +16,8 @@ class IncrementalOuijaOutcome extends StatefulWidget {
   IncrementalOuijaOutcomeState createState() => IncrementalOuijaOutcomeState();
 }
 
-class IncrementalOuijaOutcomeState extends State<IncrementalOuijaOutcome> {
+class IncrementalOuijaOutcomeState extends State<IncrementalOuijaOutcome>
+    with Localized {
   @override
   initState() {
     super.initState();
@@ -127,13 +128,12 @@ class IncrementalOuijaOutcomeState extends State<IncrementalOuijaOutcome> {
             children: widget.incrementalScores.map(_buildTableRow).toList(),
           ),
         ),
-        bottomChildren: const [
+        bottomChildren: [
           Center(
-            child: Text("${Ouija.guessValue} pt. per lettera indovinata."),
+            child: Text($.nPointsPerFullGuess(Ouija.guessValue)),
           ),
           Center(
-            child:
-                Text("${Ouija.missValue} pt. per lettera nel posto sbagliato."),
+            child: Text($.nPointsPerPartialGuess(Ouija.missValue)),
           ),
         ],
       ),

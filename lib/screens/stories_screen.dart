@@ -20,7 +20,12 @@ abstract class StoriesScreenState<T extends Move>
   initState() {
     super.initState();
     playerStories = List.filled(players.length, '');
+  }
+
+  @override
+  void didChangeDependencies() {
     tellPlayerStories();
+    super.didChangeDependencies();
   }
 
   void tellPlayerStories();
