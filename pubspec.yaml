@@ -54,8 +54,8 @@ dev_dependencies:
   flutter_test:
     sdk: flutter
   dart_code_metrics_presets: ^2.16.0
-  flutter_lints: ^4.0.0
-  flutter_launcher_icons: ^0.13.1
+  flutter_lints: ^5.0.0
+  flutter_launcher_icons: ^0.14.1
   flutter_native_splash: ^2.4.1
 
 flutter:
