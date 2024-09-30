@@ -252,5 +252,55 @@
       }
     }
   },
+  "longShotName": "Spararla grossa",
+  "longShotDescription": "Scegli un numero alto.",
+  "longShotExplanation": "Guidi tu se scegli il numero più basso.\n\nMa attenzione: chi sceglie il numero più alto, paga.",
+  "shortShotName": "Cadere in basso",
+  "shortShotDescription": "Scegli un numero basso.",
+  "shortShotExplanation": "Guidi tu se scegli il numero più alto.\n\nMa attenzione: chi sceglie il numero più basso, paga.",
+  "morraName": "Morra",
+  "morraDescription": "Indovina la somma.",
+  "morraExplanation": "Scegli quante dita mostrare e prevedi quante dita saranno mostrate da tutti.\n\nGuidi tu se ti avvicini di meno alla somma giusta.\n\nMa attenzione: chi si avvicina di più, paga.",
+  "battleshipName": "Battaglia navale",
+  "battleshipDescription": "Salva e affonda.",
+  "battleshipExplanation": "Scegli dove collocare i tuoi galleggianti e in quali caselle attaccare.\n\nFai ${pointsPerRescue} punti per ogni tuo galleggiante salvato, ${pointsPerHit} per ognuno che affondi.\n\nGuida chi fa meno punti.\n\nMa attenzione: chi ne fa di più, paga.",
+  "@battleshipExplanation": {
+    "placeholders": {
+      "pointsPerRescue": {
+        "type": "int"
+      },
+      "pointsPerHit": {
+        "type": "int"
+      }
+    }
+  },
+  "stopwatchName": "Cronometro",
+  "stopwatchDescription": "Spacca il secondo.",
+  "stopwatchExplanation": "La lancetta gira velocemente. Puoi fermarla quando vuoi.\n\nSe supera il mezzogiorno, ricomincia da zero.\n\nGuidi tu se hai fermato la lancetta al valore più basso.\n\nMa attenzione: chi la ferma più avanti di tutti, paga.",
+  "steadyHandName": "Mano ferma",
+  "steadyHandDescription": "Resisti immobile.",
+  "steadyHandExplanation": "Tieni il telefono in orizzontale sulla tua mano.\n\nNon far cadere la biglia.\n\nGuidi tu se resisti meno di tutti.\n\nMa attenzione: chi resiste più a lungo, paga.",
+  "ouijaName": "Telepatia",
+  "ouijaDescription": "Indovina la parola.",
+  "ouijaExplanation": "Componi una sequenza di lettere.\n\nFai {pointsPerMiss} pt. per ogni lettera usata anche da altri,\n${pointsPerGuess} pt. se è anche nella stessa posizione.\n\nGuida chi fa meno punti.\n\nMa attenzione: chi ne fa di più, paga.",
+  "@ouijaExplanation": {
+    "placeholders": {
+      "pointsPerMiss": {
+        "type": "int"
+      },
+      "pointsPerGuess": {
+        "type": "int"
+      }
+    }
+  },
+  "rpsName": "Morra cinese",
+  "rpsDescription": "Sasso, carta o forbici?",
+  "rpsExplanation": "Componi una sequenza di gesti.\n\nAd ogni turno, chi è nel gruppo vincente ad ogni turno vince un punto.\n\nGuida chi fa meno punti.\n\nMa attenzione: chi ne fa di più, paga.",
+  "strawsName": "Bastoncino corto",
+  "strawsDescription": "Scegli un bastoncino.",
+  "strawsExplanation": "Puoi cambiare bastoncino finché non ne trovi uno che ti piace.\n\nGuidi tu se lo scegli più corto degli altri.\n\nMa attenzione: chi sceglie il più lungo, paga.",
+  "boulesName": "Bocce",
+  "boulesDescription": "Avvicinati al boccino.",
+  "boulesExplanation": "Due bocce a testa, conta solo il tiro migliore.\n\nScegli la direzione e la forza dei lanci.\n\nGuidi tu se alla fine la boccia più lontana dal boccino bianco è la tua.\n\nMa attenzione: chi avrà la boccia più vicina al boccino, paga.",
   "appName": "Guidi Tu"
 }

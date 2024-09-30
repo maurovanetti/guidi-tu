@@ -50,7 +50,7 @@ abstract class OutcomeScreenState<T extends Move>
       color: Colors.blue,
       child: Center(
         child: Text(
-          widget.gameFeatures.name,
+          widget.gameFeatures.name($),
           // ignore: no-magic-number
           style: const TextStyle(fontSize: 48),
         ),

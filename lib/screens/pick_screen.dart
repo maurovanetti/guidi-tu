@@ -41,9 +41,10 @@ class _PickScreenState extends TrackedState<PickScreen>
       }
       for (var gameFeatures in availableGames) {
         var gameCard = GameCard(
-          name: gameFeatures.name,
+          keySuffix: gameFeatures.id,
+          name: gameFeatures.name($),
           gameStart: InterstitialScreen(gameFeatures: gameFeatures),
-          description: gameFeatures.description,
+          description: gameFeatures.description($),
           icon: gameFeatures.icon,
           onTap: _handleSelectGame,
           onIconTap: _handleStartGame,
@@ -109,6 +110,7 @@ class _PickScreenState extends TrackedState<PickScreen>
 class GameCard extends StatelessWidget {
   const GameCard({
     super.key,
+    required this.keySuffix,
     required this.name,
     required this.gameStart,
     required this.description,
@@ -121,6 +123,7 @@ class GameCard extends StatelessWidget {
     this.rounds = 1,
   });
 
+  final String keySuffix;
   final String name;
   final String description;
   final IconData icon;
@@ -135,6 +138,7 @@ class GameCard extends StatelessWidget {
   // ignore: avoid-incomplete-copy-with
   GameCard copyWith({required bool selected}) {
     return GameCard(
+      keySuffix: keySuffix,
       name: name,
       gameStart: gameStart,
       description: description,
@@ -160,7 +164,7 @@ class GameCard extends StatelessWidget {
     final halfWay = Color.lerp(bright, dark, 0.5);
 
     Widget card = Card(
-      key: WidgetKeys.pickGame(name),
+      key: WidgetKeys.pickGame(keySuffix),
       color: background,
       // ignore: avoid-single-child-column-or-row
       child: Column(

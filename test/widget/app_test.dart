@@ -92,22 +92,22 @@ void main() {
 
       // Pick page
       expect(WidgetKeys.toPick.found(), findsNothing);
-      expect(WidgetKeys.pickGame(largeShot.name).found(), findsOneWidget);
-      expect(WidgetKeys.pickGame(smallShot.name).found(), findsOneWidget);
-      expect(WidgetKeys.pickGame(morra.name).found(), findsOneWidget);
-      expect(WidgetKeys.pickGame(battleship.name).found(), findsOneWidget);
-      expect(WidgetKeys.pickGame(stopwatch.name).found(), findsOneWidget);
-      expect(WidgetKeys.pickGame(steadyHand.name).found(), findsOneWidget);
-      expect(WidgetKeys.pickGame(ouija.name).found(), findsOneWidget);
-      expect(WidgetKeys.pickGame(boules.name).found(), findsOneWidget);
-      await tester.tap(WidgetKeys.pickGame(largeShot.name).found());
+      expect(WidgetKeys.pickGame(largeShot.id).found(), findsOneWidget);
+      expect(WidgetKeys.pickGame(smallShot.id).found(), findsOneWidget);
+      expect(WidgetKeys.pickGame(morra.id).found(), findsOneWidget);
+      expect(WidgetKeys.pickGame(battleship.id).found(), findsOneWidget);
+      expect(WidgetKeys.pickGame(stopwatch.id).found(), findsOneWidget);
+      expect(WidgetKeys.pickGame(steadyHand.id).found(), findsOneWidget);
+      expect(WidgetKeys.pickGame(ouija.id).found(), findsOneWidget);
+      expect(WidgetKeys.pickGame(boules.id).found(), findsOneWidget);
+      await tester.tap(WidgetKeys.pickGame(largeShot.id).found());
       await tester.pumpAndSettle();
-      expect(WidgetKeys.toInterstitial(largeShot.name).found(), findsOneWidget);
-      await tester.tap(WidgetKeys.toInterstitial(largeShot.name).found());
+      expect(WidgetKeys.toInterstitial(largeShot.id).found(), findsOneWidget);
+      await tester.tap(WidgetKeys.toInterstitial(largeShot.id).found());
       await tester.pumpForNavigation();
 
       // Interstitial page
-      expect(WidgetKeys.toInterstitial(largeShot.name).found(), findsNothing);
+      expect(WidgetKeys.toInterstitial(largeShot.id).found(), findsNothing);
       expect(WidgetKeys.toTurnInstructions.found(), findsOneWidget);
       await tester.tap(WidgetKeys.toTurnInstructions.found());
       await tester.pumpForNavigation();

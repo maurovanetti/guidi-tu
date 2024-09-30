@@ -77,7 +77,7 @@ class TurnPlayState<T extends Move> extends ForwardOnlyState<TurnPlayScreen>
     return Scaffold(
       backgroundColor: widget.backgroundColor,
       appBar: AppBar(
-        title: Text(widget.gameFeatures.name),
+        title: Text(widget.gameFeatures.name($)),
         actions: [
           if (repeatable)
             IconButton(

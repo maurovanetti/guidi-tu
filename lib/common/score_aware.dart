@@ -85,12 +85,9 @@ class Score implements Comparable<Score> {
   final ScoreFormatter onFormatPoints;
 
   String formattedPoints(AppLocalizations $) => onFormatPoints(points, $);
-
   String formattedTime(AppLocalizations $) => $.xSeconds(time);
-
   String displayedFirst(AppLocalizations $) =>
       pointsMatter ? formattedPoints($) : formattedTime($);
-
   String displayedSecond(AppLocalizations $) =>
       pointsMatter && timeDisplayed ? formattedTime($) : '';
 

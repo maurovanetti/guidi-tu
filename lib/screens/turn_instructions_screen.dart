@@ -53,7 +53,7 @@ class TurnInstructionsScreenState
     var textTheme = Theme.of(context).textTheme;
     return Scaffold(
       appBar: AppBar(
-        title: Text(widget.gameFeatures.name),
+        title: Text(widget.gameFeatures.name($)),
         actions: [
           IconButton(
             icon: const Icon(Icons.cancel_rounded),
@@ -83,13 +83,13 @@ class TurnInstructionsScreenState
               child: Column(
                 children: [
                   Text(
-                    widget.gameFeatures.description,
+                    widget.gameFeatures.description($),
                     textAlign: TextAlign.center,
                     style: textTheme.headlineLarge,
                   ),
                   const Gap(),
                   Text(
-                    widget.gameFeatures.explanation,
+                    widget.gameFeatures.explanation($),
                     textAlign: TextAlign.center,
                     style: textTheme.titleLarge,
                   ),

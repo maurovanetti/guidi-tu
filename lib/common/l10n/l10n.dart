@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 
 import '/common/common.dart';
 
+typedef LocalizedString = String Function(AppLocalizations);
+
 final class L10n {
   static const _italian = 'it';
 
