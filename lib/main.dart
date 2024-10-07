@@ -31,6 +31,7 @@ class AppState extends State<StatefulWidget> with Localized {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
+      debugShowCheckedModeBanner: false,
       theme: StyleGuide.themeData,
       home: L10n().isLanguageSelected
           ? const TitleScreen()

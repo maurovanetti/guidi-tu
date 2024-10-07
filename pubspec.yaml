@@ -106,6 +106,7 @@ flutter_launcher_icons:
   ios: true
   adaptive_icon_background: "#2f2735"
   adaptive_icon_foreground: assets/icons/icon_transparent.png
+  remove_alpha_ios: true
 
 # dart run flutter_native_splash:create
 flutter_native_splash:

@@ -1,4 +1,4 @@
-package net.coopalice.guiditu
+package com.example.guidi_tu
 
 import io.flutter.embedding.android.FlutterActivity
 
