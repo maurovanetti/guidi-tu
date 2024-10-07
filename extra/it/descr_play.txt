@@ -1,12 +1,10 @@
 Guidi Tu
 ========
-Stasera chi guida? e chi beve?
-
----
-
 Tanti minigiochi per selezionare chi guida stasera e chi invece beve.
 
 ---
+
+Seleziona il GUIDATORE SOBRIO con questo ambarabà-ciccì-coccò digitale.
 
 Chi beve alcolici non guida, TROPPO PERICOLOSO.
 Ogni gruppo dovrebbe avere un GUIDATORE SOBRIO.
