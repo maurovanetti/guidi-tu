@@ -57,6 +57,10 @@ dev_dependencies:
   flutter_lints: ^5.0.0
   flutter_launcher_icons: ^0.14.1
   flutter_native_splash: ^2.4.1
+  flutter_app_name_localization:
+    git:
+      url: https://github.com/maurovanetti/flutter_app_name_localization.git
+      ref: 0463f76239066f3367cc3cb49be7e898815fffa4
 
 flutter:
   uses-material-design: true
@@ -114,3 +118,10 @@ flutter_native_splash:
   fullscreen: true
   android_12:
     color: "#2f2735"
+
+# dart run flutter_app_name_localization
+flutter_app_name_localization:
+  default: "Sober Driver"
+  locales:
+    - locale: "it"
+      name: "Guidi Tu"

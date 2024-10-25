@@ -166,6 +166,15 @@ packages:
     description: flutter
     source: sdk
     version: "0.0.0"
+  flutter_app_name_localization:
+    dependency: "direct dev"
+    description:
+      path: "."
+      ref: "0463f76239066f3367cc3cb49be7e898815fffa4"
+      resolved-ref: "0463f76239066f3367cc3cb49be7e898815fffa4"
+      url: "https://github.com/maurovanetti/flutter_app_name_localization.git"
+    source: git
+    version: "0.0.4"
   flutter_carousel_widget:
     dependency: "direct main"
     description:
