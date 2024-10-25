@@ -170,8 +170,8 @@ packages:
     dependency: "direct dev"
     description:
       path: "."
-      ref: "0463f76239066f3367cc3cb49be7e898815fffa4"
-      resolved-ref: "0463f76239066f3367cc3cb49be7e898815fffa4"
+      ref: fixed
+      resolved-ref: "79f9c7b6704ee7f9b5632f2321b97942eaebc412"
       url: "https://github.com/maurovanetti/flutter_app_name_localization.git"
     source: git
     version: "0.0.4"

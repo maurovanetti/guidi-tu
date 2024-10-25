@@ -60,7 +60,7 @@ dev_dependencies:
   flutter_app_name_localization:
     git:
       url: https://github.com/maurovanetti/flutter_app_name_localization.git
-      ref: 0463f76239066f3367cc3cb49be7e898815fffa4
+      ref: fixed
 
 flutter:
   uses-material-design: true
