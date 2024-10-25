@@ -1,0 +1,3 @@
+CFBundleDisplayName="Sober Driver";
+CFBundleName="Sober Driver";
+NSMotionUsageDescription="Two mini games use the accelerometer to move a sphere on the screen.";
