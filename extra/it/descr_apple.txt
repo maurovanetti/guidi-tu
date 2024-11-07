@@ -27,4 +27,4 @@ Età: da 18 in su.
 
 ---
 
-This app was created under the provisions of project Safe & Drive, led by the City of Cuneo, funded by the Italian government — Department for Anti-Drug Policy. The main goal of the project is the reduction of street accidents correlated with the consumption of alcohol and other addictive substances.
+Applicazione realizzata nell'ambito del progetto Safe & Drive, finanziato dal Consiglio dei Ministri — Dipartimento per le Politiche Antidroga, che ha come capofila la Città di Cuneo. L'obiettivo principale è la riduzione degli incidenti stradali correlati al consumo di alcol e sostanze.
