@@ -19,7 +19,7 @@ It was developed by Mauro Vanetti: contact him for more information.
 
 Art and animations by Jacopo Rovida.
 
-_This free app was developed in Italian and released in Q1 2024. A bilingual version is almost ready._
+_This free app was developed in Italian and released in Q1 2024. The bilingual version was released in Q4 2024._
 
 [Try it online](https://designateddriver.codemagic.app/) (with limited features)
 
@@ -33,7 +33,7 @@ La ha sviluppata Mauro Vanetti: contattalo per avere maggiori informazioni.
 
 Disegni e animazioni di Jacopo Rovida.
 
-_Questa app gratuita è stata sviluppata in italiano e pubblicata a inizio 2024. Una versione bilingue è quasi pronta._
+_Questa app gratuita è stata sviluppata in italiano e pubblicata a inizio 2024. La versione bilingue è stata pubblicata a fine 2024._
 
 [Provalo sul web](https://designateddriver.codemagic.app/) (con funzionalità limitate)
 
