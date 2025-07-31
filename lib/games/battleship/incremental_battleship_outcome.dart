@@ -135,9 +135,9 @@ class IncrementalBattleshipOutcomeState
     }
   }
 
-  get _tableStyle => Theme.of(context).textTheme.headlineMedium;
+  TextStyle? get _tableStyle => Theme.of(context).textTheme.headlineMedium;
 
-  _buildTableRowFromStrings(
+  TableRow _buildTableRowFromStrings(
     String title,
     BattleshipScoreFormatter mapper,
   ) {
@@ -146,7 +146,7 @@ class IncrementalBattleshipOutcomeState
     return _buildTableRow(title, mapperWrapper);
   }
 
-  _buildTableRow(
+  TableRow _buildTableRow(
     String title,
     BattleshipScoreBuilder mapper,
   ) {

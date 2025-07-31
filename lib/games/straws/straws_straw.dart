@@ -5,6 +5,10 @@ import 'package:flutter/material.dart';
 
 import 'straws_module.dart';
 
+// The immutable feature is imposed by EquatableMixin
+// and the props affected are actually immutable, the other properties are
+// mutable but this does not affect the equality check.
+// ignore: must_be_immutable
 class StrawsStraw extends NineTileBoxComponent
     with HasGameReference<StrawsModule>, EquatableMixin {
   bool _isPicked = false;

@@ -45,3 +45,6 @@ app.*.map.json
 
 # Hive test dir
 /test/.hive
+
+# FVM Version Cache
+.fvm/

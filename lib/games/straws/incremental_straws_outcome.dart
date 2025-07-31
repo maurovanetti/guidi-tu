@@ -38,7 +38,7 @@ class IncrementalStrawsOutcomeState extends State<IncrementalStrawsOutcome> {
     _timer = Timer.periodic(const Duration(seconds: 1), _handleReplayStep);
   }
 
-  _handleReplayStep(Timer timer) {
+  void _handleReplayStep(Timer timer) {
     if (!mounted) {
       timer.cancel();
       return;

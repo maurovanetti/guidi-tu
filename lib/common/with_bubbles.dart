@@ -21,7 +21,7 @@ class WithBubbles extends StatelessWidget {
   final int n;
   final bool behind;
 
-  get square => false;
+  bool get square => false;
 
   @override
   Widget build(BuildContext context) {

@@ -79,7 +79,7 @@ class StopwatchGameAreaState extends GameAreaState<StopwatchMove>
     widget.onChangeReady(ready: true);
   }
 
-  _trafficLightColor(double t) {
+  Color? _trafficLightColor(double t) {
     var t1 = Stopwatch.period / 2;
     var t2 = Stopwatch.period * (3 / 4);
     // ignore: move-variable-closer-to-its-usage

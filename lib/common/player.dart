@@ -103,7 +103,7 @@ class PlayerButton extends StatelessWidget {
   final OnPlayerAction? onRemove;
   final OnPlayerAction? onEdit;
 
-  get textColor => player.foreground;
+  Color get textColor => player.foreground;
 
   TextStyle _textStyle(BuildContext context) =>
       Theme.of(context).textTheme.headlineLarge!.copyWith(
@@ -162,13 +162,13 @@ class PlayerButtonStructure extends StatelessWidget {
 
   // The useless click prevents the button from being disabled
   // ignore: prefer-getter-over-method
-  static _uselessClick() {}
+  static void _uselessClick() {}
 
   final Player player;
   final Widget child;
   final VoidCallback onEdit;
 
-  get buttonStyle => ElevatedButton.styleFrom(
+  ButtonStyle get buttonStyle => ElevatedButton.styleFrom(
         backgroundColor: player.background,
         shape: RoundedRectangleBorder(
           borderRadius: onEdit == _uselessClick

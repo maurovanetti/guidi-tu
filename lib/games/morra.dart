@@ -257,7 +257,7 @@ class HandImageState extends State<HandImage> with TickerProviderStateMixin {
             Text(
               widget.fingers.toString(),
               style: baseFontStyle?.copyWith(
-                color: Colors.black.withOpacity(0.5),
+                color: Colors.black.withValues(alpha: 0.5),
                 fontSize: (widget.height != null) ? widget.height! / 3 : null,
                 fontWeight: FontWeight.bold,
               ),
@@ -364,7 +364,7 @@ class MorraMove extends ShotMove {
 
   const MorraMove({required this.fingers, required super.n});
 
-  static countFingers(Iterable<RecordedMove<MorraMove>> moves) =>
+  static int countFingers(Iterable<RecordedMove<MorraMove>> moves) =>
       moves.map((rm) => rm.move.fingers).sum;
 
   @override

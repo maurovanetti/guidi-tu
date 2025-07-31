@@ -4,15 +4,17 @@ import 'package:flame/components.dart';
 import 'package:flame/effects.dart';
 import 'package:flutter/material.dart';
 
-class SteadyHandPlatform extends CircleComponent with HasGameRef {
+class SteadyHandPlatform extends CircleComponent with HasGameReference {
   static const shortStepDurationInSeconds = 3.0;
   static final bluePaint = Paint()
     ..style = PaintingStyle.fill
     ..color = const Color(0xff4e61a6);
 
-  get shortStep => LinearEffectController(shortStepDurationInSeconds);
+  LinearEffectController get shortStep =>
+      LinearEffectController(shortStepDurationInSeconds);
 
-  get longStep => LinearEffectController(shortStepDurationInSeconds * 2);
+  LinearEffectController get longStep =>
+      LinearEffectController(shortStepDurationInSeconds * 2);
 
   SteadyHandPlatform(Vector2 position, {required super.radius})
       : super(

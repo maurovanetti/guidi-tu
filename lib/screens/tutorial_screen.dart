@@ -85,7 +85,8 @@ class TutorialCarousel extends StatelessWidget {
         get$(context).tutorial4,
       ];
 
-  _handleChangeInnerPage(int page, carousel.CarouselPageChangedReason reason) {
+  void _handleChangeInnerPage(
+      int page, carousel.CarouselPageChangedReason reason) {
     pageNotifier.value = page;
     onPageChanged(page, reason);
   }

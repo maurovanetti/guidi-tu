@@ -80,7 +80,7 @@ class ArrowButton extends StatelessWidget {
         constraints: const BoxConstraints.tightFor(height: 63),
         icon: ImageIcon(
           AssetImage('assets/images/$assetPath'),
-          color: enabled ? actualColor : actualColor.withOpacity(0.1),
+          color: enabled ? actualColor : actualColor.withValues(alpha: 0.1),
           size: 250,
         ),
         onPressed: enabled ? () => onChangeN(delta) : null,
@@ -93,9 +93,9 @@ class ArrowButton extends StatelessWidget {
 
 class _UpArrowButton extends ArrowButton {
   _UpArrowButton({
-    super.key, // ignore: unused_element
-    super.enabled = true, // ignore: unused_element
-    super.color, // ignore: unused_element
+    super.key, // ignore: unused_element_parameter
+    super.enabled = true, // ignore: unused_element_parameter
+    super.color, // ignore: unused_element_parameter
     required ShotGameAreaState shotState,
   }) : super(
           assetPath: 'ui/up.png',
@@ -108,9 +108,9 @@ class _UpArrowButton extends ArrowButton {
 
 class _DownArrowButton extends ArrowButton {
   _DownArrowButton({
-    super.key, // ignore: unused_element
-    super.enabled = true, // ignore: unused_element
-    super.color, // ignore: unused_element
+    super.key, // ignore: unused_element_parameter
+    super.enabled = true, // ignore: unused_element_parameter
+    super.color, // ignore: unused_element_parameter
     required ShotGameAreaState shotState,
   }) : super(
           assetPath: 'ui/down.png',

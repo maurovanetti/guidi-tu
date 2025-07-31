@@ -72,7 +72,7 @@ class ChallengeGoal extends BodyComponent with ContactCallbacks {
 
 class ChallengeGoalSprite extends CustomSpriteComponent {
   ChallengeGoalSprite(
-    absolutePosition, {
+    Vector2 absolutePosition, {
     required Anchor anchor,
     super.size,
   }) : super(

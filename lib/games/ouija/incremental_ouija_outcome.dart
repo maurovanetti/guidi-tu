@@ -78,7 +78,8 @@ class IncrementalOuijaOutcomeState extends State<IncrementalOuijaOutcome>
     }
   }
 
-  get _tableStyle => Theme.of(context).textTheme.headlineMedium?.copyWith(
+  TextStyle? get _tableStyle =>
+      Theme.of(context).textTheme.headlineMedium?.copyWith(
         fontFeatures: [const FontFeature.tabularFigures()],
       );
 
@@ -95,7 +96,7 @@ class IncrementalOuijaOutcomeState extends State<IncrementalOuijaOutcome>
       rowCells.add(Center(
         child: Text(
           ouijaGuess.letter,
-          style: _tableStyle.copyWith(
+          style: _tableStyle?.copyWith(
             color: ouijaGuess.colorByType,
             fontWeight: ouijaGuess.weightByType,
           ),

@@ -53,11 +53,10 @@
 		<false/>
 		<key>NSMotionUsageDescription</key>
 		<string>Two mini games use the accelerometer to move a sphere on the screen.</string>
-
 		<key>CFBundleLocalizations</key>
-        <array>
-          <string>en</string>
-          <string>it</string>
-        </array>
+		<array>
+			<string>en</string>
+			<string>it</string>
+		</array>
 	</dict>
 </plist>

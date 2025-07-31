@@ -33,7 +33,7 @@ class BoulesArrowHead extends CustomSpriteComponent<BoulesModule> {
     priority = -1;
   }
 
-  static getColor(Color c) => c.brighten(2 / 3);
+  static Color getColor(Color c) => c.brighten(2 / 3);
 
   @override
   Future<void> onLoad() {

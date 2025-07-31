@@ -11,7 +11,7 @@ class LanguageScreen extends StatefulWidget {
 }
 
 class LanguageScreenState extends State<LanguageScreen> with Localized {
-  _select(String language, {required BuildContext context}) {
+  void _select(String language, {required BuildContext context}) {
     setLanguage(language);
     Navigation.replaceAll(context, () => const TitleScreen()).go();
   }

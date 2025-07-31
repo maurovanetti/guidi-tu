@@ -1,11 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_gen/gen_l10n/app_localizations.dart';
-import 'package:flutter_gen/gen_l10n/app_localizations_en.dart';
 
+import 'app_localizations.dart';
+import 'app_localizations_en.dart';
 import 'l10n.dart';
 
-export 'package:flutter_gen/gen_l10n/app_localizations.dart'
-    show AppLocalizations;
+export 'app_localizations.dart' show AppLocalizations;
 
 // to build the AppLocalizations file from the arb files -> flutter gen-l10n
 

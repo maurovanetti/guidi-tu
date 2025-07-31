@@ -63,10 +63,10 @@ class SteadyHandGameAreaState extends GameAreaState<SteadyHandMove>
     unawaited(_ticker.start());
   }
 
-  _updateSeconds() {
+  double _updateSeconds() {
     var sinceStart = DateTime.now().difference(widget.startTime);
     _seconds = sinceStart.inMicroseconds / Duration.microsecondsPerSecond;
-    return _seconds;
+    return _seconds!;
   }
 
   void _handleStop() {

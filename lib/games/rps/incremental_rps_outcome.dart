@@ -63,7 +63,8 @@ class IncrementalRockPaperScissorsOutcomeState
     }
   }
 
-  get _tableStyle => Theme.of(context).textTheme.headlineMedium?.copyWith(
+  TextStyle? get _tableStyle =>
+      Theme.of(context).textTheme.headlineMedium?.copyWith(
         fontFeatures: [const FontFeature.tabularFigures()],
       );
 

@@ -123,7 +123,8 @@ class CustomSpriteComponent<T extends FlameGame>
 
     // Stamp sprite
     if (_stampSprite != null) {
-      Paint stampPaint = Paint()..color = Colors.white.withOpacity(opacity);
+      Paint stampPaint = Paint()
+        ..color = Colors.white.withValues(alpha: opacity);
       var stampSize = size * stampSizeFactor;
       _stampSprite!.render(
         canvas,
